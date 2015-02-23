@@ -1,9 +1,11 @@
 package no.ntnu.stud.reservation;
 
-import java.lang.reflect.Array;
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import no.ntnu.stud.jdbc.GetData;
+import no.ntnu.stud.jdbc.StoreData;
 
 /**
  * Created by sklirg on 20/02/15.
@@ -22,21 +24,5 @@ public class Reservation {
             throw new IllegalArgumentException("Negative number of attendees is not allowed.");
         else
             return true;
-    }
-
-    public ArrayList<Room> getRooms() {
-        return this.rooms;
-    }
-
-    /*
-     * Should be run on start, populating a list of rooms from db.
-     */
-    public void setRooms(ArrayList<Room> rooms) {
-        this.rooms = rooms;
-    }
-
-    public ArrayList<Room> findBigEnoughRooms(int attending) {
-        this.rooms.remove(0); // Hardcoded to make test pass. Remove this line when you start working on this method.
-        return this.rooms;
     }
 }
