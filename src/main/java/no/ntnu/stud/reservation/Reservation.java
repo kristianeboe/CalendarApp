@@ -1,9 +1,6 @@
 package no.ntnu.stud.reservation;
 
-import java.sql.Connection;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import no.ntnu.stud.jdbc.GetData;
 import no.ntnu.stud.jdbc.StoreData;
 
@@ -11,18 +8,40 @@ import no.ntnu.stud.jdbc.StoreData;
  * Created by sklirg on 20/02/15.
  */
 public class Reservation {
-    private ArrayList<Room> rooms;
-    public Reservation () {
+    private LocalDateTime start, end;
+    private int attending;
 
+    public Reservation (LocalDateTime start, LocalDateTime end, int attending) {
+        setDateTime(start, end);
+        setAttending(attending);
     }
 
-    public Reservation (LocalDate date, LocalTime start, LocalTime end, int attending) {
-    }
-
-    public boolean validateAttending(int attending) {
+    public void setAttending(int attending) {
         if (attending < 0)
             throw new IllegalArgumentException("Negative number of attendees is not allowed.");
-        else
-            return true;
+        this.attending = attending;
+    }
+
+    public void setDateTime(LocalDateTime start, LocalDateTime end) {
+        if (!start.toLocalDate().equals(end.toLocalDate()))
+            throw new IllegalArgumentException("Start and end not same date");
+        else if (end.toLocalTime().compareTo(start.toLocalTime()) == -1)
+            throw new IllegalArgumentException("End time occurs before start time");
+        else if (start.toLocalTime().equals(end.toLocalTime()))
+            throw new IllegalArgumentException("Start time same as end time");
+        this.start = start;
+        this.end = end;
+    }
+
+    public LocalDateTime getStart() {
+        return start;
+    }
+
+    public LocalDateTime getEnd() {
+        return end;
+    }
+
+    public int getAttending() {
+        return attending;
     }
 }
