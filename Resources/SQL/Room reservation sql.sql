@@ -1,0 +1,2 @@
+-- Check if room is reserved at given time interval. Returns the room if is booked. Returns nothing if room is available
+SELECT * FROM reservation NATURAL JOIN room NATURAL JOIN appointment WHERE roomID=1 AND (('from_time' > from_time AND 'from_time' < to_time) OR ('to_time'> from_time AND 'to_time'<to_time));
