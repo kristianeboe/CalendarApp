@@ -36,18 +36,18 @@ public class DBConnector {
         return con;
     }
 
-    public static void makeReport(String deficiency, int koie_id) {
+    public static void makeSomething(String somethingNavn, int somethingID) {
         Connection con = getCon();
         if (con != null) {
 
-            String query = "INSERT INTO report ("
-                    + " deficiency,"
-                    + " koie_id) VALUES ("
+            String query = "INSERT INTO something ("
+                    + " somethingNavn,"
+                    + " somethingID) VALUES ("
                     + "?, ?)";
             try {
                 PreparedStatement preparedStmt = con.prepareStatement(query);
-                preparedStmt.setString(1, deficiency);
-                preparedStmt.setInt(2, koie_id);
+                preparedStmt.setString(1, somethingNavn);
+                preparedStmt.setInt(2, somethingID);
                 preparedStmt.execute();
             } catch (SQLException e) {
                 System.err.println("SQLException: " + e.getMessage());
