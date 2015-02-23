@@ -25,30 +25,4 @@ public class ReservationTest {
         Reservation res = new Reservation();
         assertEquals(true, res.validateAttending(-1));
     }
-
-    @Test
-    public void testFindBigEnoughRooms() {
-        Reservation res = new Reservation();
-
-        ArrayList<Room> rooms = new ArrayList<Room>(2);
-        rooms.add(new Room("", "", 1));
-        rooms.add(new Room("", "", 3));
-        rooms.add(new Room("", "", 5));
-
-        res.setRooms(rooms);
-
-        assertEquals(2, res.findBigEnoughRooms(3).size());
-    }
-
-    //@Test // Remove this comment when method is made, to test its functionality.
-    public void testNoBigEnoughRooms() {
-        Reservation res = new Reservation();
-
-        ArrayList<Room> rooms = new ArrayList<Room>(2);
-        rooms.add(new Room("", "", 1));
-
-        res.setRooms(rooms);
-
-        assertEquals(0, res.findBigEnoughRooms(3));
-    }
 }
