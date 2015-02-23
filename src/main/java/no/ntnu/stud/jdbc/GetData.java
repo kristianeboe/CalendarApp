@@ -1,5 +1,7 @@
 package no.ntnu.stud.jdbc;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import no.ntnu.stud.model.User;
 
 import java.sql.Connection;
@@ -27,7 +29,7 @@ public class GetData {
                     String middleName = rset.getString("middle_name");
                     String givenName = rset.getString("given_name");
                     String email = rset.getString("email");
-                    user = new User(userID, lastName, middleName, givenName, email);
+                    user = new User(new SimpleIntegerProperty(userID), new SimpleStringProperty(lastName), new SimpleStringProperty(middleName), new SimpleStringProperty(givenName), new SimpleStringProperty(email));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -37,4 +39,5 @@ public class GetData {
         }
         return user;
     }
+
 }
