@@ -1,10 +1,12 @@
 package no.ntnu.stud.jdbc;
 
 import no.ntnu.stud.security.SHAHashGenerator;
+import no.ntnu.stud.util.TimeConverter;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 /**
  * Created by adrianh on 21.02.15.
@@ -39,9 +41,30 @@ public class InsertData {
         }
     }
 
+    public static void createAppointment(String title, LocalDateTime from, LocalDateTime to, int ownerID) {
+        Connection con = DBConnector.getCon();
+
+
+        if (con != null) {
+            String query = "INSERT INTO appointment ("
+                    + "title,"
+                    + "from_time,"
+                    + "to_time,"
+                    + "ownerID) VALUES ("
+                    + "?, ?, ?, ?)";
+            try {
+                PreparedStatement preparedStmt = con.prepareStatement(query);
+                preparedStmt.setString(1, title);
+                preparedStmt.setTimestamp(2, TimeConverter.localDateTimeToTimestamp(from));
+                preparedStmt.setTimestamp(3, TimeConverter.localDateTimeToTimestamp(to));
+                preparedStmt.setInt(4, ownerID);
+                preparedStmt.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void main(String[] args) {
-        String hash = "dcc25152a085333511b179e88aff025dd05f4090cb90e2a8e74d922c980013987d63735b8c0d733a91472c8cd007d23e869bb3b7eb6a0cb86234e8b6bc23b4de";
-        String salt = "\u009DF\u009D\u009D\u009D\u009D\u009D\u009D\u009D9\u009D\u0007\u007F\u009D";
-        System.out.println(hash.equals(SHAHashGenerator.getSHA512SecureHash("passord", salt)));
     }
 }
