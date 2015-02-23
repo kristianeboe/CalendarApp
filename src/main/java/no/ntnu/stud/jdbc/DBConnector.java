@@ -36,24 +36,6 @@ public class DBConnector {
         return con;
     }
 
-    public static void makeSomething(String somethingNavn, int somethingID) {
-        Connection con = getCon();
-        if (con != null) {
-
-            String query = "INSERT INTO something ("
-                    + " somethingNavn,"
-                    + " somethingID) VALUES ("
-                    + "?, ?)";
-            try {
-                PreparedStatement preparedStmt = con.prepareStatement(query);
-                preparedStmt.setString(1, somethingNavn);
-                preparedStmt.setInt(2, somethingID);
-                preparedStmt.execute();
-            } catch (SQLException e) {
-                System.err.println("SQLException: " + e.getMessage());
-            }
-        }
-    }
 
     public static void main(String[] args) {
         Connection con = getCon();

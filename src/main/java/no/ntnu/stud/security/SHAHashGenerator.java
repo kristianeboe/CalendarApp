@@ -19,7 +19,7 @@ public class SHAHashGenerator {
      * @param password
      * @return A <code>String[]</code> with the hashed password and salt.
      */
-    protected static String[] getSecurePassword(String password) {
+    public static String[] getSecurePassword(String password) {
         String salt = getSalt();
         String securePassword = getSHA512SecureHash(password, salt);
         String[] returnStrings = {securePassword, salt};
@@ -33,7 +33,7 @@ public class SHAHashGenerator {
      * @param salt
      * @return A <code>String</code> containing 512-bit SHA hash
      */
-    protected static String getSHA512SecureHash(String password, String salt) {
+    public static String getSHA512SecureHash(String password, String salt) {
         String generatedPassword = null;
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");
