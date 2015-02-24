@@ -1,8 +1,13 @@
 package no.ntnu.stud.security;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
 
 /**
  * Provides the ability to either generate a new password with salt,
@@ -12,19 +17,8 @@ import java.security.SecureRandom;
  */
 public class SHAHashGenerator {
 
-    /**
-     * Uses <code>getSHA512SecureHash</code> and <code>getSalt</code> to
-     * generate new hashed password and a new salt.
-     *
-     * @param password
-     * @return A <code>String[]</code> with the hashed password and salt.
-     */
-    public static String[] getSecurePassword(String password) {
-        String salt = getSalt();
-        String securePassword = getSHA512SecureHash(password, salt);
-        String[] returnStrings = {securePassword, salt};
-        return returnStrings;
-    }
+    private static final int ITERATIONS = 10000;
+    private static final int KEY_LENGTH = 256;
 
     /**
      * Uses the SHA algorithm to generate a 512-bit hash from the supplied password and salt.
@@ -33,21 +27,17 @@ public class SHAHashGenerator {
      * @param salt
      * @return A <code>String</code> containing 512-bit SHA hash
      */
-    public static String getSHA512SecureHash(String password, String salt) {
-        String generatedPassword = null;
+    public static byte[] hash(char[] password, byte[] salt) {
+        PBEKeySpec spec = new PBEKeySpec(password, salt, ITERATIONS, KEY_LENGTH);
+        Arrays.fill(password, Character.MIN_VALUE);
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA-512");
-            md.update(salt.getBytes());
-            byte[] bytes = md.digest(password.getBytes());
-            StringBuilder sb = new StringBuilder();
-            for (byte aByte : bytes) {
-                sb.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
-            }
-            generatedPassword = sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            return skf.generateSecret(spec).getEncoded();
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new AssertionError("Error while hashing password: " + e.getMessage(), e);
+        } finally {
+            spec.clearPassword();
         }
-        return generatedPassword;
     }
 
     /**
@@ -57,14 +47,43 @@ public class SHAHashGenerator {
      * @see java.security.SecureRandom
      * @return Random 16-byte <code>String</code>
      */
-    private static String getSalt() {
+    public static byte[] getSalt() {
         byte[] salt = new byte[16];
-        try {
-            SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
-            sr.nextBytes(salt);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+        SecureRandom sr = new SecureRandom();
+        sr.nextBytes(salt);
+        return salt;
+    }
+
+    public static boolean isValid(char[] password, byte[] salt, byte[] hash) {
+        byte[] pwdHash = hash(password, salt);
+        Arrays.fill(password, Character.MIN_VALUE);
+
+        if (pwdHash.length != hash.length) return false;
+
+        for (int i = 0; i < pwdHash.length; i++) {
+            if (pwdHash[i] != hash[i]) return false;
         }
-        return new String(salt);
+
+        return true;
+    }
+
+    public static String generateRandomPassword(int length) {
+        StringBuilder sb = new StringBuilder(length);
+        SecureRandom sr = new SecureRandom();
+        for (int i = 0; i < length; i++) {
+            int c = sr.nextInt(62);
+            if (c <= 9 ) {
+                sb.append(String.valueOf(c));
+            } else if (c < 36) {
+                sb.append((char) ('a' + c - 10));
+            } else {
+                sb.append((char) ('A' + c - 36));
+            }
+        }
+        return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(isValid("12345".toCharArray(), "[B@6a5fc7f7".getBytes().toString().getBytes(), hash("12345".toCharArray(), "[B@6a5fc7f7".getBytes())));
     }
 }

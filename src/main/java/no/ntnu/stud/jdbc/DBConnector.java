@@ -15,13 +15,13 @@ public class DBConnector {
     private static String driver = "com.mysql.jdbc.Driver";
 
     /**
-     * The connection to the datbase.
+     * The connection to the database.
      * Connects using <code>DriverManager.getConnection</code>
      * Throws and exception if it fails.
      */
     private static Connection con = null;
 
-    protected static Connection getCon() {
+    public static Connection getCon() {
         try {
             Class.forName(driver);
         } catch (ClassNotFoundException e) {

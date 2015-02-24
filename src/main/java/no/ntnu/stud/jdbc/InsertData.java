@@ -15,7 +15,8 @@ public class InsertData {
 
     public static void createUser(String lastName, String middleName, String givenName, String password, String email) {
         Connection con = DBConnector.getCon();
-        String[] passwordSalt = SHAHashGenerator.getSecurePassword(password);
+        byte[] salt = SHAHashGenerator.getSalt();
+        byte[] hash = SHAHashGenerator.hash(password.toCharArray(), salt);
 
         if (con != null) {
             String query = "INSERT INTO user ("
@@ -32,9 +33,10 @@ public class InsertData {
                 preparedStmt.setString(2, middleName);
                 preparedStmt.setString(3, givenName);
                 preparedStmt.setString(4, email);
-                preparedStmt.setString(5, passwordSalt[0]);
-                preparedStmt.setString(6, passwordSalt[1]);
+                preparedStmt.setBytes(5, hash);
+                preparedStmt.setBytes(6, salt);
                 preparedStmt.execute();
+                System.out.println("Performing SQL Query [" + query + "]");
             } catch (SQLException e) {
                 System.err.println("SQLException: " + e.getMessage());
             }
@@ -59,6 +61,7 @@ public class InsertData {
                 preparedStmt.setTimestamp(3, TimeConverter.localDateTimeToTimestamp(to));
                 preparedStmt.setInt(4, ownerID);
                 preparedStmt.execute();
+                System.out.println("Performing SQL Query [" + query + "]");
             } catch (SQLException e) {
                 e.printStackTrace();
             }

@@ -24,6 +24,14 @@ public class User {
         this.email = email;
     }
 
+    public User(int userID, String lastName, String middleName, String givenName, String email) {
+        this.userID.set(userID);
+        this.lastName.set(lastName);
+        this.middleName.set(middleName);
+        this.givenName.set(givenName);
+        this.email.set(email);
+    }
+
     public int getUserID() {
         return userID.get();
     }
