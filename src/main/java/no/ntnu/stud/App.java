@@ -1,7 +1,7 @@
 package no.ntnu.stud;
 
 /**
- * Hello world!
+ * 
  *
  */
 public class App 
