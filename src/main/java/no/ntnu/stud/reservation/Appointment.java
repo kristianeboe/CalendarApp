@@ -7,11 +7,11 @@ import no.ntnu.stud.jdbc.StoreData;
 /**
  * Created by sklirg on 20/02/15.
  */
-public class Reservation {
+public class Appointment {
     private LocalDateTime start, end;
     private int attending;
 
-    public Reservation (LocalDateTime start, LocalDateTime end, int attending) {
+    public Appointment(LocalDateTime start, LocalDateTime end, int attending) {
         setDateTime(start, end);
         setAttending(attending);
     }
