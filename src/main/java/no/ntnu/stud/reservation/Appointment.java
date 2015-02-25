@@ -2,7 +2,7 @@ package no.ntnu.stud.reservation;
 
 import java.time.LocalDateTime;
 import no.ntnu.stud.jdbc.GetData;
-import no.ntnu.stud.jdbc.StoreData;
+import no.ntnu.stud.jdbc.InsertData;
 
 /**
  * Created by sklirg on 20/02/15.
