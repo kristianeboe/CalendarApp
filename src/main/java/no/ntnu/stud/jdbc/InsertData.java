@@ -1,13 +1,12 @@
 package no.ntnu.stud.jdbc;
 
+import no.ntnu.stud.model.Notification;
 import no.ntnu.stud.security.SHAHashGenerator;
 import no.ntnu.stud.util.TimeConverter;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 /**
  * Created by adrianh on 21.02.15.
@@ -82,6 +81,33 @@ public class InsertData {
             }
         } else {
             System.err.print("No connection");
+        }
+    }
+
+    public void getNotifications(ArrayList<Integer> userIDs, String message){
+        Connection con = DBConnector.getCon();
+        ArrayList<Notification> notifications = new ArrayList<Notification>();
+        int notificationID;
+        if(con != null){
+            try {
+                Statement stmt = con.createStatement();
+                String sql = "INSERT INTO notification(message) VALUES("+message+")";
+               stmt.executeQuery(sql);
+                String getID = "SELECT LAST_INSERT_ID()";
+                ResultSet rs = stmt.executeQuery(getID);
+                notificationID = rs.getInt(0);
+
+                for(int id:userIDs){
+                    sql = "INSERT INTO hasNotification(userID, notificationID) VALUES("+id+", "+notificationID+")";
+                    stmt.executeQuery(sql);
+                }
+
+            }catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }else {
+            System.err.print("No Connection");
         }
     }
 

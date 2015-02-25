@@ -2,6 +2,7 @@ package no.ntnu.stud.jdbc;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import no.ntnu.stud.model.Notification;
 import no.ntnu.stud.model.Room;
 import no.ntnu.stud.model.User;
 import no.ntnu.stud.util.TimeConverter;
@@ -119,13 +120,13 @@ public class GetData {
                 Statement stmt = con.createStatement();
                 String strSelect = "SELECT * FROM room " +
                         "NATURAL JOIN appointment " +
-                        "WHERE room.roomID='roomID' " +
-                        "AND (('fromDateTime' > " + from_time +
-                        "AND 'fromDateTime' < " + to_time +
-                        "OR ('toDateTime'> " + from_time +
-                        "AND 'toDateTime'< " + to_time +
-                        "OR ('fromDateTime' < " + from_time +
-                        "AND 'toDateTime' > " + to_time + ");";
+                        "WHERE room.roomID="+roomID+" " +
+                        "AND (("+from_time+" > from_time "+
+                        "AND "+from_time+" <  to_time) " +
+                        "OR ("+to_time+"> from_time "+
+                        "AND "+to_time+"< to_time) "+
+                        "OR ("+from_time+" < from_time "+
+                        "AND "+to_time+" >  to_time ));";
                 System.out.println("Performing SQL Query [" + strSelect + "]");
                 ResultSet rset = stmt.executeQuery(strSelect);
 
@@ -156,7 +157,17 @@ public class GetData {
         if(con != null){
             try{
                 Statement stmt = con.createStatement();
-                String sql = "SELECT * FROM room WHERE capacity >="+numPeople+" AND roomID NOT IN( SELECT roomID FROM appointment WHERE ( ("+startTimestamp+" > from_time AND "+startTimestamp+" < to_time) OR ("+endTimestamp+" > from_time AND "+endTimestamp+" <to_time) OR ("+startTimestamp+" < from_time AND "+endTimestamp+" > to_time) ) ) ORDER BY capacity ASC LIMIT 1;";
+                String sql = "SELECT * FROM room " +
+                        "WHERE capacity >="+numPeople+" " +
+                        "AND roomID NOT IN( " +
+                        "SELECT roomID FROM appointment " +
+                        "WHERE ( ("+startTimestamp+" > from_time " +
+                        "AND "+startTimestamp+" < to_time) " +
+                        "OR ("+endTimestamp+" > from_time " +
+                        "AND "+endTimestamp+" <to_time) " +
+                        "OR ("+startTimestamp+" < from_time " +
+                        "AND "+endTimestamp+" > to_time) ) ) " +
+                        "ORDER BY capacity ASC LIMIT 1;";
                 ResultSet rs = stmt.executeQuery(sql);
                 int roomID = rs.getInt("roomID");
                 String roomName = rs.getString("name");
@@ -170,4 +181,29 @@ public class GetData {
         }
         return room;
     }
+
+    public ArrayList<Notification> getNotifications(int userID){
+        Connection con = DBConnector.getCon();
+        ArrayList<Notification> notifications = new ArrayList<Notification>();
+        if(con != null){
+            try {
+                Statement stmt = con.createStatement();
+                String sql = "SELECT notificationID, message FROM notification NATURAL JOIN hasNotification WHERE userID="+userID+"";
+                ResultSet rs = stmt.executeQuery(sql);
+                while(rs.next()){
+                    int notificationID = rs.getInt("notificationID");
+                    String message = rs.getString("message");
+                    notifications.add(new Notification(notificationID,message));
+                }
+            }catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }else {
+            System.err.print("No Connection");
+        }
+        return notifications;
+    }
+
+
 }
