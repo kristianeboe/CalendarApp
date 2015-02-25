@@ -7,6 +7,7 @@ import no.ntnu.stud.util.TimeConverter;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.*;
@@ -21,22 +22,43 @@ public class EditData {
         Connection con = DBConnector.getCon();
 
         byte[] hash = SHAHashGenerator.hash(newPassword, newSalt);
-        String hashString = new String(hash, "ascii");
-        String saltString = new String(newSalt, "ascii");
 
-
-        if (!Authentication.authenticate(user.getEmail(), oldPassword)) {
+        if (Authentication.authenticate(user.getEmail(), oldPassword)) {
             String query = "UPDATE user " +
-                    "SET password = '" + hashString + "', salt = '" + saltString + "' " +
-                    "WHERE userID = '" + user.getUserID() + "';";
+                    "SET password = ?, salt = ? " +
+                    "WHERE userID = ?;";
             try {
-                Statement stmt = con.createStatement();
-                stmt.executeUpdate(query);
+                PreparedStatement stmt = con.prepareStatement(query);
+                stmt.setBytes(1, hash);
+                stmt.setBytes(2, newSalt);
+                stmt.setInt(3, user.getUserID());
+                stmt.execute();
                 System.out.println("Performing SQL Query [" + query + "]");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static String forgotPassword(String email) {
+        Connection con = DBConnector.getCon();
+        String newPassword = SHAHashGenerator.generateRandomPassword(8);
+        byte[] newSalt = SHAHashGenerator.getSalt();
+
+        byte[] hash = SHAHashGenerator.hash(newPassword.toCharArray(), newSalt);
+
+        String query = "UPDATE user SET password = ?, salt = ? WHERE email = ?";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setBytes(1, hash);
+            stmt.setBytes(2, newSalt);
+            stmt.setString(3, email);
+            stmt.execute();
+            System.out.println("Performing SQL Query [" + query + "]");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return newPassword;
     }
 
     public void deleteReservation(int appointmentID){
@@ -77,11 +99,6 @@ public class EditData {
     }
 
     public static void main(String[] args) {
-        try {
-            changePassword(GetData.getUser(1), "passord", "banan".toCharArray(), SHAHashGenerator.getSalt());
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        System.out.println(Authentication.authenticate(GetData.getUser(1).getEmail(), "12345"));
+
     }
 }
