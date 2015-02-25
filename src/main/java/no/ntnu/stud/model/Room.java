@@ -15,15 +15,15 @@ public class Room {
     private IntegerProperty capacity = new SimpleIntegerProperty();
 
     public Room(IntegerProperty roomID, StringProperty name, IntegerProperty capacity) {
-        this.roomID = roomID;
-        this.name = name;
-        this.capacity = capacity;
+        setRoomID(roomID.get());
+        setName(name.get());
+        setCapacity(capacity.get());
     }
 
     public Room(int roomID, String name, int capacity) {
-        this.roomID.set(roomID);
-        this.name.set(name);
-        this.capacity.set(capacity);
+        setRoomID(roomID);
+        setName(name);
+        setCapacity(capacity);
     }
 
     public int getRoomID() {
@@ -35,6 +35,8 @@ public class Room {
     }
 
     public void setRoomID(int roomID) {
+        if (roomID < 0)
+            throw new IllegalArgumentException("Negative Room ID not allowed");
         this.roomID.set(roomID);
     }
 
@@ -47,6 +49,8 @@ public class Room {
     }
 
     public void setName(String name) {
+        if (name == "")
+            throw new IllegalArgumentException("Empty room name is not allowed");
         this.name.set(name);
     }
 
@@ -59,9 +63,10 @@ public class Room {
     }
 
     public void setCapacity(int capacity) {
-        if (capacity < 0) {
+        if (capacity < 0)
             throw new IllegalArgumentException("Negative room capacity is not allowed");
-        }
+        else if (capacity == 0)
+            throw new IllegalArgumentException("No room capacity is not allowed");
         this.capacity.set(capacity);
     }
 }
