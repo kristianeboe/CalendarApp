@@ -11,7 +11,7 @@
     <properties>
         <jee.level>1.8</jee.level>
         <jdk.level>1.8</jdk.level>
-        <java.level>1.8</java.level>
+        <java.level>7</java.level>
     </properties>
 
 
