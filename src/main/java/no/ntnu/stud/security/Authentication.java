@@ -48,6 +48,9 @@ public class Authentication {
 
         if (authenticate(email, password)) {
             loggedInUser = GetData.getUser(email);
+            System.out.println("Authentication successful");
+        } else {
+            System.err.println("Authentication failed");
         }
 
         return loggedInUser;
@@ -58,6 +61,8 @@ public class Authentication {
     }
 
     public static void main(String[] args) {
-
+        Authentication auth = new Authentication();
+        User loggedInUser = auth.login("adrian.hundseth@gmail.com", "banan");
+        System.out.println(loggedInUser);
     }
 }

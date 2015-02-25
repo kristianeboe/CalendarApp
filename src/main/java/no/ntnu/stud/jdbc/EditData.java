@@ -23,7 +23,7 @@ public class EditData {
 
         byte[] hash = SHAHashGenerator.hash(newPassword, newSalt);
 
-        if (!Authentication.authenticate(user.getEmail(), oldPassword)) {
+        if (Authentication.authenticate(user.getEmail(), oldPassword)) {
             String query = "UPDATE user " +
                     "SET password = ?, salt = ? " +
                     "WHERE userID = ?;";

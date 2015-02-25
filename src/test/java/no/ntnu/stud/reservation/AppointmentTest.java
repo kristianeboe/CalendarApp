@@ -1,10 +1,8 @@
 package no.ntnu.stud.reservation;
 
-import org.junit.*;
+import org.junit.Test;
 
 import java.time.LocalDateTime;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by sklirg on 20/02/15.
