@@ -84,7 +84,7 @@ public class InsertData {
         }
     }
 
-    public void getNotifications(ArrayList<Integer> userIDs, String message){
+    public void setNotification(ArrayList<Integer> userIDs, String message){
         Connection con = DBConnector.getCon();
         ArrayList<Notification> notifications = new ArrayList<Notification>();
         int notificationID;
