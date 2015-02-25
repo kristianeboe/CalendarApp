@@ -27,7 +27,7 @@ public class Appointment {
         setAttending(attending);
     }
 
-    public Appointment(int appointmentID, String title, int ownerID, LocalDate date, LocalTime from, LocalTime to, String location, int roomID, String description, int attending, LocalDateTime alarmTime) {
+    public Appointment(int appointmentID, String title, int ownerID, LocalDate date, LocalTime start, LocalTime end, String location, int roomID, String description, int attending, LocalDateTime alarmTime) {
         setDateTime(date, start, end);
         setAttending(attending);
 
