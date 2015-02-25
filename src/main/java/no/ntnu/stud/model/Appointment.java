@@ -1,4 +1,4 @@
-package no.ntnu.stud.reservation;
+package no.ntnu.stud.model;
 
 import java.time.LocalDateTime;
 
