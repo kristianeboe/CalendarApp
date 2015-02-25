@@ -12,7 +12,7 @@ public class RootLayoutController {
     private MainApp mainApp;
 
     public RootLayoutController(){
-
+        //trollllooolllll
     }
 
     public void setMainApp(MainApp mainApp) {
@@ -27,7 +27,7 @@ public class RootLayoutController {
 
     @FXML
     private void hanldeExit() {
-        System.exit(0);
+        System.exit(1);
     }
 
 }
