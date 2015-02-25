@@ -8,6 +8,12 @@
     <name>SwagCalendar</name>
     <url>http://maven.apache.org</url>
 
+    <properties>
+        <jee.level>1.8</jee.level>
+        <jdk.level>1.8</jdk.level>
+    </properties>
+
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
