@@ -8,6 +8,7 @@ import no.ntnu.stud.MainApp;
  */
 public class AppointmentViewController {
     private MainApp mainApp;
+
     public AppointmentViewController(){
 
     }

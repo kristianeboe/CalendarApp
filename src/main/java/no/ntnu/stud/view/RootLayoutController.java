@@ -1,8 +1,8 @@
 package no.ntnu.stud.view;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import no.ntnu.stud.MainApp;
-import org.controlsfx.dialog.Dialogs;
 
 
 /**
@@ -22,13 +22,18 @@ public class RootLayoutController {
 
     @FXML
     private void handleAbout() {
-        // This shit is deprecated. Fix it.
-        Dialogs.create().title("CalendarApp").masthead("About").message("Author: Swag\nWebsite: https://github.com/sklirg/fellesprosjekt-2015").showInformation();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("About us");
+        alert.setHeaderText("Look, an Information Dialog");
+        alert.setContentText("Author: Swag\n" +
+                "Website: https://github.com/sklirg/fellesprosjekt-2015");
+
+        alert.showAndWait();
     }
 
     @FXML
-    private void hanldeExit() {
-        System.exit(1);
+    private void handleExit() {
+        System.exit(0);
     }
 
 }
