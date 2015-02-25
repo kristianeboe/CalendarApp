@@ -22,6 +22,7 @@ public class RootLayoutController {
 
     @FXML
     private void handleAbout() {
+        // This shit is deprecated. Fix it.
         Dialogs.create().title("CalendarApp").masthead("About").message("Author: Swag\nWebsite: https://github.com/sklirg/fellesprosjekt-2015").showInformation();
     }
 
