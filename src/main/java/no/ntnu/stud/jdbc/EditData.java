@@ -4,8 +4,8 @@ import no.ntnu.stud.model.User;
 import no.ntnu.stud.security.Authentication;
 import no.ntnu.stud.security.SHAHashGenerator;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -14,27 +14,22 @@ import java.sql.Statement;
  */
 public class EditData {
 
-    public static void changePassword(User user, String oldPassword, char[] newPassword, byte[] newSalt) {
+    public static void changePassword(User user, String oldPassword, char[] newPassword, byte[] newSalt) throws UnsupportedEncodingException {
         Connection con = DBConnector.getCon();
 
         byte[] hash = SHAHashGenerator.hash(newPassword, newSalt);
-        String hashString = "";
+        String hashString = new String(hash, "ascii");
+        String saltString = new String(newSalt, "ascii");
+
 
         if (!Authentication.authenticate(user.getEmail(), oldPassword)) {
-            String query = "SELECT password, salt FROM user " +
+            String query = "UPDATE user " +
+                    "SET password = '" + hashString + "', salt = '" + saltString + "' " +
                     "WHERE userID = '" + user.getUserID() + "';";
             try {
-                Statement stmt = con.createStatement(
-                        ResultSet.TYPE_SCROLL_INSENSITIVE,
-                        ResultSet.CONCUR_UPDATABLE);
-                ResultSet rs = stmt.executeQuery(query);
-                stmt.execute(query);
+                Statement stmt = con.createStatement();
+                stmt.executeUpdate(query);
                 System.out.println("Performing SQL Query [" + query + "]");
-
-                rs.absolute(1);
-                rs.updateBytes("password", SHAHashGenerator.hash(newPassword, newSalt));
-                rs.updateBytes("salt", newSalt);
-                rs.updateRow();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -42,7 +37,11 @@ public class EditData {
     }
 
     public static void main(String[] args) {
-        changePassword(GetData.getUser(1), "passord", "banan".toCharArray(), SHAHashGenerator.getSalt());
+        try {
+            changePassword(GetData.getUser(1), "passord", "banan".toCharArray(), SHAHashGenerator.getSalt());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         System.out.println(Authentication.authenticate(GetData.getUser(1).getEmail(), "12345"));
     }
 }

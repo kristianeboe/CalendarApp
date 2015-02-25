@@ -18,6 +18,8 @@ public class DBConnector {
      * The connection to the database.
      * Connects using <code>DriverManager.getConnection</code>
      * Throws and exception if it fails.
+     *
+     * @return <code>Connection</code> object con
      */
     private static Connection con = null;
 

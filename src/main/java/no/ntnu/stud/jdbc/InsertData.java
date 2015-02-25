@@ -6,6 +6,7 @@ import no.ntnu.stud.util.TimeConverter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDateTime;
 
 /**
@@ -55,16 +56,32 @@ public class InsertData {
                     + "ownerID) VALUES ("
                     + "?, ?, ?, ?)";
             try {
-                PreparedStatement preparedStmt = con.prepareStatement(query);
-                preparedStmt.setString(1, title);
-                preparedStmt.setTimestamp(2, TimeConverter.localDateTimeToTimestamp(from));
-                preparedStmt.setTimestamp(3, TimeConverter.localDateTimeToTimestamp(to));
-                preparedStmt.setInt(4, ownerID);
-                preparedStmt.execute();
+                PreparedStatement stmt = con.prepareStatement(query);
+                stmt.setString(1, title);
+                stmt.setTimestamp(2, TimeConverter.localDateTimeToTimestamp(from));
+                stmt.setTimestamp(3, TimeConverter.localDateTimeToTimestamp(to));
+                stmt.setInt(4, ownerID);
+                stmt.execute();
                 System.out.println("Performing SQL Query [" + query + "]");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static void bookRoom(int roomID, int appointmentID) {
+        Connection con = DBConnector.getCon();
+
+        if (con != null) {
+            String query = "UPDATE appointment SET roomID = '" + roomID + "' WHERE appointmentID = '" + appointmentID + "';";
+            try {
+                Statement stmt = con.prepareStatement(query);
+                stmt.executeQuery(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.err.print("No connection");
         }
     }
 
