@@ -12,10 +12,16 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /**
- * Created by adrianh on 21.02.15.
+ * Class for getting data from the database.
+ * @author Adrian Hundseth
  */
 public class GetData {
 
+    /**
+     * Fetches and returns the user with the matching userID
+     * @param userID <code>int</code> containing a userID
+     * @return A <code>User</code> object matching the userID, null if the user is not found.
+     */
     public static User getUser(int userID) {
         Connection con = DBConnector.getCon();
         User user = null;
@@ -42,6 +48,11 @@ public class GetData {
         return user;
     }
 
+    /**
+     * Fetches and returns the user with the matching email
+     * @param email <code>String</code> containing an email address
+     * @return A <code>User</code> object matching the email, null if the user is not found.
+     */
     public static User getUser(String email) {
         Connection con = DBConnector.getCon();
         User user = null;
@@ -67,7 +78,7 @@ public class GetData {
         }
         return user;
     }
-
+    
     public static ArrayList<User> getUsers() {
         Connection con = DBConnector.getCon();
         ArrayList<User> users = new ArrayList<User>();
