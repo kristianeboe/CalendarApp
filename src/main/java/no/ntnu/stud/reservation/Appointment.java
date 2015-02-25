@@ -1,8 +1,6 @@
 package no.ntnu.stud.reservation;
 
 import java.time.LocalDateTime;
-import no.ntnu.stud.jdbc.GetData;
-import no.ntnu.stud.jdbc.StoreData;
 
 /**
  * Created by sklirg on 20/02/15.
