@@ -59,6 +59,9 @@ public class Room {
     }
 
     public void setCapacity(int capacity) {
+        if (capacity < 0) {
+            throw new IllegalArgumentException("Negative room capacity is not allowed");
+        }
         this.capacity.set(capacity);
     }
 }
