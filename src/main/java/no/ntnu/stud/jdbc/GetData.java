@@ -47,7 +47,7 @@ public class GetData {
         if (con != null) {
             try {
                 Statement stmt = con.createStatement();
-                String strSelect = "SELECT * FROM user WHERE userID='" + email + "';";
+                String strSelect = "SELECT * FROM user WHERE email='" + email + "';";
                 System.out.println("Performing SQL Query [" + strSelect + "]");
                 ResultSet rset = stmt.executeQuery(strSelect);
 

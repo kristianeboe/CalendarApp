@@ -62,7 +62,5 @@ public class Authentication {
 
     public static void main(String[] args) {
         Authentication auth = new Authentication();
-        User loggedInUser = auth.login("adrian.hundseth@gmail.com", "banan");
-        System.out.println(loggedInUser);
     }
 }

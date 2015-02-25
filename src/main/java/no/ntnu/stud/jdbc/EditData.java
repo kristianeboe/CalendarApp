@@ -40,6 +40,27 @@ public class EditData {
         }
     }
 
+    public static String forgotPassword(String email) {
+        Connection con = DBConnector.getCon();
+        String newPassword = SHAHashGenerator.generateRandomPassword(8);
+        byte[] newSalt = SHAHashGenerator.getSalt();
+
+        byte[] hash = SHAHashGenerator.hash(newPassword.toCharArray(), newSalt);
+
+        String query = "UPDATE user SET password = ?, salt = ? WHERE email = ?";
+        try {
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setBytes(1, hash);
+            stmt.setBytes(2, newSalt);
+            stmt.setString(3, email);
+            stmt.execute();
+            System.out.println("Performing SQL Query [" + query + "]");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return newPassword;
+    }
+
     public void deleteReservation(int appointmentID){
         Connection con = DBConnector.getCon();
 
@@ -78,5 +99,6 @@ public class EditData {
     }
 
     public static void main(String[] args) {
+
     }
 }

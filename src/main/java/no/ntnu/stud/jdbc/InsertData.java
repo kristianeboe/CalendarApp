@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  */
 public class InsertData {
 
-    public static void createUser(String lastName, String middleName, String givenName, String password, String email) {
+    public static void createUser(String lastName, String middleName, String givenName, String email, String password) {
         Connection con = DBConnector.getCon();
         byte[] salt = SHAHashGenerator.getSalt();
         byte[] hash = SHAHashGenerator.hash(password.toCharArray(), salt);
@@ -86,5 +86,6 @@ public class InsertData {
     }
 
     public static void main(String[] args) {
+        createUser("Normann", "", "Ola", "ola.normann@mail.no", "passord");
     }
 }
