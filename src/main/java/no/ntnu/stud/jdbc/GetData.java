@@ -2,6 +2,7 @@ package no.ntnu.stud.jdbc;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.model.Notification;
 import no.ntnu.stud.model.Room;
 import no.ntnu.stud.model.User;
@@ -106,6 +107,41 @@ public class GetData {
             System.err.println("No connection");
         }
         return users;
+    }
+
+    public static Appointment getAppointment(int apppointmentID) {
+        Connection con = DBConnector.getCon();
+        Appointment appointment = null;
+
+        if (con != null) {
+            try {
+                Statement stmt = con.createStatement();
+                String strSelect = "SELECT * FROM appointment " +
+                        "WHERE appointmentID = '" + apppointmentID + "';";
+                ResultSet rset = stmt.executeQuery(strSelect);
+                System.out.println("Performing SQL Query [" + strSelect + "]");
+
+                while (rset.next()) {
+                    int appointmentID = rset.getInt("appointmentID");
+                    String title = rset.getString("title");
+                    int ownerID = rset.getInt("ownerID");
+                    LocalDateTime date = rset.getTimestamp("date").toLocalDateTime();
+                    LocalDateTime from = rset.getTimestamp("from").toLocalDateTime();
+                    LocalDateTime to = rset.getTimestamp("to").toLocalDateTime();
+                    String location = rset.getString("location");
+                    int roomID = rset.getInt("roomID");
+                    String description = rset.getString("description");
+                    int attending = rset.getInt("attending");
+                    LocalDateTime alarmTime = rset.getTimestamp("alarmTime").toLocalDateTime();
+                    appointment = new Appointment(appointmentID, title, ownerID, date, from, to, location, roomID, description, attending, alarmTime);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.err.print("No Connection");
+        }
+        return appointment;
     }
 
     public static Room getRoomStatus(int roomID, LocalDateTime from, LocalDateTime to) {
