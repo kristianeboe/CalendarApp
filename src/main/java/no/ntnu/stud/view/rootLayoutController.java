@@ -11,6 +11,10 @@ import org.controlsfx.dialog.Dialogs;
 public class RootLayoutController {
     private MainApp mainApp;
 
+    public RootLayoutController(){
+
+    }
+
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }

@@ -5,4 +5,7 @@ package no.ntnu.stud.view;
  */
 public class CalendarViewController {
     //dele opp i dayViewController og Week-og/eller monthViewController?
+    public CalendarViewController(){
+
+    }
 }
