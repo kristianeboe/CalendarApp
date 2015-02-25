@@ -43,23 +43,27 @@ public class InsertData {
         }
     }
 
-    public static void createAppointment(String title, LocalDateTime from, LocalDateTime to, int ownerID) {
+    public static void createAppointment(String title, LocalDateTime date, LocalDateTime from, LocalDateTime to, int ownerID, String description) {
         Connection con = DBConnector.getCon();
 
 
         if (con != null) {
             String query = "INSERT INTO appointment ("
                     + "title,"
+                    + "date,"
                     + "from_time,"
                     + "to_time,"
-                    + "ownerID) VALUES ("
+                    + "ownerID, "
+                    + "description) VALUES ("
                     + "?, ?, ?, ?)";
             try {
                 PreparedStatement stmt = con.prepareStatement(query);
                 stmt.setString(1, title);
-                stmt.setTimestamp(2, TimeConverter.localDateTimeToTimestamp(from));
-                stmt.setTimestamp(3, TimeConverter.localDateTimeToTimestamp(to));
+                stmt.setTimestamp(2, TimeConverter.localDateTimeToTimestamp(date));
+                stmt.setTimestamp(3, TimeConverter.localDateTimeToTimestamp(from));
+                stmt.setTimestamp(4, TimeConverter.localDateTimeToTimestamp(to));
                 stmt.setInt(4, ownerID);
+                stmt.setString(5, description);
                 stmt.execute();
                 System.out.println("Performing SQL Query [" + query + "]");
             } catch (SQLException e) {
