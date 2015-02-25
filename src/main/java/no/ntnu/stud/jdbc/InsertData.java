@@ -46,7 +46,6 @@ public class InsertData {
     public static void createAppointment(String title, LocalDateTime date, LocalDateTime from, LocalDateTime to, int ownerID, String description) {
         Connection con = DBConnector.getCon();
 
-
         if (con != null) {
             String query = "INSERT INTO appointment ("
                     + "title,"
