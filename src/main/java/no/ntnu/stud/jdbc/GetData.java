@@ -2,10 +2,7 @@ package no.ntnu.stud.jdbc;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import no.ntnu.stud.model.Appointment;
-import no.ntnu.stud.model.Notification;
-import no.ntnu.stud.model.Room;
-import no.ntnu.stud.model.User;
+import no.ntnu.stud.model.*;
 import no.ntnu.stud.util.TimeConverter;
 
 import java.sql.*;
