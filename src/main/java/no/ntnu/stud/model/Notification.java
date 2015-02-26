@@ -8,8 +8,8 @@ public class Notification {
     int notificationID;
 
     public Notification(int notificationID, String message){
-        this.notificationID = notificationID;
-        this.message = message;
+        setNotificationID(notificationID);
+        setMessage(message);
     }
 
     public String getMessage(){
@@ -18,5 +18,21 @@ public class Notification {
 
     public int getNotificationID(){
         return notificationID;
+    }
+
+    private void setNotificationID(int notificationID){
+        if(notificationID < 0){
+            throw new IllegalArgumentException("NotificationID can not be negative");
+        }else if(notificationID == 0){
+            throw new IllegalArgumentException("NotificationID can not be 0");
+        }
+        this.notificationID = notificationID;
+    }
+
+    private void setMessage(String message){
+        if(message == ""){
+            throw new IllegalArgumentException("Message can not be an empty string");
+        }
+        this.message = message;
     }
 }
