@@ -144,6 +144,13 @@ public class GetData {
         return appointment;
     }
 
+    /**
+     *
+     * @param roomID
+     * @param from
+     * @param to
+     * @return Room is available if return value is null
+     */
     public static Room getRoomStatus(int roomID, LocalDateTime from, LocalDateTime to) {
         Connection con = DBConnector.getCon();
         Room room = null;
