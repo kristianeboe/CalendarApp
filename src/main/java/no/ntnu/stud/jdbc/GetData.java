@@ -198,7 +198,6 @@ public class GetData {
     public static Room getSmallestRoom(LocalTime startTime, LocalTime endTime, LocalDate date, int numPeople){
         Room room = null;
         Connection con = DBConnector.getCon();
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String start =startTime.toString();
         String end = endTime.toString();
         String dt = date.toString();
