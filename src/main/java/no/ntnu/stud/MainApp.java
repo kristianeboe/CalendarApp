@@ -8,14 +8,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import no.ntnu.stud.view.RootLayoutController;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Hello world!
@@ -46,8 +39,6 @@ public class MainApp extends Application {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
-
-            System.out.println("Location: " + loader.getLocation());
             rootLayout = (BorderPane) loader.load();
 
             // Show the scene containing the root layout.
