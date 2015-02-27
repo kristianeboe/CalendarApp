@@ -19,7 +19,6 @@ public class RootLayoutController {
         this.mainApp = mainApp;
     }
 
-
     @FXML
     private void handleAbout() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
