@@ -43,26 +43,34 @@ public class InsertData {
         }
     }
 
-    public static void createAppointment(String title, LocalDateTime date, LocalDateTime from, LocalDateTime to, int ownerID, String description) {
+    public static void createAppointment(String title, LocalDateTime date, LocalDateTime from, LocalDateTime to, int ownerID, String description, String location, int roomID, int attending, LocalDateTime alarmTime) {
         Connection con = DBConnector.getCon();
 
         if (con != null) {
             String query = "INSERT INTO appointment ("
                     + "title,"
                     + "date,"
-                    + "from_time,"
-                    + "to_time,"
+                    + "from,"
+                    + "to,"
+                    + "location,"
+                    + "roomID,"
                     + "ownerID, "
+                    + "attending,"
+                    + "alarmTime,"
                     + "description) VALUES ("
-                    + "?, ?, ?, ?)";
+                    + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             try {
                 PreparedStatement stmt = con.prepareStatement(query);
                 stmt.setString(1, title);
                 stmt.setTimestamp(2, TimeConverter.localDateTimeToTimestamp(date));
                 stmt.setTimestamp(3, TimeConverter.localDateTimeToTimestamp(from));
                 stmt.setTimestamp(4, TimeConverter.localDateTimeToTimestamp(to));
-                stmt.setInt(4, ownerID);
-                stmt.setString(5, description);
+                stmt.setString(5, location);
+                stmt.setInt(6, roomID);
+                stmt.setInt(7, ownerID);
+                stmt.setInt(8, attending);
+                stmt.setTimestamp(9, TimeConverter.localDateTimeToTimestamp(alarmTime));
+                stmt.setString(10, description);
                 stmt.execute();
                 System.out.println("Performing SQL Query [" + query + "]");
             } catch (SQLException e) {
@@ -91,25 +99,23 @@ public class InsertData {
         Connection con = DBConnector.getCon();
         ArrayList<Notification> notifications = new ArrayList<Notification>();
         int notificationID;
-        if(con != null){
-            try {
-                Statement stmt = con.createStatement();
-                String sql = "INSERT INTO notification(message) VALUES("+message+")";
-               stmt.executeQuery(sql);
-                String getID = "SELECT LAST_INSERT_ID()";
-                ResultSet rs = stmt.executeQuery(getID);
-                notificationID = rs.getInt(0);
+        if(con != null) try {
+            Statement stmt = con.createStatement();
+            String sql = "INSERT INTO notification(message) VALUES(" + message + ")";
+            stmt.executeQuery(sql);
+            String getID = "SELECT LAST_INSERT_ID()";
+            ResultSet rs = stmt.executeQuery(getID);
+            notificationID = rs.getInt(0);
 
-                for(int id:userIDs){
-                    sql = "INSERT INTO hasNotification(userID, notificationID) VALUES("+id+", "+notificationID+")";
-                    stmt.executeQuery(sql);
-                }
-
-            }catch (SQLException e) {
-                e.printStackTrace();
+            for (int id : userIDs) {
+                sql = "INSERT INTO hasNotification(userID, notificationID) VALUES(" + id + ", " + notificationID + ")";
+                stmt.executeQuery(sql);
             }
 
-        }else {
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        else {
             System.err.print("No Connection");
         }
     }
