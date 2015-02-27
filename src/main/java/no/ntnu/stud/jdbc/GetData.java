@@ -189,7 +189,7 @@ public class GetData {
      *
      * @return roomID
      */
-    public Room getSmallestRoom(LocalDateTime startTime, LocalDateTime endTime, int numPeople){
+    public static Room getSmallestRoom(LocalDateTime startTime, LocalDateTime endTime, int numPeople){
         Room room = null;
         Connection con = DBConnector.getCon();
         Timestamp startTimestamp = TimeConverter.localDateTimeToTimestamp(startTime);
@@ -222,7 +222,7 @@ public class GetData {
         return room;
     }
 
-    public ArrayList<Notification> getNotifications(int userID){
+    public static ArrayList<Notification> getNotifications(int userID){
         Connection con = DBConnector.getCon();
         ArrayList<Notification> notifications = new ArrayList<Notification>();
         if(con != null){
