@@ -6,7 +6,9 @@ import no.ntnu.stud.model.*;
 import no.ntnu.stud.util.TimeConverter;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 /**
@@ -122,9 +124,9 @@ public class GetData {
                     int appointmentID = rset.getInt("appointmentID");
                     String title = rset.getString("title");
                     int ownerID = rset.getInt("ownerID");
-                    LocalDateTime date = rset.getTimestamp("date").toLocalDateTime();
-                    LocalDateTime from = rset.getTimestamp("from").toLocalDateTime();
-                    LocalDateTime to = rset.getTimestamp("to").toLocalDateTime();
+                    LocalDate date = rset.getTimestamp("date").toLocalDateTime().toLocalDate();
+                    LocalTime from = rset.getTimestamp("from").toLocalDateTime().toLocalTime();
+                    LocalTime to = rset.getTimestamp("to").toLocalDateTime().toLocalTime();
                     String location = rset.getString("location");
                     int roomID = rset.getInt("roomID");
                     String description = rset.getString("description");
