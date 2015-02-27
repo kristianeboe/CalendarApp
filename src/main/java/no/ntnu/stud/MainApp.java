@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import no.ntnu.stud.view.RootLayoutController;
 
@@ -45,6 +46,13 @@ public class MainApp extends Application {
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
 
+
+            //Ole does shit he shouldt do
+            //This loads the mid and right grid in a terrible way
+            rootLayout.setCenter(getGrid());
+            rootLayout.setRight(getSideGrid());
+            //End of shit ole shouldt do
+
             RootLayoutController controller = loader.getController();
             controller.setMainApp(this);
 
@@ -53,4 +61,35 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
     }
+
+    //Ole does shit he shouldt do
+    //these functions should be deleted. Oh lord.
+    private GridPane getGrid(){
+        try {
+            // Load root layout from fxml file.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/Calendar.fxml"));
+            return loader.load();
+
+        }
+        catch (IOException e){
+
+        }
+        return null;
+    }
+
+    private GridPane getSideGrid(){
+        try {
+            // Load root layout from fxml file.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/UpcomingEvents.fxml"));
+            return loader.load();
+
+        }
+        catch (IOException e){
+
+        }
+        return null;
+    }
+    //End of shit ole shouldt do
 }
