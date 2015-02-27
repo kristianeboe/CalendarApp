@@ -30,7 +30,7 @@ public class Notification {
     }
 
     private void setMessage(String message){
-        if(message == ""){
+        if(message.equals("")){
             throw new IllegalArgumentException("Message can not be an empty string");
         }
         this.message = message;
