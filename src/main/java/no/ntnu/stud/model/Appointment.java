@@ -80,6 +80,8 @@ public class Appointment {
 
     public LocalDate getDate() { return date; }
 
+    public String getTitle(){ return title.toString(); }
+
     public LocalDateTime getDateTimeStart() {
         return LocalDateTime.of(date, start);
     }

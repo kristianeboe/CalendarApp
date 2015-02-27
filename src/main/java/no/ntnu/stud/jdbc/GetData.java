@@ -9,6 +9,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
@@ -33,9 +34,9 @@ public class GetData {
                 ResultSet rset = stmt.executeQuery(strSelect);
 
                 while (rset.next()) {
-                    String lastName = rset.getString("last_name");
-                    String middleName = rset.getString("middle_name");
-                    String givenName = rset.getString("given_name");
+                    String lastName = rset.getString("lastName");
+                    String middleName = rset.getString("middleName");
+                    String givenName = rset.getString("givenName");
                     String email = rset.getString("email");
                     user = new User(new SimpleIntegerProperty(userID), new SimpleStringProperty(lastName), new SimpleStringProperty(middleName), new SimpleStringProperty(givenName), new SimpleStringProperty(email));
                 }
@@ -65,9 +66,9 @@ public class GetData {
 
                 while (rset.next()) {
                     int userID = rset.getInt("userID");
-                    String lastName = rset.getString("last_name");
-                    String middleName = rset.getString("middle_name");
-                    String givenName = rset.getString("given_name");
+                    String lastName = rset.getString("lastName");
+                    String middleName = rset.getString("middleName");
+                    String givenName = rset.getString("givenName");
                     user = new User(userID, lastName, middleName, givenName, email);
                 }
             } catch (SQLException e) {
@@ -78,7 +79,7 @@ public class GetData {
         }
         return user;
     }
-    
+
     public static ArrayList<User> getUsers() {
         Connection con = DBConnector.getCon();
         ArrayList<User> users = new ArrayList<User>();
@@ -92,9 +93,9 @@ public class GetData {
 
                 while (rset.next()) {
                     int userID = rset.getInt("userID");
-                    String lastName = rset.getString("last_name");
-                    String middleName = rset.getString("middle_name");
-                    String givenName = rset.getString("given_name");
+                    String lastName = rset.getString("lastName");
+                    String middleName = rset.getString("middleName");
+                    String givenName = rset.getString("givenName");
                     String email = rset.getString("email");
                     User user = new User(new SimpleIntegerProperty(userID), new SimpleStringProperty(lastName), new SimpleStringProperty(middleName), new SimpleStringProperty(givenName), new SimpleStringProperty(email));
                     users.add(user);
@@ -108,7 +109,7 @@ public class GetData {
         return users;
     }
 
-    public static Appointment getAppointment(int apppointmentID) {
+    public static Appointment getAppointment(int appointmentID) {
         Connection con = DBConnector.getCon();
         Appointment appointment = null;
 
@@ -116,23 +117,28 @@ public class GetData {
             try {
                 Statement stmt = con.createStatement();
                 String strSelect = "SELECT * FROM appointment " +
-                        "WHERE appointmentID = '" + apppointmentID + "';";
+                        "WHERE appointmentID = " + appointmentID + ";";
                 ResultSet rset = stmt.executeQuery(strSelect);
                 System.out.println("Performing SQL Query [" + strSelect + "]");
 
                 while (rset.next()) {
-                    int appointmentID = rset.getInt("appointmentID");
+                    int ID = rset.getInt("appointmentID");
                     String title = rset.getString("title");
                     int ownerID = rset.getInt("ownerID");
-                    LocalDate date = rset.getTimestamp("date").toLocalDateTime().toLocalDate();
-                    LocalTime from = rset.getTimestamp("from").toLocalDateTime().toLocalTime();
-                    LocalTime to = rset.getTimestamp("to").toLocalDateTime().toLocalTime();
+                    LocalDate date = rset.getTimestamp("appointmentDate").toLocalDateTime().toLocalDate();
+                    LocalTime from = rset.getTimestamp("startTime").toLocalDateTime().toLocalTime();
+                    LocalTime to = rset.getTimestamp("endTime").toLocalDateTime().toLocalTime();
                     String location = rset.getString("location");
                     int roomID = rset.getInt("roomID");
                     String description = rset.getString("description");
                     int attending = rset.getInt("attending");
-                    LocalDateTime alarmTime = rset.getTimestamp("alarmTime").toLocalDateTime();
-                    appointment = new Appointment(appointmentID, title, ownerID, date, from, to, location, roomID, description, attending, alarmTime);
+                    LocalDateTime alarmTime = LocalDateTime.parse("0001-01-01 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                    if(rset.getTimestamp("alarmTime") != null){
+                        alarmTime = rset.getTimestamp("alarmTime").toLocalDateTime();
+                    }
+                    //System.out.println("id: "+ID+", ownerID: "+ownerID+", date: "+date.toString()+", from: " +from.toString()+", to: "+to.toString()+", location: "+location+", roomID: "+roomID+", description: "+description+", attening: "+attending+", alarmTime: "+alarmTime.toString());
+
+                    appointment = new Appointment(ID, title, ownerID, date, from, to, location, roomID, description, attending, alarmTime);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -145,17 +151,17 @@ public class GetData {
 
     /**
      *
-     * @param roomID
-     * @param from
-     * @param to
-     * @return Room is available if return value is null
+     *
+     * @return True if room is available
      */
-    public static Room getRoomStatus(int roomID, LocalDateTime from, LocalDateTime to) {
+    public static boolean roomIsAvailable(int roomID, LocalTime startTime, LocalTime endTime, LocalDate date) {
         Connection con = DBConnector.getCon();
         Room room = null;
 
-        Timestamp from_time = TimeConverter.localDateTimeToTimestamp(from);
-        Timestamp to_time = TimeConverter.localDateTimeToTimestamp(to);
+        String from_time = startTime.toString();
+        String to_time = endTime.toString();
+        String dt = date.toString();
+        int counter = 0;
 
         if (con != null) {
             try {
@@ -163,20 +169,18 @@ public class GetData {
                 String strSelect = "SELECT * FROM room " +
                         "NATURAL JOIN appointment " +
                         "WHERE room.roomID="+roomID+" " +
-                        "AND (("+from_time+" > from_time "+
-                        "AND "+from_time+" <  to_time) " +
-                        "OR ("+to_time+"> from_time "+
-                        "AND "+to_time+"< to_time) "+
-                        "OR ("+from_time+" < from_time "+
-                        "AND "+to_time+" >  to_time ));";
+                        "AND (('"+from_time+"' > startTime "+
+                        "AND '"+from_time+"' <  endTime) " +
+                        "OR ('"+to_time+"'> startTime "+
+                        "AND '"+to_time+"'< endTime) "+
+                        "OR ('"+from_time+"' < startTime "+
+                        "AND '"+to_time+"' >  endTime ))" +
+                        "AND '"+dt+"' = appointmentDate;";
                 System.out.println("Performing SQL Query [" + strSelect + "]");
                 ResultSet rset = stmt.executeQuery(strSelect);
 
                 while (rset.next()) {
-                    int returnRoomID = rset.getInt("roomID");
-                    String name = rset.getString("name");
-                    int capacity = rset.getInt("capacity");
-                    room = new Room(returnRoomID, name, capacity);
+                    counter++;
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -184,18 +188,20 @@ public class GetData {
         } else {
             System.err.print("No Connection");
         }
-        return room;
+        return counter == 0;
     }
 
     /**Gets the smallest available room
      *
      * @return roomID
      */
-    public static Room getSmallestRoom(LocalDateTime startTime, LocalDateTime endTime, int numPeople){
+    public static Room getSmallestRoom(LocalTime startTime, LocalTime endTime, LocalDate date, int numPeople){
         Room room = null;
         Connection con = DBConnector.getCon();
-        Timestamp startTimestamp = TimeConverter.localDateTimeToTimestamp(startTime);
-        Timestamp endTimestamp = TimeConverter.localDateTimeToTimestamp(endTime);
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String start =startTime.toString();
+        String end = endTime.toString();
+        String dt = date.toString();
         if(con != null){
             try{
                 Statement stmt = con.createStatement();
@@ -203,17 +209,28 @@ public class GetData {
                         "WHERE capacity >="+numPeople+" " +
                         "AND roomID NOT IN( " +
                         "SELECT roomID FROM appointment " +
-                        "WHERE ( ("+startTimestamp+" > from_time " +
-                        "AND "+startTimestamp+" < to_time) " +
-                        "OR ("+endTimestamp+" > from_time " +
-                        "AND "+endTimestamp+" <to_time) " +
-                        "OR ("+startTimestamp+" < from_time " +
-                        "AND "+endTimestamp+" > to_time) ) ) " +
+                        "WHERE ( ('"+start+"' > startTime " +
+                        "AND '"+start+"' < endTime) " +
+                        "OR ('"+end+"' > startTime " +
+                        "AND '"+end+"' < endTime) " +
+                        "OR ('"+start+"' < startTime " +
+                        "AND '"+end+"' > endTime) )" +
+                        "AND '"+dt+"' = appointmentDate ) " +
                         "ORDER BY capacity ASC LIMIT 1;";
+                System.out.println("Performing SQL Query [" + sql + "]");
                 ResultSet rs = stmt.executeQuery(sql);
-                int roomID = rs.getInt("roomID");
-                String roomName = rs.getString("name");
-                int roomCapacity = rs.getInt("capacity");
+                int roomID = 0;
+                String roomName ="";
+                int roomCapacity=0;
+                while(rs.next()){
+                    roomID = rs.getInt("roomID");
+                    roomName = rs.getString("name");
+                    roomCapacity = rs.getInt("capacity");
+                }
+                if(roomID <1){
+                    System.err.println("No room is available");
+                    return null;
+                }
                 room = new Room(roomID, roomName, roomCapacity);
             }catch (SQLException e) {
                 e.printStackTrace();
