@@ -33,13 +33,14 @@ public class RoomTest {
     public void testNoName() {
         String name = "";
         Room room = new Room(1, name, 1);
-        assertEquals(name, room.getRoomID());
+        assertEquals(name, room.getName());
     }
 
+    @Test
     public void testValidName() {
         String name = "testRom";
         Room room = new Room(1, name, 1);
-        assertEquals(name, room.getRoomID());
+        assertEquals(name, room.getName());
     }
 
     @Test(expected = IllegalArgumentException.class)
