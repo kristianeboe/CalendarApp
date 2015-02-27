@@ -49,9 +49,9 @@ public class InsertData {
         if (con != null) {
             String query = "INSERT INTO appointment ("
                     + "title,"
-                    + "date,"
-                    + "from,"
-                    + "to,"
+                    + "appointmentDate,"
+                    + "startTime,"
+                    + "endTime,"
                     + "location,"
                     + "roomID,"
                     + "ownerID, "
