@@ -86,8 +86,9 @@ public class InsertData {
         if (con != null) {
             String query = "UPDATE appointment SET roomID = '" + roomID + "' WHERE appointmentID = '" + appointmentID + "';";
             try {
+                System.out.println("Performing SQL Query [" + query + "]");
                 Statement stmt = con.prepareStatement(query);
-                stmt.executeQuery(query);
+                stmt.executeUpdate(query);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -102,6 +103,7 @@ public class InsertData {
         if(con != null) try {
             Statement stmt = con.createStatement();
             String sql = "INSERT INTO notification(message) VALUES('" + message + "')";
+            System.out.println("Performing SQL Query [" + sql + "]");
             stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
             String getID = "SELECT LAST_INSERT_ID()";
             ResultSet rs = stmt.executeQuery(getID);
@@ -110,6 +112,7 @@ public class InsertData {
 
             for (User user : users) {
                 sql = "INSERT INTO hasNotification(userID, notificationID) VALUES(" + user.getUserID() + ", " + notificationID + ")";
+                System.out.println("Performing SQL Query [" + sql + "]");
                 stmt.executeUpdate(sql);
             }
 

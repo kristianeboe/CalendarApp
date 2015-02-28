@@ -70,7 +70,8 @@ public class EditData {
             try {
                 Statement stmt = con.createStatement();
                 String sql = "UPDATE appointment SET roomID = NULL WHERE appointmentID = "+appointmentID+";";
-                stmt.executeQuery(sql);
+                System.out.println("Performing SQL Query [" + sql + "]");
+                stmt.executeUpdate(sql);
             }catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -91,6 +92,7 @@ public class EditData {
                 String sql = "UPDATE appointment " +
                         "SET startTime = '"+startTime+"', endTime = '"+endTime+"', appointmentDate = '"+date+"' " +
                         "WHERE appointmentID = "+appointmentID+";";
+                System.out.println("Performing SQL Query [" + sql + "]");
                 stmt.executeUpdate(sql);
             }catch (SQLException e) {
                 e.printStackTrace();

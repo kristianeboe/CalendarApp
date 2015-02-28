@@ -51,6 +51,7 @@ public class Test {
         endTime = LocalTime.parse("16:00");
         date = LocalDate.parse("2015-05-01");
         room = gd.getSmallestRoom(startTime, endTime, date, 15);
+        System.out.println("Smallest room: ");
         System.out.println("Room name: "+room.getName()+", capacity: "+room.getCapacity()+", roomID: "+room.getRoomID());
 
         //Get appointment with id=1
@@ -91,9 +92,18 @@ public class Test {
         LocalTime newEndTime = LocalTime.parse("18:00");
         ed.changeReservationTime(1,newStartTime,newEndTime,newDate);
 
+        //Delete reservation appointment 13
+        ed.deleteReservation(13);
+        System.out.println("Room reservation for appointment 13 deleted");
+
+
         //Test EditData END//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //Test InsertData START
+
+        //Book Room 8 on appointment 13
+        insertData.bookRoom(8,13);
+        System.out.println("Room 8 booked!");
 
         //Set notification
 

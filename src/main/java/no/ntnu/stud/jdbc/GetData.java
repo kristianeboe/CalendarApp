@@ -273,6 +273,7 @@ public class GetData {
             try {
                 Statement stmt = con.createStatement();
                 String sql = "SELECT notificationID, message FROM notification NATURAL JOIN hasNotification WHERE userID="+userID+"";
+                System.out.println("Performing SQL Query [" + sql + "]");
                 ResultSet rs = stmt.executeQuery(sql);
                 while(rs.next()){
                     int notificationID = rs.getInt("notificationID");
