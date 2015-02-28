@@ -108,7 +108,7 @@ public class Test {
         //Set notification
 
         //insertData.setNotification(usersInGroup, "You have been invited to a new appointment");
-        insertData.createAppointment("apt1", newDate, newStartTime, newEndTime, 1,"Møte","Trondheim", 11, 9, LocalDateTime.parse("2015-02-28 19:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        //insertData.createAppointment("apt1", newDate, newStartTime, newEndTime, 1,"Møte","Trondheim", 11, 9, LocalDateTime.parse("2015-02-28 19:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
     }
 
 
