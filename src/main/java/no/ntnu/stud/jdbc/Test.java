@@ -68,6 +68,13 @@ public class Test {
         //Get user with id=1
         usr = gd.getUser(1);
         System.out.println(usr.getEmail()+" "+usr.getGivenName());
+
+        //Get users in group 2
+        ArrayList<User> usersInGroup = gd.getUsersInGroup(2);
+        System.out.println("Users in group 2:");
+        for(User user : usersInGroup){
+            System.out.println(user.getGivenName()+" "+user.getLastName());
+        }
     }
 
 

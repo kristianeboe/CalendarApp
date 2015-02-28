@@ -109,6 +109,35 @@ public class GetData {
         return users;
     }
 
+    public static ArrayList<User> getUsersInGroup(int groupID) {
+        Connection con = DBConnector.getCon();
+        ArrayList<User> users = new ArrayList<User>();
+
+        if (con != null) {
+            try {
+                Statement stmt = con.createStatement();
+                String strSelect = "SELECT * FROM user NATURAL JOIN userInGroup WHERE groupID = "+groupID+";";
+                System.out.println("Performing SQL Query [" + strSelect + "]");
+                ResultSet rset = stmt.executeQuery(strSelect);
+
+                while (rset.next()) {
+                    int userID = rset.getInt("userID");
+                    String lastName = rset.getString("lastName");
+                    String middleName = rset.getString("middleName");
+                    String givenName = rset.getString("givenName");
+                    String email = rset.getString("email");
+                    User user = new User(new SimpleIntegerProperty(userID), new SimpleStringProperty(lastName), new SimpleStringProperty(middleName), new SimpleStringProperty(givenName), new SimpleStringProperty(email));
+                    users.add(user);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.err.println("No connection");
+        }
+        return users;
+    }
+
     public static Appointment getAppointment(int appointmentID) {
         Connection con = DBConnector.getCon();
         Appointment appointment = null;
