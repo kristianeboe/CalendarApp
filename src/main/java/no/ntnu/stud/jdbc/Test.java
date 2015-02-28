@@ -16,11 +16,15 @@ import java.util.ArrayList;
  */
 public class Test {
     private static GetData gd = new GetData();
+    private static EditData ed = new EditData();
+    private static InsertData insertData = new InsertData();
 
 
     public static void main(String[] args) {
         LocalTime startTime, endTime;
         LocalDate date;
+
+        //Test GetData START////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //Get all notifications for user 1
         ArrayList<Notification> list;
@@ -75,6 +79,26 @@ public class Test {
         for(User user : usersInGroup){
             System.out.println(user.getGivenName()+" "+user.getLastName());
         }
+
+
+        //Test GetData END//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        //Test EditData START
+
+        //Change appointment time
+        LocalDate newDate = LocalDate.parse("2015-02-28");
+        LocalTime newStartTime = LocalTime.parse("10:00");
+        LocalTime newEndTime = LocalTime.parse("18:00");
+        ed.changeReservationTime(1,newStartTime,newEndTime,newDate);
+
+        //Test EditData END//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        //Test InsertData START
+
+        //Set notification
+
+        insertData.setNotification(usersInGroup, "You have been invited to a new appointment");
+
     }
 
 

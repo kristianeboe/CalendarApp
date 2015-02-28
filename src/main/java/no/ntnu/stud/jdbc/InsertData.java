@@ -1,6 +1,7 @@
 package no.ntnu.stud.jdbc;
 
 import no.ntnu.stud.model.Notification;
+import no.ntnu.stud.model.User;
 import no.ntnu.stud.security.SHAHashGenerator;
 import no.ntnu.stud.util.TimeConverter;
 
@@ -95,21 +96,21 @@ public class InsertData {
         }
     }
 
-    public void setNotification(ArrayList<Integer> userIDs, String message){
+    public void setNotification(ArrayList<User> users, String message){
         Connection con = DBConnector.getCon();
-        ArrayList<Notification> notifications = new ArrayList<Notification>();
         int notificationID;
         if(con != null) try {
             Statement stmt = con.createStatement();
-            String sql = "INSERT INTO notification(message) VALUES(" + message + ")";
-            stmt.executeQuery(sql);
+            String sql = "INSERT INTO notification(message) VALUES('" + message + "')";
+            stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
             String getID = "SELECT LAST_INSERT_ID()";
             ResultSet rs = stmt.executeQuery(getID);
-            notificationID = rs.getInt(0);
+            rs.next();
+            notificationID = rs.getInt(1);
 
-            for (int id : userIDs) {
-                sql = "INSERT INTO hasNotification(userID, notificationID) VALUES(" + id + ", " + notificationID + ")";
-                stmt.executeQuery(sql);
+            for (User user : users) {
+                sql = "INSERT INTO hasNotification(userID, notificationID) VALUES(" + user.getUserID() + ", " + notificationID + ")";
+                stmt.executeUpdate(sql);
             }
 
         } catch (SQLException e) {
