@@ -17,11 +17,11 @@ public class User {
     private String email;
 
     public User(int userID, String lastName, String middleName, String givenName, String email) {
-        this.userID = userID;
-        this.lastName = lastName;
-        this.middleName = middleName;
-        this.givenName = givenName;
-        this.email = email;
+        setUserID(userID);
+        setLastName(lastName);
+        setMiddleName(middleName);
+        setGivenName(givenName);
+        setEmail(email);
     }
 
 
