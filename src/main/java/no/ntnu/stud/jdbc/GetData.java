@@ -166,7 +166,7 @@ public class GetData {
                     }
                     //System.out.println("id: "+ID+", ownerID: "+ownerID+", date: "+date.toString()+", from: " +from.toString()+", to: "+to.toString()+", location: "+location+", roomID: "+roomID+", description: "+description+", attening: "+attending+", alarmTime: "+alarmTime.toString());
 
-                    appointment = new Appointment(ID, title, ownerID, date, from, to, location, roomID, description, attending, alarmTime);
+                    appointment = new Appointment(ID, title, date, from, to, ownerID, description, location, roomID, attending, alarmTime);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

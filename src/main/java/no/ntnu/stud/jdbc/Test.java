@@ -55,8 +55,8 @@ public class Test {
         System.out.println("Room name: "+room.getName()+", capacity: "+room.getCapacity()+", roomID: "+room.getRoomID());
 
         //Get appointment with id=1
-        //Appointment app = gd.getAppointment(1);
-        //System.out.println("appointment title: " + app.getTitle());
+        Appointment app = gd.getAppointment(1);
+        System.out.println("appointment title: " + app.getTitle());
 
         //Appointment appointment = new Appointment(1, "Stand-up møte",1, date, startTime, endTime, "R1", 2, "description", 5, LocalDateTime.parse("0001-01-01 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
 
@@ -108,7 +108,7 @@ public class Test {
         //Set notification
 
         //insertData.setNotification(usersInGroup, "You have been invited to a new appointment");
-        Appointment apt = new Appointment(15, "apt1", 2, newDate, newStartTime, newEndTime, "Trondheim", 11, "møte", 9, LocalDateTime.parse("2015-02-28 19:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        insertData.createAppointment("apt1", newDate, newStartTime, newEndTime, 1,"Møte","Trondheim", 11, 9, LocalDateTime.parse("2015-02-28 19:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
     }
 
 

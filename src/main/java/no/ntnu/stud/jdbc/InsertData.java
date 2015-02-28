@@ -6,7 +6,9 @@ import no.ntnu.stud.security.SHAHashGenerator;
 import no.ntnu.stud.util.TimeConverter;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 /**
@@ -44,7 +46,7 @@ public class InsertData {
         }
     }
 
-    public static void createAppointment(String title, LocalDateTime date, LocalDateTime from, LocalDateTime to, int ownerID, String description, String location, int roomID, int attending, LocalDateTime alarmTime) {
+    public static void createAppointment(String title, LocalDate date, LocalTime startTime, LocalTime endTime, int ownerID, String description, String location, int roomID, int attending, LocalDateTime alarmTime) {
         Connection con = DBConnector.getCon();
 
         if (con != null) {
@@ -63,9 +65,9 @@ public class InsertData {
             try {
                 PreparedStatement stmt = con.prepareStatement(query);
                 stmt.setString(1, title);
-                stmt.setTimestamp(2, TimeConverter.localDateTimeToTimestamp(date));
-                stmt.setTimestamp(3, TimeConverter.localDateTimeToTimestamp(from));
-                stmt.setTimestamp(4, TimeConverter.localDateTimeToTimestamp(to));
+                stmt.setString(2,date.toString());
+                stmt.setString(3, startTime.toString());
+                stmt.setString(4, endTime.toString());
                 stmt.setString(5, location);
                 stmt.setInt(6, roomID);
                 stmt.setInt(7, ownerID);
