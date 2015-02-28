@@ -3,7 +3,6 @@ package no.ntnu.stud.jdbc;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import no.ntnu.stud.model.*;
-import no.ntnu.stud.util.TimeConverter;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -82,7 +81,7 @@ public class GetData {
 
     public static ArrayList<User> getUsers() {
         Connection con = DBConnector.getCon();
-        ArrayList<User> users = new ArrayList<User>();
+        ArrayList<User> users = new ArrayList<>();
 
         if (con != null) {
             try {
@@ -111,7 +110,7 @@ public class GetData {
 
     public static ArrayList<User> getUsersInGroup(int groupID) {
         Connection con = DBConnector.getCon();
-        ArrayList<User> users = new ArrayList<User>();
+        ArrayList<User> users = new ArrayList<>();
 
         if (con != null) {
             try {
@@ -185,8 +184,6 @@ public class GetData {
      */
     public static boolean roomIsAvailable(int roomID, LocalTime startTime, LocalTime endTime, LocalDate date) {
         Connection con = DBConnector.getCon();
-        Room room = null;
-
         String from_time = startTime.toString();
         String to_time = endTime.toString();
         String dt = date.toString();
@@ -271,7 +268,7 @@ public class GetData {
 
     public static ArrayList<Notification> getNotifications(int userID){
         Connection con = DBConnector.getCon();
-        ArrayList<Notification> notifications = new ArrayList<Notification>();
+        ArrayList<Notification> notifications = new ArrayList<>();
         if(con != null){
             try {
                 Statement stmt = con.createStatement();

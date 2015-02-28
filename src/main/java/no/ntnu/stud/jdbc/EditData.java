@@ -11,7 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * Created by Adrian on 23.02.2015.
@@ -78,17 +80,18 @@ public class EditData {
         }
     }
 
-    public void changeReservationTime(int appointmentID, LocalDateTime newFrom, LocalDateTime newTo){
+    public void changeReservationTime(int appointmentID, LocalTime newStartTime, LocalTime newEndTime, LocalDate newDate){
         Connection con = DBConnector.getCon();
-        Timestamp from = TimeConverter.localDateTimeToTimestamp(newFrom);
-        Timestamp to = TimeConverter.localDateTimeToTimestamp(newTo);
+        String startTime = newStartTime.toString();
+        String endTime = newEndTime.toString();
+        String date = newDate.toString();
         if(con != null){
             try {
                 Statement stmt = con.createStatement();
                 String sql = "UPDATE appointment " +
-                        "SET from_time = "+from+", to_time = "+to+" " +
+                        "SET startTime = '"+startTime+"', endTime = '"+endTime+"', appointmentDate = '"+date+"' " +
                         "WHERE appointmentID = "+appointmentID+";";
-                stmt.executeQuery(sql);
+                stmt.executeUpdate(sql);
             }catch (SQLException e) {
                 e.printStackTrace();
             }
