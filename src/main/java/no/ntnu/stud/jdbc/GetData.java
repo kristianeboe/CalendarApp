@@ -1,7 +1,5 @@
 package no.ntnu.stud.jdbc;
 
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import no.ntnu.stud.model.*;
 
 import java.sql.*;
@@ -37,7 +35,7 @@ public class GetData {
                     String middleName = rset.getString("middleName");
                     String givenName = rset.getString("givenName");
                     String email = rset.getString("email");
-                    user = new User(new SimpleIntegerProperty(userID), new SimpleStringProperty(lastName), new SimpleStringProperty(middleName), new SimpleStringProperty(givenName), new SimpleStringProperty(email));
+                    user = new User(userID, lastName, middleName, givenName, email);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -96,7 +94,7 @@ public class GetData {
                     String middleName = rset.getString("middleName");
                     String givenName = rset.getString("givenName");
                     String email = rset.getString("email");
-                    User user = new User(new SimpleIntegerProperty(userID), new SimpleStringProperty(lastName), new SimpleStringProperty(middleName), new SimpleStringProperty(givenName), new SimpleStringProperty(email));
+                    User user = new User(userID, (lastName), (middleName), (givenName), (email));
                     users.add(user);
                 }
             } catch (SQLException e) {
@@ -125,7 +123,7 @@ public class GetData {
                     String middleName = rset.getString("middleName");
                     String givenName = rset.getString("givenName");
                     String email = rset.getString("email");
-                    User user = new User(new SimpleIntegerProperty(userID), new SimpleStringProperty(lastName), new SimpleStringProperty(middleName), new SimpleStringProperty(givenName), new SimpleStringProperty(email));
+                    User user = new User((userID), (lastName), (middleName), (givenName), (email));
                     users.add(user);
                 }
             } catch (SQLException e) {
