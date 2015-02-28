@@ -11,14 +11,10 @@ import java.time.LocalTime;
  * Created by sklirg on 20/02/15.
  */
 public class Appointment {
-    private IntegerProperty appointmentID;
-    private StringProperty title;
-    private IntegerProperty ownerID;
+    private int appointmentID, ownerID, roomID;
+    private String title, location, description;
     private LocalDate date;
     private LocalTime start, end;
-    private StringProperty location;
-    private IntegerProperty roomID;
-    private StringProperty description;
     private LocalDateTime alarmTime;
     private int attending;
 
@@ -32,23 +28,23 @@ public class Appointment {
         setAttending(attending);
 
         // appointmentID is something we get from database after appointment is created, and should be used to instantiate Appointments.
-        this.appointmentID.set(appointmentID);
+        this.appointmentID=appointmentID;
 
         // Do we need any validation for this?
         // We could implement a generic textInputValidator, which validates that the input is not empty, not longer than x chars +++
-        this.title.set(title);
+        this.title=title;
 
         // Get from DB. Map to User-object?
-        this.ownerID.set(ownerID);
+        this.ownerID=ownerID;
 
         // Do we need any validation for this?
-        this.location.set(location);
+        this.location =location;
 
         // Get from DB. Map to Room-object?
-        this.roomID.set(roomID);
+        this.roomID=roomID;
 
         // Do we need any validation for this?
-        this.description.set(description);
+        this.description = description;
 
         // Should alarmTime be at appointment start, 15 minutes before, 60 minutes before…
         this.alarmTime = alarmTime;
