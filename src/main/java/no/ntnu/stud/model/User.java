@@ -10,13 +10,13 @@ import javafx.beans.property.StringProperty;
  */
 public class User {
 
-    private IntegerProperty userID = new SimpleIntegerProperty();
-    private StringProperty lastName = new SimpleStringProperty();
-    private StringProperty middleName = new SimpleStringProperty();
-    private StringProperty givenName = new SimpleStringProperty();
-    private StringProperty email = new SimpleStringProperty();
+    private int userID;
+    private String lastName;
+    private String middleName;
+    private String givenName;
+    private String email;
 
-    public User(IntegerProperty userID, StringProperty lastName, StringProperty middleName, StringProperty givenName, StringProperty email) {
+    public User(int userID, String lastName, String middleName, String givenName, String email) {
         this.userID = userID;
         this.lastName = lastName;
         this.middleName = middleName;
@@ -24,71 +24,49 @@ public class User {
         this.email = email;
     }
 
-    public User(int userID, String lastName, String middleName, String givenName, String email) {
-        this.userID.set(userID);
-        this.lastName.set(lastName);
-        this.middleName.set(middleName);
-        this.givenName.set(givenName);
-        this.email.set(email);
-    }
 
     public int getUserID() {
-        return userID.get();
-    }
-
-    public IntegerProperty userIDProperty() {
         return userID;
     }
 
+
     public void setUserID(int userID) {
-        this.userID.set(userID);
+        this.userID=userID;
     }
 
     public String getLastName() {
-        return lastName.get();
-    }
-
-    public StringProperty lastNameProperty() {
         return lastName;
     }
 
+
     public void setLastName(String lastName) {
-        this.lastName.set(lastName);
+        this.lastName=lastName;
     }
 
     public String getMiddleName() {
-        return middleName.get();
-    }
-
-    public StringProperty middleNameProperty() {
         return middleName;
     }
 
+
     public void setMiddleName(String middleName) {
-        this.middleName.set(middleName);
+        this.middleName=middleName;
     }
 
     public String getGivenName() {
-        return givenName.get();
-    }
-
-    public StringProperty givenNameProperty() {
         return givenName;
     }
 
+
     public void setGivenName(String givenName) {
-        this.givenName.set(givenName);
+        this.givenName=givenName;
     }
 
     public String getEmail() {
-        return email.get();
-    }
-
-    public StringProperty emailProperty() {
         return email;
     }
 
+
     public void setEmail(String email) {
-        this.email.set(email);
+        this.email=email;
     }
 }
