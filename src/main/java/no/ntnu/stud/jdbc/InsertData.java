@@ -21,9 +21,9 @@ public class InsertData {
 
         if (con != null) {
             String query = "INSERT INTO user ("
-                    + "last_name,"
-                    + "middle_name,"
-                    + "given_name,"
+                    + "lastName,"
+                    + "middleName,"
+                    + "givenName,"
                     + "email,"
                     + "password,"
                     + "salt) VALUES ("
