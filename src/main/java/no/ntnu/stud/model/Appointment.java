@@ -21,7 +21,7 @@ public class Appointment {
     }
 
     public Appointment(int appointmentID, String title, LocalDate date, LocalTime startTime, LocalTime endTime, int ownerID, String description, String location, int roomID, int attending, LocalDateTime alarmTime) {
-        setDateTime(date, start, end);
+        setDateTime(date, startTime, endTime);
         setAttending(attending);
 
         // appointmentID is something we get from database after appointment is created, and should be used to instantiate Appointments.
