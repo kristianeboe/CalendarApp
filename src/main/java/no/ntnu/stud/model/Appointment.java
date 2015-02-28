@@ -1,8 +1,5 @@
 package no.ntnu.stud.model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.StringProperty;
-
 import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -23,7 +20,7 @@ public class Appointment {
         setAttending(attending);
     }
 
-    public Appointment(int appointmentID, String title, int ownerID, LocalDate date, LocalTime start, LocalTime end, String location, int roomID, String description, int attending, LocalDateTime alarmTime) {
+    public Appointment(int appointmentID, String title, LocalDate date, LocalTime startTime, LocalTime endTime, int ownerID, String description, String location, int roomID, int attending, LocalDateTime alarmTime) {
         setDateTime(date, start, end);
         setAttending(attending);
 
