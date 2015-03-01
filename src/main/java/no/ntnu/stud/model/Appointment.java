@@ -44,6 +44,7 @@ public class Appointment {
         this.description = description;
 
         // Should alarmTime be at appointment start, 15 minutes before, 60 minutes before…
+        //User defined?
         this.alarmTime = alarmTime;
     }
 
@@ -61,6 +62,24 @@ public class Appointment {
         this.date = date;
         this.start = start;
         this.end = end;
+    }
+
+    public void setTitle(String title) {
+        if (title.isEmpty()){
+            throw new IllegalArgumentException("Title must be defined");
+        } else if (title.length() > 40){
+            throw new IllegalArgumentException("Title can't be this long, try shortening it");
+        }
+        this.title = title;
+    }
+
+    public void setLocation(String location) {
+        //if () Enten hente liste over romnavn fra databasen, men det blir kanskje dyrt? Evt Lage en arraylist eller et set et sted hvor man henter ned romlisten når appen initialiseres
+        this.location = location;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public LocalTime getStart() {
