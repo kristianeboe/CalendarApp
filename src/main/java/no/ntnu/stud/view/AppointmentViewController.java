@@ -13,10 +13,6 @@ public class AppointmentViewController {
 
     }
 
-    public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
-    }
-
 
 
 
