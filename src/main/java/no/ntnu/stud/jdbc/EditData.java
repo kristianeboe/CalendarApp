@@ -59,7 +59,12 @@ public class EditData {
         Connection con = DBConnector.getCon();
 
         if (con != null) {
-
+            String query = "DELETE FROM user WHERE userID = '" + userID + "';";
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(query);
+            System.out.println("Performing SQL Query [" + query + "]");
+        } else {
+            System.err.print("No Connection");
         }
     }
 
