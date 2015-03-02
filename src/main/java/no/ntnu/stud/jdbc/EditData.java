@@ -3,16 +3,13 @@ package no.ntnu.stud.jdbc;
 import no.ntnu.stud.model.User;
 import no.ntnu.stud.security.Authentication;
 import no.ntnu.stud.security.SHAHashGenerator;
-import no.ntnu.stud.util.TimeConverter;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
@@ -20,7 +17,7 @@ import java.time.LocalTime;
  */
 public class EditData {
 
-    public static void changePassword(User user, String oldPassword, char[] newPassword, byte[] newSalt) throws UnsupportedEncodingException {
+    public static void changePassword(User user, String oldPassword, char[] newPassword, byte[] newSalt) throws UnsupportedEncodingException, SQLException {
         Connection con = DBConnector.getCon();
 
         byte[] hash = SHAHashGenerator.hash(newPassword, newSalt);
@@ -29,20 +26,17 @@ public class EditData {
             String query = "UPDATE user " +
                     "SET password = ?, salt = ? " +
                     "WHERE userID = ?;";
-            try {
-                PreparedStatement stmt = con.prepareStatement(query);
-                stmt.setBytes(1, hash);
-                stmt.setBytes(2, newSalt);
-                stmt.setInt(3, user.getUserID());
-                stmt.execute();
-                System.out.println("Performing SQL Query [" + query + "]");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+
+            PreparedStatement stmt = con.prepareStatement(query);
+            stmt.setBytes(1, hash);
+            stmt.setBytes(2, newSalt);
+            stmt.setInt(3, user.getUserID());
+            stmt.execute();
+            System.out.println("Performing SQL Query [" + query + "]");
         }
     }
 
-    public static String forgotPassword(String email) {
+    public static String forgotPassword(String email) throws SQLException {
         Connection con = DBConnector.getCon();
         String newPassword = SHAHashGenerator.generateRandomPassword(8);
         byte[] newSalt = SHAHashGenerator.getSalt();
@@ -50,17 +44,23 @@ public class EditData {
         byte[] hash = SHAHashGenerator.hash(newPassword.toCharArray(), newSalt);
 
         String query = "UPDATE user SET password = ?, salt = ? WHERE email = ?";
-        try {
-            PreparedStatement stmt = con.prepareStatement(query);
-            stmt.setBytes(1, hash);
-            stmt.setBytes(2, newSalt);
-            stmt.setString(3, email);
-            stmt.execute();
-            System.out.println("Performing SQL Query [" + query + "]");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+        PreparedStatement stmt = con.prepareStatement(query);
+        stmt.setBytes(1, hash);
+        stmt.setBytes(2, newSalt);
+        stmt.setString(3, email);
+        stmt.execute();
+        System.out.println("Performing SQL Query [" + query + "]");
+
         return newPassword;
+    }
+
+    public static void deleteUser(int userID) throws SQLException {
+        Connection con = DBConnector.getCon();
+
+        if (con != null) {
+
+        }
     }
 
     public void deleteReservation(int appointmentID){

@@ -1,6 +1,5 @@
 package no.ntnu.stud.jdbc;
 
-import no.ntnu.stud.model.Notification;
 import no.ntnu.stud.model.User;
 import no.ntnu.stud.security.SHAHashGenerator;
 import no.ntnu.stud.util.TimeConverter;
@@ -16,8 +15,9 @@ import java.util.ArrayList;
  */
 public class InsertData {
 
-    public static void createUser(String lastName, String middleName, String givenName, String email, String password) {
+    public static User createUser(String lastName, String middleName, String givenName, String email, String password) {
         Connection con = DBConnector.getCon();
+        int userID = 0;
         byte[] salt = SHAHashGenerator.getSalt();
         byte[] hash = SHAHashGenerator.hash(password.toCharArray(), salt);
 
@@ -43,7 +43,17 @@ public class InsertData {
             } catch (SQLException e) {
                 System.err.println("SQLException: " + e.getMessage());
             }
+
+            String getID = "SELECT userID FROM user WHERE email='" + email + "';";
+            try {
+                Statement stmt = con.createStatement();
+                ResultSet rset = stmt.executeQuery(getID);
+                userID = rset.getInt("userID");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+        return GetData.getUser(userID);
     }
 
     public static void createAppointment(String title, LocalDate date, LocalTime startTime, LocalTime endTime, int ownerID, String description, String location, int roomID, int attending, LocalDateTime alarmTime) {
@@ -65,7 +75,7 @@ public class InsertData {
             try {
                 PreparedStatement stmt = con.prepareStatement(query);
                 stmt.setString(1, title);
-                stmt.setString(2,date.toString());
+                stmt.setString(2, date.toString());
                 stmt.setString(3, startTime.toString());
                 stmt.setString(4, endTime.toString());
                 stmt.setString(5, location);
@@ -132,6 +142,5 @@ public class InsertData {
 
     public static void main(String[] args) {
         //createUser("Normann", "", "Ola", "ola.normann@mail.no", "passord");
-        createAppointment("Kill all humans", LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now().plusSeconds(50), 1, "Time to kill all humans", "Earth", 1, 8000000, null);
     }
 }
