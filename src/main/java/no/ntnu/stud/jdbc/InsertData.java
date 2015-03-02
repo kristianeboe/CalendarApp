@@ -69,7 +69,11 @@ public class InsertData {
                 stmt.setInt(6, roomID);
                 stmt.setInt(7, ownerID);
                 stmt.setInt(8, attending);
-                stmt.setTimestamp(9, TimeConverter.localDateTimeToTimestamp(alarmTime));
+                if (alarmTime != null) {
+                    stmt.setTimestamp(9, TimeConverter.localDateTimeToTimestamp(alarmTime));
+                } else {
+                    stmt.setTimestamp(9, null);
+                }
                 stmt.setString(10, description);
                 stmt.execute();
                 System.out.println("Performing SQL Query [" + query + "]");
@@ -121,6 +125,7 @@ public class InsertData {
     }
 
     public static void main(String[] args) {
-        createUser("Normann", "", "Ola", "ola.normann@mail.no", "passord");
+        //createUser("Normann", "", "Ola", "ola.normann@mail.no", "passord");
+        createAppointment("Kill all humans", LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now().plusSeconds(50), 1, "Time to kill all humans", "Earth", 1, 8000000, null);
     }
 }
