@@ -12,15 +12,14 @@ public class Group extends ArrayList<User> {
 
     private int groupID;
     private String name;
-    private ArrayList<User> group;
 
     public Group() {
         super();
     }
 
     public Group(int groupID, String name) {
-        this.groupID = groupID;
-        this.name = name;
+        setGroupID(groupID);
+        setName(name);
     }
 
     public int getGroupID() {
@@ -28,6 +27,11 @@ public class Group extends ArrayList<User> {
     }
 
     public void setGroupID(int groupID) {
+        if(groupID < 0){
+            throw new IllegalArgumentException("groupID cannot be a negative number");
+        }else if(groupID == 0){
+            throw new IllegalArgumentException("groupID cannot be 0");
+        }
         this.groupID=groupID;
     }
 
@@ -36,6 +40,11 @@ public class Group extends ArrayList<User> {
     }
 
     public void setName(String name) {
+        if(name.isEmpty()){
+            throw new IllegalArgumentException("Name cannot be empty");
+        }else if(name.length()>45){
+            throw new IllegalArgumentException("Name cannot be longer than 45 characters");
+        }
         this.name=name;
     }
 }
