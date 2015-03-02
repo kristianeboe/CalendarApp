@@ -6,7 +6,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import no.ntnu.stud.view.CalendarViewController;
 import no.ntnu.stud.view.RootLayoutController;
+import no.ntnu.stud.view.UpcomingEventsController;
 
 import java.io.IOException;
 
@@ -30,8 +32,9 @@ public class MainApp extends Application {
 
         initRootLayout();
 
-        //showCalendarOverview();
+        showCalendarView();
 
+        showUpcomingEvents();
     }
 
     public void initRootLayout() {
@@ -40,7 +43,6 @@ public class MainApp extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
 
-            System.out.println("Location: " + loader.getLocation());
             rootLayout = (BorderPane) loader.load();
 
             // Show the scene containing the root layout.
@@ -50,8 +52,8 @@ public class MainApp extends Application {
 
             //Ole does shit he shouldt do
             //This loads the mid and right grid in a terrible way
-            rootLayout.setCenter(getGrid());
-            rootLayout.setRight(getSideGrid());
+            //rootLayout.setCenter(getGrid());
+            //rootLayout.setRight(getSideGrid());
             //End of shit ole shouldt do
 
             RootLayoutController controller = loader.getController();
@@ -63,6 +65,39 @@ public class MainApp extends Application {
         }
     }
 
+    public void showCalendarView(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/Calendar.fxml"));
+            GridPane calendarView = (GridPane) loader.load();
+
+            rootLayout.setCenter(calendarView);
+
+            CalendarViewController controller = loader.getController();
+            controller.setMainApp(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showUpcomingEvents(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/UpcomingEvents.fxml"));
+            GridPane upcomingEvetns = (GridPane) loader.load();
+
+            rootLayout.setRight(upcomingEvetns);
+
+            UpcomingEventsController controller = loader.getController();
+            controller.setMainApp(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /*
     //Ole does shit he shouldt do
     //these functions should be deleted. Oh lord.
     private GridPane getGrid() {
@@ -91,4 +126,5 @@ public class MainApp extends Application {
         return null;
     }
     //End of shit ole shouldt do
+    */
 }
