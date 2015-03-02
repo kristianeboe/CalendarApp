@@ -11,4 +11,8 @@ public class CalendarViewController {
     public CalendarViewController(){
 
     }
+
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
+    }
 }

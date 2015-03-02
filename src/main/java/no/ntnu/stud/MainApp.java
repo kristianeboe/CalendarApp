@@ -6,7 +6,10 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import no.ntnu.stud.view.AppointmentViewController;
+import no.ntnu.stud.view.CalendarViewController;
 import no.ntnu.stud.view.RootLayoutController;
+import org.controlsfx.control.spreadsheet.Grid;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -37,6 +41,9 @@ public class MainApp extends Application {
 
         initRootLayout();
 
+        showCalendarOverview();
+
+        showAppointmentOverview();
         //showCalendarOverview();
 
     }
@@ -47,7 +54,6 @@ public class MainApp extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
 
-            System.out.println("Location: " + loader.getLocation());
             rootLayout = (BorderPane) loader.load();
 
             // Show the scene containing the root layout.
@@ -57,8 +63,8 @@ public class MainApp extends Application {
 
             //Ole does shit he shouldt do
             //This loads the mid and right grid in a terrible way
-            rootLayout.setCenter(getGrid());
-            rootLayout.setRight(getSideGrid());
+            //rootLayout.setCenter(getGrid());
+            //rootLayout.setRight(getSideGrid());
             //End of shit ole shouldt do
 
             RootLayoutController controller = loader.getController();
@@ -70,8 +76,46 @@ public class MainApp extends Application {
         }
     }
 
+    public void showCalendarOverview(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/Calendar.fxml"));
+            GridPane calendarOverview = (GridPane) loader.load();
+
+            rootLayout.setCenter(calendarOverview);
+
+            // Give the controller access to the main app.
+            CalendarViewController controller = loader.getController();
+            controller.setMainApp(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void showAppointmentOverview(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/UpcomingEvents.fxml"));
+            GridPane appointmentOverview = (GridPane) loader.load();
+
+            rootLayout.setRight(appointmentOverview);
+
+            // Give the controller access to the main app.
+            AppointmentViewController controller = loader.getController();
+            controller.setMainApp(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /*
     //Ole does shit he shouldt do
     //these functions should be deleted. Oh lord.
+
     private GridPane getGrid(){
         try {
             // Load root layout from fxml file.
@@ -100,4 +144,5 @@ public class MainApp extends Application {
         return null;
     }
     //End of shit ole shouldt do
+    */
 }
