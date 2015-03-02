@@ -8,6 +8,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import no.ntnu.stud.view.RootLayoutController;
 
+import java.io.File;
 import java.io.IOException;
 
 /**

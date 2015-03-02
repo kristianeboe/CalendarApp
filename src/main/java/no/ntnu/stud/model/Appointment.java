@@ -1,8 +1,5 @@
 package no.ntnu.stud.model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.StringProperty;
-
 import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -11,14 +8,10 @@ import java.time.LocalTime;
  * Created by sklirg on 20/02/15.
  */
 public class Appointment {
-    private IntegerProperty appointmentID;
-    private StringProperty title;
-    private IntegerProperty ownerID;
+    private int appointmentID, ownerID, roomID;
+    private String title, location, description;
     private LocalDate date;
     private LocalTime start, end;
-    private StringProperty location;
-    private IntegerProperty roomID;
-    private StringProperty description;
     private LocalDateTime alarmTime;
     private int attending;
 
@@ -27,30 +20,31 @@ public class Appointment {
         setAttending(attending);
     }
 
-    public Appointment(int appointmentID, String title, int ownerID, LocalDate date, LocalTime start, LocalTime end, String location, int roomID, String description, int attending, LocalDateTime alarmTime) {
-        setDateTime(date, start, end);
+    public Appointment(int appointmentID, String title, LocalDate date, LocalTime startTime, LocalTime endTime, int ownerID, String description, String location, int roomID, int attending, LocalDateTime alarmTime) {
+        setDateTime(date, startTime, endTime);
         setAttending(attending);
 
         // appointmentID is something we get from database after appointment is created, and should be used to instantiate Appointments.
-        this.appointmentID.set(appointmentID);
+        this.appointmentID=appointmentID;
 
         // Do we need any validation for this?
         // We could implement a generic textInputValidator, which validates that the input is not empty, not longer than x chars +++
-        this.title.set(title);
+        this.title=title;
 
         // Get from DB. Map to User-object?
-        this.ownerID.set(ownerID);
+        this.ownerID=ownerID;
 
         // Do we need any validation for this?
-        this.location.set(location);
+        this.location =location;
 
         // Get from DB. Map to Room-object?
-        this.roomID.set(roomID);
+        this.roomID=roomID;
 
         // Do we need any validation for this?
-        this.description.set(description);
+        this.description = description;
 
         // Should alarmTime be at appointment start, 15 minutes before, 60 minutes before…
+        //User defined?
         this.alarmTime = alarmTime;
     }
 
@@ -70,6 +64,24 @@ public class Appointment {
         this.end = end;
     }
 
+    public void setTitle(String title) {
+        if (title.isEmpty()){
+            throw new IllegalArgumentException("Title must be defined");
+        } else if (title.length() > 40){
+            throw new IllegalArgumentException("Title can't be this long, try shortening it");
+        }
+        this.title = title;
+    }
+
+    public void setLocation(String location) {
+        //if () Enten hente liste over romnavn fra databasen, men det blir kanskje dyrt? Evt Lage en arraylist eller et set et sted hvor man henter ned romlisten når appen initialiseres
+        this.location = location;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public LocalTime getStart() {
         return start;
     }
@@ -79,6 +91,8 @@ public class Appointment {
     }
 
     public LocalDate getDate() { return date; }
+
+    public String getTitle(){ return title.toString(); }
 
     public LocalDateTime getDateTimeStart() {
         return LocalDateTime.of(date, start);
