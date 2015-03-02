@@ -8,14 +8,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import no.ntnu.stud.view.RootLayoutController;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Hello world!
@@ -72,29 +65,27 @@ public class MainApp extends Application {
 
     //Ole does shit he shouldt do
     //these functions should be deleted. Oh lord.
-    private GridPane getGrid(){
+    private GridPane getGrid() {
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/Calendar.fxml"));
             return loader.load();
 
-        }
-        catch (IOException e){
+        } catch (IOException e) {
 
         }
         return null;
     }
 
-    private GridPane getSideGrid(){
+    private GridPane getSideGrid() {
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/UpcomingEvents.fxml"));
             return loader.load();
 
-        }
-        catch (IOException e){
+        } catch (IOException e) {
 
         }
         return null;

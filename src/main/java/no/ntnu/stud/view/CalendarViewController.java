@@ -9,7 +9,7 @@ public class CalendarViewController {
     private MainApp mainApp;
 
     //dele opp i dayViewController og Week-og/eller monthViewController?
-    public CalendarViewController(){
+    public CalendarViewController() {
 
     }
 
