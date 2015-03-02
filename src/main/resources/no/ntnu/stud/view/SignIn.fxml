@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="860.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+       <Button mnemonicParsing="false" style="-fx-background-color: #2c3136;" text="Sign in" textFill="#3e94ec" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+           <font>
+               <Font size="15.0" />
+           </font>
+           <GridPane.margin>
+               <Insets left="220.0" />
+           </GridPane.margin>
+       </Button>
+      <Text fill="#6a7783" strokeType="OUTSIDE" strokeWidth="0.0" text="Sign in" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <PasswordField maxWidth="300.0" promptText="Password" style="-fx-background-radius: 0pt;" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </PasswordField>
+      <TextField maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefWidth="10.0" promptText="Email" style="-fx-background-radius: 0px;" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </TextField>
+   </children>
+</GridPane>
