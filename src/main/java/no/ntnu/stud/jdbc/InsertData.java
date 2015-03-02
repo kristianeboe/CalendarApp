@@ -48,7 +48,9 @@ public class InsertData {
             try {
                 Statement stmt = con.createStatement();
                 ResultSet rset = stmt.executeQuery(getID);
-                userID = rset.getInt("userID");
+                while (rset.next()) {
+                    userID = rset.getInt("userID");
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
