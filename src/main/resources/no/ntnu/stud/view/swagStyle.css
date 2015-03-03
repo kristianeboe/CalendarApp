@@ -1,0 +1,14 @@
+.year_lbl {
+    -fx-text-fill: #3e94ec;
+    -fx-font-size: 15px;
+}
+
+.arrow_ {
+    -fx-text-fill: #3e94ec;
+    -fx-font-size: 30px;
+}
+
+.current {
+    -fx-text-fill: #6a7783;
+    -fx-font-size: 24px;
+}
