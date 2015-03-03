@@ -27,16 +27,6 @@
       <RowConstraints maxHeight="50.0" minHeight="0.0" prefHeight="50.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Text fx:id="lblPrevYear" fill="#3e94ec" strokeType="OUTSIDE" strokeWidth="0.0" text="2014" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
-         <GridPane.margin>
-            <Insets />
-         </GridPane.margin>
-      </Text>
-      <Text fx:id="lblNextYear" fill="#3e94ec" strokeType="OUTSIDE" strokeWidth="0.0" text="2016" GridPane.columnIndex="7" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
-         <GridPane.margin>
-            <Insets />
-         </GridPane.margin>
-      </Text>
       <Text fx:id="lblCurrentMonth" fill="#6a7783" strokeType="OUTSIDE" strokeWidth="0.0" text="March 2015" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
          <font>
             <Font size="15.0" />

@@ -19,6 +19,7 @@ public class MainApp extends Application {
 
     private Stage primaryStage;
     private BorderPane rootLayout;
+    private FXMLLoader loader;
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
@@ -29,6 +30,7 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("CalendarApp");
+        loader = new FXMLLoader();
 
         initRootLayout();
 
@@ -40,7 +42,6 @@ public class MainApp extends Application {
     public void initRootLayout() {
         try {
             // Load root layout from fxml file.
-            FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
 
             rootLayout = (BorderPane) loader.load();
@@ -48,13 +49,6 @@ public class MainApp extends Application {
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
-
-
-            //Ole does shit he shouldt do
-            //This loads the mid and right grid in a terrible way
-            //rootLayout.setCenter(getGrid());
-            //rootLayout.setRight(getSideGrid());
-            //End of shit ole shouldt do
 
             RootLayoutController controller = loader.getController();
             controller.setMainApp(this);
@@ -67,7 +61,6 @@ public class MainApp extends Application {
 
     public void showCalendarView(){
         try {
-            FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/Calendar.fxml"));
             GridPane calendarView = (GridPane) loader.load();
 
@@ -83,7 +76,6 @@ public class MainApp extends Application {
 
     public void showUpcomingEvents(){
         try {
-            FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/UpcomingEvents.fxml"));
             GridPane upcomingEvetns = (GridPane) loader.load();
 
@@ -97,34 +89,6 @@ public class MainApp extends Application {
         }
     }
 
-    /*
-    //Ole does shit he shouldt do
-    //these functions should be deleted. Oh lord.
-    private GridPane getGrid() {
-        try {
-            // Load root layout from fxml file.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/Calendar.fxml"));
-            return loader.load();
 
-        } catch (IOException e) {
 
-        }
-        return null;
-    }
-
-    private GridPane getSideGrid() {
-        try {
-            // Load root layout from fxml file.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/UpcomingEvents.fxml"));
-            return loader.load();
-
-        } catch (IOException e) {
-
-        }
-        return null;
-    }
-    //End of shit ole shouldt do
-    */
 }
