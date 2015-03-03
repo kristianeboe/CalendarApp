@@ -44,4 +44,48 @@ public class PasswordTest {
         }
         assertTrue(Authentication.authenticate(user.getEmail(), "password"));
     }
+
+    @Test
+    public void testForgotPassword() {
+        String newPassword = "";
+        newPassword = EditData.forgotPassword(user.getEmail());
+        System.out.println(newPassword);
+        assertTrue(Authentication.authenticate(user.getEmail(), newPassword));
+    }
+
+    @Test
+    public void testChangeWrongPassword() {
+        byte[] newSalt = SHAHashGenerator.getSalt();
+        try {
+            EditData.changePassword(user, "wrongPassword", "password".toCharArray(), newSalt);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        assertFalse(Authentication.authenticate(user.getEmail(), "password"));
+    }
+
+    @Test
+    public void testChangeBlankPassword() {
+        byte[] newSalt = SHAHashGenerator.getSalt();
+        try {
+            EditData.changePassword(user, "", "password".toCharArray(), newSalt);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        assertFalse(Authentication.authenticate(user.getEmail(), "password"));
+    }
+
+    @Test
+    public void testWrongEmailForgotPassword() {
+        assertNull(EditData.forgotPassword("no.no@no.yes"));
+    }
+
+    @Test
+    public void testBlankEmailForgotPassword() {
+        assertNull(EditData.forgotPassword(""));
+    }
 }
