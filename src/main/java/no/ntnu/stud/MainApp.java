@@ -8,7 +8,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import no.ntnu.stud.reservation.Appointment;
+import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.view.*;
 
 import java.io.File;
