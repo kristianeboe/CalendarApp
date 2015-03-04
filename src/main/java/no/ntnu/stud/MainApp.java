@@ -12,9 +12,6 @@ import no.ntnu.stud.view.UpcomingEventsController;
 
 import java.io.IOException;
 
-/**
- * Hello world!
- */
 public class MainApp extends Application {
 
     private Stage primaryStage;
