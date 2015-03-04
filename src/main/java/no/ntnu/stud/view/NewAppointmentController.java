@@ -1,10 +1,9 @@
 package no.ntnu.stud.view;
 
-
 import no.ntnu.stud.MainApp;
 
 /**
- * Created by Kristian on 25/02/15.
+ * Created by Kristian on 03/03/15.
  */
 public class NewAppointmentController {
     private MainApp mainApp;

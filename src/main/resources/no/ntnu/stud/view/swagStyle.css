@@ -1,0 +1,31 @@
+.year_lbl {
+    -fx-text-fill: #3e94ec;
+    -fx-font-size: 15px;
+}
+
+.arrow_ {
+    -fx-text-fill: #3e94ec;
+    -fx-font-size: 30px;
+}
+.dates:hover, .year_lbl:hover{
+    -fx-cursor:hand;
+    -fx-font-size: 25px;
+}
+.dates:pressed, .year_lbl:pressed{
+    -fx-font-size: 18px;
+}
+.arrow_:hover{
+    -fx-cursor:hand;
+    -fx-text-fill: #3e94ec;
+    -fx-font-size: 35px;
+}
+
+.arrow_:pressed {
+    -fx-text-fill: #3e94ec;
+    -fx-font-size: 25px;
+}
+
+.current {
+    -fx-text-fill: #6a7783;
+    -fx-font-size: 24px;
+}
