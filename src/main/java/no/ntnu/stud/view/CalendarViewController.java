@@ -63,9 +63,17 @@ public class CalendarViewController {
         for(int i = startOfMonth; i < dates.size(); i++){
             if(j>totalDays){
                 dates.get(i).setText("");
-                dates.get(i).getStyleClass().remove("dates");
+                dates.get(i).getStyleClass().remove("singleDate");
+                dates.get(i).getStyleClass().remove("Date");
             }else{
-                dates.get(i).setText((""+(j++)));
+                if(j<10){
+                    dates.get(i).setText((" "+(j++)+" "));
+                    dates.get(i).getStyleClass().add("singleDate");
+                }else{
+                    dates.get(i).setText((""+(j++)));
+                    dates.get(i).getStyleClass().add("dates");
+                }
+
                 dates.get(i).getStyleClass().add("dates");
             }
         }

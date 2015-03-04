@@ -74,7 +74,7 @@
             <Insets />
          </GridPane.margin>
       </Label>
-      <Button fx:id="btnEditAppointment" mnemonicParsing="false" style="-fx-background-color: #2c3136;" text="Edit" textFill="#3e94ec" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="BOTTOM">
+      <Button fx:id="btnEditAppointment" styleClass="darkButton" mnemonicParsing="false" text="Edit" textFill="#3e94ec" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="BOTTOM">
          <font>
             <Font size="15.0" />
          </font>
@@ -82,7 +82,7 @@
             <Insets right="20.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="btnNewAppointment" mnemonicParsing="false" onAction="#handleNewAppointment" style="-fx-background-color: #2c3136;" text="+" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="BOTTOM">
+      <Button fx:id="btnNewAppointment" styleClass="darkButton" mnemonicParsing="false" onAction="#handleNewAppointment" text="+" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="BOTTOM">
          <font>
             <Font size="15.0" />
          </font>
