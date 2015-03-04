@@ -80,6 +80,19 @@ public class PasswordTest {
     }
 
     @Test
+    public void testChangeNullPassword() {
+        byte[] newSalt = SHAHashGenerator.getSalt();
+        try{
+            EditData.changePassword(user, null, "password".toCharArray(), newSalt);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        assertFalse(Authentication.authenticate(user.getEmail(), "password"));
+    }
+
+    @Test
     public void testWrongEmailForgotPassword() {
         assertNull(EditData.forgotPassword("no.no@no.yes"));
     }
