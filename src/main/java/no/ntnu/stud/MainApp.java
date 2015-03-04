@@ -7,6 +7,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import no.ntnu.stud.view.CalendarViewController;
+import no.ntnu.stud.view.LeftMenuController;
 import no.ntnu.stud.view.RootLayoutController;
 import no.ntnu.stud.view.UpcomingEventsController;
 
@@ -32,6 +33,8 @@ public class MainApp extends Application {
         showCalendarView();
 
         showUpcomingEvents();
+
+        showLeftMenu();
     }
 
     public void initRootLayout() {
@@ -85,5 +88,22 @@ public class MainApp extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void showLeftMenu(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/LeftMenu.fxml"));
+            GridPane leftMenu = (GridPane) loader.load();
+
+            rootLayout.setLeft(leftMenu);
+
+            LeftMenuController controller = loader.getController();
+            controller.setMainApp(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
