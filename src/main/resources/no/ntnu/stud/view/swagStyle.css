@@ -94,3 +94,21 @@
 #inpDate:hover{
     -fx-cursor: hand;
 }
+#btnRoom{
+    webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #bab1ba));
+    linear-gradient(top, #ededed 5%, #bab1ba 100%);
+    linear-gradient(top, #ededed 5%, #bab1ba 100%);
+    linear-gradient(top, #ededed 5%, #bab1ba 100%);
+    linear-gradient(top, #ededed 5%, #bab1ba 100%);
+    linear-gradient(to bottom, #ededed 5%, #bab1ba 100%);
+    -fx-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#bab1ba',GradientType=0);
+    -fx-background-color:#ededed;
+    -fx-border:1px solid #d6bcd6;
+    -fx-display:inline-block;
+    -fx-cursor:pointer;
+    -fx-color:#3a8a9e;
+    -fx-font-size:17px;
+    -fx-padding:5px 10px;
+    -fx-text-decoration:none;
+    -fx-text-shadow:0px 1px 0px #e1e2ed;
+}
