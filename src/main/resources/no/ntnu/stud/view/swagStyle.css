@@ -11,7 +11,7 @@
     -fx-cursor:hand;
     -fx-font-size: 25px;
 }
-.dates:pressed, .year_lbl:hover{
+.dates:pressed, .year_lbl:pressed{
     -fx-font-size: 18px;
 }
 .arrow_:hover{
