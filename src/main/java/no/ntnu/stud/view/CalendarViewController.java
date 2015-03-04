@@ -52,7 +52,7 @@ public class CalendarViewController {
         int startOfMonth = getFirstDayOfMonth(calendar);
         int totalDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
-        //Fill with "-" before first day of month
+        //Fill with "" before first day of month
         for(int i = 0; i < startOfMonth;i++){
             dates.get(i).setText("");
             dates.get(i).getStyleClass().remove("dates");

@@ -108,8 +108,8 @@ public class MainApp extends Application {
 
     }
 
-    public boolean showAppointmentDialog(Appointment appointment) {
-        try {
+    public void showAppointmentDialog(Appointment appointment) {
+        /*try {//Pop Up
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/newAppointment.fxml"));
@@ -133,6 +133,19 @@ public class MainApp extends Application {
         } catch (IOException e) {
             e.printStackTrace();
             return false;
+        }*/
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/newAppointment.fxml"));
+            GridPane page = (GridPane) loader.load();
+
+            rootLayout.setCenter(page);
+
+            NewAppointmentController controller = loader.getController();
+            controller.setMainApp(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

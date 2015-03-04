@@ -46,6 +46,7 @@ public class NewAppointmentController {
     public void setNewAppointmentStage(Stage newAppointmentStage) {
         this.newAppointmentStage = newAppointmentStage;
     }
+    public void setMainApp(MainApp mainApp) { this.mainApp = mainApp;}
 
     public boolean isOkClicked() {
         return okClicked;
@@ -58,6 +59,6 @@ public class NewAppointmentController {
 
     @FXML
     private void handleClose() {
-        newAppointmentStage.close();
+        mainApp.showCalendarView();
     }
 }
