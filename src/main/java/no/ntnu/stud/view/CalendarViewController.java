@@ -34,11 +34,11 @@ public class CalendarViewController {
     public void initialize(){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         calendar = Calendar.getInstance();
-
-        //calendar.set(2016,4,1);
+        calendar.set(2015,0,1);
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         System.out.println(dateFormat.format(calendar.getTime()));
         System.out.println(calendar.get(Calendar.MONTH));
-        lblNextYear.setText(""+(calendar.get(Calendar.YEAR)+1));
+        lblNextYear.setText("" + (calendar.get(Calendar.YEAR) + 1));
         lblPrevYear.setText(""+(calendar.get(Calendar.YEAR)-1));
         lblCurrentMonth.setText(TimeConverter.monthToString(calendar.get(Calendar.MONTH)) + " " + calendar.get(Calendar.YEAR));
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
