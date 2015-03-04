@@ -1,8 +1,5 @@
 package no.ntnu.stud.model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.StringProperty;
-
 import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -11,14 +8,10 @@ import java.time.LocalTime;
  * Created by sklirg on 20/02/15.
  */
 public class Appointment {
-    private IntegerProperty appointmentID;
-    private StringProperty title;
-    private IntegerProperty ownerID;
+    private int appointmentID, ownerID, roomID;
+    private String title, location, description;
     private LocalDate date;
     private LocalTime start, end;
-    private StringProperty location;
-    private IntegerProperty roomID;
-    private StringProperty description;
     private LocalDateTime alarmTime;
     private int attending;
 
@@ -27,31 +20,50 @@ public class Appointment {
         setAttending(attending);
     }
 
-    public Appointment(int appointmentID, String title, int ownerID, LocalDate date, LocalTime start, LocalTime end, String location, int roomID, String description, int attending, LocalDateTime alarmTime) {
-        setDateTime(date, start, end);
+    public Appointment(int appointmentID, String title, LocalDate date, LocalTime startTime, LocalTime endTime, int ownerID, String description, String location, int roomID, int attending, LocalDateTime alarmTime) {
+        setDateTime(date, startTime, endTime);
         setAttending(attending);
 
         // appointmentID is something we get from database after appointment is created, and should be used to instantiate Appointments.
-        this.appointmentID.set(appointmentID);
+        setAppointmentID(appointmentID);
 
         // Do we need any validation for this?
         // We could implement a generic textInputValidator, which validates that the input is not empty, not longer than x chars +++
-        this.title.set(title);
+        setTitle(title);
 
         // Get from DB. Map to User-object?
-        this.ownerID.set(ownerID);
+        setOwnerID(ownerID);
 
         // Do we need any validation for this?
-        this.location.set(location);
+        setLocation(location);
 
         // Get from DB. Map to Room-object?
-        this.roomID.set(roomID);
+        setRoomID(roomID);
 
         // Do we need any validation for this?
-        this.description.set(description);
+        setDescription(description);
 
         // Should alarmTime be at appointment start, 15 minutes before, 60 minutes before…
-        this.alarmTime = alarmTime;
+        //User defined?
+        setAlarmTime(alarmTime);
+    }
+
+    public void setAppointmentID(int appointmentID){
+        if(appointmentID < 0){
+            throw new IllegalArgumentException("appointmentID cannot be a negative number");
+        }else if(appointmentID == 0){
+            throw new IllegalArgumentException("appointmentId cannot be 0");
+        }
+        this.appointmentID = appointmentID;
+    }
+
+    public void setOwnerID(int ownerID){
+        if(ownerID < 0){
+            throw new IllegalArgumentException("ownerID cannot be a negative number");
+        }else if(ownerID == 0){
+            throw new IllegalArgumentException("ownerID cannot be 0");
+        }
+        this.ownerID = ownerID;
     }
 
     public void setAttending(int attending) {
@@ -70,6 +82,46 @@ public class Appointment {
         this.end = end;
     }
 
+    public void setTitle(String title) {
+        if (title.isEmpty()){
+            throw new IllegalArgumentException("Title must be defined");
+        } else if (title.length() > 40){
+            throw new IllegalArgumentException("Title cannot be longer than 40 characters");
+        }
+        this.title = title;
+    }
+
+    public void setLocation(String location) {
+        if(location.isEmpty()){
+            throw new IllegalArgumentException("location cannot be empty");
+        }else if(location.length()>100){
+            throw new IllegalArgumentException("location cannot be longer than 100 characters");
+        }
+        this.location = location;
+    }
+
+    public void setDescription(String description) {
+        if(description.isEmpty()){
+            throw new IllegalArgumentException("description cannot be empty");
+        }else if(description.length()>250){
+            throw new IllegalArgumentException("description cannot be longer than 250 characters");
+        }
+        this.description = description;
+    }
+
+    public void setRoomID(int roomID){
+        if(roomID < 0){
+            throw new IllegalArgumentException("roomID cannot be a negative number");
+        }else if(roomID == 0){
+            throw new IllegalArgumentException("roomID cannot be 0");
+        }
+        this.roomID = roomID;
+    }
+
+    public void setAlarmTime(LocalDateTime alarmTime){
+        this.alarmTime = alarmTime;
+    }
+
     public LocalTime getStart() {
         return start;
     }
@@ -79,6 +131,8 @@ public class Appointment {
     }
 
     public LocalDate getDate() { return date; }
+
+    public String getTitle(){ return title.toString(); }
 
     public LocalDateTime getDateTimeStart() {
         return LocalDateTime.of(date, start);
