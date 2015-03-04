@@ -6,11 +6,10 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import no.ntnu.stud.view.CalendarViewController;
-import no.ntnu.stud.view.LeftMenuController;
-import no.ntnu.stud.view.RootLayoutController;
-import no.ntnu.stud.view.UpcomingEventsController;
+import no.ntnu.stud.reservation.Appointment;
+import no.ntnu.stud.view.*;
 
 import java.io.IOException;
 
@@ -107,5 +106,33 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
 
+    }
+
+    public boolean showAppointmentDialog(Appointment appointment) {
+        try {
+            // Load the fxml file and create a new stage for the popup dialog.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/newAppointment.fxml"));
+            GridPane page = (GridPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage appointmentDialog = new Stage();
+            appointmentDialog.setTitle("Appointment");
+            appointmentDialog.initModality(Modality.WINDOW_MODAL);
+            appointmentDialog.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            appointmentDialog.setScene(scene);
+
+            // Set the person into the controller.
+            NewAppointmentController controller = loader.getController();
+            controller.setNewAppointmentStage(appointmentDialog);
+
+            // Show the dialog and wait until the user closes it
+            appointmentDialog.showAndWait();
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

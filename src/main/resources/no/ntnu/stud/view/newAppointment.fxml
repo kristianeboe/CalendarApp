@@ -121,7 +121,7 @@
             <Insets left="265.0" top="15.0" />
          </GridPane.margin>
       </Button>
-      <Button maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 30; -fx-background-color: ee6666;" text="x" textFill="#f3f3f3" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+      <Button fx:id="btnClose" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#handleClose" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 30; -fx-background-color: ee6666;" text="x" textFill="#f3f3f3" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets left="320.0" />
          </GridPane.margin>
