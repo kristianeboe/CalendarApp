@@ -246,12 +246,12 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="prev_arrow" Text="&lt;" styleClass="arrow_" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+      <Label fx:id="prev_arrow" onMouseClicked="#previousMonth" Text="&lt;" styleClass="arrow_" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.rowSpan="2" GridPane.valignment="CENTER">
          <font>
             <Font size="30.0" />
          </font>
       </Label>
-      <Label fx:id="nxt_arrow" Text="&gt;" styleClass="arrow_" GridPane.columnIndex="8" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+      <Label fx:id="nxt_arrow" Text="&gt;" onMouseClicked="#nextMonth" styleClass="arrow_" GridPane.columnIndex="8" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.rowSpan="2" GridPane.valignment="CENTER">
          <font>
             <Font size="30.0" />
          </font>
