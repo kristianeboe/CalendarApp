@@ -32,12 +32,8 @@ public class CalendarViewController {
     }
 
     public void initialize(){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
         calendar = Calendar.getInstance();
-        calendar.set(2015,0,1);
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        System.out.println(dateFormat.format(calendar.getTime()));
-        System.out.println(calendar.get(Calendar.MONTH));
         lblNextYear.setText("" + (calendar.get(Calendar.YEAR) + 1));
         lblPrevYear.setText(""+(calendar.get(Calendar.YEAR)-1));
         lblCurrentMonth.setText(TimeConverter.monthToString(calendar.get(Calendar.MONTH)) + " " + calendar.get(Calendar.YEAR));
@@ -48,13 +44,8 @@ public class CalendarViewController {
 
     public void renderCalendar(Calendar calendar){
         dates.addAll(Arrays.asList(d00,d01,d02,d03,d04,d05,d06,d10,d11,d12,d13,d14,d15,d16,d20,d21,d22,d23,d24,d25,d26,d30,d31,d32,d33,d34,d35,d36,d40,d41,d42,d43,d44,d45,d46,d50,d51));
-        int startOfMonth = calendar.get(Calendar.DAY_OF_WEEK);
-
-        System.out.println(calendar.DAY_OF_WEEK+"som = "+startOfMonth + "motnh : "+ calendar.get(Calendar.MONTH) + "year: " + calendar.get(Calendar.YEAR));
+        int startOfMonth = getFirstDayOfMonth(calendar);
         int totalDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-        System.out.println("flsmakfma: "+calendar.getFirstDayOfWeek());
-        System.out.println(totalDays);
-        //System.out.println(dates.get(1).getText());
         int j = 1;
         for(int i = startOfMonth; i < dates.size(); i++){
             if(j>totalDays){
@@ -67,9 +58,21 @@ public class CalendarViewController {
         }
     }
 
-    private Date getFirstDateOfCurrentMonth(Calendar cal) {
-        cal.set(Calendar.DAY_OF_MONTH, Calendar.getInstance().getActualMinimum(Calendar.DAY_OF_MONTH));
-        return cal.getTime();
+    private int getFirstDayOfMonth(Calendar cal) {
+        cal.set(Calendar.DAY_OF_MONTH,1);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE");
+        String fwk = dateFormat.format((calendar.getTime()));
+        System.out.println("First day of month: "+fwk);
+        switch (fwk){
+            case "Mon": return 0;
+            case "Tue": return 1;
+            case "Wed": return 2;
+            case "Thu": return 3;
+            case "Fri": return 4;
+            case "Sat": return 5;
+            case "Sun": return 6;
+        }
+        return -1;
     }
 
 
