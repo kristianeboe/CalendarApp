@@ -54,7 +54,7 @@ public class CalendarViewController {
 
         //Fill with "-" before first day of month
         for(int i = 0; i < startOfMonth;i++){
-            dates.get(i).setText("-");
+            dates.get(i).setText("");
             dates.get(i).getStyleClass().remove("dates");
         }
 
@@ -74,9 +74,8 @@ public class CalendarViewController {
     private int getFirstDayOfMonth(Calendar cal) {
         cal.set(Calendar.DAY_OF_MONTH,1);
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE");
-        String fwk = dateFormat.format((calendar.getTime()));
-        System.out.println("First day of month: "+fwk);
-        switch (fwk){
+        String fwd = dateFormat.format((calendar.getTime()));
+        switch (fwd){
             case "Mon": return 0;
             case "Tue": return 1;
             case "Wed": return 2;
