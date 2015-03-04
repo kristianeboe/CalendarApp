@@ -34,7 +34,6 @@ public class CalendarViewController {
     public void initialize(){
 
         calendar = Calendar.getInstance();
-        calendar.set(2015,3,1);
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
         renderCalendar(calendar);
 
