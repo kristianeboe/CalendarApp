@@ -17,12 +17,12 @@ import java.time.LocalTime;
  */
 public class EditData {
 
-    public static void changePassword(User user, String oldPassword, char[] newPassword, byte[] newSalt) throws UnsupportedEncodingException, SQLException {
+    public static void changePassword(User loggedInUser, String oldPassword, char[] newPassword, byte[] newSalt) throws UnsupportedEncodingException, SQLException {
         Connection con = DBConnector.getCon();
 
         byte[] hash = SHAHashGenerator.hash(newPassword, newSalt);
 
-        if (Authentication.authenticate(user.getEmail(), oldPassword)) {
+        if (Authentication.authenticate(loggedInUser.getEmail(), oldPassword)) {
             String query = "UPDATE user " +
                     "SET password = ?, salt = ? " +
                     "WHERE userID = ?;";
@@ -30,7 +30,7 @@ public class EditData {
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setBytes(1, hash);
             stmt.setBytes(2, newSalt);
-            stmt.setInt(3, user.getUserID());
+            stmt.setInt(3, loggedInUser.getUserID());
             stmt.execute();
             System.out.println("Performing SQL Query [" + query + "]");
         } else {
