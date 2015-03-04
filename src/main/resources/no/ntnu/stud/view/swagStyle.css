@@ -7,8 +7,15 @@
     -fx-text-fill: #3e94ec;
     -fx-font-size: 30px;
 }
-
-.arrow_:hover {
+.dates:hover, .year_lbl:hover{
+    -fx-cursor:hand;
+    -fx-font-size: 25px;
+}
+.dates:pressed, .year_lbl:hover{
+    -fx-font-size: 18px;
+}
+.arrow_:hover{
+    -fx-cursor:hand;
     -fx-text-fill: #3e94ec;
     -fx-font-size: 35px;
 }
