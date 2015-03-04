@@ -7,7 +7,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import no.ntnu.stud.MainApp;
-import no.ntnu.stud.reservation.Appointment;
+import no.ntnu.stud.model.Appointment;
 
 /**
  * Created by Kristian on 03/03/15.
