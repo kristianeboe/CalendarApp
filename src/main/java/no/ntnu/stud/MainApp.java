@@ -3,16 +3,16 @@ package no.ntnu.stud;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import no.ntnu.stud.view.RootLayoutController;
+import no.ntnu.stud.reservation.Appointment;
+import no.ntnu.stud.view.*;
 
 import java.io.IOException;
 
-/**
- * Hello world!
- */
 public class MainApp extends Application {
 
     private Stage primaryStage;
@@ -27,11 +27,15 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("CalendarApp");
+        this.primaryStage.getIcons().add(new Image("file:resources/images/favicon.png"));
 
         initRootLayout();
 
-        //showCalendarOverview();
+        showCalendarView();
 
+        showUpcomingEvents();
+
+        showLeftMenu();
     }
 
     public void initRootLayout() {
@@ -45,13 +49,6 @@ public class MainApp extends Application {
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
 
-
-            //Ole does shit he shouldt do
-            //This loads the mid and right grid in a terrible way
-            rootLayout.setCenter(getGrid());
-            rootLayout.setRight(getSideGrid());
-            //End of shit ole shouldt do
-
             RootLayoutController controller = loader.getController();
             controller.setMainApp(this);
 
@@ -61,34 +58,93 @@ public class MainApp extends Application {
         }
     }
 
-    //Ole does shit he shouldt do
-    //these functions should be deleted. Oh lord.
-    private GridPane getGrid(){
+    public void showCalendarView(){
         try {
-            // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/Calendar.fxml"));
-            return loader.load();
+            GridPane calendarView = (GridPane) loader.load();
 
-        }
-        catch (IOException e){
+            rootLayout.setCenter(calendarView);
 
+            CalendarViewController controller = loader.getController();
+            controller.setMainApp(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return null;
     }
 
-    private GridPane getSideGrid(){
+    public void showUpcomingEvents(){
         try {
-            // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/UpcomingEvents.fxml"));
-            return loader.load();
+            GridPane upcomingEvetns = (GridPane) loader.load();
 
-        }
-        catch (IOException e){
+            rootLayout.setRight(upcomingEvetns);
 
+            UpcomingEventsController controller = loader.getController();
+            controller.setMainApp(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return null;
     }
-    //End of shit ole shouldt do
+
+    public void showLeftMenu(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/LeftMenu.fxml"));
+            GridPane leftMenu = (GridPane) loader.load();
+
+            rootLayout.setLeft(leftMenu);
+
+            LeftMenuController controller = loader.getController();
+            controller.setMainApp(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void showAppointmentDialog(Appointment appointment) {
+        /*try {//Pop Up
+            // Load the fxml file and create a new stage for the popup dialog.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/newAppointment.fxml"));
+            GridPane page = (GridPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage appointmentDialog = new Stage();
+            appointmentDialog.setTitle("Appointment");
+            appointmentDialog.initModality(Modality.WINDOW_MODAL);
+            appointmentDialog.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            appointmentDialog.setScene(scene);
+
+            // Set the person into the controller.
+            NewAppointmentController controller = loader.getController();
+            controller.setNewAppointmentStage(appointmentDialog);
+
+            // Show the dialog and wait until the user closes it
+            appointmentDialog.showAndWait();
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }*/
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/newAppointment.fxml"));
+            GridPane page = (GridPane) loader.load();
+
+            rootLayout.setCenter(page);
+
+            NewAppointmentController controller = loader.getController();
+            controller.setMainApp(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

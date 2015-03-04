@@ -11,7 +11,7 @@ import no.ntnu.stud.MainApp;
 public class RootLayoutController {
     private MainApp mainApp;
 
-    public RootLayoutController(){
+    public RootLayoutController() {
         //trollllooolllll
     }
 
