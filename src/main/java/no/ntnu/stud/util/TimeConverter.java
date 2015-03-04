@@ -19,4 +19,9 @@ public class TimeConverter {
     public static LocalDateTime timestampToLocalDateTime(Timestamp timestamp) {
         return timestamp.toLocalDateTime();
     }
+
+    public static String monthToString(int m){
+        String[] months = {"January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+        return months[m];
+    }
 }
