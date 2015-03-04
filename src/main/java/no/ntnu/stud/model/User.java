@@ -5,90 +5,98 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by adrianh on 23.02.15.
  */
 public class User {
 
-    private IntegerProperty userID = new SimpleIntegerProperty();
-    private StringProperty lastName = new SimpleStringProperty();
-    private StringProperty middleName = new SimpleStringProperty();
-    private StringProperty givenName = new SimpleStringProperty();
-    private StringProperty email = new SimpleStringProperty();
-
-    public User(IntegerProperty userID, StringProperty lastName, StringProperty middleName, StringProperty givenName, StringProperty email) {
-        this.userID = userID;
-        this.lastName = lastName;
-        this.middleName = middleName;
-        this.givenName = givenName;
-        this.email = email;
-    }
+    private int userID;
+    private String lastName;
+    private String middleName;
+    private String givenName;
+    private String email;
 
     public User(int userID, String lastName, String middleName, String givenName, String email) {
-        this.userID.set(userID);
-        this.lastName.set(lastName);
-        this.middleName.set(middleName);
-        this.givenName.set(givenName);
-        this.email.set(email);
+        setUserID(userID);
+        setLastName(lastName);
+        setMiddleName(middleName);
+        setGivenName(givenName);
+        setEmail(email);
     }
+
 
     public int getUserID() {
-        return userID.get();
-    }
-
-    public IntegerProperty userIDProperty() {
         return userID;
     }
 
+
     public void setUserID(int userID) {
-        this.userID.set(userID);
+        if(userID < 0){
+            throw new IllegalArgumentException("userID cannot be a negative number");
+        }else if(userID == 0){
+            throw new IllegalArgumentException("userID cannot be 0");
+        }
+        this.userID=userID;
     }
 
     public String getLastName() {
-        return lastName.get();
-    }
-
-    public StringProperty lastNameProperty() {
         return lastName;
     }
 
+
     public void setLastName(String lastName) {
-        this.lastName.set(lastName);
+        if(lastName.isEmpty()){
+            throw new IllegalArgumentException("lastName cannot be empty");
+        }else if(lastName.length()>45){
+            throw new IllegalArgumentException("lastName cannot be longer than 45 characters");
+        }
+        this.lastName=lastName;
     }
 
     public String getMiddleName() {
-        return middleName.get();
-    }
-
-    public StringProperty middleNameProperty() {
         return middleName;
     }
 
+
     public void setMiddleName(String middleName) {
-        this.middleName.set(middleName);
+        if(middleName.isEmpty()){
+            throw new IllegalArgumentException("middleName cannot be empty");
+        }else if(middleName.length()>45){
+            throw new IllegalArgumentException("middleName cannot be longer than 45 characters");
+        }
+        this.middleName=middleName;
     }
 
     public String getGivenName() {
-        return givenName.get();
-    }
-
-    public StringProperty givenNameProperty() {
         return givenName;
     }
 
+
     public void setGivenName(String givenName) {
-        this.givenName.set(givenName);
+        if(givenName.isEmpty()){
+            throw new IllegalArgumentException("givenName cannot be empty");
+        }else if(givenName.length()>45){
+            throw new IllegalArgumentException("givenName cannot be longer than 45 characters");
+        }
+        this.givenName=givenName;
     }
 
     public String getEmail() {
-        return email.get();
-    }
-
-    public StringProperty emailProperty() {
         return email;
     }
 
+
     public void setEmail(String email) {
-        this.email.set(email);
+        final Pattern VALID_EMAIL_ADDRESS_REGEX =
+                Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
+        if(!matcher.matches()){
+            throw new IllegalArgumentException("Invalid email-address");
+        }
+
+        this.email=email;
     }
 }

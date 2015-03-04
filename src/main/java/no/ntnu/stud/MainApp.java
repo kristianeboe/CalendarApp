@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import no.ntnu.stud.reservation.Appointment;
 import no.ntnu.stud.view.*;
 
+import java.io.File;
 import java.io.IOException;
 
 public class MainApp extends Application {
