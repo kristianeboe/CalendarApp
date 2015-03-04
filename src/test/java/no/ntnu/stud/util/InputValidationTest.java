@@ -8,31 +8,47 @@ import static org.junit.Assert.*;
  * Created by sklirg on 02/03/15.
  */
 public class InputValidationTest {
-    @Ignore // @Test(expect = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNoTextInput() {
         String input = "";
-        // WhateverTheMethodisCalled(input);
-        assertEquals(input, "");
+        InputValidator.textInputValidator(input);
     }
 
-    @Ignore // @Test(expect = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testTooShortTextInput() {
         String input = "te";
-        // WhateverTheMethodisCalled(input);
-        assertEquals(input, "");
+        InputValidator.textInputValidator(input);
     }
 
-    @Ignore // @Test(expect = IllegalArgumentException.class)
+    @Test
     public void testLongEnoughTextInput() {
         String input = "abcdefghijklmnopqrstuv";
-        // WhateverTheMethodisCalled(input);
-        assertEquals(input, "");
+        InputValidator.textInputValidator(input);
+        assertEquals(input, "abcdefghijklmnopqrstuv");
     }
 
-    @Ignore // @Test(expect = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testTooLongTextInput() {
-        String input = "abcdefghijklmnopqrstuv1234567890";
-        // WhateverTheMethodisCalled(input);
-        assertEquals(input, "");
+        String input = "abcdefghijklmnopqrstuv123456789012345678901234567890";
+        InputValidator.textInputValidator(input);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testIllegalCharacters() {
+        String[] inputs = new String[10];
+        inputs[0] = "~";
+        inputs[1] = "±";
+        inputs[2] = "*";
+        inputs[3] = "¡";
+        inputs[4] = "¿";
+        inputs[5] = "#";
+        inputs[6] = "$";
+        inputs[7] = "=";
+        inputs[8] = "@";
+        inputs[9] = "\\";
+        for (String s : inputs) {
+            String str = "Something" + s;
+            InputValidator.textInputValidator(str);
+        }
     }
 }
