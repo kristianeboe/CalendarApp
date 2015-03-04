@@ -19,7 +19,6 @@ public class MainApp extends Application {
 
     private Stage primaryStage;
     private BorderPane rootLayout;
-    private FXMLLoader loader;
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
@@ -30,7 +29,6 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("CalendarApp");
-        loader = new FXMLLoader();
 
         initRootLayout();
 
@@ -42,6 +40,7 @@ public class MainApp extends Application {
     public void initRootLayout() {
         try {
             // Load root layout from fxml file.
+            FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
 
             rootLayout = (BorderPane) loader.load();
@@ -61,6 +60,7 @@ public class MainApp extends Application {
 
     public void showCalendarView(){
         try {
+            FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/Calendar.fxml"));
             GridPane calendarView = (GridPane) loader.load();
 
@@ -76,6 +76,7 @@ public class MainApp extends Application {
 
     public void showUpcomingEvents(){
         try {
+            FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/UpcomingEvents.fxml"));
             GridPane upcomingEvetns = (GridPane) loader.load();
 
@@ -88,7 +89,4 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
     }
-
-
-
 }
