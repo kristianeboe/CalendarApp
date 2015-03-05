@@ -1,7 +1,7 @@
 /* RootLayout START*/
 .rootLayout{
     -fx-background-image: url("background.jpg");
-    -fx-background-repeat: stretch;
+    -fx-background-repeat: repeat;
     -fx-background-position: center center;
 }
 
