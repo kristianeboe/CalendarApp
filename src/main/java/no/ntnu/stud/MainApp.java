@@ -32,11 +32,7 @@ public class MainApp extends Application {
 
         initRootLayout();
 
-        showCalendarView();
-
-        showUpcomingEvents();
-
-        showLeftMenu();
+        showSignInView();
     }
 
     public void initRootLayout() {
@@ -57,6 +53,30 @@ public class MainApp extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void showSignInView(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/SignIn.fxml"));
+            GridPane signInView = (GridPane) loader.load();
+
+            rootLayout.setCenter(signInView);
+
+            SignInController controller = loader.getController();
+            controller.setMainApp(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void signedIn(){
+        showCalendarView();
+
+        showUpcomingEvents();
+
+        showLeftMenu();
     }
 
     public void showCalendarView(){
