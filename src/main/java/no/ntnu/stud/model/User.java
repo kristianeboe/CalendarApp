@@ -27,6 +27,9 @@ public class User {
         setEmail(email);
     }
 
+    public String toString() {
+        return "(<User> " + getFullName() + ")";
+    }
 
     public int getUserID() {
         return userID;
@@ -78,6 +81,15 @@ public class User {
             throw new IllegalArgumentException("givenName cannot be longer than 45 characters");
         }
         this.givenName=givenName;
+    }
+
+    public String getFullName() {
+        String name = givenName;
+        if (middleName.length() > 0) {
+            name += " " + middleName;
+        }
+        name += " " + lastName;
+        return name;
     }
 
     public String getEmail() {
