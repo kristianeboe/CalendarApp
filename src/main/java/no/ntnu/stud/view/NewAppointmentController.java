@@ -96,12 +96,9 @@ public class NewAppointmentController {
         } else {
             throw new IllegalArgumentException("FUCK YOU DIDNT FIND THE ROOM SHIT");
         }
-
+        String location = "";
 
         owner = mainApp.getUser();
-
-        //System.out.println(roomID);
-        String location = "";
 
         String description = inpDesc.getText();
 
@@ -145,7 +142,7 @@ public class NewAppointmentController {
     @FXML
     private void voidHandleSave() {
         Appointment app = addAppointment();
-        boolean DEBUG = true;
+        boolean DEBUG = false;
 
         if (DEBUG) {
             System.out.println("=== Created appointment ===");
@@ -156,7 +153,19 @@ public class NewAppointmentController {
             System.out.println("start: " + app.getStart());
             System.out.println("end  : " + app.getEnd());
         }
-        //InsertData.createAppointment(app);
+        InsertData.createAppointment(app);
+
+        if (DEBUG) {
+            System.out.println("=== Let's try to get it back ===");
+            Appointment app_check = GetData.getAppointment(app.getRoomID(), app.getDate(), app.getStart(), app.getEnd());
+            System.out.println("toStr: " + app_check);
+            System.out.println("id   : " + app_check.getAppointmentID());
+            System.out.println("title: " + app_check.getTitle());
+            System.out.println("desc : " + app_check.getDescription());
+            System.out.println("date : " + app_check.getDate());
+            System.out.println("start: " + app_check.getStart());
+            System.out.println("end  : " + app_check.getEnd());
+        }
     }
 
     @FXML
