@@ -143,7 +143,6 @@ UpcomingEvents END
 
 /* error start*/
 .errorTextField {
-    -fx-background-color: #ffbbbb;
     -fx-border-color: #f00;
 }
 /* error end*/
@@ -173,7 +172,7 @@ LeftMenu END
 /*CalendarSmall START*/
 
 .calendarSmall{
-    -fx-background-color: f0f0f0;
+    -fx-background-color: f3f3f3;
 }
 .calendarSmall #nxt_arrow:hover,#prev_arrow:hover{
     -fx-cursor: hand;
@@ -187,7 +186,7 @@ LeftMenu END
 /*newAppointment START*/
 
 #newAppointment{
-    -fx-background-color: #F0F0F0;
+    -fx-background-color: #F3F3F3;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.2) , 5, 0.0 , 0 , 1 );
 
 }
