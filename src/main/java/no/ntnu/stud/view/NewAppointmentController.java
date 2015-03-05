@@ -1,13 +1,16 @@
 package no.ntnu.stud.view;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import no.ntnu.stud.MainApp;
+import no.ntnu.stud.jdbc.GetData;
 import no.ntnu.stud.model.Appointment;
+import no.ntnu.stud.model.Room;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 
 /**
  * Created by Kristian on 03/03/15.
@@ -32,7 +35,9 @@ public class NewAppointmentController {
     @FXML
     private TextArea inpDesc;
     @FXML
-    private Button btnSave, btnClose;
+    private ComboBox btnRoom;
+    @FXML
+    private Button btnSave, btnClose, btnAddUser;
 
 
     public NewAppointmentController() {
@@ -52,6 +57,24 @@ public class NewAppointmentController {
         return okClicked;
     }
 
+    @FXML
+    void getAllAvailableRooms(){
+        btnRoom.getItems().clear();
+        GetData gd = new GetData();
+        LocalTime startTime = LocalTime.parse(inpFrom.getText());
+        LocalTime endTime = LocalTime.parse(inpTo.getText());
+        LocalDate date = inpDate.getValue();
+        ArrayList<Room> rooms = gd.getAllAvailableRooms(startTime, endTime, date);
+        for(Room r:rooms){
+            String str = "Room: "+r.getName()+"|Capacity: "+r.getCapacity()+"\n";
+            btnRoom.getItems().add(str);
+            System.out.println("Room: "+r.getName()+"|Capacity: "+r.getCapacity());
+        }
+    }
+    @FXML
+    void updateTest(){
+        inpRoom.setText((String) btnRoom.getValue());
+    }
     @FXML
     private void voidHandleSave() {
 

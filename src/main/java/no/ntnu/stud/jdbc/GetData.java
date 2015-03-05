@@ -264,6 +264,43 @@ public class GetData {
         return room;
     }
 
+    public static ArrayList<Room> getAllAvailableRooms(LocalTime startTime, LocalTime endTime, LocalDate date){
+        ArrayList<Room> rooms = new ArrayList<>();
+        Connection con = DBConnector.getCon();
+        String start =startTime.toString();
+        String end = endTime.toString();
+        String dt = date.toString();
+        if(con != null){
+            try{
+                Statement stmt = con.createStatement();
+                String sql = "SELECT * FROM room " +
+                        "WHERE roomID NOT IN( " +
+                        "SELECT roomID FROM appointment " +
+                        "WHERE ( ('"+start+"' > startTime " +
+                        "AND '"+start+"' < endTime) " +
+                        "OR ('"+end+"' > startTime " +
+                        "AND '"+end+"' < endTime) " +
+                        "OR ('"+start+"' < startTime " +
+                        "AND '"+end+"' > endTime) )" +
+                        "AND '"+dt+"' = appointmentDate ) " +
+                        "ORDER BY capacity ASC;";
+                System.out.println("Performing SQL Query [" + sql + "]");
+                ResultSet rs = stmt.executeQuery(sql);
+                while(rs.next()){
+                    int roomID = rs.getInt("roomID");
+                    String roomName = rs.getString("name");
+                    int roomCapacity = rs.getInt("capacity");
+                    rooms.add(new Room(roomID, roomName, roomCapacity));
+                }
+            }catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.err.print("No Connection");
+        }
+        return rooms;
+    }
+
     public static ArrayList<Notification> getNotifications(int userID){
         Connection con = DBConnector.getCon();
         ArrayList<Notification> notifications = new ArrayList<>();
