@@ -104,10 +104,6 @@ public class NewAppointmentController {
         }
     }
     @FXML
-    void updateTest(){
-        inpRoom.setText((String) btnRoom.getValue());
-    }
-    @FXML
     private void voidHandleSave() {
 
     }
