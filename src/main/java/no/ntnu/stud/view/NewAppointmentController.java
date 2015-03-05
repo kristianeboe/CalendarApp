@@ -9,6 +9,7 @@ import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.model.Room;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -33,7 +34,7 @@ public class NewAppointmentController {
     @FXML
     private TextField inpRoom;
     @FXML
-    private TextField inpUser;
+    private TextField inpInvite;
     @FXML
     private TextArea inpDesc;
     @FXML
@@ -70,6 +71,27 @@ public class NewAppointmentController {
             inpTo.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
             inpMaxAttend.setText(Integer.toString(appointment.getAttending()));
         //}
+    }
+
+    public void addAppointment() {
+        String title = inpTitle.getText();
+        LocalDate date = inpDate.getValue();
+        LocalTime startTime = LocalTime.parse(inpFrom.getText());
+        LocalTime endTime = LocalTime.parse(inpTo.getText());
+        int maxAttending = Integer.parseInt(inpMaxAttend.getText());
+
+        // If roomID, use roomID. If not, use location.
+        int roomID = 0;
+        String location = "";
+
+        String description = inpDesc.getText();
+        int ownerID = 0;
+
+        /*
+        for (User u : invited) {}
+         */
+
+        Appointment appointment = new Appointment(title, date, startTime, endTime, ownerID, description, location, roomID, maxAttending);
     }
 
     @FXML

@@ -46,7 +46,15 @@
                 <Insets right="15.0" top="10.0" />
             </GridPane.margin>
         </TextField>
-        <TextField fx:id="inpUser" maxWidth="300.0" minHeight="45.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Invite user or group" style="-fx-background-radius: 0px;" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="TOP">
+        <TextField fx:id="inpRoom" editable="false" maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Room" style="-fx-background-radius: 0px;" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="TOP">
+            <font>
+                <Font size="20.0" />
+            </font>
+            <GridPane.margin>
+                <Insets right="15.0" top="10.0" />
+            </GridPane.margin>
+        </TextField>
+        <TextField fx:id="inpInvite" maxWidth="300.0" minHeight="45.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Invite user or group" style="-fx-background-radius: 0px;" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="TOP">
             <font>
                 <Font size="20.0" />
             </font>
