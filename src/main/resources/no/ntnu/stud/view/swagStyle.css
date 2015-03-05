@@ -1,4 +1,7 @@
 /*Calendar start*/
+.calendar{
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.2) , 5, 0.0 , 0 , 1 );
+}
 .year_lbl {
     -fx-text-fill: #3e94ec;
     -fx-font-size: 15px;
