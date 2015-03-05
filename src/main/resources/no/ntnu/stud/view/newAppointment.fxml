@@ -110,7 +110,7 @@
                 <Insets right="15.0" top="10.0" />
             </GridPane.margin>
         </ComboBox>
-        <Button fx:id="btnSave" onAction="#getAllAvailableRooms" mnemonicParsing="false" style="-fx-background-color: #2c3136; -fx-background-radius: 0;" text="Save" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="TOP">
+        <Button fx:id="btnSave" onAction="#getAllAvailableRooms" styleClass="menuButton" mnemonicParsing="false"  text="Save" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
             <font>
                 <Font size="15.0" />
             </font>

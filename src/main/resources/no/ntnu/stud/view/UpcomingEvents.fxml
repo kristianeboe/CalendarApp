@@ -7,7 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="230.0" stylesheets="@swagStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.UpcomingEventsController">
+<GridPane styleClass="upcomingEvents" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="230.0" stylesheets="@swagStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.UpcomingEventsController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -74,7 +74,7 @@
             <Insets />
          </GridPane.margin>
       </Label>
-      <Button fx:id="btnEditAppointment" styleClass="darkButton" mnemonicParsing="false" text="Edit" textFill="#3e94ec" GridPane.halignment="RIGHT" GridPane.rowIndex="8" GridPane.valignment="BOTTOM">
+      <Button fx:id="btnEditAppointment" styleClass="menuButton" mnemonicParsing="false" text="Edit" textFill="#3e94ec" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="BOTTOM">
          <font>
             <Font size="15.0" />
          </font>
@@ -82,7 +82,7 @@
             <Insets right="20.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="btnNewAppointment" styleClass="darkButton" mnemonicParsing="false" onAction="#handleNewAppointment" text="+" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="BOTTOM">
+      <Button fx:id="btnNewAppointment" styleClass="menuButton" mnemonicParsing="false" onAction="#handleNewAppointment" text="+" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="BOTTOM">
          <font>
             <Font size="15.0" />
          </font>
