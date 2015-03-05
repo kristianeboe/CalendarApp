@@ -5,6 +5,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import no.ntnu.stud.MainApp;
 import no.ntnu.stud.jdbc.GetData;
+import no.ntnu.stud.jdbc.InsertData;
 import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.model.Room;
 
@@ -56,6 +57,10 @@ public class NewAppointmentController {
     }
     public void setMainApp(MainApp mainApp) { this.mainApp = mainApp;}
 
+    public boolean isOkClicked() {
+        return okClicked;
+    }
+
     public void insertAppointmentData(Appointment appointment){
             inpTitle.setText(appointment.getTitle());
             inpDesc.setText(appointment.getDescription());
@@ -74,11 +79,20 @@ public class NewAppointmentController {
         int maxAttending = Integer.parseInt(inpMaxAttend.getText());
 
         // If roomID, use roomID. If not, use location.
-        int roomID = 0;
+
+        System.out.println("cla: " + inpRoom);
+        System.out.println("tex: " + inpRoom.getText());
+        System.out.println("seT: " + inpRoom.getSelectedText());
+        System.out.println("sel: " + inpRoom.getSelection());
+        System.out.println("val: " + btnRoom.getValue());
+
+        //int roomID = Integer.parseInt(inpRoom.getText());
+        int roomID = 13;
+        //System.out.println(roomID);
         String location = "";
 
         String description = inpDesc.getText();
-        int ownerID = 0;
+        int ownerID = 5;
 
         /*
         for (User u : invited) {}
@@ -133,6 +147,7 @@ public class NewAppointmentController {
             System.out.println(app.getStart());
             System.out.println(app.getEnd());
         }
+        //InsertData.createAppointment(app);
     }
 
     @FXML
