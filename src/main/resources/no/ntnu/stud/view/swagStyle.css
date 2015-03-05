@@ -1,7 +1,7 @@
 /* RootLayout START*/
 .rootLayout{
     -fx-background-image: url("background.jpg");
-    -fx-background-repeat: stretch;
+    -fx-background-repeat: repeat;
     -fx-background-position: center center;
 }
 
@@ -12,7 +12,7 @@ Root Layout END
 */
 
 /*Calendar start*/
-.calendar{
+.boxShadow{
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.2) , 5, 0.0 , 0 , 1 );
 }
 .year_lbl {
@@ -143,7 +143,6 @@ UpcomingEvents END
 
 /* error start*/
 .errorTextField {
-    -fx-background-color: #ffbbbb;
     -fx-border-color: #f00;
 }
 /* error end*/
@@ -173,7 +172,7 @@ LeftMenu END
 /*CalendarSmall START*/
 
 .calendarSmall{
-    -fx-background-color: f0f0f0;
+    -fx-background-color: f3f3f3;
 }
 .calendarSmall #nxt_arrow:hover,#prev_arrow:hover{
     -fx-cursor: hand;
@@ -187,7 +186,15 @@ LeftMenu END
 /*newAppointment START*/
 
 #newAppointment{
-    -fx-background-color: #F0F0F0;
+    -fx-background-color: #F3F3F3;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.2) , 5, 0.0 , 0 , 1 );
 
+}
+
+/*newAppointment END*/
+
+/*SignIn START*/
+#btnSignIn{
+    -fx-background-color: rgba(44,49,54,1);
+    -fx-text-fill: white;
 }

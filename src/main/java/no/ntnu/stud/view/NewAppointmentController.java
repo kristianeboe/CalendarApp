@@ -1,5 +1,6 @@
 package no.ntnu.stud.view;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -8,6 +9,7 @@ import no.ntnu.stud.jdbc.GetData;
 import no.ntnu.stud.jdbc.InsertData;
 import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.model.Room;
+import no.ntnu.stud.model.User;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -41,7 +43,7 @@ public class NewAppointmentController {
     @FXML
     private TextArea inpDesc;
     @FXML
-    private ComboBox btnRoom;
+    private ComboBox<Room> btnRoom;
     @FXML
     private Button btnSave, btnClose, btnAddUser;
 
@@ -79,7 +81,8 @@ public class NewAppointmentController {
         LocalTime startTime = LocalTime.parse(inpFrom.getText());
         LocalTime endTime = LocalTime.parse(inpTo.getText());
         int maxAttending = Integer.parseInt(inpMaxAttend.getText());
-        int roomID, ownerID;
+        int roomID;
+        User owner;
 
         // If roomID, use roomID. If not, use location.
 
@@ -94,6 +97,9 @@ public class NewAppointmentController {
             throw new IllegalArgumentException("FUCK YOU DIDNT FIND THE ROOM SHIT");
         }
 
+
+        owner = mainApp.getUser();
+
         //System.out.println(roomID);
         String location = "";
 
@@ -103,7 +109,7 @@ public class NewAppointmentController {
         for (User u : invited) {}
          */
 
-        Appointment appointment = new Appointment(title, date, startTime, endTime, ownerID, description, location, roomID, maxAttending);
+        Appointment appointment = new Appointment(title, date, startTime, endTime, owner, description, location, roomID, maxAttending);
         return appointment;
     }
 

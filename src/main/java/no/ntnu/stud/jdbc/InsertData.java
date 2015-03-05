@@ -83,7 +83,7 @@ public class InsertData {
                 stmt.setString(4, appointment.getEnd().toString());
                 stmt.setString(5, appointment.getLocation());
                 stmt.setInt(6, appointment.getRoomID());
-                stmt.setInt(7, appointment.getOwnerID());
+                stmt.setInt(7, appointment.getOwner().getUserID());
                 stmt.setInt(8, appointment.getAttending());
                 if (appointment.getAlarmTime() != null) {
                     stmt.setTimestamp(9, TimeConverter.localDateTimeToTimestamp(appointment.getAlarmTime()));

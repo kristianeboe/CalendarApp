@@ -4,6 +4,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import no.ntnu.stud.jdbc.GetData;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -106,5 +107,9 @@ public class User {
         }
 
         this.email=email;
+    }
+
+    public static User getById(int userID) {
+        return GetData.getUser(userID);
     }
 }

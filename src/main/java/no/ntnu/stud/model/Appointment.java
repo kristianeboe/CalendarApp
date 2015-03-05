@@ -10,7 +10,8 @@ import no.ntnu.stud.util.InputValidator;
  * Created by sklirg on 20/02/15.
  */
 public class Appointment {
-    private int appointmentID, ownerID, roomID;
+    private int appointmentID, roomID;
+    private User owner;
     private String title, location, description;
     private LocalDate date;
     private LocalTime start, end;
@@ -19,7 +20,7 @@ public class Appointment {
 
 //Appointment(title, date, startTime, endTime, ownerID, description, location, roomID, attending);
 
-    public Appointment(String title, LocalDate date, LocalTime startTime, LocalTime endTime, int ownerID, String description, String location, int roomID, int attending) {
+    public Appointment(String title, LocalDate date, LocalTime startTime, LocalTime endTime, User owner, String description, String location, int roomID, int attending) {
         this.title = InputValidator.textInputValidator(title);
         this.description = InputValidator.textInputValidator(description);
         if (roomID != -1) {
@@ -27,12 +28,12 @@ public class Appointment {
         } else {
             this.location = InputValidator.textInputValidator(location);
         }
-        this.ownerID = ownerID;
+        this.owner = owner;
         setDateTime(date, startTime, endTime);
         setAttending(attending);
     }
 
-    public Appointment(int appointmentID, String title, LocalDate date, LocalTime startTime, LocalTime endTime, int ownerID, String description, String location, int roomID, int attending, LocalDateTime alarmTime) {
+    public Appointment(int appointmentID, String title, LocalDate date, LocalTime startTime, LocalTime endTime, User owner, String description, String location, int roomID, int attending, LocalDateTime alarmTime) {
         setDateTime(date, startTime, endTime);
         setAttending(attending);
 
@@ -44,7 +45,7 @@ public class Appointment {
         setTitle(title);
 
         // Get from DB. Map to User-object?
-        setOwnerID(ownerID);
+        setOwner(owner);
 
         // Do we need any validation for this?
         setLocation(location);
@@ -73,13 +74,8 @@ public class Appointment {
         this.appointmentID = appointmentID;
     }
 
-    public void setOwnerID(int ownerID){
-        if(ownerID < 0){
-            throw new IllegalArgumentException("ownerID cannot be a negative number");
-        }else if(ownerID == 0){
-            throw new IllegalArgumentException("ownerID cannot be 0");
-        }
-        this.ownerID = ownerID;
+    public void setOwner(User owner){
+        this.owner = owner;
     }
 
     public void setAttending(int attending) {
@@ -169,8 +165,8 @@ public class Appointment {
         return appointmentID;
     }
 
-    public int getOwnerID() {
-        return ownerID;
+    public User getOwner() {
+        return owner;
     }
 
     public int getRoomID() {
