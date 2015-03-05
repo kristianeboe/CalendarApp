@@ -59,6 +59,23 @@ public class NewAppointmentController {
 
     @FXML
     void getAllAvailableRooms(){
+        //Temporary validation START
+        inpDate.setStyle("-fx-border-width: 0px");
+        inpFrom.setStyle("-fx-border-width: 0px");
+        inpTo.setStyle("-fx-border-width: 0px");
+
+        if(inpDate.getValue() == null){
+            inpDate.setStyle("-fx-border-color: red" + "; -fx-border-width: 1px;");
+            return;
+        }else if(inpFrom.getText().isEmpty()){
+            inpFrom.setStyle("-fx-border-color: red" + "; -fx-border-width: 1px;");
+            return;
+        }else if(inpTo.getText().isEmpty()){
+            inpTo.setStyle("-fx-border-color: red" + "; -fx-border-width: 1px;");
+            return;
+        }
+        //Temporary validation END
+
         btnRoom.getItems().clear();
         GetData gd = new GetData();
         LocalTime startTime = LocalTime.parse(inpFrom.getText());
