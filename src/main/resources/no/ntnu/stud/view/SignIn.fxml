@@ -25,21 +25,21 @@
                <Insets left="220.0" />
            </GridPane.margin>
        </Button>
+       <TextField fx:id="inpEmail" maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefWidth="10.0" promptText="Email" style="-fx-background-radius: 0px;" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+           <font>
+               <Font size="20.0" />
+           </font>
+       </TextField>
+       <PasswordField fx:id="inpPassword" maxWidth="300.0" promptText="Password" style="-fx-background-radius: 0pt;" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+           <font>
+               <Font size="20.0" />
+           </font>
+       </PasswordField>
       <Text fill="#6a7783" strokeType="OUTSIDE" strokeWidth="0.0" text="Sign in" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <PasswordField fx:id="inpPassword" maxWidth="300.0" promptText="Password" style="-fx-background-radius: 0pt;" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </PasswordField>
-      <TextField fx:id="inpEmail" maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefWidth="10.0" promptText="Email" style="-fx-background-radius: 0px;" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </TextField>
       <Button fx:id="btnSkip" mnemonicParsing="false" onAction="#handleSkip" text="Skip" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
    </children>
 </GridPane>

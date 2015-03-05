@@ -30,6 +30,19 @@
                 <Insets right="15.0" top="10.0" />
             </GridPane.margin>
         </TextField>
+        <DatePicker fx:id="inpDate" maxWidth="300.0" prefHeight="45.0" prefWidth="300.0" promptText="Date (dd.mm.yyyy)" style="-fx-background-radius: 0; -fx-font-size: 20;" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+            <GridPane.margin>
+                <Insets right="15.0" />
+            </GridPane.margin>
+        </DatePicker>
+        <TextField fx:id="inpFrom" maxWidth="150.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="From (hh:mm)" style="-fx-background-radius: 0px;" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="TOP">
+            <font>
+                <Font size="20.0" />
+            </font>
+            <GridPane.margin>
+                <Insets right="165.0" top="10.0" />
+            </GridPane.margin>
+        </TextField>
         <TextField fx:id="inpTo" maxWidth="145.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="To (hh:mm)" style="-fx-background-radius: 0px;" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="TOP">
             <font>
                 <Font size="20.0" />
@@ -84,19 +97,6 @@
                 <Insets bottom="5.0" left="15.0" top="10.0" />
             </GridPane.margin>
         </TextArea>
-        <DatePicker fx:id="inpDate" maxWidth="300.0" prefHeight="45.0" prefWidth="300.0" promptText="Date (dd.mm.yyyy)" style="-fx-background-radius: 0; -fx-font-size: 20;" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
-            <GridPane.margin>
-                <Insets right="15.0" />
-            </GridPane.margin>
-        </DatePicker>
-        <TextField fx:id="inpFrom" maxWidth="150.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="From (hh:mm)" style="-fx-background-radius: 0px;" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="TOP">
-            <font>
-                <Font size="20.0" />
-            </font>
-            <GridPane.margin>
-                <Insets right="165.0" top="10.0" />
-            </GridPane.margin>
-        </TextField>
         <Button fx:id="btnAddUser" mnemonicParsing="false" prefHeight="44.0" prefWidth="44.0" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" text="+" textFill="#f3f3f3" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="TOP">
             <GridPane.margin>
                 <Insets right="15.0" top="10.0" />
