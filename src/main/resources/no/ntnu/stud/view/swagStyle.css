@@ -1,3 +1,4 @@
+/*Calendar start*/
 .year_lbl {
     -fx-text-fill: #3e94ec;
     -fx-font-size: 15px;
@@ -46,6 +47,14 @@
     -fx-font-size: 24px;
 }
 
+/*
+Calendar END
+////////////////
+///////////////
+*/
+
+/*UpcomingEvents START*/
+
 .appointments {
     -fx-text-fill: #3e94ec;
 }
@@ -53,6 +62,7 @@
 .meetings {
     -fx-text-fill: #8a98a7;
 }
+
 .darkButton{
     -fx-background-color:
     #090a0c,
@@ -94,3 +104,9 @@
 #inpDate:hover{
     -fx-cursor: hand;
 }
+
+/*
+UpcomingEvents END
+/////////////////
+////////////////
+*/
