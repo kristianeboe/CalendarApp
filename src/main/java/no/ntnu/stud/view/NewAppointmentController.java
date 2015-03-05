@@ -115,6 +115,7 @@ public class NewAppointmentController {
         for(Room r:rooms){
             String str = "Room: "+r.getName()+"|Capacity: "+r.getCapacity()+"\n";
             btnRoom.getItems().add(str);
+            btnRoom.setValue(r.getRoomID());
             System.out.println("Room: "+r.getName()+"|Capacity: "+r.getCapacity());
         }
     }
