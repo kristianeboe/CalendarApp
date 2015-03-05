@@ -65,7 +65,7 @@ public class Authentication {
             e.printStackTrace();
         }
 
-        return hash != null && salt != null && SHAHashGenerator.isValid(password.toCharArray(), salt, hash);
+        return hash != null && salt != null && email != null && password != null && SHAHashGenerator.isValid(password.toCharArray(), salt, hash);
     }
 
     /**
