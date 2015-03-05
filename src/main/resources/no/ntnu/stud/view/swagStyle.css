@@ -191,3 +191,11 @@ LeftMenu END
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.2) , 5, 0.0 , 0 , 1 );
 
 }
+
+/*newAppointment END*/
+
+/*SignIn START*/
+#btnSignIn{
+    -fx-background-color: rgba(44,49,54,1);
+    -fx-text-fill: white;
+}
