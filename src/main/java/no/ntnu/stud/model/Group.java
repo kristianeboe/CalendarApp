@@ -26,6 +26,10 @@ public class Group extends ArrayList<User> {
         return groupID;
     }
 
+    public String toString() {
+        return "(<Group> " + name + ")";
+    }
+
     public void setGroupID(int groupID) {
         if(groupID < 0){
             throw new IllegalArgumentException("groupID cannot be a negative number");

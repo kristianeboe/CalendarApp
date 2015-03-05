@@ -48,6 +48,10 @@ public class Appointment {
         setAlarmTime(alarmTime);
     }
 
+    public String toString() {
+        return "(<Appointment> " + title + ")";
+    }
+
     public void setAppointmentID(int appointmentID){
         if(appointmentID < 0){
             throw new IllegalArgumentException("appointmentID cannot be a negative number");
@@ -132,7 +136,8 @@ public class Appointment {
 
     public LocalDate getDate() { return date; }
 
-    public String getTitle(){ return title.toString(); }
+    public String getTitle(){ return title.toString();
+    }
 
     public LocalDateTime getDateTimeStart() {
         return LocalDateTime.of(date, start);

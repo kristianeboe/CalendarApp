@@ -12,6 +12,10 @@ public class Notification {
         setMessage(message);
     }
 
+    public String toString() {
+        return "(<Notification> " + message + ")";
+    }
+
     public String getMessage(){
         return message;
     }
