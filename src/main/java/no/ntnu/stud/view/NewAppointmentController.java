@@ -111,7 +111,7 @@ public class NewAppointmentController {
         LocalTime startTime = LocalTime.parse(inpFrom.getText());
         LocalTime endTime = LocalTime.parse(inpTo.getText());
         LocalDate date = inpDate.getValue();
-        int numPeople = Integer.getInteger(inpMaxAttend.getText());
+        int numPeople = Integer.parseInt(inpMaxAttend.getText());
         //ArrayList<Room> rooms = gd.getAllAvailableRooms(startTime, endTime, date);
         ObservableList<Room> rooms = gd.getAllAvailableRooms(startTime, endTime, date, numPeople);
         btnRoom.setItems(rooms);
