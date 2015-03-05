@@ -27,6 +27,7 @@ public class SignInController {
         Authentication authentication = new Authentication();
         try{
             mainApp.setUser(authentication.login(inpEmail.getText(), inpPassword.getText()));
+            mainApp.signedIn();
         } catch (IllegalArgumentException e){
             inpEmail.getStyleClass().add("errorTextField");
             inpPassword.getStyleClass().add("errorTextField");
