@@ -28,7 +28,7 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Ultimate Saga Calendar Pro 365 Cloud Edition");
-        this.primaryStage.getIcons().add(new Image("file:resources/images/favicon.png"));
+        this.primaryStage.getIcons().add(new Image("file:/images/favicon.png"));
 
         initRootLayout();
 
@@ -97,6 +97,12 @@ public class MainApp extends Application {
             loader.setLocation(MainApp.class.getResource("view/LeftMenu.fxml"));
             GridPane leftMenu = (GridPane) loader.load();
 
+            FXMLLoader loader2 = new FXMLLoader();
+            loader2.setLocation(MainApp.class.getResource("view/CalendarSmall.fxml"));
+            GridPane smallCal = (GridPane) loader2.load();
+
+            leftMenu.add(smallCal,0,0);
+
             rootLayout.setLeft(leftMenu);
 
             LeftMenuController controller = loader.getController();
@@ -125,4 +131,5 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
     }
+
 }
