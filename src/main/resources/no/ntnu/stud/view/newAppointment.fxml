@@ -22,7 +22,7 @@
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <TextField fx:id="inpEmail" maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Email" style="-fx-background-radius: 0px;" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+        <TextField fx:id="inpTitle" maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Email" style="-fx-background-radius: 0px;" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
             <font>
                 <Font size="20.0" />
             </font>
@@ -110,7 +110,7 @@
                 <Insets right="15.0" top="10.0" />
             </GridPane.margin>
         </ComboBox>
-        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#getAllAvailableRooms" styleClass="menuButton" text="Save" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
+        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#voidHandleSave" styleClass="menuButton" text="Save" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
             <font>
                 <Font size="15.0" />
             </font>
