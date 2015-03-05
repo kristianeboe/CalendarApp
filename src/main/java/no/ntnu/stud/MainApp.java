@@ -28,7 +28,7 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Ultimate Saga Calendar Pro 365 Cloud Edition");
-        this.primaryStage.getIcons().add(new Image("file:resources/images/favicon.png"));
+        this.primaryStage.getIcons().add(new Image("file:/images/favicon.png"));
 
         initRootLayout();
 
@@ -125,9 +125,8 @@ public class MainApp extends Application {
             NewAppointmentController controller = loader.getController();
             controller.setMainApp(this);
             if (appointment != null){
-
+                controller.insertAppointmentData(appointment);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
