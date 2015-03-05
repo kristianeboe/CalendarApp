@@ -13,6 +13,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Kristian on 03/03/15.
@@ -77,22 +79,25 @@ public class NewAppointmentController {
         LocalTime startTime = LocalTime.parse(inpFrom.getText());
         LocalTime endTime = LocalTime.parse(inpTo.getText());
         int maxAttending = Integer.parseInt(inpMaxAttend.getText());
+        int roomID, ownerID;
 
         // If roomID, use roomID. If not, use location.
 
-        System.out.println("cla: " + inpRoom);
-        System.out.println("tex: " + inpRoom.getText());
-        System.out.println("seT: " + inpRoom.getSelectedText());
-        System.out.println("sel: " + inpRoom.getSelection());
-        System.out.println("val: " + btnRoom.getValue());
+        // Cleanest hack ever to find roomID
+        String roomValue = btnRoom.getValue().toString();
+        Pattern pattern = Pattern.compile("(\\d+)");
+        Matcher m = pattern.matcher(roomValue);
+        if (m.find()) {
+            roomID = Integer.parseInt(m.group(1));
+            // System.out.println("match: " + m.group(1));
+        } else {
+            throw new IllegalArgumentException("FUCK YOU DIDNT FIND THE ROOM SHIT");
+        }
 
-        //int roomID = Integer.parseInt(inpRoom.getText());
-        int roomID = 13;
         //System.out.println(roomID);
         String location = "";
 
         String description = inpDesc.getText();
-        int ownerID = 5;
 
         /*
         for (User u : invited) {}
@@ -129,7 +134,6 @@ public class NewAppointmentController {
         ArrayList<Room> rooms = gd.getAllAvailableRooms(startTime, endTime, date, Integer.parseInt(inpMaxAttend.getText()));
         for(Room r:rooms){
             btnRoom.getItems().add(r);
-            System.out.println("Room: "+r.getName()+"|Capacity: "+r.getCapacity());
         }
     }
     @FXML
@@ -138,12 +142,13 @@ public class NewAppointmentController {
         boolean DEBUG = true;
 
         if (DEBUG) {
-            System.out.println(app);
-            System.out.println(app.getTitle());
-            System.out.println(app.getDescription());
-            System.out.println(app.getDate());
-            System.out.println(app.getStart());
-            System.out.println(app.getEnd());
+            System.out.println("=== Created appointment ===");
+            System.out.println("toStr: " + app);
+            System.out.println("title: " + app.getTitle());
+            System.out.println("desc : " + app.getDescription());
+            System.out.println("date : " + app.getDate());
+            System.out.println("start: " + app.getStart());
+            System.out.println("end  : " + app.getEnd());
         }
         //InsertData.createAppointment(app);
     }

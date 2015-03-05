@@ -17,15 +17,17 @@ public class Appointment {
     private LocalDateTime alarmTime;
     private int attending;
 
-
-    //Appointment(title, date, startTime, endTime, ownerID, description, location, roomID, attending);
+//Appointment(title, date, startTime, endTime, ownerID, description, location, roomID, attending);
 
     public Appointment(String title, LocalDate date, LocalTime startTime, LocalTime endTime, int ownerID, String description, String location, int roomID, int attending) {
         this.title = InputValidator.textInputValidator(title);
         this.description = InputValidator.textInputValidator(description);
-        this.location = InputValidator.textInputValidator(location);
+        if (roomID != -1) {
+            this.roomID = roomID;
+        } else {
+            this.location = InputValidator.textInputValidator(location);
+        }
         this.ownerID = ownerID;
-        this.roomID = roomID;
         setDateTime(date, startTime, endTime);
         setAttending(attending);
     }
@@ -162,4 +164,24 @@ public class Appointment {
     }
 
     public String getDescription(){ return description; }
+
+    public int getAppointmentID() {
+        return appointmentID;
+    }
+
+    public int getOwnerID() {
+        return ownerID;
+    }
+
+    public int getRoomID() {
+        return roomID;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public LocalDateTime getAlarmTime() {
+        return alarmTime;
+    }
 }
