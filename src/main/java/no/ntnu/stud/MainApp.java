@@ -27,7 +27,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("CalendarApp");
+        this.primaryStage.setTitle("Ultimate Saga Calendar Pro 365 Cloud Edition");
         this.primaryStage.getIcons().add(new Image("file:resources/images/favicon.png"));
 
         initRootLayout();
@@ -97,6 +97,12 @@ public class MainApp extends Application {
             loader.setLocation(MainApp.class.getResource("view/LeftMenu.fxml"));
             GridPane leftMenu = (GridPane) loader.load();
 
+            FXMLLoader loader2 = new FXMLLoader();
+            loader2.setLocation(MainApp.class.getResource("view/CalendarSmall.fxml"));
+            GridPane smallCal = (GridPane) loader2.load();
+
+            leftMenu.add(smallCal,0,0);
+
             rootLayout.setLeft(leftMenu);
 
             LeftMenuController controller = loader.getController();
@@ -109,31 +115,6 @@ public class MainApp extends Application {
     }
 
     public void showAppointmentDialog(Appointment appointment) {
-        /*try {//Pop Up
-            // Load the fxml file and create a new stage for the popup dialog.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/newAppointment.fxml"));
-            GridPane page = (GridPane) loader.load();
-
-            // Create the dialog Stage.
-            Stage appointmentDialog = new Stage();
-            appointmentDialog.setTitle("Appointment");
-            appointmentDialog.initModality(Modality.WINDOW_MODAL);
-            appointmentDialog.initOwner(primaryStage);
-            Scene scene = new Scene(page);
-            appointmentDialog.setScene(scene);
-
-            // Set the person into the controller.
-            NewAppointmentController controller = loader.getController();
-            controller.setNewAppointmentStage(appointmentDialog);
-
-            // Show the dialog and wait until the user closes it
-            appointmentDialog.showAndWait();
-            return controller.isOkClicked();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }*/
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/newAppointment.fxml"));
@@ -143,9 +124,13 @@ public class MainApp extends Application {
 
             NewAppointmentController controller = loader.getController();
             controller.setMainApp(this);
+            if (appointment != null){
+
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 }
