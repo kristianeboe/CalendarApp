@@ -104,9 +104,9 @@ public class Appointment {
     }
 
     public void setLocation(String location) {
-        if(location.isEmpty()){
-            throw new IllegalArgumentException("location cannot be empty");
-        }else if(location.length()>100){
+        if (location == null)
+            return;
+        else if (location.length()>100) {
             throw new IllegalArgumentException("location cannot be longer than 100 characters");
         }
         this.location = location;
