@@ -80,15 +80,15 @@ public class CalendarViewController {
     private int getFirstDayOfMonth(Calendar cal) {
         cal.set(Calendar.DAY_OF_MONTH,1);
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE");
-        String fwd = dateFormat.format((calendar.getTime()));
+        String fwd = dateFormat.format((cal.getTime()));
         switch (fwd){
-            case "Mon": return 0;
-            case "Tue": return 1;
-            case "Wed": return 2;
-            case "Thu": return 3;
-            case "Fri": return 4;
-            case "Sat": return 5;
-            case "Sun": return 6;
+            case "Mon":case "ma": return 0;
+            case "Tue":case "ti": return 1;
+            case "Wed":case "on": return 2;
+            case "Thu":case "to": return 3;
+            case "Fri":case "fr": return 4;
+            case "Sat":case "lø": return 5;
+            case "Sun":case "sø": return 6;
         }
         return -1;
     }

@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.geometry.*?>
 <?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.*?>
 
-<GridPane alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="160.0" style="-fx-background-color: #f0f0f0;" stylesheets="@swagStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.CalendarViewController">
+<GridPane alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="150.0" style="-fx-background-color: #f3f3f3;" styleClass="calendarSmall, boxShadow" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.CalendarViewController">
   <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -18,7 +15,6 @@
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
   </columnConstraints>
   <rowConstraints>
     <RowConstraints maxHeight="172.0" minHeight="21.0" prefHeight="22.0" vgrow="SOMETIMES" />
@@ -30,7 +26,7 @@
       <RowConstraints maxHeight="25.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label fx:id="lblCurrentMonth" prefHeight="21.0" prefWidth="85.0" text="March 2015" GridPane.columnIndex="2" GridPane.columnSpan="5" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+      <Label fx:id="lblCurrentMonth" alignment="CENTER" contentDisplay="CENTER" prefHeight="21.0" prefWidth="160.0" text="March 2015" textAlignment="CENTER" GridPane.columnSpan="7" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
          <font>
             <Font size="15.0" />
          </font>
@@ -38,197 +34,197 @@
             <Insets />
          </GridPane.margin>
       </Label>
-      <Label fx:id="d06" text="1" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+      <Label fx:id="d06" text="1" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d10" text="2" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+      <Label fx:id="d10" text="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d11" text="3" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+      <Label fx:id="d11" text="3" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d12" text="4" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+      <Label fx:id="d12" text="4" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d13" text="5" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+      <Label fx:id="d13" text="5" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d14" text="6" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+      <Label fx:id="d14" text="6" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d15" text="7" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+      <Label fx:id="d15" text="7" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d16" text="8" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+      <Label fx:id="d16" text="8" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d20" text="9" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+      <Label fx:id="d20" text="9" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d21" text="10" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+      <Label fx:id="d21" text="10" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d22" text="11" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+      <Label fx:id="d22" text="11" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d23" text="12" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+      <Label fx:id="d23" text="12" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d24" text="13" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+      <Label fx:id="d24" text="13" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d25" text="14" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+      <Label fx:id="d25" text="14" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d26" text="15" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+      <Label fx:id="d26" text="15" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d30" text="16" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+      <Label fx:id="d30" text="16" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d31" text="17" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+      <Label fx:id="d31" text="17" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d32" text="18" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+      <Label fx:id="d32" text="18" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d33" text="19" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+      <Label fx:id="d33" text="19" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d34" text="20" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+      <Label fx:id="d34" text="20" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d35" text="21" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+      <Label fx:id="d35" text="21" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d36" text="22" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+      <Label fx:id="d36" text="22" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d40" text="23" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
+      <Label fx:id="d40" text="23" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d41" text="24" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
+      <Label fx:id="d41" text="24" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d42" text="25" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
+      <Label fx:id="d42" text="25" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d43" text="26" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
+      <Label fx:id="d43" text="26" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d44" text="27" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
+      <Label fx:id="d44" text="27" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d45" text="28" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
+      <Label fx:id="d45" text="28" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d46" text="29" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
+      <Label fx:id="d46" text="29" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d50" text="30" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="BOTTOM">
+      <Label fx:id="d50" text="30" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d51" text="31" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="BOTTOM">
+      <Label fx:id="d51" text="31" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="prev_arrow" onMouseClicked="#previousMonth" text="&lt;" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+      <Label fx:id="prev_arrow" onMouseClicked="#previousMonth" text="&lt;" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label fx:id="nxt_arrow" onMouseClicked="#nextMonth" text="&gt;" GridPane.columnIndex="8" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+      <Label fx:id="nxt_arrow" onMouseClicked="#nextMonth" text="&gt;" GridPane.columnIndex="6" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label fx:id="d05" text="-" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+      <Label fx:id="d05" text="-" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d04" text="-" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+      <Label fx:id="d04" text="-" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d03" text="-" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+      <Label fx:id="d03" text="-" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d02" text="-" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+      <Label fx:id="d02" text="-" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d01" text="-" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+      <Label fx:id="d01" text="-" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Label fx:id="d00" text="-" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+      <Label fx:id="d00" text="-" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <font>
             <Font size="11.0" />
          </font>
