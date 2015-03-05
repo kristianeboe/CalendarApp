@@ -113,9 +113,7 @@ public class NewAppointmentController {
         LocalDate date = inpDate.getValue();
         ArrayList<Room> rooms = gd.getAllAvailableRooms(startTime, endTime, date, Integer.parseInt(inpMaxAttend.getText()));
         for(Room r:rooms){
-            String str = "Room: "+r.getName()+"|Capacity: "+r.getCapacity()+"\n";
-            btnRoom.getItems().add(str);
-            btnRoom.setValue(r.getRoomID());
+            btnRoom.getItems().add(r);
             System.out.println("Room: "+r.getName()+"|Capacity: "+r.getCapacity());
         }
     }

@@ -57,4 +57,8 @@ public class Room {
             throw new IllegalArgumentException("No room capacity is not allowed");
         this.capacity=capacity;
     }
+
+    public String toString(){
+        return "Room: "+ this.name + " - Capacity:"+this.capacity;
+    }
 }
