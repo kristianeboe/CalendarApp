@@ -33,7 +33,7 @@ public class MailController {
     }
 
     private String buildMessage (User recipient) {
-        //TODO: Create getUserAppoinment function in GetData and use it here.
+        //TODO: Create getUserAppoinments function in GetData and use it here.
         String message;
         message = "Dear " + recipient.getGivenName() +
                 ".\n\nYou have received a notification from Ultimate Saga Calendar Pro 365 Cloud Edition";
