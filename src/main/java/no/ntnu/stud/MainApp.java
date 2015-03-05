@@ -8,9 +8,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import no.ntnu.stud.reservation.Appointment;
+import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.view.*;
 
+import java.io.File;
 import java.io.IOException;
 
 public class MainApp extends Application {
@@ -26,7 +27,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("CalendarApp");
+        this.primaryStage.setTitle("Ultimate Saga Calendar Pro 365 Cloud Edition");
         this.primaryStage.getIcons().add(new Image("file:resources/images/favicon.png"));
 
         initRootLayout();
@@ -43,7 +44,6 @@ public class MainApp extends Application {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
-
             rootLayout = (BorderPane) loader.load();
 
             // Show the scene containing the root layout.
