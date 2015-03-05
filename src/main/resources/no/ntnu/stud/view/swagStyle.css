@@ -103,13 +103,6 @@ Calendar END
     -fx-padding: 7 18 7 18;
     -fx-opacity: 0.5;
 }
-.testbtn{
-    -fx-background-radius: 0;
-    -fx-background-color: #8a98a7;
-}
-.testbtn:hover{
-    -fx-cursor: hand;
-}
 #btnClose{
     -fx-background-radius: 30;
     -fx-background-color: ee6666;
@@ -169,6 +162,20 @@ UpcomingEvents END
 LeftMenu END
 ///////////
 //////////
+*/
+
+/*CalendarSmall START*/
+
+.calendarSmall{
+    -fx-background-color: f0f0f0;
+}
+.calendarSmall #nxt_arrow:hover,#prev_arrow:hover{
+    -fx-cursor: hand;
+}
+
+/*calendarSmall END
+//////////////
+//////////////
 */
 
 /*newAppointment START*/
