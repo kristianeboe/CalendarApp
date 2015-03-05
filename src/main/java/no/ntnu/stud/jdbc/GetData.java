@@ -264,7 +264,7 @@ public class GetData {
         return room;
     }
 
-    public static ArrayList<Room> getAllAvailableRooms(LocalTime startTime, LocalTime endTime, LocalDate date){
+    public static ArrayList<Room> getAllAvailableRooms(LocalTime startTime, LocalTime endTime, LocalDate date, int numPeople){
         ArrayList<Room> rooms = new ArrayList<>();
         Connection con = DBConnector.getCon();
         String start =startTime.toString();
@@ -273,8 +273,9 @@ public class GetData {
         if(con != null){
             try{
                 Statement stmt = con.createStatement();
-                String sql = "SELECT * FROM room " +
-                        "WHERE roomID NOT IN( " +
+                String sql ="SELECT * FROM room " +
+                        "WHERE capacity >="+numPeople+" "+
+                        "AND roomID NOT IN( " +
                         "SELECT roomID FROM appointment " +
                         "WHERE ( ('"+start+"' > startTime " +
                         "AND '"+start+"' < endTime) " +

@@ -81,17 +81,17 @@ public class NewAppointmentController {
         int maxAttending = Integer.parseInt(inpMaxAttend.getText());
 
         // If roomID, use roomID. If not, use location.
-        int roomID;
+        int roomID = 0;
         String location = "";
 
         String description = inpDesc.getText();
-        int ownerID;
+        int ownerID = 0;
 
         /*
         for (User u : invited) {}
          */
 
-        Appointment appointment = new Appointment(title, date, startTime, endTime, ownerID, description, location, maxAttending);
+        Appointment appointment = new Appointment(title, date, startTime, endTime, ownerID, description, location, roomID, maxAttending);
     }
 
     @FXML
@@ -118,7 +118,7 @@ public class NewAppointmentController {
         LocalTime startTime = LocalTime.parse(inpFrom.getText());
         LocalTime endTime = LocalTime.parse(inpTo.getText());
         LocalDate date = inpDate.getValue();
-        ArrayList<Room> rooms = gd.getAllAvailableRooms(startTime, endTime, date);
+        ArrayList<Room> rooms = gd.getAllAvailableRooms(startTime, endTime, date, Integer.parseInt(inpMaxAttend.getText()));
         for(Room r:rooms){
             String str = "Room: "+r.getName()+"|Capacity: "+r.getCapacity()+"\n";
             btnRoom.getItems().add(str);
