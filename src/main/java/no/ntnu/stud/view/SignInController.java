@@ -4,6 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import no.ntnu.stud.MainApp;
 import no.ntnu.stud.model.User;
@@ -20,6 +21,8 @@ public class SignInController {
     private TextField inpEmail, inpPassword;
     @FXML
     private Button btnSignIn;
+    @FXML
+    private Label lblError;
 
     public SignInController(){
 
@@ -27,22 +30,25 @@ public class SignInController {
 
     @FXML
     private void initialize(){
+        lblError.setVisible(false);
         activateFocusedProperties();
     }
 
     @FXML
     private void handleSignIn(){
+        lblError.setVisible(false);
         Authentication authentication = new Authentication();
-            User user = authentication.login(inpEmail.getText(), inpPassword.getText());
+        User user = authentication.login(inpEmail.getText(), inpPassword.getText());
         if (user != null) {
             mainApp.setUser(user);
             mainApp.signedIn();
         } else {
+            lblError.setText("Email or password wrong");
+            lblError.setVisible(true);
             inpEmail.getStyleClass().add("errorTextField");
             inpPassword.getStyleClass().add("errorTextField");
             inpEmail.clear();
             inpPassword.clear();
-            inpEmail.setPromptText("email or password wrong");
 
         }
 

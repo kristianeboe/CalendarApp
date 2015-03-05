@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane styleClass="boxShadow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.SignInController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: #f0f0f0;" styleClass="boxShadow" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.SignInController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
@@ -17,7 +17,7 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-       <Button styleClass="menuButton" fx:id="btnSignIn" mnemonicParsing="false" onAction="#handleSignIn" style="-fx-background-color: #2c3136; -fx-background-radius: 0;" text="Sign in" textFill="#3e94ec" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+       <Button fx:id="btnSignIn" mnemonicParsing="false" onAction="#handleSignIn" style="-fx-background-color: #2c3136; -fx-background-radius: 0;" styleClass="menuButton" text="Sign in" textFill="#3e94ec" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
            <font>
                <Font size="15.0" />
            </font>
@@ -41,5 +41,10 @@
          </font>
       </Text>
       <Button fx:id="btnSkip" mnemonicParsing="false" onAction="#handleSkip" text="Skip" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+      <Label fx:id="lblError" text="Error label" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+         <GridPane.margin>
+            <Insets top="40.0" />
+         </GridPane.margin>
+      </Label>
    </children>
 </GridPane>
