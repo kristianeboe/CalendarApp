@@ -105,7 +105,7 @@
                 <Font size="20.0" />
             </font>
         </Button>
-        <ComboBox fx:id="btnRoom" onMouseReleased="#updateTest" onMouseClicked="#getAllAvailableRooms" prefHeight="44.0" prefWidth="44.0" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" promptText="..." GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="TOP">
+        <ComboBox fx:id="btnRoom" onMouseMoved="#updateTest" onMouseClicked="#getAllAvailableRooms" prefHeight="44.0" prefWidth="44.0" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" promptText="..." GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="TOP">
             <GridPane.margin>
                 <Insets right="15.0" top="10.0" />
             </GridPane.margin>
