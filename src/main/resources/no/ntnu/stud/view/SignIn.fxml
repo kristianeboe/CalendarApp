@@ -40,5 +40,6 @@
             <Font size="20.0" />
          </font>
       </TextField>
+      <Button fx:id="btnSkip" mnemonicParsing="false" onAction="#handleSkip" text="Skip" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
    </children>
 </GridPane>

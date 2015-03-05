@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import no.ntnu.stud.MainApp;
+import no.ntnu.stud.security.Authentication;
 
 /**
  * Created by Kristian on 02/03/15.
@@ -23,9 +24,22 @@ public class SignInController {
 
     @FXML
     private void handleSignIn(){
-        if (inpEmail.getText().equals("person@company.com") && inpPassword.getText().equals("swag")){
-            mainApp.signedIn();
+        Authentication authentication = new Authentication();
+        try{
+            mainApp.setUser(authentication.login(inpEmail.getText(), inpPassword.getText()));
+        } catch (IllegalArgumentException e){
+            inpEmail.getStyleClass().add("errorTextField");
+            inpPassword.getStyleClass().add("errorTextField");
+            inpEmail.clear();
+            inpPassword.clear();
+            inpEmail.setPromptText(e.getMessage());
         }
+
+    }
+
+    @FXML
+    private void handleSkip(){
+        mainApp.signedIn();
     }
 
     public void setMainApp(MainApp mainApp) {

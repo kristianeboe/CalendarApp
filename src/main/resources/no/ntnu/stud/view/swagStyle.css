@@ -1,3 +1,9 @@
+/*RootLayout start*/
+.backgroundColor{
+    -fx-background-color: #f0f0f0;
+}
+/*RootLayout end*/
+
 /*Calendar start*/
 .year_lbl {
     -fx-text-fill: #3e94ec;
@@ -132,3 +138,10 @@ UpcomingEvents END
 /////////////////
 ////////////////
 */
+
+/* error start*/
+.errorTextField {
+    -fx-background-color: #ffbbbb;
+    -fx-border-color: #f00;
+}
+/* error end*/
