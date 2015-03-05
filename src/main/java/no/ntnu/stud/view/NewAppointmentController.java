@@ -17,8 +17,6 @@ public class NewAppointmentController {
     @FXML
     private Label header;
     @FXML
-    private TextField inpEmail;
-    @FXML
     private TextField inpTitle;
     @FXML
     private DatePicker inpDate;
@@ -50,12 +48,22 @@ public class NewAppointmentController {
     public void setMainApp(MainApp mainApp) { this.mainApp = mainApp;}
 
     public void insertAppointmentData(Appointment appointment){
-        header.setText("");
+        if (appointment.getTitle() != null) {
+            header.setText(appointment.getTitle());
+            inpDate.setValue(appointment.getDate());
+            inpFrom.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
+            inpTo.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
+            inpMaxAttend.setText(Integer.toString(appointment.getAttending()));
+            //setRoom field
+            inpDesc.setText(appointment.getDescription());
+        } else {
+            inpDate.setValue(appointment.getDate());
+            inpFrom.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
+            inpTo.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
+            inpMaxAttend.setText(Integer.toString(appointment.getAttending()));
+        }
     }
 
-    public boolean isOkClicked() {
-        return okClicked;
-    }
 
     @FXML
     private void voidHandleSave() {

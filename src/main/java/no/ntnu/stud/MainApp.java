@@ -119,9 +119,8 @@ public class MainApp extends Application {
             NewAppointmentController controller = loader.getController();
             controller.setMainApp(this);
             if (appointment != null){
-
+                controller.insertAppointmentData(appointment);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
