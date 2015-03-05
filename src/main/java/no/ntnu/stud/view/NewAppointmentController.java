@@ -15,13 +15,11 @@ public class NewAppointmentController {
     private Appointment appointment;
     private boolean okClicked = false;
     @FXML
-<<<<<<< HEAD
-    private Label title;
+    private Label header;
     @FXML
     private TextField inpEmail;
-=======
+    @FXML
     private TextField inpTitle;
->>>>>>> f5f72e5c7b918e57e156d8b61b693a4022cced4f
     @FXML
     private DatePicker inpDate;
     @FXML
@@ -52,7 +50,7 @@ public class NewAppointmentController {
     public void setMainApp(MainApp mainApp) { this.mainApp = mainApp;}
 
     public void insertAppointmentData(Appointment appointment){
-        title.setText("");
+        header.setText("");
     }
 
     public boolean isOkClicked() {
