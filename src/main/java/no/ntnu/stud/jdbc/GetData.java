@@ -152,7 +152,7 @@ public class GetData {
                 while (rset.next()) {
                     int ID = rset.getInt("appointmentID");
                     String title = rset.getString("title");
-                    int ownerID = rset.getInt("ownerID");
+                    User owner = User.getById(rset.getInt("ownerID"));
                     LocalDate date = rset.getTimestamp("appointmentDate").toLocalDateTime().toLocalDate();
                     LocalTime from = rset.getTimestamp("startTime").toLocalDateTime().toLocalTime();
                     LocalTime to = rset.getTimestamp("endTime").toLocalDateTime().toLocalTime();
@@ -166,7 +166,51 @@ public class GetData {
                     }
                     //System.out.println("id: "+ID+", ownerID: "+ownerID+", date: "+date.toString()+", from: " +from.toString()+", to: "+to.toString()+", location: "+location+", roomID: "+roomID+", description: "+description+", attening: "+attending+", alarmTime: "+alarmTime.toString());
 
-                    appointment = new Appointment(ID, title, date, from, to, ownerID, description, location, roomID, attending, alarmTime);
+                    appointment = new Appointment(ID, title, date, from, to, owner, description, location, roomID, attending, alarmTime);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.err.print("No Connection");
+        }
+        return appointment;
+    }
+
+    public static Appointment getAppointment(int qRoomID, LocalDate qDate, LocalTime qStartTime, LocalTime qEndTime) {
+        Connection con = DBConnector.getCon();
+        Appointment appointment = null;
+
+        if (con != null) {
+            try {
+                Statement stmt = con.createStatement();
+                String strSelect = "SELECT * FROM appointment " +
+                        "WHERE roomID = '" + qRoomID + "' " +
+                        "AND appointmentDate = '" + qDate + "' " +
+                        "AND startTime = '" + qStartTime + "' " +
+                        "AND endTime = '" + qEndTime + "'" +
+                        ";";
+                ResultSet rset = stmt.executeQuery(strSelect);
+                System.out.println("Performing SQL Query [" + strSelect + "]");
+
+                while (rset.next()) {
+                    int ID = rset.getInt("appointmentID");
+                    String title = rset.getString("title");
+                    User owner = getUser(rset.getInt("ownerID"));
+                    LocalDate date = rset.getTimestamp("appointmentDate").toLocalDateTime().toLocalDate();
+                    LocalTime from = rset.getTimestamp("startTime").toLocalDateTime().toLocalTime();
+                    LocalTime to = rset.getTimestamp("endTime").toLocalDateTime().toLocalTime();
+                    String location = rset.getString("location");
+                    int roomID = rset.getInt("roomID");
+                    String description = rset.getString("description");
+                    int attending = rset.getInt("attending");
+                    LocalDateTime alarmTime = LocalDateTime.parse("0001-01-01 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                    if(rset.getTimestamp("alarmTime") != null){
+                        alarmTime = rset.getTimestamp("alarmTime").toLocalDateTime();
+                    }
+                    //System.out.println("id: "+ID+", ownerID: "+ownerID+", date: "+date.toString()+", from: " +from.toString()+", to: "+to.toString()+", location: "+location+", roomID: "+roomID+", description: "+description+", attening: "+attending+", alarmTime: "+alarmTime.toString());
+
+                    appointment = new Appointment(ID, title, date, from, to, owner, description, location, roomID, attending, alarmTime);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -266,9 +310,9 @@ public class GetData {
         return room;
     }
 
-    public static ObservableList<Room> getAllAvailableRooms(LocalTime startTime, LocalTime endTime, LocalDate date, int numPeople){
+    public static ArrayList<Room> getAllAvailableRooms(LocalTime startTime, LocalTime endTime, LocalDate date, int numPeople){
         ArrayList<Room> rooms = new ArrayList<>();
-        ObservableList<Room> rooms2 = FXCollections.observableArrayList();
+        // ObservableList<Room> rooms2 = FXCollections.observableArrayList();
         Connection con = DBConnector.getCon();
         String start =startTime.toString();
         String end = endTime.toString();
@@ -295,7 +339,7 @@ public class GetData {
                     String roomName = rs.getString("name");
                     int roomCapacity = rs.getInt("capacity");
                     rooms.add(new Room(roomID, roomName, roomCapacity));
-                    rooms2.add(new Room(roomID, roomName, roomCapacity));
+                    // rooms2.add(new Room(roomID, roomName, roomCapacity));
                 }
             }catch (SQLException e) {
                 e.printStackTrace();
@@ -303,7 +347,7 @@ public class GetData {
         } else {
             System.err.print("No Connection");
         }
-        return rooms2;
+        return rooms;
     }
 
     public static ArrayList<Notification> getNotifications(int userID){

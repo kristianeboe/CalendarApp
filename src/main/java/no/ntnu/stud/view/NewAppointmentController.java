@@ -6,12 +6,17 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import no.ntnu.stud.MainApp;
 import no.ntnu.stud.jdbc.GetData;
+import no.ntnu.stud.jdbc.InsertData;
 import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.model.Room;
+import no.ntnu.stud.model.User;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Kristian on 03/03/15.
@@ -56,6 +61,10 @@ public class NewAppointmentController {
     }
     public void setMainApp(MainApp mainApp) { this.mainApp = mainApp;}
 
+    public boolean isOkClicked() {
+        return okClicked;
+    }
+
     public void insertAppointmentData(Appointment appointment){
             inpTitle.setText(appointment.getTitle());
             inpDesc.setText(appointment.getDescription());
@@ -66,25 +75,39 @@ public class NewAppointmentController {
         //}
     }
 
-    public void addAppointment() {
+    public Appointment addAppointment() {
         String title = inpTitle.getText();
         LocalDate date = inpDate.getValue();
         LocalTime startTime = LocalTime.parse(inpFrom.getText());
         LocalTime endTime = LocalTime.parse(inpTo.getText());
         int maxAttending = Integer.parseInt(inpMaxAttend.getText());
+        int roomID;
+        User owner;
 
         // If roomID, use roomID. If not, use location.
-        int roomID = 0;
+
+        // Cleanest hack ever to find roomID
+        String roomValue = btnRoom.getValue().toString();
+        Pattern pattern = Pattern.compile("(\\d+)");
+        Matcher m = pattern.matcher(roomValue);
+        if (m.find()) {
+            roomID = Integer.parseInt(m.group(1));
+            // System.out.println("match: " + m.group(1));
+        } else {
+            throw new IllegalArgumentException("FUCK YOU DIDNT FIND THE ROOM SHIT");
+        }
         String location = "";
 
+        owner = mainApp.getUser();
+
         String description = inpDesc.getText();
-        int ownerID = 0;
 
         /*
         for (User u : invited) {}
          */
 
-        Appointment appointment = new Appointment(title, date, startTime, endTime, ownerID, description, location, roomID, maxAttending);
+        Appointment appointment = new Appointment(title, date, startTime, endTime, owner, description, location, roomID, maxAttending);
+        return appointment;
     }
 
     @FXML
@@ -111,14 +134,38 @@ public class NewAppointmentController {
         LocalTime startTime = LocalTime.parse(inpFrom.getText());
         LocalTime endTime = LocalTime.parse(inpTo.getText());
         LocalDate date = inpDate.getValue();
-        int numPeople = Integer.parseInt(inpMaxAttend.getText());
-        //ArrayList<Room> rooms = gd.getAllAvailableRooms(startTime, endTime, date);
-        ObservableList<Room> rooms = gd.getAllAvailableRooms(startTime, endTime, date, numPeople);
-        btnRoom.setItems(rooms);
+        ArrayList<Room> rooms = gd.getAllAvailableRooms(startTime, endTime, date, Integer.parseInt(inpMaxAttend.getText()));
+        for(Room r:rooms){
+            btnRoom.getItems().add(r);
+        }
     }
     @FXML
     private void voidHandleSave() {
+        Appointment app = addAppointment();
+        boolean DEBUG = false;
 
+        if (DEBUG) {
+            System.out.println("=== Created appointment ===");
+            System.out.println("toStr: " + app);
+            System.out.println("title: " + app.getTitle());
+            System.out.println("desc : " + app.getDescription());
+            System.out.println("date : " + app.getDate());
+            System.out.println("start: " + app.getStart());
+            System.out.println("end  : " + app.getEnd());
+        }
+        InsertData.createAppointment(app);
+
+        if (DEBUG) {
+            System.out.println("=== Let's try to get it back ===");
+            Appointment app_check = GetData.getAppointment(app.getRoomID(), app.getDate(), app.getStart(), app.getEnd());
+            System.out.println("toStr: " + app_check);
+            System.out.println("id   : " + app_check.getAppointmentID());
+            System.out.println("title: " + app_check.getTitle());
+            System.out.println("desc : " + app_check.getDescription());
+            System.out.println("date : " + app_check.getDate());
+            System.out.println("start: " + app_check.getStart());
+            System.out.println("end  : " + app_check.getEnd());
+        }
     }
 
     @FXML

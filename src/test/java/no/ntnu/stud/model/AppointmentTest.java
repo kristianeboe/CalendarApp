@@ -14,14 +14,15 @@ import java.time.LocalDateTime;
  */
 public class AppointmentTest {
     String title, description, location;
-    int ownerID, roomID, maxAttending;
+    int roomID, maxAttending;
+    User owner;
     @Before
     public void init() {
         title = "Mote i dag";
         description = "Et lite mote";
         location = "Skogen 3";
 
-        ownerID = 1;
+        owner = new User(1,"Testesen", "", "Test", "test@testststst.com");
         roomID = 1;
     }
 
@@ -31,7 +32,7 @@ public class AppointmentTest {
         LocalTime startTime = LocalTime.of(12, 0);
         LocalTime endTime = LocalTime.of(13, 0);
         int attendees = 1;
-        Appointment res = new Appointment(title, date, startTime, endTime, ownerID, description, location, roomID, attendees);
+        Appointment res = new Appointment(title, date, startTime, endTime, owner, description, location, roomID, attendees);
         assertEquals(attendees, res.getAttending());
     }
 
@@ -42,7 +43,7 @@ public class AppointmentTest {
         LocalTime startTime = LocalTime.of(12, 0);
         LocalTime endTime = LocalTime.of(13, 0);
         int attendees = -1;
-        Appointment res = new Appointment(title, date, startTime, endTime, ownerID, description, location, roomID, attendees);
+        Appointment res = new Appointment(title, date, startTime, endTime, owner, description, location, roomID, attendees);
         assertNull(res);
     }
 
@@ -52,7 +53,7 @@ public class AppointmentTest {
         LocalTime startTime = LocalTime.of(13, 0);
         LocalTime endTime = LocalTime.of(12, 0);
         int attendees = 1;
-        Appointment res = new Appointment(title, date, startTime, endTime, ownerID, description, location, roomID, attendees);
+        Appointment res = new Appointment(title, date, startTime, endTime, owner, description, location, roomID, attendees);
         assertNull(res);
     }
 
@@ -62,7 +63,7 @@ public class AppointmentTest {
         LocalTime startTime = LocalTime.of(12, 0);
         LocalTime endTime = LocalTime.of(13, 0);
         int attendees = 1;
-        Appointment res = new Appointment(title, date, startTime, endTime, ownerID, description, location, roomID, attendees);
+        Appointment res = new Appointment(title, date, startTime, endTime, owner, description, location, roomID, attendees);
         assertEquals(startTime, res.getStart());
         assertEquals(endTime, res.getEnd());
     }
@@ -73,7 +74,7 @@ public class AppointmentTest {
         LocalTime startTime = LocalTime.of(12, 0);
         LocalTime endTime = LocalTime.of(13, 0);
         int attendees = 1;
-        Appointment res = new Appointment(title, date, startTime, endTime, ownerID, description, location, roomID, attendees);
+        Appointment res = new Appointment(title, date, startTime, endTime, owner, description, location, roomID, attendees);
         assertEquals(startTime, res.getStart());
         assertEquals(endTime, res.getEnd());
     }
@@ -83,7 +84,7 @@ public class AppointmentTest {
         LocalDate date = LocalDate.of(2015, 1, 1);
         LocalTime startTime = LocalTime.of(12, 0);
         int attendees = 1;
-        Appointment res = new Appointment(title, date, startTime, startTime, ownerID, description, location, roomID, attendees);
+        Appointment res = new Appointment(title, date, startTime, startTime, owner, description, location, roomID, attendees);
         assertNull(res);
     }
 }
