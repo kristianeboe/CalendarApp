@@ -73,7 +73,7 @@ public class NewAppointmentController {
         //}
     }
 
-    public void addAppointment() {
+    public Appointment addAppointment() {
         String title = inpTitle.getText();
         LocalDate date = inpDate.getValue();
         LocalTime startTime = LocalTime.parse(inpFrom.getText());
@@ -92,6 +92,7 @@ public class NewAppointmentController {
          */
 
         Appointment appointment = new Appointment(title, date, startTime, endTime, ownerID, description, location, roomID, maxAttending);
+        return appointment;
     }
 
     @FXML
@@ -131,7 +132,17 @@ public class NewAppointmentController {
     }
     @FXML
     private void voidHandleSave() {
+        Appointment app = addAppointment();
+        boolean DEBUG = true;
 
+        if (DEBUG) {
+            System.out.println(app);
+            System.out.println(app.getTitle());
+            System.out.println(app.getDescription());
+            System.out.println(app.getDate());
+            System.out.println(app.getStart());
+            System.out.println(app.getEnd());
+        }
     }
 
     @FXML
