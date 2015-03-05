@@ -17,12 +17,12 @@ import java.time.LocalTime;
  */
 public class EditData {
 
-    public static void changePassword(User user, String oldPassword, char[] newPassword, byte[] newSalt) throws UnsupportedEncodingException, SQLException {
+    public static void changePassword(User loggedInUser, String oldPassword, char[] newPassword, byte[] newSalt) throws UnsupportedEncodingException, SQLException {
         Connection con = DBConnector.getCon();
 
         byte[] hash = SHAHashGenerator.hash(newPassword, newSalt);
 
-        if (Authentication.authenticate(user.getEmail(), oldPassword)) {
+        if (Authentication.authenticate(loggedInUser.getEmail(), oldPassword)) {
             String query = "UPDATE user " +
                     "SET password = ?, salt = ? " +
                     "WHERE userID = ?;";
@@ -30,13 +30,15 @@ public class EditData {
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setBytes(1, hash);
             stmt.setBytes(2, newSalt);
-            stmt.setInt(3, user.getUserID());
+            stmt.setInt(3, loggedInUser.getUserID());
             stmt.execute();
             System.out.println("Performing SQL Query [" + query + "]");
+        } else {
+            System.err.print("Wrong password");
         }
     }
 
-    public static String forgotPassword(String email) throws SQLException {
+    public static String forgotPassword(String email) {
         Connection con = DBConnector.getCon();
         String newPassword = SHAHashGenerator.generateRandomPassword(8);
         byte[] newSalt = SHAHashGenerator.getSalt();
@@ -45,14 +47,19 @@ public class EditData {
 
         String query = "UPDATE user SET password = ?, salt = ? WHERE email = ?";
 
-        PreparedStatement stmt = con.prepareStatement(query);
-        stmt.setBytes(1, hash);
-        stmt.setBytes(2, newSalt);
-        stmt.setString(3, email);
-        stmt.execute();
-        System.out.println("Performing SQL Query [" + query + "]");
+        PreparedStatement stmt = null;
+        try {
+            stmt = con.prepareStatement(query);
+            stmt.setBytes(1, hash);
+            stmt.setBytes(2, newSalt);
+            stmt.setString(3, email);
+            stmt.execute();
+            System.out.println("Performing SQL Query [" + query + "]");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-        return newPassword;
+        return Authentication.authenticate(email, newPassword) ? newPassword : null;
     }
 
     public static void deleteUser(int userID) throws SQLException {
