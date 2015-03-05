@@ -76,7 +76,21 @@ public class SignInController {
 
     @FXML
     private void handleSkip(){
-        mainApp.signedIn();
+        lblError.setVisible(false);
+        Authentication authentication = new Authentication();
+        User user = authentication.login("test@test.no", "123");
+        if (user != null) {
+            mainApp.setUser(user);
+            mainApp.signedIn();
+        } else {
+            lblError.setText("Email or password wrong");
+            lblError.setVisible(true);
+            inpEmail.getStyleClass().add("errorTextField");
+            inpPassword.getStyleClass().add("errorTextField");
+            inpEmail.clear();
+            inpPassword.clear();
+
+        }
     }
 
     public void setMainApp(MainApp mainApp) {
