@@ -10,6 +10,7 @@ import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.model.Room;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
@@ -21,7 +22,9 @@ public class NewAppointmentController {
     private Appointment appointment;
     private boolean okClicked = false;
     @FXML
-    private TextField inpEmail;
+    private Label header;
+    @FXML
+    private TextField inpTitle;
     @FXML
     private DatePicker inpDate;
     @FXML
@@ -31,11 +34,11 @@ public class NewAppointmentController {
     @FXML
     private TextField inpRoom;
     @FXML
-    private TextField inpUser;
+    private TextField inpInvite;
     @FXML
     private TextArea inpDesc;
     @FXML
-    private ComboBox btnRoom;
+    private ComboBox<Room> btnRoom;
     @FXML
     private Button btnSave, btnClose, btnAddUser;
 
@@ -53,8 +56,35 @@ public class NewAppointmentController {
     }
     public void setMainApp(MainApp mainApp) { this.mainApp = mainApp;}
 
-    public boolean isOkClicked() {
-        return okClicked;
+    public void insertAppointmentData(Appointment appointment){
+            inpTitle.setText(appointment.getTitle());
+            inpDesc.setText(appointment.getDescription());
+            inpDate.setValue(appointment.getDate());
+            inpFrom.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
+            inpTo.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
+            inpMaxAttend.setText(Integer.toString(appointment.getAttending()));
+        //}
+    }
+
+    public void addAppointment() {
+        String title = inpTitle.getText();
+        LocalDate date = inpDate.getValue();
+        LocalTime startTime = LocalTime.parse(inpFrom.getText());
+        LocalTime endTime = LocalTime.parse(inpTo.getText());
+        int maxAttending = Integer.parseInt(inpMaxAttend.getText());
+
+        // If roomID, use roomID. If not, use location.
+        int roomID = 0;
+        String location = "";
+
+        String description = inpDesc.getText();
+        int ownerID = 0;
+
+        /*
+        for (User u : invited) {}
+         */
+
+        Appointment appointment = new Appointment(title, date, startTime, endTime, ownerID, description, location, roomID, maxAttending);
     }
 
     @FXML
@@ -81,18 +111,10 @@ public class NewAppointmentController {
         LocalTime startTime = LocalTime.parse(inpFrom.getText());
         LocalTime endTime = LocalTime.parse(inpTo.getText());
         LocalDate date = inpDate.getValue();
+        int numPeople = Integer.getInteger(inpMaxAttend.getText());
         //ArrayList<Room> rooms = gd.getAllAvailableRooms(startTime, endTime, date);
-        ObservableList<Room> rooms = gd.getAllAvailableRooms(startTime, endTime, date);
+        ObservableList<Room> rooms = gd.getAllAvailableRooms(startTime, endTime, date, numPeople);
         btnRoom.setItems(rooms);
-        /*for(Room r:rooms){
-            String str = "Room: "+r.getName()+"|Capacity: "+r.getCapacity()+"\n";
-            btnRoom.getItems().add(str);
-            System.out.println("Room: "+r.getName()+"|Capacity: "+r.getCapacity());
-        }*/
-    }
-    @FXML
-    void updateTest(){
-        inpRoom.setText((String) btnRoom.getValue());
     }
     @FXML
     private void voidHandleSave() {

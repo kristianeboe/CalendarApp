@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import no.ntnu.stud.util.InputValidator;
+
 /**
  * Created by sklirg on 20/02/15.
  */
@@ -15,8 +17,16 @@ public class Appointment {
     private LocalDateTime alarmTime;
     private int attending;
 
-    public Appointment(LocalDate date, LocalTime start, LocalTime end, int attending) {
-        setDateTime(date, start, end);
+
+    //Appointment(title, date, startTime, endTime, ownerID, description, location, roomID, attending);
+
+    public Appointment(String title, LocalDate date, LocalTime startTime, LocalTime endTime, int ownerID, String description, String location, int roomID, int attending) {
+        this.title = InputValidator.textInputValidator(title);
+        this.description = InputValidator.textInputValidator(description);
+        this.location = InputValidator.textInputValidator(location);
+        this.ownerID = ownerID;
+        this.roomID = roomID;
+        setDateTime(date, startTime, endTime);
         setAttending(attending);
     }
 
@@ -145,4 +155,6 @@ public class Appointment {
     public int getAttending() {
         return attending;
     }
+
+    public String getDescription(){ return description; }
 }

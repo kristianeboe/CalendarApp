@@ -40,7 +40,7 @@ public class Room {
 
 
     public void setName(String name) {
-        if (name == "")
+        if (name.isEmpty())
             throw new IllegalArgumentException("Empty room name is not allowed");
         this.name=name;
     }
@@ -56,5 +56,9 @@ public class Room {
         else if (capacity == 0)
             throw new IllegalArgumentException("No room capacity is not allowed");
         this.capacity=capacity;
+    }
+
+    public String toString(){
+        return "Room: "+ this.name + " - Capacity: "+this.capacity;
     }
 }

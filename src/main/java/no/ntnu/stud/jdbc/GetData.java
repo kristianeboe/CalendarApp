@@ -266,7 +266,7 @@ public class GetData {
         return room;
     }
 
-    public static ObservableList<Room> getAllAvailableRooms(LocalTime startTime, LocalTime endTime, LocalDate date){
+    public static ObservableList<Room> getAllAvailableRooms(LocalTime startTime, LocalTime endTime, LocalDate date, int numPeople){
         ArrayList<Room> rooms = new ArrayList<>();
         ObservableList<Room> rooms2 = FXCollections.observableArrayList();
         Connection con = DBConnector.getCon();
@@ -276,8 +276,9 @@ public class GetData {
         if(con != null){
             try{
                 Statement stmt = con.createStatement();
-                String sql = "SELECT * FROM room " +
-                        "WHERE roomID NOT IN( " +
+                String sql ="SELECT * FROM room " +
+                        "WHERE capacity >="+numPeople+" "+
+                        "AND roomID NOT IN( " +
                         "SELECT roomID FROM appointment " +
                         "WHERE ( ('"+start+"' > startTime " +
                         "AND '"+start+"' < endTime) " +
