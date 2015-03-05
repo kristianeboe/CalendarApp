@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import no.ntnu.stud.MainApp;
+import no.ntnu.stud.model.User;
 import no.ntnu.stud.security.Authentication;
 
 /**
@@ -32,15 +33,17 @@ public class SignInController {
     @FXML
     private void handleSignIn(){
         Authentication authentication = new Authentication();
-        try{
-            mainApp.setUser(authentication.login(inpEmail.getText(), inpPassword.getText()));
+            User user = authentication.login(inpEmail.getText(), inpPassword.getText());
+        if (user != null) {
+            mainApp.setUser(user);
             mainApp.signedIn();
-        } catch (IllegalArgumentException e){
+        } else {
             inpEmail.getStyleClass().add("errorTextField");
             inpPassword.getStyleClass().add("errorTextField");
             inpEmail.clear();
             inpPassword.clear();
-            inpEmail.setPromptText(e.getMessage());
+            inpEmail.setPromptText("email or password wrong");
+
         }
 
     }

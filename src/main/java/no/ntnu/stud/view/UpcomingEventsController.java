@@ -26,6 +26,7 @@ public class UpcomingEventsController {
     @FXML
     private void initialize(){
         appointment = new Appointment("Title",LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(1),1,"desc123","loc123",3, 10);
+
     }
 
     @FXML
