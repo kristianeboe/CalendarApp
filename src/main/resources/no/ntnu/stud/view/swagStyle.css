@@ -72,17 +72,10 @@ Calendar END
 }
 
 .menuButton{
-    -fx-background-color:
-    #090a0c,
-    linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
-    linear-gradient(#20262b, #191d22),
-    radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0));
     -fx-background-radius: 5,4,3,5;
     -fx-background-insets: 0,1,2,0;
-    -fx-text-fill: white;
+    -fx-text-fill: black;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
-    -fx-font-family: "Arial";
-    -fx-text-fill: linear-gradient(white, #d0d0d0);
     -fx-font-size: 12px;
     -fx-padding: 8 20 8 20;
 }
@@ -121,15 +114,12 @@ Calendar END
 }
 #btnNewAppointment{
     -fx-background-color: rgba(125,238,102,0.7);
-    -fx-text-fill: black;
 }
 #btnEditAppointment{
     -fx-background-color: rgba(238,213,102,0.7);
-    -fx-text-fill: black;
 }
 #btnSave{
     -fx-background-color: rgba(125,238,102,0.7);
-    -fx-text-fill: black;
 }
 
 /*
