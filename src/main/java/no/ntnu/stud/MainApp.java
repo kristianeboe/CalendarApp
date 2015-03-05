@@ -27,7 +27,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("CalendarApp");
+        this.primaryStage.setTitle("Ultimate Saga Calendar Pro 365 Cloud Edition");
         this.primaryStage.getIcons().add(new Image("file:resources/images/favicon.png"));
 
         initRootLayout();
