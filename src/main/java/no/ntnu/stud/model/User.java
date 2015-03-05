@@ -62,9 +62,7 @@ public class User {
 
 
     public void setMiddleName(String middleName) {
-        if(middleName.isEmpty()){
-            throw new IllegalArgumentException("middleName cannot be empty");
-        }else if(middleName.length()>45){
+        if(middleName.length()>45){
             throw new IllegalArgumentException("middleName cannot be longer than 45 characters");
         }
         this.middleName=middleName;
@@ -76,9 +74,7 @@ public class User {
 
 
     public void setGivenName(String givenName) {
-        if(givenName.isEmpty()){
-            throw new IllegalArgumentException("givenName cannot be empty");
-        }else if(givenName.length()>45){
+        if(givenName.length()>45){
             throw new IllegalArgumentException("givenName cannot be longer than 45 characters");
         }
         this.givenName=givenName;

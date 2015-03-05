@@ -12,7 +12,7 @@ public class InputValidator {
         else if (text.length() <= 3 || text.length() >= 45)
             throw new IllegalArgumentException("Text cannot be shorter than 3 or longer than 45");
 
-        String allowed_chars = "abcdefghijklmnopqrstuvwxyzæøåABCDEFGHIJKLMNOPQRSTUVXYZÆØÅ1234567890.,?!'\"";
+        String allowed_chars = "abcdefghijklmnopqrstuvwxyzæøåABCDEFGHIJKLMNOPQRSTUVXYZÆØÅ1234567890.,?!'\" -–";
         for (Character c : text.toCharArray()) {
             if (allowed_chars.indexOf(c) == -1)
                 throw new IllegalArgumentException("Illegal character " + c);
