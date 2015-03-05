@@ -83,6 +83,7 @@ public class Authentication {
             System.out.println("Authentication successful");
         } else {
             System.err.println("Authentication failed");
+            throw new IllegalArgumentException("Email or password wrong!");
         }
 
         return loggedInUser;

@@ -57,15 +57,8 @@ public class NewAppointmentController {
     public void setMainApp(MainApp mainApp) { this.mainApp = mainApp;}
 
     public void insertAppointmentData(Appointment appointment){
-        /*if (appointment.getTitle() != null) {
-            header.setText(appointment.getTitle());
-            inpDate.setValue(appointment.getDate());
-            inpFrom.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
-            inpTo.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
-            inpMaxAttend.setText(Integer.toString(appointment.getAttending()));
-            //setRoom field
+            inpTitle.setText(appointment.getTitle());
             inpDesc.setText(appointment.getDescription());
-        } else {*/
             inpDate.setValue(appointment.getDate());
             inpFrom.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
             inpTo.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
@@ -123,12 +116,9 @@ public class NewAppointmentController {
         for(Room r:rooms){
             String str = "Room: "+r.getName()+"|Capacity: "+r.getCapacity()+"\n";
             btnRoom.getItems().add(str);
+            btnRoom.setValue(r.getRoomID());
             System.out.println("Room: "+r.getName()+"|Capacity: "+r.getCapacity());
         }
-    }
-    @FXML
-    void updateTest(){
-        inpRoom.setText((String) btnRoom.getValue());
     }
     @FXML
     private void voidHandleSave() {

@@ -17,7 +17,7 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-       <Button mnemonicParsing="false" style="-fx-background-color: #2c3136; -fx-background-radius: 0;" text="Sign in" textFill="#3e94ec" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+       <Button fx:id="btnSignIn" mnemonicParsing="false" onAction="#handleSignIn" style="-fx-background-color: #2c3136; -fx-background-radius: 0;" text="Sign in" textFill="#3e94ec" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
            <font>
                <Font size="15.0" />
            </font>
@@ -30,15 +30,16 @@
             <Font size="24.0" />
          </font>
       </Text>
-      <PasswordField maxWidth="300.0" promptText="Password" style="-fx-background-radius: 0pt;" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+      <PasswordField fx:id="inpPassword" maxWidth="300.0" promptText="Password" style="-fx-background-radius: 0pt;" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
          <font>
             <Font size="20.0" />
          </font>
       </PasswordField>
-      <TextField maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefWidth="10.0" promptText="Email" style="-fx-background-radius: 0px;" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+      <TextField fx:id="inpEmail" maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefWidth="10.0" promptText="Email" style="-fx-background-radius: 0px;" GridPane.halignment="CENTER" GridPane.rowIndex="1">
          <font>
             <Font size="20.0" />
          </font>
       </TextField>
+      <Button fx:id="btnSkip" mnemonicParsing="false" onAction="#handleSkip" text="Skip" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
    </children>
 </GridPane>

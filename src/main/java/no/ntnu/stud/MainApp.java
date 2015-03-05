@@ -9,6 +9,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import no.ntnu.stud.model.Appointment;
+import no.ntnu.stud.model.User;
 import no.ntnu.stud.view.*;
 
 import java.io.File;
@@ -18,6 +19,7 @@ public class MainApp extends Application {
 
     private Stage primaryStage;
     private BorderPane rootLayout;
+    private User user;
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
@@ -32,11 +34,7 @@ public class MainApp extends Application {
 
         initRootLayout();
 
-        showCalendarView();
-
-        showUpcomingEvents();
-
-        showLeftMenu();
+        showSignInView();
     }
 
     public void initRootLayout() {
@@ -57,6 +55,30 @@ public class MainApp extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void showSignInView(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/SignIn.fxml"));
+            GridPane signInView = (GridPane) loader.load();
+            rootLayout.getStyleClass().add("backgroundColor");
+            rootLayout.setCenter(signInView);
+
+            SignInController controller = loader.getController();
+            controller.setMainApp(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void signedIn(){
+        showCalendarView();
+
+        showUpcomingEvents();
+
+        showLeftMenu();
     }
 
     public void showCalendarView(){
@@ -131,4 +153,11 @@ public class MainApp extends Application {
         }
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
