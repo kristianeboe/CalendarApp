@@ -1,5 +1,6 @@
 package no.ntnu.stud.view;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -11,7 +12,6 @@ import no.ntnu.stud.model.Room;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 
 /**
  * Created by Kristian on 03/03/15.
@@ -38,7 +38,7 @@ public class NewAppointmentController {
     @FXML
     private TextArea inpDesc;
     @FXML
-    private ComboBox btnRoom;
+    private ComboBox<Room> btnRoom;
     @FXML
     private Button btnSave, btnClose, btnAddUser;
 
@@ -111,11 +111,10 @@ public class NewAppointmentController {
         LocalTime startTime = LocalTime.parse(inpFrom.getText());
         LocalTime endTime = LocalTime.parse(inpTo.getText());
         LocalDate date = inpDate.getValue();
-        ArrayList<Room> rooms = gd.getAllAvailableRooms(startTime, endTime, date, Integer.parseInt(inpMaxAttend.getText()));
-        for(Room r:rooms){
-            btnRoom.getItems().add(r);
-            System.out.println("Room: "+r.getName()+"|Capacity: "+r.getCapacity());
-        }
+        int numPeople = Integer.getInteger(inpMaxAttend.getText());
+        //ArrayList<Room> rooms = gd.getAllAvailableRooms(startTime, endTime, date);
+        ObservableList<Room> rooms = gd.getAllAvailableRooms(startTime, endTime, date, numPeople);
+        btnRoom.setItems(rooms);
     }
     @FXML
     private void voidHandleSave() {

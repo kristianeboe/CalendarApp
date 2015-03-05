@@ -1,5 +1,7 @@
 package no.ntnu.stud.jdbc;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import no.ntnu.stud.model.*;
 
 import java.sql.*;
@@ -264,8 +266,9 @@ public class GetData {
         return room;
     }
 
-    public static ArrayList<Room> getAllAvailableRooms(LocalTime startTime, LocalTime endTime, LocalDate date, int numPeople){
+    public static ObservableList<Room> getAllAvailableRooms(LocalTime startTime, LocalTime endTime, LocalDate date, int numPeople){
         ArrayList<Room> rooms = new ArrayList<>();
+        ObservableList<Room> rooms2 = FXCollections.observableArrayList();
         Connection con = DBConnector.getCon();
         String start =startTime.toString();
         String end = endTime.toString();
@@ -292,6 +295,7 @@ public class GetData {
                     String roomName = rs.getString("name");
                     int roomCapacity = rs.getInt("capacity");
                     rooms.add(new Room(roomID, roomName, roomCapacity));
+                    rooms2.add(new Room(roomID, roomName, roomCapacity));
                 }
             }catch (SQLException e) {
                 e.printStackTrace();
@@ -299,7 +303,7 @@ public class GetData {
         } else {
             System.err.print("No Connection");
         }
-        return rooms;
+        return rooms2;
     }
 
     public static ArrayList<Notification> getNotifications(int userID){
