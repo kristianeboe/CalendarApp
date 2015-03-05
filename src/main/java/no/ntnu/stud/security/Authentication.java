@@ -46,6 +46,12 @@ public class Authentication {
      * @return Returns true if authentication was successful, false otherwise
      */
     public static boolean authenticate(String email, String password) {
+        if (email == null) {
+            throw new IllegalArgumentException("Email can not be null");
+        } else if (password == null) {
+            throw new IllegalArgumentException("Password can not be null");
+        }
+
         Connection con = DBConnector.getCon();
         byte[] hash = null;
         byte[] salt = null;
