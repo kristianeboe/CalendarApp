@@ -102,8 +102,7 @@ Calendar END
 .menuButton:pressed{
     -fx-padding: 7 18 7 18;
     -fx-opacity: 0.5;
-}
-#btnClose{
+}#btnClose{
     -fx-background-radius: 30;
     -fx-background-color: ee6666;
 }
@@ -141,6 +140,13 @@ UpcomingEvents END
 /////////////////
 ////////////////
 */
+
+/* error start*/
+.errorTextField {
+    -fx-background-color: #ffbbbb;
+    -fx-border-color: #f00;
+}
+/* error end*/
 
 /*LeftMenu START */
 #lblGroups, #lblCalendars{
