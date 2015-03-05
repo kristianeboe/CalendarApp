@@ -143,7 +143,6 @@ UpcomingEvents END
 
 /* error start*/
 .errorTextField {
-    -fx-background-color: #ffbbbb;
     -fx-border-color: #f00;
 }
 /* error end*/
