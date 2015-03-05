@@ -1,10 +1,7 @@
 package no.ntnu.stud.view;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import no.ntnu.stud.MainApp;
 import no.ntnu.stud.reservation.Appointment;
@@ -17,6 +14,8 @@ public class NewAppointmentController {
     private Stage newAppointmentStage;
     private Appointment appointment;
     private boolean okClicked = false;
+    @FXML
+    private Label title;
     @FXML
     private TextField inpEmail;
     @FXML
@@ -47,6 +46,10 @@ public class NewAppointmentController {
         this.newAppointmentStage = newAppointmentStage;
     }
     public void setMainApp(MainApp mainApp) { this.mainApp = mainApp;}
+
+    public void insertAppointmentData(Appointment appointment){
+        title.setText("");
+    }
 
     public boolean isOkClicked() {
         return okClicked;

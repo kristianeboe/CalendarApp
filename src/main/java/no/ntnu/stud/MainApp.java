@@ -109,31 +109,6 @@ public class MainApp extends Application {
     }
 
     public void showAppointmentDialog(Appointment appointment) {
-        /*try {//Pop Up
-            // Load the fxml file and create a new stage for the popup dialog.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/newAppointment.fxml"));
-            GridPane page = (GridPane) loader.load();
-
-            // Create the dialog Stage.
-            Stage appointmentDialog = new Stage();
-            appointmentDialog.setTitle("Appointment");
-            appointmentDialog.initModality(Modality.WINDOW_MODAL);
-            appointmentDialog.initOwner(primaryStage);
-            Scene scene = new Scene(page);
-            appointmentDialog.setScene(scene);
-
-            // Set the person into the controller.
-            NewAppointmentController controller = loader.getController();
-            controller.setNewAppointmentStage(appointmentDialog);
-
-            // Show the dialog and wait until the user closes it
-            appointmentDialog.showAndWait();
-            return controller.isOkClicked();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }*/
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/newAppointment.fxml"));
@@ -143,6 +118,9 @@ public class MainApp extends Application {
 
             NewAppointmentController controller = loader.getController();
             controller.setMainApp(this);
+            if (appointment != null){
+
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
