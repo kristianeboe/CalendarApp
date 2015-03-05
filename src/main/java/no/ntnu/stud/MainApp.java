@@ -122,7 +122,6 @@ public class MainApp extends Application {
             FXMLLoader loader2 = new FXMLLoader();
             loader2.setLocation(MainApp.class.getResource("view/CalendarSmall.fxml"));
             GridPane smallCal = (GridPane) loader2.load();
-
             leftMenu.add(smallCal,0,0);
 
             rootLayout.setLeft(leftMenu);
