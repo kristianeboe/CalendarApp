@@ -221,6 +221,48 @@ public class GetData {
         return appointment;
     }
 
+    public static ArrayList<Appointment> getAppointments(User user, int limit){
+        int userID = user.getUserID();
+        Connection con = DBConnector.getCon();
+        ArrayList<Appointment> appointments = new ArrayList<>();
+        String sql = "SELECT * FROM userAttends NATURAL JOIN user JOIN appointment ON(userAttends.appointmentID = appointment.appointmentID) WHERE userID = "+userID+" ORDER BY appointmentDate, startTime ASC LIMIT "+limit+";";
+        if (con != null) {
+            try {
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+                System.out.println("Performing SQL Query [" + sql + "]");
+
+                while(rs.next()){
+                    int ID = rs.getInt("appointmentID");
+                    String title = rs.getString("title");
+                    int ownerID = rs.getInt("ownerID");
+                    LocalDate date = rs.getTimestamp("appointmentDate").toLocalDateTime().toLocalDate();
+                    LocalTime from = rs.getTimestamp("startTime").toLocalDateTime().toLocalTime();
+                    LocalTime to = rs.getTimestamp("endTime").toLocalDateTime().toLocalTime();
+                    String location = rs.getString("location");
+                    if(location == null) location = "";
+                    int roomID = rs.getInt("roomID");
+                    String description = rs.getString("description");
+                    int attending = rs.getInt("attending");
+                    LocalDateTime alarmTime = LocalDateTime.parse("0001-01-01 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                    if(rs.getTimestamp("alarmTime") != null){
+                        alarmTime = rs.getTimestamp("alarmTime").toLocalDateTime();
+                    }
+                    //System.out.println("id: "+ID+", ownerID: "+ownerID+", date: "+date.toString()+", from: " +from.toString()+", to: "+to.toString()+", location: "+location+", roomID: "+roomID+", description: "+description+", attening: "+attending+", alarmTime: "+alarmTime.toString());
+
+                    Appointment appointment = new Appointment(ID, title, date, from, to, user, description, location, roomID, attending, alarmTime);
+                    appointments.add(appointment);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.err.print("No Connection");
+        }
+        return appointments;
+
+    }
+
     /**
      *
      *

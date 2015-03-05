@@ -2,11 +2,15 @@ package no.ntnu.stud.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import no.ntnu.stud.MainApp;
+import no.ntnu.stud.jdbc.GetData;
 import no.ntnu.stud.model.Appointment;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 /**
  * Created by Kristian on 02/03/15.
@@ -16,8 +20,17 @@ public class UpcomingEventsController {
     private MainApp mainApp;
     private Appointment appointment;
 
+    GetData gd = new GetData();
+    MainApp ma = new MainApp();
+
     @FXML
     private Button btnNewAppointment, btnEditAppointment;
+
+    @FXML
+    private Label firstMeeting, secondMeeting, thirdMeeting;
+
+    @FXML
+    private Separator firstSeparator, secondSeparator, thirdSeparator;
 
     public UpcomingEventsController(){
 
@@ -25,6 +38,34 @@ public class UpcomingEventsController {
 
     @FXML
     private void initialize(){
+        appointment = new Appointment("Title",LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(1),MainApp.user,"desc123","loc123",3, 10);
+        if(MainApp.user == null){
+            System.out.println("IS NULL!");
+        }
+        ArrayList<Appointment> appointments = gd.getAppointments(ma.getUser(),3);
+        firstMeeting.setText("");
+        secondMeeting.setText("");
+        thirdMeeting.setText("");
+        if(appointments.size() == 0){
+            firstMeeting.setText("No upcoming meetings");
+            firstSeparator.setVisible(true);
+        }else{
+            for(int i = 0; i < appointments.size();i++){
+                if(i == 0){
+                    firstMeeting.setText(appointments.get(i).getTitle());
+                    firstMeeting.setId("" + appointments.get(i).getAppointmentID());
+                    firstSeparator.setVisible(true);
+                }else if (i == 1){
+                    secondMeeting.setText(appointments.get(i).getTitle());
+                    secondMeeting.setId(""+appointments.get(i).getAppointmentID());
+                    secondSeparator.setVisible(true);
+                }else{
+                    thirdMeeting.setText(appointments.get(i).getTitle());
+                    thirdMeeting.setId(""+appointments.get(i).getAppointmentID());
+                    thirdSeparator.setVisible(true);
+                }
+            }
+        }
 
     }
 

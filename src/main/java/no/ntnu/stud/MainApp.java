@@ -19,7 +19,7 @@ public class MainApp extends Application {
 
     private Stage primaryStage;
     private BorderPane rootLayout;
-    private User user;
+    public static User user;
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
@@ -101,9 +101,9 @@ public class MainApp extends Application {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/UpcomingEvents.fxml"));
-            GridPane upcomingEvetns = (GridPane) loader.load();
+            GridPane upcomingEvents = (GridPane) loader.load();
 
-            rootLayout.setRight(upcomingEvetns);
+            rootLayout.setRight(upcomingEvents);
 
             UpcomingEventsController controller = loader.getController();
             controller.setMainApp(this);
