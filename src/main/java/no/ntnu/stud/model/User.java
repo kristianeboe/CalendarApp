@@ -76,9 +76,7 @@ public class User {
 
 
     public void setGivenName(String givenName) {
-        if(givenName.isEmpty()){
-            throw new IllegalArgumentException("givenName cannot be empty");
-        }else if(givenName.length()>45){
+        if(givenName.length()>45){
             throw new IllegalArgumentException("givenName cannot be longer than 45 characters");
         }
         this.givenName=givenName;
