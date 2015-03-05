@@ -145,4 +145,6 @@ public class Appointment {
     public int getAttending() {
         return attending;
     }
+
+    public String getDescription(){ return description; }
 }
