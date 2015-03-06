@@ -37,8 +37,6 @@ public class NewAppointmentController {
     @FXML
     private TextField inpMaxAttend;
     @FXML
-    private TextField inpRoom;
-    @FXML
     private TextField inpInvite;
     @FXML
     private TextArea inpDesc;
