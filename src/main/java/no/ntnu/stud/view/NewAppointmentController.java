@@ -44,6 +44,8 @@ public class NewAppointmentController {
     private ComboBox<Room> btnRoom;
     @FXML
     private Button btnSave, btnClose, btnAddUser;
+    @FXML
+    private TextField inpLocation;
 
 
     public NewAppointmentController() {
@@ -169,5 +171,17 @@ public class NewAppointmentController {
     @FXML
     private void handleClose() {
         mainApp.showCalendarView();
+    }
+
+    @FXML
+    private void setPrivate(){
+        inpLocation.setVisible(true);
+        btnRoom.setVisible(false);
+    }
+
+    @FXML
+    private void setWork(){
+        inpLocation.setVisible(false);
+        btnRoom.setVisible(true);
     }
 }
