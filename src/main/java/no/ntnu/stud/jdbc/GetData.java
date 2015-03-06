@@ -420,15 +420,15 @@ public class GetData {
         return notifications;
     }
 
-    public static ArrayList<Appointment> getUserAppointments(int userID) {
+    public static ArrayList<Appointment> getOwnedAppointments(int userID) {
         Connection con = DBConnector.getCon();
         ArrayList<Appointment> appointments = new ArrayList<>();
         if (con != null) {
             try {
                 Statement stmt = con.createStatement();
                 String query = "SELECT * FROM appointment " +
-                        "JOIN userAttends ON (appointment.appointmentID = userAttends.appointmentID) " +
-                        "WHERE userID = " + userID + ";";
+                        "WHERE ownerID = " + userID +
+                        " ORDER BY appointmentDate;";
                 System.out.println("Peforming SQL Query [" + query + "]");
                 ResultSet rs = stmt.executeQuery(query);
                 while(rs.next()) {
@@ -448,37 +448,8 @@ public class GetData {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
-        return appointments;
-    }
-
-    public static ArrayList<Appointment> getOwnedAppointemnts(int userID) {
-        Connection con = DBConnector.getCon();
-        ArrayList<Appointment> appointments = new ArrayList<>();
-        if (con != null) {
-            try {
-                Statement stmt = con.createStatement();
-                String query = "SELECT * FROM appointment " +
-                        "WHERE ownerID = " + userID + ";";
-                System.out.println("Peforming SQL Query [" + query + "]");
-                ResultSet rs = stmt.executeQuery(query);
-                while(rs.next()) {
-                    int appointmentID = rs.getInt("appointmentID");
-                    String title = rs.getString("title");
-                    LocalDate date = rs.getTimestamp("appointmentDate").toLocalDateTime().toLocalDate();
-                    LocalTime startTime = rs.getTimestamp("startTime").toLocalDateTime().toLocalTime();
-                    LocalTime endTime = rs.getTimestamp("endTime").toLocalDateTime().toLocalTime();
-                    int ownerID = rs.getInt("ownerID");
-                    String description = rs.getString("description");
-                    String location = rs.getString("location");
-                    int roomID = rs.getInt("roomID");
-                    int attending = rs.getInt("attending");
-                    LocalDateTime alarmTime = rs.getTimestamp("alarmTime").toLocalDateTime();
-                    appointments.add(new Appointment(appointmentID, title, date, startTime, endTime, getUser(userID), description, location, roomID, attending, alarmTime));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        } else {
+            System.err.print("No connection");
         }
         return appointments;
     }
@@ -489,14 +460,18 @@ public class GetData {
             try {
                 Statement stmt = con.createStatement();
                 String query = "SELECT * FROM appointment " +
-                        "WHERE ownerID = " + userID + ";";
+                        "WHERE ownerID = " + userID + " AND appointmentID = " + appointmentID + ";";
                 System.out.println("Peforming SQL Query [" + query + "]");
                 ResultSet rs = stmt.executeQuery(query);
-
+                if (rs.getFetchSize() != 0) {
+                    return true;
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        } else {
+            System.err.print("No connection");
         }
-        return true;
+        return false;
     }
 }
