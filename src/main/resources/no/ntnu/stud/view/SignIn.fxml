@@ -17,7 +17,7 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-       <Button fx:id="btnSignIn" mnemonicParsing="false" onAction="#handleSignIn" style="-fx-background-color: #2c3136; -fx-background-radius: 0;" styleClass="menuButton" text="Sign in" textFill="#3e94ec" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+       <Button fx:id="btnSignIn" mnemonicParsing="false" onAction="#handleSignIn" styleClass="menuButton" text="Sign in" textFill="#3e94ec" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
            <font>
                <Font size="15.0" />
            </font>
