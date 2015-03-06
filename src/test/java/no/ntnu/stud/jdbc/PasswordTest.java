@@ -21,7 +21,7 @@ public class PasswordTest {
 
     @Before
     public void createUser() {
-        user = InsertData.createUser("Testerson", "Testing", "Test", "test@testing.test", "12345");
+        user = new User("Testerson", "Testing", "Test", "test@testing.test", "12345");
     }
     @After
     public void deleteUser() {
@@ -45,7 +45,7 @@ public class PasswordTest {
         assertTrue(Authentication.authenticate(user.getEmail(), "password"));
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testForgotPassword() {
         String newPassword = "";
         newPassword = EditData.forgotPassword(user.getEmail());
@@ -79,7 +79,7 @@ public class PasswordTest {
         assertFalse(Authentication.authenticate(user.getEmail(), "password"));
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testChangeNullPassword() {
         byte[] newSalt = SHAHashGenerator.getSalt();
         try{

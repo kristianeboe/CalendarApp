@@ -41,7 +41,9 @@ public class GetData {
                     String middleName = rset.getString("middleName");
                     String givenName = rset.getString("givenName");
                     String email = rset.getString("email");
-                    user = new User(userID, lastName, middleName, givenName, email);
+                    byte[] hash = rset.getString("password").getBytes();
+                    byte[] salt = rset.getString("salt").getBytes();
+                    user = new User(userID, lastName, middleName, givenName, email, hash, salt);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

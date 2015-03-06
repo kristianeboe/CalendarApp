@@ -1,11 +1,9 @@
 package no.ntnu.stud.model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import no.ntnu.stud.jdbc.GetData;
+import no.ntnu.stud.jdbc.InsertData;
 
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,21 +13,52 @@ import java.util.regex.Pattern;
 public class User {
 
     private int userID;
-    private String lastName;
-    private String middleName;
-    private String givenName;
+    private String lastName, middleName, givenName;
     private String email;
+    private byte[] hash, salt;
 
-    public User(int userID, String lastName, String middleName, String givenName, String email) {
-        setUserID(userID);
+    // This should not be allowed for outsiders. This is only used for internal calls. Therefore, private.
+    private User(String lastName, String middleName, String givenName, String email) {
         setLastName(lastName);
         setMiddleName(middleName);
         setGivenName(givenName);
         setEmail(email);
     }
 
+    public User(int userID, String lastName, String middleName, String givenName, String email) {
+        this(lastName, middleName, givenName, email);
+        setUserID(userID);
+    }
+
+    public User(int userID, String lastName, String middleName, String givenName, String email, HashMap<String, byte[]> passwordHashMap) {
+        this(lastName, middleName, givenName, email);
+        setUserID(userID);
+        setHashSaltByPasswordHashMap(passwordHashMap);
+    }
+
+    public User(String lastName, String middleName, String givenName, String email, HashMap<String, byte[]> passwordHashMap) {
+        this(lastName, middleName, givenName, email);
+        this.userID = -1;
+        setHashSaltByPasswordHashMap(passwordHashMap);
+    }
+
+    public User(String lastName, String middleName, String givenName, String email, String password) {
+        this(lastName, middleName, givenName, email, InsertData.createPasswordHashMap(password));
+    }
+
+    public User(String lastName, String middleName, String givenName, String email, byte[] hash, byte[] salt) {
+        this(lastName, middleName, givenName, email, InsertData.createPasswordHashMap(hash, salt));
+    }
+
+    public User(int userID, String lastName, String middleName, String givenName, String email, byte[] hash, byte[] salt) {
+        this(userID, lastName, middleName, givenName, email, InsertData.createPasswordHashMap(hash, salt));
+        this.hash = hash;
+        this.salt = salt;
+    }
+
+
     public String toString() {
-        return "(<User> " + getFullName() + ")";
+        return "(<User: " + getUserID() + "> " + getFullName() + ")";
     }
 
     public int getUserID() {
@@ -109,7 +138,31 @@ public class User {
         this.email=email;
     }
 
+    public byte[] getHash() {
+        return hash;
+    }
+
+    public byte[] getSalt() {
+        return salt;
+    }
+
+    private void setHashSaltByPasswordHashMap(HashMap<String, byte[]> passwordHashMap) {
+        this.hash = passwordHashMap.get("hash");
+        this.salt = passwordHashMap.get("salt");
+    }
+
+    public HashMap<String, byte[]> getPasswordHashMap() {
+        HashMap<String, byte[]> passwordHashMap = new HashMap<>();
+        passwordHashMap.put("hash", hash);
+        passwordHashMap.put("salt", salt);
+        return passwordHashMap;
+    }
+
     public static User getById(int userID) {
         return GetData.getUser(userID);
+    }
+
+    public User create() {
+        return InsertData.createUser(this);
     }
 }

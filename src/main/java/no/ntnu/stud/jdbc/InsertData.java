@@ -10,17 +10,37 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by adrianh on 21.02.15.
  */
 public class InsertData {
 
-    public static User createUser(String lastName, String middleName, String givenName, String email, String password) {
+    public static HashMap<String, byte[]> createPasswordHashMap(String password) {
+        HashMap<String, byte[]> r = new HashMap<>();
+        byte[] salt = SHAHashGenerator.getSalt();
+        r.put("salt", salt);
+        r.put("hash", SHAHashGenerator.hash(password.toCharArray(), salt));
+        return r;
+    }
+
+    public static HashMap<String, byte[]> createPasswordHashMap(byte[] hash, byte[] salt) {
+        HashMap<String, byte[]> r = new HashMap<>();
+        r.put("salt", salt);
+        r.put("hash", hash);
+        return r;
+    }
+
+    public static User createUser(User user) {
+        String lastName = user.getLastName();
+        String middleName = user.getMiddleName();
+        String givenName = user.getGivenName();
+        String email = user.getEmail();
+        HashMap<String, byte[]> passwordHashMap = user.getPasswordHashMap();
+
         Connection con = DBConnector.getCon();
         int userID = 0;
-        byte[] salt = SHAHashGenerator.getSalt();
-        byte[] hash = SHAHashGenerator.hash(password.toCharArray(), salt);
 
         if (con != null) {
             String query = "INSERT INTO user ("
@@ -37,8 +57,8 @@ public class InsertData {
                 preparedStmt.setString(2, middleName);
                 preparedStmt.setString(3, givenName);
                 preparedStmt.setString(4, email);
-                preparedStmt.setBytes(5, hash);
-                preparedStmt.setBytes(6, salt);
+                preparedStmt.setBytes(5, passwordHashMap.get("hash"));
+                preparedStmt.setBytes(6, passwordHashMap.get("salt"));
                 preparedStmt.execute();
                 System.out.println("Performing SQL Query [" + query + "]");
             } catch (SQLException e) {
