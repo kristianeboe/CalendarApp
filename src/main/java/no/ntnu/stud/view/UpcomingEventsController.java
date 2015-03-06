@@ -38,8 +38,11 @@ public class UpcomingEventsController {
 
     @FXML
     private void initialize(){
+    }
+
+    public void renderUpcomingAppointments(){
         appointment = new Appointment("Title",LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(1),mainApp.getUser(),"desc123","loc123",3, 10);
-        ArrayList<Appointment> appointments = gd.getAppointments(ma.getUser(),3);
+        ArrayList<Appointment> appointments = gd.getAppointments(mainApp.getUser(),3);
         firstMeeting.setText("");
         secondMeeting.setText("");
         thirdMeeting.setText("");
@@ -63,7 +66,6 @@ public class UpcomingEventsController {
                 }
             }
         }
-
     }
 
     @FXML

@@ -91,6 +91,8 @@ public class MainApp extends Application {
 
             CalendarViewController controller = loader.getController();
             controller.setMainApp(this);
+            controller.renderCalendar();
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -107,6 +109,7 @@ public class MainApp extends Application {
 
             UpcomingEventsController controller = loader.getController();
             controller.setMainApp(this);
+            controller.renderUpcomingAppointments();
 
         } catch (IOException e) {
             e.printStackTrace();
