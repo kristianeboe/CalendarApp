@@ -111,7 +111,11 @@
                 <Insets right="15.0" top="10.0" />
             </GridPane.margin>
         </ComboBox>
+<<<<<<< HEAD
         <Button fx:id="btnSave" mnemonicParsing="false" onAction="#getAllAvailableRooms" styleClass="menuButton" text="Save" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER">
+=======
+        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#voidHandleSave" styleClass="menuButton" text="Save" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
+>>>>>>> origin/develop
             <font>
                 <Font size="15.0" />
             </font>

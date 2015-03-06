@@ -10,7 +10,8 @@ import no.ntnu.stud.util.InputValidator;
  * Created by sklirg on 20/02/15.
  */
 public class Appointment {
-    private int appointmentID, ownerID, roomID;
+    private int appointmentID, roomID;
+    private User owner;
     private String title, location, description;
     private LocalDate date;
     private LocalTime start, end;
@@ -18,19 +19,20 @@ public class Appointment {
     private int attending;
 
 
-    //Appointment(title, date, startTime, endTime, ownerID, description, location, roomID, attending);
-
-    public Appointment(String title, LocalDate date, LocalTime startTime, LocalTime endTime, int ownerID, String description, String location, int roomID, int attending) {
+    public Appointment(String title, LocalDate date, LocalTime startTime, LocalTime endTime, User owner, String description, String location, int roomID, int attending) {
         this.title = InputValidator.textInputValidator(title);
         this.description = InputValidator.textInputValidator(description);
-        this.location = InputValidator.textInputValidator(location);
-        this.ownerID = ownerID;
-        this.roomID = roomID;
+        if (roomID != -1) {
+            this.roomID = roomID;
+        } else {
+            this.location = InputValidator.textInputValidator(location);
+        }
+        this.owner = owner;
         setDateTime(date, startTime, endTime);
         setAttending(attending);
     }
 
-    public Appointment(int appointmentID, String title, LocalDate date, LocalTime startTime, LocalTime endTime, int ownerID, String description, String location, int roomID, int attending, LocalDateTime alarmTime) {
+    public Appointment(int appointmentID, String title, LocalDate date, LocalTime startTime, LocalTime endTime, User owner, String description, String location, int roomID, int attending, LocalDateTime alarmTime) {
         setDateTime(date, startTime, endTime);
         setAttending(attending);
 
@@ -42,7 +44,7 @@ public class Appointment {
         setTitle(title);
 
         // Get from DB. Map to User-object?
-        setOwnerID(ownerID);
+        setOwner(owner);
 
         // Do we need any validation for this?
         setLocation(location);
@@ -58,6 +60,10 @@ public class Appointment {
         setAlarmTime(alarmTime);
     }
 
+    public String toString() {
+        return "(<Appointment> " + title + ")";
+    }
+
     public void setAppointmentID(int appointmentID){
         if(appointmentID < 0){
             throw new IllegalArgumentException("appointmentID cannot be a negative number");
@@ -67,13 +73,8 @@ public class Appointment {
         this.appointmentID = appointmentID;
     }
 
-    public void setOwnerID(int ownerID){
-        if(ownerID < 0){
-            throw new IllegalArgumentException("ownerID cannot be a negative number");
-        }else if(ownerID == 0){
-            throw new IllegalArgumentException("ownerID cannot be 0");
-        }
-        this.ownerID = ownerID;
+    public void setOwner(User owner){
+        this.owner = owner;
     }
 
     public void setAttending(int attending) {
@@ -102,9 +103,9 @@ public class Appointment {
     }
 
     public void setLocation(String location) {
-        if(location.isEmpty()){
-            throw new IllegalArgumentException("location cannot be empty");
-        }else if(location.length()>100){
+        if (location == null)
+            return;
+        else if (location.length()>100) {
             throw new IllegalArgumentException("location cannot be longer than 100 characters");
         }
         this.location = location;
@@ -142,7 +143,8 @@ public class Appointment {
 
     public LocalDate getDate() { return date; }
 
-    public String getTitle(){ return title.toString(); }
+    public String getTitle(){ return title.toString();
+    }
 
     public LocalDateTime getDateTimeStart() {
         return LocalDateTime.of(date, start);
@@ -157,4 +159,24 @@ public class Appointment {
     }
 
     public String getDescription(){ return description; }
+
+    public int getAppointmentID() {
+        return appointmentID;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public int getRoomID() {
+        return roomID;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public LocalDateTime getAlarmTime() {
+        return alarmTime;
+    }
 }

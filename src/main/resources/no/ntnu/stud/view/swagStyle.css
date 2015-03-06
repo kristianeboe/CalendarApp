@@ -191,10 +191,18 @@ LeftMenu END
 
 }
 
-/*newAppointment END*/
+/*newAppointment END
+//////////////
+//////////////
+*/
 
 /*SignIn START*/
 #btnSignIn{
     -fx-background-color: rgba(44,49,54,1);
     -fx-text-fill: white;
 }
+
+/*SignIn END
+//////////////
+//////////////
+*/

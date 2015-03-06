@@ -35,7 +35,7 @@
             <Insets top="15.0" />
          </GridPane.margin>
       </Separator>
-      <Label styleClass="meetings" text="Budget meeting" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+      <Label fx:id="firstMeeting" styleClass="meetings" text="Budget meeting" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
          <font>
             <Font size="18.0" />
          </font>
@@ -43,17 +43,17 @@
             <Insets />
          </GridPane.margin>
       </Label>
-      <Separator maxWidth="150.0" prefWidth="150.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="TOP">
+      <Separator fx:id="firstSeparator" visible="false" maxWidth="150.0" prefWidth="150.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets top="10.0" />
          </GridPane.margin>
       </Separator>
-      <Separator maxWidth="150.0" prefWidth="150.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="TOP">
+      <Separator fx:id="secondSeparator" visible="false" maxWidth="150.0" prefWidth="150.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets top="10.0" />
          </GridPane.margin>
       </Separator>
-      <Label styleClass="meetings" text="Project meeting" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+      <Label fx:id="secondMeeting" styleClass="meetings" text="Project meeting" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
          <font>
             <Font size="18.0" />
          </font>
@@ -61,12 +61,12 @@
             <Insets />
          </GridPane.margin>
       </Label>
-      <Separator maxWidth="150.0" prefWidth="150.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="7">
+      <Separator fx:id="thirdSeparator" visible="false" maxWidth="150.0" prefWidth="150.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="7">
          <GridPane.margin>
             <Insets top="10.0" />
          </GridPane.margin>
       </Separator>
-      <Label styleClass="meetings" text="Budget meeting" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="BOTTOM">
+      <Label fx:id="thirdMeeting" styleClass="meetings" text="Budget meeting" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="BOTTOM">
          <font>
             <Font size="18.0" />
          </font>
