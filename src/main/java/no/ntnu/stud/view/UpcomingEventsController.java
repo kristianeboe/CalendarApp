@@ -38,10 +38,7 @@ public class UpcomingEventsController {
 
     @FXML
     private void initialize(){
-        appointment = new Appointment("Title",LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(1),MainApp.user,"desc123","loc123",3, 10);
-        if(MainApp.user == null){
-            System.out.println("IS NULL!");
-        }
+        appointment = new Appointment("Title",LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(1),mainApp.getUser(),"desc123","loc123",3, 10);
         ArrayList<Appointment> appointments = gd.getAppointments(ma.getUser(),3);
         firstMeeting.setText("");
         secondMeeting.setText("");

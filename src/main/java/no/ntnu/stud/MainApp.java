@@ -19,7 +19,7 @@ public class MainApp extends Application {
 
     private Stage primaryStage;
     private BorderPane rootLayout;
-    public static User user;
+    private User user;
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
