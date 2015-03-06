@@ -19,7 +19,8 @@
         <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
-        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
         <TextField fx:id="inpTitle" maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Title" style="-fx-background-radius: 0px;" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
@@ -51,7 +52,7 @@
                 <Insets right="15.0" top="10.0" />
             </GridPane.margin>
         </TextField>
-        <TextField fx:id="inpMaxAttend" maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Maximum attendees" style="-fx-background-radius: 0px;" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="TOP">
+        <TextField fx:id="inpMaxAttend" maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Maximum attendees" style="-fx-background-radius: 0px;" GridPane.halignment="RIGHT" GridPane.rowIndex="7" GridPane.valignment="TOP">
             <font>
                 <Font size="20.0" />
             </font>
@@ -110,7 +111,7 @@
                 <Insets right="15.0" top="10.0" />
             </GridPane.margin>
         </ComboBox>
-        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#getAllAvailableRooms" styleClass="menuButton" text="Save" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
+        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#getAllAvailableRooms" styleClass="menuButton" text="Save" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER">
             <font>
                 <Font size="15.0" />
             </font>
@@ -128,5 +129,32 @@
                 <Font size="24.0" />
             </font>
         </Label>
+      <RadioButton mnemonicParsing="false" text="Personal" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <GridPane.margin>
+            <Insets right="30.0" />
+         </GridPane.margin>
+      </RadioButton>
+      <RadioButton mnemonicParsing="false" selected="true" text="Work" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+         <GridPane.margin>
+            <Insets right="215.0" />
+         </GridPane.margin>
+         <font>
+            <Font size="20.0" />
+         </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </RadioButton>
+      <TextField fx:id="inpLocation" maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Location" style="-fx-background-radius: 0px;" visible="false" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="TOP">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <GridPane.margin>
+            <Insets right="15.0" top="10.0" />
+         </GridPane.margin>
+      </TextField>
     </children>
 </GridPane>
