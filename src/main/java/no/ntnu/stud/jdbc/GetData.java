@@ -474,4 +474,27 @@ public class GetData {
         }
         return false;
     }
+
+    public static ArrayList<User> searchUser(String partOfName){
+        Connection con = DBConnector.getCon();
+        ArrayList<User> users = new ArrayList<>();
+        if (con != null) {
+            try{
+                Statement stmt = con.createStatement();
+                String sql = "SELECT * FROM user WHERE CONCAT(givenName,middleName,lastName) LIKE '%"+partOfName+"%';";
+                ResultSet rs = stmt.executeQuery(sql);
+                while(rs.next()){
+                    String lastName = rs.getString("lastName");
+                    String middleName = rs.getString("middleName");
+                    String givenName = rs.getString("givenName");
+                    String email = rs.getString("email");
+                    int userID = rs.getShort("userID");
+                    users.add(new User(userID, lastName, middleName, givenName, email));
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+        return users;
+    }
 }
