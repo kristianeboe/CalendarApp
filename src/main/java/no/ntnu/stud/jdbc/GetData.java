@@ -1,10 +1,14 @@
 package no.ntnu.stud.jdbc;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import no.ntnu.stud.model.*;
+import no.ntnu.stud.model.Appointment;
+import no.ntnu.stud.model.Notification;
+import no.ntnu.stud.model.Room;
+import no.ntnu.stud.model.User;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -424,7 +428,7 @@ public class GetData {
                 Statement stmt = con.createStatement();
                 String query = "SELECT * FROM appointment " +
                         "JOIN userAttends ON (appointment.appointmentID = userAttends.appointmentID) " +
-                        "WHERE userID = 1;";
+                        "WHERE userID = " + userID + ";";
                 System.out.println("Peforming SQL Query [" + query + "]");
                 ResultSet rs = stmt.executeQuery(query);
                 while(rs.next()) {
@@ -439,7 +443,7 @@ public class GetData {
                     int roomID = rs.getInt("roomID");
                     int attending = rs.getInt("attending");
                     LocalDateTime alarmTime = rs.getTimestamp("alarmTime").toLocalDateTime();
-                    appointments.add(new Appointment(appointmentID, title, date, startTime, endTime, ownerID, description, location, roomID, attending, alarmTime));
+                    appointments.add(new Appointment(appointmentID, title, date, startTime, endTime, getUser(userID), description, location, roomID, attending, alarmTime));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -448,4 +452,51 @@ public class GetData {
         return appointments;
     }
 
+    public static ArrayList<Appointment> getOwnedAppointemnts(int userID) {
+        Connection con = DBConnector.getCon();
+        ArrayList<Appointment> appointments = new ArrayList<>();
+        if (con != null) {
+            try {
+                Statement stmt = con.createStatement();
+                String query = "SELECT * FROM appointment " +
+                        "WHERE ownerID = " + userID + ";";
+                System.out.println("Peforming SQL Query [" + query + "]");
+                ResultSet rs = stmt.executeQuery(query);
+                while(rs.next()) {
+                    int appointmentID = rs.getInt("appointmentID");
+                    String title = rs.getString("title");
+                    LocalDate date = rs.getTimestamp("appointmentDate").toLocalDateTime().toLocalDate();
+                    LocalTime startTime = rs.getTimestamp("startTime").toLocalDateTime().toLocalTime();
+                    LocalTime endTime = rs.getTimestamp("endTime").toLocalDateTime().toLocalTime();
+                    int ownerID = rs.getInt("ownerID");
+                    String description = rs.getString("description");
+                    String location = rs.getString("location");
+                    int roomID = rs.getInt("roomID");
+                    int attending = rs.getInt("attending");
+                    LocalDateTime alarmTime = rs.getTimestamp("alarmTime").toLocalDateTime();
+                    appointments.add(new Appointment(appointmentID, title, date, startTime, endTime, getUser(userID), description, location, roomID, attending, alarmTime));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return appointments;
+    }
+
+    public static boolean isOwner(int userID, int appointmentID) {
+        Connection con = DBConnector.getCon();
+        if (con != null) {
+            try {
+                Statement stmt = con.createStatement();
+                String query = "SELECT * FROM appointment " +
+                        "WHERE ownerID = " + userID + ";";
+                System.out.println("Peforming SQL Query [" + query + "]");
+                ResultSet rs = stmt.executeQuery(query);
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return true;
+    }
 }
