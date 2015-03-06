@@ -38,11 +38,10 @@ public class CalendarViewController {
 
         calendar = Calendar.getInstance();
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
-        renderCalendar(calendar);
 
     }
 
-    public void renderCalendar(Calendar calendar){
+    public void renderCalendar(){
         dates.clear();
         dates.addAll(Arrays.asList(d00, d01, d02, d03, d04, d05, d06, d10, d11, d12, d13, d14, d15, d16, d20, d21, d22, d23, d24, d25, d26, d30, d31, d32, d33, d34, d35, d36, d40, d41, d42, d43, d44, d45, d46, d50, d51));
         GetData gd = new GetData();
@@ -121,13 +120,13 @@ public class CalendarViewController {
     @FXML
     void nextMonth(){
         calendar.add(Calendar.MONTH,1);
-        renderCalendar(calendar);
+        renderCalendar();
     }
 
     @FXML
     void previousMonth(){
         calendar.add(Calendar.MONTH,-1);
-        renderCalendar(calendar);
+        renderCalendar();
     }
 
 
