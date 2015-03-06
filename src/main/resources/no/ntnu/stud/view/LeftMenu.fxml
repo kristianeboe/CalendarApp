@@ -12,8 +12,8 @@
   </columnConstraints>
   <rowConstraints>
     <RowConstraints maxHeight="201.0" minHeight="10.0" prefHeight="200.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="257.0" minHeight="10.0" prefHeight="208.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="171.0" minHeight="10.0" prefHeight="121.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="285.0" minHeight="10.0" prefHeight="285.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="171.0" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
       <Label fx:id="lblGroups" text="My groups" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
@@ -23,4 +23,7 @@
          </padding>
       </Label>
    </children>
+   <padding>
+      <Insets left="15.0" />
+   </padding>
 </GridPane>
