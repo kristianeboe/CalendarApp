@@ -34,7 +34,8 @@ public class EditData {
             stmt.execute();
             System.out.println("Performing SQL Query [" + query + "]");
         } else {
-            System.err.print("Wrong password");
+            throw new IllegalArgumentException("Wrong password");
+            //System.err.print("Wrong password");
         }
     }
 
