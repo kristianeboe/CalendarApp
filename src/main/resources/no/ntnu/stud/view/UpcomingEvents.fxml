@@ -88,4 +88,7 @@
          </font>
       </Button>
    </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
 </GridPane>

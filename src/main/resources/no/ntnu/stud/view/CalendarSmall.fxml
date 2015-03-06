@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="150.0" style="-fx-background-color: #f3f3f3;" styleClass="calendarSmall, boxShadow" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.CalendarViewController">
+<GridPane alignment="TOP_CENTER" maxHeight="120.0" maxWidth="150.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="150.0" style="-fx-background-color: #f3f3f3;" styleClass="calendarSmall, boxShadow" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.CalendarViewController">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

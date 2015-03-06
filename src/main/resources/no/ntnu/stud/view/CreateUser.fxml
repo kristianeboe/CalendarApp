@@ -99,21 +99,27 @@
             <Insets right="15.0" />
          </GridPane.margin>
       </TextField>
-      <TextField fx:id="inpPassword" maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="********" style="-fx-background-radius: 0px;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <PasswordField fx:id="inpPassword" maxWidth="300.0" promptText="********" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <font>
             <Font size="20.0" />
          </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
          <GridPane.margin>
             <Insets left="15.0" />
          </GridPane.margin>
-      </TextField>
-      <TextField fx:id="inpPassword2" maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Retype password" style="-fx-background-radius: 0px;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+      </PasswordField>
+      <PasswordField fx:id="inpPassword2" maxWidth="300.0" promptText="********" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <font>
             <Font size="20.0" />
          </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
          <GridPane.margin>
             <Insets left="15.0" />
          </GridPane.margin>
-      </TextField>
+      </PasswordField>
     </children>
 </GridPane>
