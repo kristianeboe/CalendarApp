@@ -32,7 +32,23 @@
       <RowConstraints maxHeight="90.0" minHeight="30.0" prefHeight="90.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label fx:id="lblCurrentMonth" styleClass="current" text="March 2015" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+       <Label fx:id="lblPrevYear" onMouseClicked="#previousYear" text="2014" styleClass="year_lbl" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+           <GridPane.margin>
+               <Insets />
+           </GridPane.margin>
+                <font>
+                    <Font size="15.0" />
+                </font>
+       </Label>
+       <Label fx:id="lblNextYear" onMouseClicked="#nextYear" text="2016" styleClass="year_lbl" GridPane.columnIndex="7" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+           <GridPane.margin>
+               <Insets />
+           </GridPane.margin>
+                <font>
+                   <Font size="15.0" />
+                </font>
+       </Label>
+        <Label fx:id="lblCurrentMonth" styleClass="current" text="March 2015" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
          <font>
             <Font size="24.0" />
          </font>
