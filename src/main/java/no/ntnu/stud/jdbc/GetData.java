@@ -474,7 +474,7 @@ public class GetData {
                         "INNER JOIN userInvited " +
                         "ON (appointment.appointmentID = userInvited.appointmentID) " +
                         "WHERE userID = '" + userID + "'" +
-                        "AND userInvited.attending = 0;";
+                        "AND userInvited.attending = '0';";
                 ResultSet rset = stmt.executeQuery(query);
                 invitations = ResultResolver.appointmentResolver(rset);
                 con.close();
