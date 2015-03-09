@@ -40,12 +40,15 @@ Root Layout END
 .calendar .singleDate:hover{
     -fx-padding: 6px;
 }
-.calendar .year_lbl:hover{
+.calendar{
     -fx-cursor:hand;
     -fx-font-size: 25px;
 }
+.year_lbl:hover{
+    -fx-font-weight: bold;
+}
 .year_lbl:pressed{
-    -fx-font-size: 18px;
+    -fx-font-size: 14px;
 }
 .arrow_:hover{
     -fx-cursor:hand;
@@ -88,14 +91,12 @@ Calendar END
 }
 
 .menuButton{
-    -fx-background-color: #2C3136;
     -fx-background-radius: 5,4,3,5;
     -fx-background-insets: 0,1,2,0;
     -fx-text-fill: black;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
     -fx-font-size: 12px;
     -fx-padding: 8 20 8 20;
-    -fx-text-fill: white;
 }
 .menuButton:hover{
     -fx-cursor: hand;
@@ -105,9 +106,9 @@ Calendar END
     -fx-padding: 7 18 7 18;
     -fx-opacity: 0.5;
 }#btnClose{
-     -fx-background-radius: 30;
-     -fx-background-color: ee6666;
- }
+    -fx-background-radius: 30;
+    -fx-background-color: ee6666;
+}
 #btnClose:hover{
     -fx-cursor: hand;
     -fx-opacity: 0.7;
@@ -121,6 +122,20 @@ Calendar END
 }
 #btnRoom:hover{
     -fx-cursor: hand;
+}
+#btnNewAppointment{
+    -fx-background-color: rgba(44,49,54,1);
+    -fx-text-fill: white;
+}
+#btnEditAppointment{
+    -fx-background-color: rgba(44,49,54,1);
+    -fx-text-fill: #3e94ec;
+    -fx-font-size: 14px;
+
+}
+#btnSave{
+    -fx-background-color: rgba(44,49,54,1);
+    -fx-text-fill: white;
 }
 
 /*
@@ -185,6 +200,10 @@ LeftMenu END
 */
 
 /*SignIn START*/
+#btnSignIn{
+    -fx-background-color: rgba(44,49,54,1);
+    -fx-text-fill: white;
+}
 
 /*SignIn END
 //////////////

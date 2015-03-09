@@ -172,7 +172,7 @@ public class NewAppointmentController {
     private void searchForUser(){
         GetData gd = new GetData();
         String partOfName = inpInvite.getText();
-        ArrayList<User> users = gd.searchUser(partOfName.replaceAll(" ",""));
+        ArrayList<User> users = gd.searchUser(partOfName);
         if(users.size()>0 && partOfName.length()>3){
             String result = users.get(0).getFullName();
             inpDesc.setText(result);

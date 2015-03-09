@@ -481,7 +481,7 @@ public class GetData {
         if (con != null) {
             try{
                 Statement stmt = con.createStatement();
-                String sql = "SELECT * FROM user WHERE CONCAT(givenName,middleName,lastName) LIKE '"+partOfName+"%';";
+                String sql = "SELECT * FROM user WHERE CONCAT(givenName,' ',middleName,' ',lastName) LIKE '"+partOfName+"%';";
                 System.out.println("Peforming SQL Query [" + sql + "]");
                 ResultSet rs = stmt.executeQuery(sql);
                 while(rs.next()){
