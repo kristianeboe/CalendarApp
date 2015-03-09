@@ -29,13 +29,12 @@ public class CreateUserController {
 
     @FXML
     private void initialize() {
-
+        logger = Logger.getLogger("CreateUserCtrl");
     }
 
     public void setMainApp(MainApp mainApp) { this.mainApp = mainApp;}
 
     private User createUser() {
-        logger = Logger.getLogger("swag");
         String email = inpEmail.getText();
         String givenName = inpGivenName.getText();
         String middleName = inpMiddleName.getText();
@@ -43,7 +42,7 @@ public class CreateUserController {
         String password = inpPassword.getText();
         String password2 = inpPassword2.getText();
         if (!password.equals(password2)) {
-            logger.debug("Passwords does not match");
+            logger.info("Passwords does not match");
             throw new IllegalArgumentException("Passwords does not match");
         }
         return new User(lastName, middleName, givenName, email, password);

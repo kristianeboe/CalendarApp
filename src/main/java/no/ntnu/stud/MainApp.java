@@ -11,6 +11,10 @@ import javafx.stage.Stage;
 import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.model.User;
 import no.ntnu.stud.view.*;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,10 +24,22 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
     private User user;
+    private static Logger logger;
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        startLogger();
+        logger.info("Hello World!");
+        logger.debug("Starting application");
+
         launch(args);
+    }
+
+    private static void startLogger() {
+        //String log4jConfPath = "/resources/no/ntnu/stud/log4j.properties";
+        //PropertyConfigurator.configure(log4jConfPath);
+        BasicConfigurator.configure();
+        logger = Logger.getLogger("Main");
+        logger.setLevel(Level.ALL);
     }
 
     @Override
