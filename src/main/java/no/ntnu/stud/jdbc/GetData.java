@@ -8,7 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
@@ -187,8 +189,28 @@ public class GetData {
                 Statement stmt = con.createStatement();
                 ResultSet rs = stmt.executeQuery(sql);
                 System.out.println("Performing SQL Query [" + sql + "]");
-                appointments = ResultResolver.appointmentResolver(rs);
-                con.close();
+
+                while(rs.next()){
+                    int ID = rs.getInt("appointmentID");
+                    String title = rs.getString("title");
+                    int ownerID = rs.getInt("ownerID");
+                    LocalDate date = rs.getTimestamp("appointmentDate").toLocalDateTime().toLocalDate();
+                    LocalTime from = rs.getTimestamp("startTime").toLocalDateTime().toLocalTime();
+                    LocalTime to = rs.getTimestamp("endTime").toLocalDateTime().toLocalTime();
+                    String location = rs.getString("location");
+                    if(location == null) location = "";
+                    int roomID = rs.getInt("roomID");
+                    String description = rs.getString("description");
+                    int attending = rs.getInt("attending");
+                    LocalDateTime alarmTime = LocalDateTime.parse("0001-01-01 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                    if(rs.getTimestamp("alarmTime") != null){
+                        alarmTime = rs.getTimestamp("alarmTime").toLocalDateTime();
+                    }
+                    //System.out.println("id: "+ID+", ownerID: "+ownerID+", date: "+date.toString()+", from: " +from.toString()+", to: "+to.toString()+", location: "+location+", roomID: "+roomID+", description: "+description+", attening: "+attending+", alarmTime: "+alarmTime.toString());
+
+                    Appointment appointment = new Appointment(ID, title, date, from, to, user, description, location, roomID, attending, alarmTime);
+                    appointments.add(appointment);
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }

@@ -66,10 +66,7 @@ public class UpcomingEventsController {
             }
         }*/
 
-        ScrollBar scrl =(ScrollBar) scrollPane.lookup(".scroll-bar:vertical");
-        scrl.setDisable(true);
-
-
+        GridPane gp = new GridPane();
     }
 
     @FXML
