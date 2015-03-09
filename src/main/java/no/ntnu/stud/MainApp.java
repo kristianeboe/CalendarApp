@@ -159,6 +159,21 @@ public class MainApp extends Application {
         }
     }
 
+    public void showAddUserDialog() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/createUser.fxml"));
+            GridPane page = (GridPane) loader.load();
+
+            rootLayout.setCenter(page);
+
+            NewAppointmentController controller = loader.getController();
+            controller.setMainApp(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public User getUser() {
         return user;
     }

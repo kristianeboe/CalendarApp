@@ -31,7 +31,6 @@ public class GetData {
                 String strSelect = "SELECT * FROM user WHERE userID='" + userID + "';";
                 System.out.println("Performing SQL Query [" + strSelect + "]");
                 ResultSet rset = stmt.executeQuery(strSelect);
-
                 user = ResultResolver.user(rset);
 
                 con.close();
