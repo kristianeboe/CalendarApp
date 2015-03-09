@@ -1,8 +1,6 @@
 package no.ntnu.stud.jdbc;
 
 import no.ntnu.stud.model.*;
-import no.ntnu.stud.model.Group;
-import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -42,6 +40,7 @@ public class GetData {
                     String email = rset.getString("email");
                     user = new User(userID, lastName, middleName, givenName, email);
                 }
+                con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -73,6 +72,7 @@ public class GetData {
                     String givenName = rset.getString("givenName");
                     user = new User(userID, lastName, middleName, givenName, email);
                 }
+                con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -102,6 +102,7 @@ public class GetData {
                     User user = new User(userID, (lastName), (middleName), (givenName), (email));
                     users.add(user);
                 }
+                con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -144,6 +145,7 @@ public class GetData {
                     users.setGroupID(rset.getInt("groupID"));
                     users.setName(rset.getString("name"));
                 }
+                con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -184,6 +186,7 @@ public class GetData {
 
                     appointment = new Appointment(ID, title, date, from, to, owner, description, location, roomID, attending, alarmTime);
                 }
+                con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -228,6 +231,7 @@ public class GetData {
 
                     appointment = new Appointment(ID, title, date, from, to, owner, description, location, roomID, attending, alarmTime);
                 }
+                con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -269,6 +273,7 @@ public class GetData {
                     Appointment appointment = new Appointment(ID, title, date, from, to, user, description, location, roomID, attending, alarmTime);
                     appointments.add(appointment);
                 }
+                con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -310,6 +315,7 @@ public class GetData {
                 while (rset.next()) {
                     counter++;
                 }
+                con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -359,6 +365,7 @@ public class GetData {
                     return null;
                 }
                 room = new Room(roomID, roomName, roomCapacity);
+                con.close();
             }catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -399,6 +406,7 @@ public class GetData {
                     rooms.add(new Room(roomID, roomName, roomCapacity));
                     // rooms2.add(new Room(roomID, roomName, roomCapacity));
                 }
+                con.close();
             }catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -422,6 +430,7 @@ public class GetData {
                     String message = rs.getString("message");
                     notifications.add(new Notification(notificationID,message));
                 }
+                con.close();
             }catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -432,6 +441,11 @@ public class GetData {
         return notifications;
     }
 
+    /**
+     * TODO: Create test for this
+     * @param userID
+     * @return
+     */
     public static ArrayList<Appointment> getOwnedAppointments(int userID) {
         Connection con = DBConnector.getCon();
         ArrayList<Appointment> appointments = new ArrayList<>();
@@ -457,6 +471,7 @@ public class GetData {
                     LocalDateTime alarmTime = rs.getTimestamp("alarmTime").toLocalDateTime();
                     appointments.add(new Appointment(appointmentID, title, date, startTime, endTime, getUser(userID), description, location, roomID, attending, alarmTime));
                 }
+                con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -466,6 +481,12 @@ public class GetData {
         return appointments;
     }
 
+    /**
+     * TODO:Create tests for this
+     * @param userID
+     * @param appointmentID
+     * @return
+     */
     public static boolean isOwner(int userID, int appointmentID) {
         Connection con = DBConnector.getCon();
         if (con != null) {
@@ -478,6 +499,7 @@ public class GetData {
                 if (rs.getFetchSize() != 0) {
                     return true;
                 }
+                con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -487,9 +509,13 @@ public class GetData {
         return false;
     }
 
+    /**
+     * TODO: Create tests for this
+     * @param appointmentID
+     * @return
+     */
     public static ArrayList<Group> getAttendingGroups(int appointmentID) {
         Connection con = DBConnector.getCon();
-        Logger logger = null;
         ArrayList<Integer> groupIDs = new ArrayList<Integer>();
         ArrayList<Group> groups = new ArrayList<Group>();
         if (con!=null) {
@@ -502,6 +528,7 @@ public class GetData {
                 while (rset.next()) {
                     groupIDs.add(rset.getInt("groupID"));
                 }
+                con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
