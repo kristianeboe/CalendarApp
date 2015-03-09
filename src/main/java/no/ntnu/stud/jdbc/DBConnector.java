@@ -47,7 +47,6 @@ public class DBConnector {
         if (!isJUnitTest()) {
             try {
                 Class.forName(driver);
-                System.out.println("Class for: " + Class.forName(driver));
             } catch (ClassNotFoundException e) {
                 System.err.print("ClassNotFoundException: " + e.getMessage());
             }
