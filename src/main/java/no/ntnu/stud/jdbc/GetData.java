@@ -1,6 +1,7 @@
 package no.ntnu.stud.jdbc;
 
 import no.ntnu.stud.model.*;
+import no.ntnu.stud.util.ResultResolver;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -457,20 +458,7 @@ public class GetData {
                         " ORDER BY appointmentDate;";
                 System.out.println("Peforming SQL Query [" + query + "]");
                 ResultSet rs = stmt.executeQuery(query);
-                while(rs.next()) {
-                    int appointmentID = rs.getInt("appointmentID");
-                    String title = rs.getString("title");
-                    LocalDate date = rs.getTimestamp("appointmentDate").toLocalDateTime().toLocalDate();
-                    LocalTime startTime = rs.getTimestamp("startTime").toLocalDateTime().toLocalTime();
-                    LocalTime endTime = rs.getTimestamp("endTime").toLocalDateTime().toLocalTime();
-                    int ownerID = rs.getInt("ownerID");
-                    String description = rs.getString("description");
-                    String location = rs.getString("location");
-                    int roomID = rs.getInt("roomID");
-                    int attending = rs.getInt("attending");
-                    LocalDateTime alarmTime = rs.getTimestamp("alarmTime").toLocalDateTime();
-                    appointments.add(new Appointment(appointmentID, title, date, startTime, endTime, getUser(userID), description, location, roomID, attending, alarmTime));
-                }
+                appointments = ResultResolver.appointmentResolver(rs);
                 con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -552,7 +540,9 @@ public class GetData {
                         "ON (appointment.appointmentID = userInvited.appointmentID) " +
                         "WHERE userID = '" + userID + "'" +
                         "AND userInvited.attending = 0;";
-
+                ResultSet rset = stmt.executeQuery(query);
+                invitations = ResultResolver.appointmentResolver(rset);
+                con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
