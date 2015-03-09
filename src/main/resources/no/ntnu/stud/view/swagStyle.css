@@ -40,12 +40,12 @@ Root Layout END
 .calendar .singleDate:hover{
     -fx-padding: 6px;
 }
-.calendar .year_lbl:hover{
-    -fx-cursor:hand;
-    -fx-font-size: 25px;
+.year_lbl:hover{
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
 }
 .year_lbl:pressed{
-    -fx-font-size: 18px;
+    -fx-font-size: 14px;
 }
 .arrow_:hover{
     -fx-cursor:hand;
