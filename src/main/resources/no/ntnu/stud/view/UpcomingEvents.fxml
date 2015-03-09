@@ -16,8 +16,8 @@
     <RowConstraints maxHeight="97.0" minHeight="10.0" prefHeight="97.0" vgrow="SOMETIMES" />
     <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="306.0" minHeight="10.0" prefHeight="306.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="297.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="297.0" minHeight="10.0" prefHeight="67.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="21.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
       <Label styleClass="appointments" text="Appointments" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
@@ -35,14 +35,6 @@
             <Insets top="10.0" />
          </GridPane.margin>
       </Separator>
-      <Button fx:id="btnEditAppointment" mnemonicParsing="false" onAction="#handleEditEvent" styleClass="menuButton" text="Edit" textFill="#3e94ec" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
-         <font>
-            <Font size="15.0" />
-         </font>
-         <GridPane.margin>
-            <Insets right="20.0" />
-         </GridPane.margin>
-      </Button>
       <Button fx:id="btnNewAppointment" mnemonicParsing="false" onAction="#handleAddEvent" styleClass="menuButton" text="+" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
          <font>
             <Font size="15.0" />

@@ -32,12 +32,12 @@
             <Insets right="60.0" />
          </GridPane.margin>
       </Label>
-      <Button fx:id="btnClose" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#handleClose" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 30; -fx-background-color: ee6666;" text="x" textFill="#f3f3f3" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+      <Button fx:id="btnDeny" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#handleClose" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 30; -fx-background-color: ee6666;" text="x" textFill="#f3f3f3" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets bottom="2.0" left="80.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="btnClose1" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#handleClose" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 30; -fx-background-color: #3e94ec;" text="✓" textFill="#f3f3f3" GridPane.columnIndex="1" GridPane.valignment="BOTTOM">
+      <Button fx:id="btnAccept" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#handleClose" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 30; -fx-background-color: #3e94ec;" text="✓" textFill="#f3f3f3" GridPane.columnIndex="1" GridPane.valignment="BOTTOM">
          <font>
             <Font size="10.0" />
          </font>
