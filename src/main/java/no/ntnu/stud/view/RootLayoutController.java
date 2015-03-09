@@ -31,6 +31,11 @@ public class RootLayoutController {
     }
 
     @FXML
+    private void handleAddUser() {
+        mainApp.showAddUserDialog();
+    }
+
+    @FXML
     private void handleExit() {
         System.exit(0);
     }
