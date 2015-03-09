@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="860.0" stylesheets="@swagStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.NewAppointmentController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="860.0" stylesheets="@swagStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.CreateUserController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -57,7 +57,7 @@
                 <Font size="20.0" />
             </font>
         </Button>
-        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#getAllAvailableRooms" styleClass="menuButton" text="Save" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
+        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#handleCreateUser" styleClass="menuButton" text="Save" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
             <font>
                 <Font size="15.0" />
             </font>
@@ -99,7 +99,7 @@
             <Insets right="15.0" />
          </GridPane.margin>
       </TextField>
-      <PasswordField maxWidth="300.0" promptText="********" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <PasswordField fx:id="inpPassword" maxWidth="300.0" promptText="********" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <font>
             <Font size="20.0" />
          </font>
@@ -110,7 +110,7 @@
             <Insets left="15.0" />
          </GridPane.margin>
       </PasswordField>
-      <PasswordField maxWidth="300.0" promptText="********" GridPane.columnIndex="1" GridPane.rowIndex="2">
+      <PasswordField fx:id="inpPassword2" maxWidth="300.0" promptText="********" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <font>
             <Font size="20.0" />
          </font>
