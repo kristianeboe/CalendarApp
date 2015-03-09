@@ -93,15 +93,23 @@ Calendar END
     -fx-cursor: hand;
     -fx-text-fill: #6B7682;
 }
-.acceptButton{
-    -fx-background-radius: 30;
-    -fx-background-color: #3e94ec;
+.acceptButton, .declineButton{
+    -fx-background-radius: 3000px;
     -fx-text-fill: #F3F3F3;
+    -fx-font-size: 12px;
+}
+.acceptButton{
+    -fx-background-color: #3e94ec;
 }
 .declineButton{
-    -fx-background-radius: 30;
     -fx-background-color: ee6666;
-    -fx-text-fill: #F3F3F3;
+}
+.acceptButton:hover, .declineButton:hover{
+    -fx-cursor: hand;
+    -fx-opacity: 0.7;
+}
+.acceptButton:pressed, .declineButton:pressed{
+    -fx-opacity: 0.5;
 }
 
 .menuButton{
@@ -125,24 +133,7 @@ Calendar END
 #btnNewAppointment{
     -fx-font-size: 15px;
 }
-#btnClose{
-     -fx-background-radius: 30;
-     -fx-background-color: ee6666;
- }
-#btnClose:hover{
-    -fx-cursor: hand;
-    -fx-opacity: 0.7;
-}
-#btnClose:pressed{
-    -fx-opacity: 0.5;
-    -fx-padding: -10px;
-}
-#inpDate:hover{
-    -fx-cursor: hand;
-}
-#btnRoom:hover{
-    -fx-cursor: hand;
-}
+
 
 /*
 UpcomingEvents END
@@ -198,6 +189,24 @@ LeftMenu END
     -fx-background-color: #F3F3F3;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.2) , 5, 0.0 , 0 , 1 );
 
+}
+#btnClose{
+    -fx-background-radius: 30;
+    -fx-background-color: ee6666;
+}
+#btnClose:hover{
+    -fx-cursor: hand;
+    -fx-opacity: 0.7;
+}
+#btnClose:pressed{
+    -fx-opacity: 0.5;
+    -fx-padding: -10px;
+}
+#inpDate:hover{
+    -fx-cursor: hand;
+}
+#btnRoom:hover{
+    -fx-cursor: hand;
 }
 
 /*newAppointment END

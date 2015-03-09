@@ -57,14 +57,19 @@ public class UpcomingEventsController {
         int counter = 0;
         for (int i = 0; i < invitations.size(); i++){
             if(counter > 10) break;
-            addEvent(invitations.get(i).getTitle(),counter);
+            addEvent(invitations.get(i).getTitle(), counter, true);
+            counter++;
+        }
+        for(int i = 0; i < appointments.size();i++){
+            if(counter > 10) break;
+            addEvent(appointments.get(i).getTitle(), counter, false);
             counter++;
         }
 
-
     }
 
-    private void addEvent(String labelText, int position){
+
+    private void addEvent(String labelText, int position, boolean invitation){
         GridPane gp = new GridPane();
         gp.setPrefHeight(65);
         gp.setPrefWidth(175);
@@ -114,7 +119,7 @@ public class UpcomingEventsController {
 
         Label label = new Label();
         label.getStyleClass().add("meetings");
-        label.setText("Meeting");
+        label.setText(labelText);
         label.maxWidth(140);
         label.setAlignment(Pos.TOP_LEFT);
         label.setContentDisplay(ContentDisplay.CENTER);
@@ -125,7 +130,13 @@ public class UpcomingEventsController {
 
         GridPane.setConstraints(label, 0,0,2,1);
 
+        if(invitation){
+
         gp.getChildren().addAll(acceptBtn, declineBtn, label, separator);
+        }else{
+            GridPane.setMargin(label, new Insets(0,0,0,0));
+            gp.getChildren().addAll(label, separator);
+        }
 
         ap.getChildren().add(gp);
     }
