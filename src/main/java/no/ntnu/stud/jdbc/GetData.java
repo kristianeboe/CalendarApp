@@ -1,9 +1,8 @@
 package no.ntnu.stud.jdbc;
 
-import no.ntnu.stud.model.Appointment;
-import no.ntnu.stud.model.Notification;
-import no.ntnu.stud.model.Room;
-import no.ntnu.stud.model.User;
+import no.ntnu.stud.model.*;
+import no.ntnu.stud.model.Group;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -112,9 +111,14 @@ public class GetData {
         return users;
     }
 
-    public static ArrayList<User> getUsersInGroup(int groupID) {
+    /**
+     * TODO: Test for this
+     * @param groupID
+     * @return A <code>Group</code> object containting all users in the supplied group
+     */
+    public static Group getGroup(int groupID) {
         Connection con = DBConnector.getCon();
-        ArrayList<User> users = new ArrayList<>();
+        Group users = new Group();
 
         if (con != null) {
             try {
@@ -131,6 +135,14 @@ public class GetData {
                     String email = rset.getString("email");
                     User user = new User((userID), (lastName), (middleName), (givenName), (email));
                     users.add(user);
+                }
+
+                String query = "SELECT * FROM userGroup WHERE groupID = " + groupID + ";";
+                rset = stmt.executeQuery(query);
+                System.out.println("Performing SQL Query [" + strSelect + "]");
+                while (rset.next()) {
+                    users.setGroupID(rset.getInt("groupID"));
+                    users.setName(rset.getString("name"));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -473,5 +485,32 @@ public class GetData {
             System.err.print("No connection");
         }
         return false;
+    }
+
+    public static ArrayList<Group> getAttendingGroups(int appointmentID) {
+        Connection con = DBConnector.getCon();
+        Logger logger = null;
+        ArrayList<Integer> groupIDs = new ArrayList<Integer>();
+        ArrayList<Group> groups = new ArrayList<Group>();
+        if (con!=null) {
+            try {
+                Statement stmt = con.createStatement();
+                String query = "SELECT * FROM groupAttends " +
+                        "WHERE appointmentID = '" + appointmentID + "';";
+                System.out.println(("Performing SQL Query [" + query + "]"));
+                ResultSet rset = stmt.executeQuery(query);
+                while (rset.next()) {
+                    groupIDs.add(rset.getInt("groupID"));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.err.print("No Connection");
+        }
+        for (int groupID : groupIDs) {
+            groups.add(getGroup(groupID));
+        }
+        return groups;
     }
 }
