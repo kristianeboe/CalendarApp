@@ -91,6 +91,7 @@ public class MainApp extends Application {
 
             CalendarViewController controller = loader.getController();
             controller.setMainApp(this);
+            controller.setMainCalendar();
             controller.renderCalendar();
 
 
@@ -125,6 +126,9 @@ public class MainApp extends Application {
             FXMLLoader loader2 = new FXMLLoader();
             loader2.setLocation(MainApp.class.getResource("view/CalendarSmall.fxml"));
             GridPane smallCal = (GridPane) loader2.load();
+            CalendarViewController controller2 = loader2.getController();
+            controller2.setMainApp(this);
+            controller2.renderCalendar();
             leftMenu.add(smallCal,0,0);
 
             rootLayout.setLeft(leftMenu);

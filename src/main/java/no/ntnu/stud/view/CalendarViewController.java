@@ -19,11 +19,11 @@ public class CalendarViewController {
     private Calendar calendar;
 
     @FXML
-    private Label right_arrow, left_arrow, lblCurrentMonth;
+    private Label right_arrow, left_arrow, lblCurrentMonth, lblPrevYear, lblNextYear;
 
     @FXML
     private Label d00,d01,d02,d03,d04,d05,d06,d10,d11,d12,d13,d14,d15,d16,d20,d21,d22,d23,d24,d25,d26,d30,d31,d32,d33,d34,d35,d36,d40,d41,d42,d43,d44,d45,d46,d50,d51;
-
+    boolean mainCalendar;
     private ArrayList<Label> dates = new ArrayList<>();
 
 
@@ -35,26 +35,24 @@ public class CalendarViewController {
     }
 
     public void initialize(){
-
+        mainCalendar = false;
         calendar = Calendar.getInstance();
         calendar.setFirstDayOfWeek(Calendar.MONDAY);
 
     }
 
     public void renderCalendar(){
+        if(mainCalendar){
+            lblNextYear.setText("" + (calendar.get(Calendar.YEAR) + 1));
+            lblPrevYear.setText(""+(calendar.get(Calendar.YEAR)-1));
+        }
+
+
         dates.clear();
         dates.addAll(Arrays.asList(d00, d01, d02, d03, d04, d05, d06, d10, d11, d12, d13, d14, d15, d16, d20, d21, d22, d23, d24, d25, d26, d30, d31, d32, d33, d34, d35, d36, d40, d41, d42, d43, d44, d45, d46, d50, d51));
         GetData gd = new GetData();
 
-        //get all appointments this month
-        ArrayList<Appointment> allAppointments = gd.getAppointments(mainApp.getUser(), 5000);
-        ArrayList<Appointment> appointmentsThisMonth = new ArrayList<>();
-        for(int i = 0; i < allAppointments.size();i++){
-            LocalDate appointmentDate = allAppointments.get(i).getDate();
-            if(appointmentDate.getYear() == calendar.get(Calendar.YEAR) && appointmentDate.getMonthValue() == (calendar.get(Calendar.MONTH)+1)){
-                appointmentsThisMonth.add(allAppointments.get(i));
-            }
-        }
+
 
         //Set Year and month labels
         lblCurrentMonth.setText(TimeConverter.monthToString(calendar.get(Calendar.MONTH)) + " " + calendar.get(Calendar.YEAR));
@@ -92,6 +90,17 @@ public class CalendarViewController {
 
             j++;
         }
+
+        //get all appointments this month
+        ArrayList<Appointment> allAppointments = gd.getAppointments(mainApp.getUser(), 5000);
+        ArrayList<Appointment> appointmentsThisMonth = new ArrayList<>();
+        for(int i = 0; i < allAppointments.size();i++){
+            LocalDate appointmentDate = allAppointments.get(i).getDate();
+            if(appointmentDate.getYear() == calendar.get(Calendar.YEAR) && appointmentDate.getMonthValue() == (calendar.get(Calendar.MONTH)+1)){
+                appointmentsThisMonth.add(allAppointments.get(i));
+            }
+        }
+
         //Add blue text fill and underline to appointment dates
         for(int k = 0; k < appointmentsThisMonth.size(); k++){
             int dayOfMonth = appointmentsThisMonth.get(k).getDate().getDayOfMonth();
@@ -129,9 +138,25 @@ public class CalendarViewController {
         renderCalendar();
     }
 
+    @FXML
+    void nextYear(){
+        calendar.add(Calendar.YEAR,1);
+        renderCalendar();
+    }
+
+    @FXML
+    void previousYear(){
+        calendar.add(Calendar.YEAR,-1);
+        renderCalendar();
+    }
+
 
 
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
+    }
+
+    public void setMainCalendar(){
+        this.mainCalendar = true;
     }
 }
