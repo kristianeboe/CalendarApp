@@ -100,9 +100,10 @@ Calendar END
 }
 .acceptButton{
     -fx-background-color: #3e94ec;
+    -fx-font-size: 10px;
 }
 .declineButton{
-    -fx-background-color: ee6666;
+    -fx-background-color: #ee6666;
 }
 .acceptButton:hover, .declineButton:hover{
     -fx-cursor: hand;

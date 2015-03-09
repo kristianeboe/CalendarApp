@@ -83,17 +83,17 @@ public class UpcomingEventsController {
 
         Button acceptBtn = new Button();
         acceptBtn.setText("✓");
-        acceptBtn.maxHeight(25);
+        acceptBtn.minHeight(25);
         acceptBtn.prefHeight(25);
-        acceptBtn.maxWidth(25);
+        acceptBtn.minWidth(25);
         acceptBtn.prefWidth(25);
         acceptBtn.getStyleClass().add("acceptButton");
 
         Button declineBtn = new Button();
         declineBtn.setText("x");
-        declineBtn.maxHeight(25);
+        declineBtn.minHeight(25);
         declineBtn.prefHeight(25);
-        declineBtn.maxWidth(25);
+        declineBtn.minWidth(25);
         declineBtn.prefWidth(25);
         declineBtn.getStyleClass().add("declineButton");
 
@@ -102,7 +102,7 @@ public class UpcomingEventsController {
         GridPane.setHalignment(declineBtn, HPos.RIGHT);
         GridPane.setValignment(acceptBtn, VPos.BOTTOM);
         GridPane.setHalignment(acceptBtn, HPos.LEFT);
-        GridPane.setMargin(acceptBtn, new Insets(0,0,2,40));
+        GridPane.setMargin(acceptBtn, new Insets(0,0,2,45));
         GridPane.setMargin(declineBtn, new Insets(0,0,2,75));
         GridPane.setConstraints(acceptBtn, 1, 0);
         GridPane.setConstraints(declineBtn, 1,0);
