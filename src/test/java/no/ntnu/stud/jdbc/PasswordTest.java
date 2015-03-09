@@ -1,14 +1,17 @@
 package no.ntnu.stud.jdbc;
 
+import no.ntnu.stud.SetUp;
 import no.ntnu.stud.model.User;
 import no.ntnu.stud.security.Authentication;
 import no.ntnu.stud.security.SHAHashGenerator;
-import org.junit.After;
-import org.junit.Before;
+import org.apache.log4j.Logger;
+import org.h2.command.Prepared;
+import org.h2.tools.Server;
+import org.junit.*;
 import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
-import java.sql.SQLException;
+import java.sql.*;
 
 import static org.junit.Assert.*;
 
@@ -17,7 +20,25 @@ import static org.junit.Assert.*;
  */
 public class PasswordTest {
 
-    private User user;
+    private static User user;
+    private static Connection conn;
+    private static Logger logger;
+
+    @BeforeClass
+    public static void setUp() {
+        logger = Logger.getLogger("swag");
+        conn = DBConnector.getTestCon();
+        SetUp.setUpDatabase(conn);
+    }
+
+    @AfterClass
+    public static void tearDown() {
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Before
     public void createUser() {
@@ -79,7 +100,7 @@ public class PasswordTest {
         }
         assertFalse(Authentication.authenticate(user.getEmail(), "password"));
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
     public void testChangeNullPassword() {
         byte[] newSalt = SHAHashGenerator.getSalt();

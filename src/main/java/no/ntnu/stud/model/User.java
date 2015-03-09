@@ -69,8 +69,6 @@ public class User {
     public void setUserID(int userID) {
         if(userID < 0){
             throw new IllegalArgumentException("userID cannot be a negative number");
-        }else if(userID == 0){
-            throw new IllegalArgumentException("userID cannot be 0");
         }
         this.userID=userID;
     }

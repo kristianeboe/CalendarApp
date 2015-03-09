@@ -40,6 +40,7 @@ public class InsertData {
         HashMap<String, byte[]> passwordHashMap = user.getPasswordHashMap();
 
         Connection con = DBConnector.getCon();
+        System.out.println("Conn in ID: " + con);
         int userID = 0;
 
         if (con != null) {
