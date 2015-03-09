@@ -8,9 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
@@ -34,13 +32,8 @@ public class GetData {
                 System.out.println("Performing SQL Query [" + strSelect + "]");
                 ResultSet rset = stmt.executeQuery(strSelect);
 
-                while (rset.next()) {
-                    String lastName = rset.getString("lastName");
-                    String middleName = rset.getString("middleName");
-                    String givenName = rset.getString("givenName");
-                    String email = rset.getString("email");
-                    user = new User(userID, lastName, middleName, givenName, email);
-                }
+                user = ResultResolver.user(rset);
+
                 con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -66,13 +59,8 @@ public class GetData {
                 System.out.println("Performing SQL Query [" + strSelect + "]");
                 ResultSet rset = stmt.executeQuery(strSelect);
 
-                while (rset.next()) {
-                    int userID = rset.getInt("userID");
-                    String lastName = rset.getString("lastName");
-                    String middleName = rset.getString("middleName");
-                    String givenName = rset.getString("givenName");
-                    user = new User(userID, lastName, middleName, givenName, email);
-                }
+                user = ResultResolver.user(rset);
+
                 con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -94,15 +82,7 @@ public class GetData {
                 System.out.println("Performing SQL Query [" + strSelect + "]");
                 ResultSet rset = stmt.executeQuery(strSelect);
 
-                while (rset.next()) {
-                    int userID = rset.getInt("userID");
-                    String lastName = rset.getString("lastName");
-                    String middleName = rset.getString("middleName");
-                    String givenName = rset.getString("givenName");
-                    String email = rset.getString("email");
-                    User user = new User(userID, (lastName), (middleName), (givenName), (email));
-                    users.add(user);
-                }
+                users = ResultResolver.groupResolver(rset);
                 con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -129,15 +109,7 @@ public class GetData {
                 System.out.println("Performing SQL Query [" + strSelect + "]");
                 ResultSet rset = stmt.executeQuery(strSelect);
 
-                while (rset.next()) {
-                    int userID = rset.getInt("userID");
-                    String lastName = rset.getString("lastName");
-                    String middleName = rset.getString("middleName");
-                    String givenName = rset.getString("givenName");
-                    String email = rset.getString("email");
-                    User user = new User((userID), (lastName), (middleName), (givenName), (email));
-                    users.add(user);
-                }
+                users = ResultResolver.groupResolver(rset);
 
                 String query = "SELECT * FROM userGroup WHERE groupID = " + groupID + ";";
                 rset = stmt.executeQuery(query);
@@ -168,25 +140,7 @@ public class GetData {
                 ResultSet rset = stmt.executeQuery(strSelect);
                 System.out.println("Performing SQL Query [" + strSelect + "]");
 
-                while (rset.next()) {
-                    int ID = rset.getInt("appointmentID");
-                    String title = rset.getString("title");
-                    User owner = User.getById(rset.getInt("ownerID"));
-                    LocalDate date = rset.getTimestamp("appointmentDate").toLocalDateTime().toLocalDate();
-                    LocalTime from = rset.getTimestamp("startTime").toLocalDateTime().toLocalTime();
-                    LocalTime to = rset.getTimestamp("endTime").toLocalDateTime().toLocalTime();
-                    String location = rset.getString("location");
-                    int roomID = rset.getInt("roomID");
-                    String description = rset.getString("description");
-                    int attending = rset.getInt("attending");
-                    LocalDateTime alarmTime = LocalDateTime.parse("0001-01-01 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-                    if(rset.getTimestamp("alarmTime") != null){
-                        alarmTime = rset.getTimestamp("alarmTime").toLocalDateTime();
-                    }
-                    //System.out.println("id: "+ID+", ownerID: "+ownerID+", date: "+date.toString()+", from: " +from.toString()+", to: "+to.toString()+", location: "+location+", roomID: "+roomID+", description: "+description+", attening: "+attending+", alarmTime: "+alarmTime.toString());
-
-                    appointment = new Appointment(ID, title, date, from, to, owner, description, location, roomID, attending, alarmTime);
-                }
+                appointment = ResultResolver.appointmentResolver(rset).get(0);
                 con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -212,26 +166,7 @@ public class GetData {
                         ";";
                 ResultSet rset = stmt.executeQuery(strSelect);
                 System.out.println("Performing SQL Query [" + strSelect + "]");
-
-                while (rset.next()) {
-                    int ID = rset.getInt("appointmentID");
-                    String title = rset.getString("title");
-                    User owner = getUser(rset.getInt("ownerID"));
-                    LocalDate date = rset.getTimestamp("appointmentDate").toLocalDateTime().toLocalDate();
-                    LocalTime from = rset.getTimestamp("startTime").toLocalDateTime().toLocalTime();
-                    LocalTime to = rset.getTimestamp("endTime").toLocalDateTime().toLocalTime();
-                    String location = rset.getString("location");
-                    int roomID = rset.getInt("roomID");
-                    String description = rset.getString("description");
-                    int attending = rset.getInt("attending");
-                    LocalDateTime alarmTime = LocalDateTime.parse("0001-01-01 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-                    if(rset.getTimestamp("alarmTime") != null){
-                        alarmTime = rset.getTimestamp("alarmTime").toLocalDateTime();
-                    }
-                    //System.out.println("id: "+ID+", ownerID: "+ownerID+", date: "+date.toString()+", from: " +from.toString()+", to: "+to.toString()+", location: "+location+", roomID: "+roomID+", description: "+description+", attening: "+attending+", alarmTime: "+alarmTime.toString());
-
-                    appointment = new Appointment(ID, title, date, from, to, owner, description, location, roomID, attending, alarmTime);
-                }
+                appointment = ResultResolver.appointmentResolver(rset).get(0);
                 con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -252,28 +187,7 @@ public class GetData {
                 Statement stmt = con.createStatement();
                 ResultSet rs = stmt.executeQuery(sql);
                 System.out.println("Performing SQL Query [" + sql + "]");
-
-                while(rs.next()){
-                    int ID = rs.getInt("appointmentID");
-                    String title = rs.getString("title");
-                    int ownerID = rs.getInt("ownerID");
-                    LocalDate date = rs.getTimestamp("appointmentDate").toLocalDateTime().toLocalDate();
-                    LocalTime from = rs.getTimestamp("startTime").toLocalDateTime().toLocalTime();
-                    LocalTime to = rs.getTimestamp("endTime").toLocalDateTime().toLocalTime();
-                    String location = rs.getString("location");
-                    if(location == null) location = "";
-                    int roomID = rs.getInt("roomID");
-                    String description = rs.getString("description");
-                    int attending = rs.getInt("attending");
-                    LocalDateTime alarmTime = LocalDateTime.parse("0001-01-01 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-                    if(rs.getTimestamp("alarmTime") != null){
-                        alarmTime = rs.getTimestamp("alarmTime").toLocalDateTime();
-                    }
-                    //System.out.println("id: "+ID+", ownerID: "+ownerID+", date: "+date.toString()+", from: " +from.toString()+", to: "+to.toString()+", location: "+location+", roomID: "+roomID+", description: "+description+", attening: "+attending+", alarmTime: "+alarmTime.toString());
-
-                    Appointment appointment = new Appointment(ID, title, date, from, to, user, description, location, roomID, attending, alarmTime);
-                    appointments.add(appointment);
-                }
+                appointments = ResultResolver.appointmentResolver(rs);
                 con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -282,7 +196,6 @@ public class GetData {
             System.err.print("No Connection");
         }
         return appointments;
-
     }
 
     /**
