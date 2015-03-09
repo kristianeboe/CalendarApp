@@ -167,7 +167,7 @@ public class MainApp extends Application {
 
             rootLayout.setCenter(page);
 
-            NewAppointmentController controller = loader.getController();
+            CreateUserController controller = loader.getController();
             controller.setMainApp(this);
         } catch (IOException e) {
             e.printStackTrace();

@@ -32,6 +32,7 @@ public class CreateUserController {
 
     }
 
+    public void setMainApp(MainApp mainApp) { this.mainApp = mainApp;}
 
     private User createUser() {
         logger = Logger.getLogger("swag");
@@ -48,10 +49,15 @@ public class CreateUserController {
         return new User(lastName, middleName, givenName, email, password);
     }
 
+    @FXML
+    private void handleClose() {
+        mainApp.showCalendarView();
+    }
 
     @FXML
     private void handleCreateUser() {
         User user = createUser();
+        user.create();
         logger.info("User created");
         mainApp.showCalendarView();
     }
