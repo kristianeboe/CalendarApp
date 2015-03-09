@@ -79,7 +79,7 @@ public class PasswordTest {
         }
         assertFalse(Authentication.authenticate(user.getEmail(), "password"));
     }
-
+    
     @Test(expected = IllegalArgumentException.class)
     public void testChangeNullPassword() {
         byte[] newSalt = SHAHashGenerator.getSalt();

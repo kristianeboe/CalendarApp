@@ -91,6 +91,7 @@ public class MainApp extends Application {
 
             CalendarViewController controller = loader.getController();
             controller.setMainApp(this);
+            controller.setMainCalendar();
             controller.renderCalendar();
 
 
