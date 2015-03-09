@@ -393,7 +393,8 @@ public class GetData {
         return rooms;
     }
 
-    public static ArrayList<Notification> getNotifications(int userID){
+    public static ArrayList<Notification> getNotifications(User user){
+        int userID = user.getUserID();
         Connection con = DBConnector.getCon();
         ArrayList<Notification> notifications = new ArrayList<>();
         if(con != null){
