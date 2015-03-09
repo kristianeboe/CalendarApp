@@ -8,6 +8,7 @@ import no.ntnu.stud.MainApp;
 import no.ntnu.stud.jdbc.GetData;
 import no.ntnu.stud.jdbc.InsertData;
 import no.ntnu.stud.model.Appointment;
+import no.ntnu.stud.model.Group;
 import no.ntnu.stud.model.Room;
 import no.ntnu.stud.model.User;
 
@@ -172,10 +173,23 @@ public class NewAppointmentController {
     private void searchForUser(){
         GetData gd = new GetData();
         String partOfName = inpInvite.getText();
-        ArrayList<User> users = gd.searchUser(partOfName);
-        if(users.size()>0 && partOfName.length()>3){
-            String result = users.get(0).getFullName();
-            inpDesc.setText(result);
+        ArrayList<User> users;
+        ArrayList<Group> groups;
+        if(partOfName.length()>2){
+            groups = gd.searchGroup(partOfName);
+            users = gd.searchUser(partOfName);
+            String results ="";
+            if(users.size()>0){
+                for(User usr:users){
+                    results += usr.getFullName()+"\n";
+                }
+            }
+            if(groups.size()>0){
+                for(Group grp:groups){
+                    results += grp.getName() +"\n";
+                }
+            }
+            inpDesc.setText(results);
         }else{
             inpDesc.setText("");
         }

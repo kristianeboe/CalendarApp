@@ -1,9 +1,6 @@
 package no.ntnu.stud.jdbc;
 
-import no.ntnu.stud.model.Appointment;
-import no.ntnu.stud.model.Notification;
-import no.ntnu.stud.model.Room;
-import no.ntnu.stud.model.User;
+import no.ntnu.stud.model.*;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -489,13 +486,38 @@ public class GetData {
                     String middleName = rs.getString("middleName");
                     String givenName = rs.getString("givenName");
                     String email = rs.getString("email");
-                    int userID = rs.getShort("userID");
+                    int userID = rs.getInt("userID");
                     users.add(new User(userID, lastName, middleName, givenName, email));
                 }
             }catch (SQLException e){
                 e.printStackTrace();
             }
+        } else {
+            System.err.print("No connection");
         }
         return users;
+    }
+
+    public static ArrayList<Group> searchGroup(String partOfName){
+        Connection con = DBConnector.getCon();
+        ArrayList<Group> groups = new ArrayList<>();
+        if(con != null){
+            try{
+                Statement stmt = con.createStatement();
+                String sql = "SELECT * FROM userGroup WHERE name LIKE '"+partOfName+"%';";
+                System.out.println("Peforming SQL Query [" + sql + "]");
+                ResultSet rs = stmt.executeQuery(sql);
+                while(rs.next()){
+                    String name = rs.getString("name");
+                    int groupID = rs.getInt("groupID");
+                    groups.add(new Group(groupID, name));
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        } else {
+            System.err.print("No connection");
+        }
+        return groups;
     }
 }
