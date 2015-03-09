@@ -245,7 +245,7 @@ public class GetData {
         int userID = user.getUserID();
         Connection con = DBConnector.getCon();
         ArrayList<Appointment> appointments = new ArrayList<>();
-        String sql = "SELECT * FROM userAttends NATURAL JOIN user JOIN appointment ON(userAttends.appointmentID = appointment.appointmentID) WHERE userID = "+userID+" ORDER BY appointmentDate, startTime ASC LIMIT "+limit+";";
+        String sql = "SELECT * FROM userInvited NATURAL JOIN user JOIN appointment ON(userInvited.appointmentID = appointment.appointmentID) WHERE userID = "+userID+" ORDER BY appointmentDate, startTime ASC LIMIT "+limit+";";
         if (con != null) {
             try {
                 Statement stmt = con.createStatement();
@@ -521,7 +521,7 @@ public class GetData {
         if (con!=null) {
             try {
                 Statement stmt = con.createStatement();
-                String query = "SELECT * FROM groupAttends " +
+                String query = "SELECT * FROM groupInvited " +
                         "WHERE appointmentID = '" + appointmentID + "';";
                 System.out.println(("Performing SQL Query [" + query + "]"));
                 ResultSet rset = stmt.executeQuery(query);
@@ -539,5 +539,26 @@ public class GetData {
             groups.add(getGroup(groupID));
         }
         return groups;
+    }
+
+    public static ArrayList<Appointment> getInvitations(int userID) {
+        Connection con = DBConnector.getCon();
+        ArrayList<Appointment> invitations = new ArrayList<Appointment>();
+        if (con != null) {
+            try {
+                Statement stmt = con.createStatement();
+                String query = "SELECT * FROM appointment " +
+                        "INNER JOIN userInvited " +
+                        "ON (appointment.appointmentID = userInvited.appointmentID) " +
+                        "WHERE userID = '" + userID + "'" +
+                        "AND userInvited.attending = 0;";
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.err.println("No Connection");
+        }
+        return invitations;
     }
 }
