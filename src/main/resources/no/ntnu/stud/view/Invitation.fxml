@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="65.0" prefWidth="230.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="49.0" minHeight="10.0" prefHeight="49.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="27.0" minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Separator maxWidth="150.0" prefWidth="30.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+         <GridPane.margin>
+            <Insets top="5.0" />
+         </GridPane.margin>
+      </Separator>
+      <Label fx:id="lblTitle" alignment="TOP_LEFT" contentDisplay="CENTER" maxWidth="140.0" styleClass="meetings" text="Budget meeting" textAlignment="CENTER" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <GridPane.margin>
+            <Insets right="60.0" />
+         </GridPane.margin>
+      </Label>
+      <Button fx:id="btnClose" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#handleClose" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 30; -fx-background-color: ee6666;" text="x" textFill="#f3f3f3" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+         <GridPane.margin>
+            <Insets bottom="2.0" left="80.0" />
+         </GridPane.margin>
+      </Button>
+      <Button fx:id="btnClose1" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#handleClose" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 30; -fx-background-color: #3e94ec;" text="✓" textFill="#f3f3f3" GridPane.columnIndex="1" GridPane.valignment="BOTTOM">
+         <font>
+            <Font size="10.0" />
+         </font>
+         <GridPane.margin>
+            <Insets bottom="2.0" left="45.0" />
+         </GridPane.margin>
+      </Button>
+   </children>
+</GridPane>
