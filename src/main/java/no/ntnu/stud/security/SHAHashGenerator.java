@@ -1,5 +1,7 @@
 package no.ntnu.stud.security;
 
+import org.apache.log4j.Logger;
+
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.security.InvalidKeyException;
@@ -16,6 +18,7 @@ import java.util.Arrays;
  * @author Adrian Hundseth
  */
 public class SHAHashGenerator {
+    private static Logger logger = Logger.getLogger("SHAHG");
 
     private static final int ITERATIONS = 10000;
     private static final int KEY_LENGTH = 256;
@@ -84,6 +87,6 @@ public class SHAHashGenerator {
     }
 
     public static void main(String[] args) {
-        System.out.println(isValid("12345".toCharArray(), "[B@6a5fc7f7".getBytes().toString().getBytes(), hash("12345".toCharArray(), "[B@6a5fc7f7".getBytes())));
+        logger.debug(isValid("12345".toCharArray(), "[B@6a5fc7f7".getBytes().toString().getBytes(), hash("12345".toCharArray(), "[B@6a5fc7f7".getBytes())));
     }
 }

@@ -18,7 +18,6 @@ public class Appointment {
     private LocalDateTime alarmTime;
     private int attending;
 
-//Appointment(title, date, startTime, endTime, ownerID, description, location, roomID, attending);
 
     public Appointment(String title, LocalDate date, LocalTime startTime, LocalTime endTime, User owner, String description, String location, int roomID, int attending) {
         this.title = InputValidator.textInputValidator(title);

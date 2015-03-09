@@ -3,6 +3,7 @@ package no.ntnu.stud.security;
 import no.ntnu.stud.jdbc.DBConnector;
 import no.ntnu.stud.jdbc.GetData;
 import no.ntnu.stud.model.User;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -22,6 +23,8 @@ public class Authentication {
      * The user that is currently authenticated. Is null if no user is logged in.
      */
     private User loggedInUser = null;
+
+    private static Logger logger = Logger.getLogger("Auth");
 
     /**
      * Returns the logged in user.
@@ -62,7 +65,7 @@ public class Authentication {
         try {
             Statement stmt = con.createStatement();
             ResultSet rset = stmt.executeQuery(query);
-            System.out.println("Executing SQL query: [" + query + "]");
+            logger.debug("Executing SQL query: [" + query + "]");
             while (rset.next()) {
                 hash = rset.getBytes("password");
                 salt = rset.getBytes("salt");
@@ -86,9 +89,9 @@ public class Authentication {
 
         if (authenticate(email, password)) {
             loggedInUser = GetData.getUser(email);
-            System.out.println("Authentication successful");
+            logger.info("Authentication successful");
         } else {
-            System.err.println("Authentication failed");
+            logger.warn("Authentication failed");
         }
 
         return loggedInUser;

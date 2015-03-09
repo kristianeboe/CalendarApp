@@ -11,6 +11,10 @@ import javafx.stage.Stage;
 import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.model.User;
 import no.ntnu.stud.view.*;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,10 +24,22 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
     private User user;
+    private static Logger logger;
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        startLogger();
+        logger.info("Hello World!");
+        logger.debug("Starting application");
+
         launch(args);
+    }
+
+    private static void startLogger() {
+        //String log4jConfPath = "/resources/no/ntnu/stud/log4j.properties";
+        //PropertyConfigurator.configure(log4jConfPath);
+        BasicConfigurator.configure();
+        logger = Logger.getLogger("Main");
+        logger.setLevel(Level.ALL);
     }
 
     @Override
@@ -91,6 +107,9 @@ public class MainApp extends Application {
 
             CalendarViewController controller = loader.getController();
             controller.setMainApp(this);
+            controller.setMainCalendar();
+            controller.renderCalendar();
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -101,12 +120,13 @@ public class MainApp extends Application {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/UpcomingEvents.fxml"));
-            GridPane upcomingEvetns = (GridPane) loader.load();
+            GridPane upcomingEvents = (GridPane) loader.load();
 
-            rootLayout.setRight(upcomingEvetns);
+            rootLayout.setRight(upcomingEvents);
 
             UpcomingEventsController controller = loader.getController();
             controller.setMainApp(this);
+            controller.renderUpcomingAppointments();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -122,6 +142,9 @@ public class MainApp extends Application {
             FXMLLoader loader2 = new FXMLLoader();
             loader2.setLocation(MainApp.class.getResource("view/CalendarSmall.fxml"));
             GridPane smallCal = (GridPane) loader2.load();
+            CalendarViewController controller2 = loader2.getController();
+            controller2.setMainApp(this);
+            controller2.renderCalendar();
             leftMenu.add(smallCal,0,0);
 
             rootLayout.setLeft(leftMenu);
@@ -147,6 +170,21 @@ public class MainApp extends Application {
             if (appointment != null){
                 controller.insertAppointmentData(appointment);
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showAddUserDialog() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/createUser.fxml"));
+            GridPane page = (GridPane) loader.load();
+
+            rootLayout.setCenter(page);
+
+            CreateUserController controller = loader.getController();
+            controller.setMainApp(this);
         } catch (IOException e) {
             e.printStackTrace();
         }

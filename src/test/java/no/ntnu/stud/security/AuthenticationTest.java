@@ -18,11 +18,15 @@ public class AuthenticationTest {
 
     Authentication auth = new Authentication();
     private User user;
+    String password;
 
     @Before
     public void createUser() {
-        user = InsertData.createUser("Testerson", "Testing", "Test", "test@testing.test", "12345");
+        password = "12345";
+        user = new User("Testerson", "Testing", "Test", "howdoyoueven@test.com", password);
+        user = user.create();
     }
+
     @After
     public void deleteUser() {
         try {
@@ -34,12 +38,12 @@ public class AuthenticationTest {
 
     @Test
     public void testAuthenticate() {
-        assertTrue(Authentication.authenticate(user.getEmail(), "12345"));
+        assertTrue(Authentication.authenticate(user.getEmail(), password));
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testAuthenticateMailNull() {
-        assertFalse(Authentication.authenticate(null, "12345"));
+        assertFalse(Authentication.authenticate(null, password));
     }
 
     @Test (expected = IllegalArgumentException.class)
@@ -49,13 +53,13 @@ public class AuthenticationTest {
 
     @Test
     public void testLogin() {
-        auth.login(user.getEmail(), "12345");
+        auth.login(user.getEmail(), password);
         assertEquals(user.getEmail(), auth.getLoggedInUser().getEmail());
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testLoginEmailNull() {
-        auth.login(null, "12345");
+        auth.login(null, password);
         assertNotEquals(user.getEmail(), auth.getLoggedInUser().getEmail());
     }
 

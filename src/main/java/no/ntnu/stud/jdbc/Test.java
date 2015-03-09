@@ -6,9 +6,7 @@ import no.ntnu.stud.model.Room;
 import no.ntnu.stud.model.User;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
@@ -75,7 +73,7 @@ public class Test {
         System.out.println(usr.getEmail()+" "+usr.getGivenName());
 
         //Get users in group 2
-        ArrayList<User> usersInGroup = gd.getUsersInGroup(2);
+        ArrayList<User> usersInGroup = gd.getGroup(2);
         System.out.println("Users in group 2:");
         for(User user : usersInGroup){
             System.out.println(user.getGivenName()+" "+user.getLastName());
