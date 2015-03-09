@@ -104,7 +104,11 @@ Calendar END
 .menuButton:pressed{
     -fx-padding: 7 18 7 18;
     -fx-opacity: 0.5;
-}#btnClose{
+}
+#btnNewAppointment{
+    -fx-font-size: 15px;
+}
+#btnClose{
      -fx-background-radius: 30;
      -fx-background-color: ee6666;
  }

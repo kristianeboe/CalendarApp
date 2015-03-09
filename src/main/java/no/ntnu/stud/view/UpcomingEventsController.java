@@ -1,9 +1,9 @@
 package no.ntnu.stud.view;
 
+import javafx.collections.ObservableArray;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import no.ntnu.stud.MainApp;
 import no.ntnu.stud.jdbc.GetData;
 import no.ntnu.stud.model.Appointment;
@@ -30,7 +30,7 @@ public class UpcomingEventsController {
     private Label firstMeeting, secondMeeting, thirdMeeting;
 
     @FXML
-    private Separator firstSeparator, secondSeparator, thirdSeparator;
+    private GridPane upcomingEvents;
 
     public UpcomingEventsController(){
 
@@ -41,7 +41,7 @@ public class UpcomingEventsController {
     }
 
     public void renderUpcomingAppointments(){
-        appointment = new Appointment("Title",LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(1),mainApp.getUser(),"desc123","loc123",3, 10);
+        /*appointment = new Appointment("Title",LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(1),mainApp.getUser(),"desc123","loc123",3, 10);
         ArrayList<Appointment> appointments = gd.getAppointments(mainApp.getUser(),3);
         firstMeeting.setText("");
         secondMeeting.setText("");
@@ -65,7 +65,21 @@ public class UpcomingEventsController {
                     thirdSeparator.setVisible(true);
                 }
             }
-        }
+        }*/
+
+
+
+
+    }
+
+    @FXML
+    void handleAccept(){
+
+    }
+
+    @FXML
+    void handleDecline(){
+
     }
 
     @FXML
