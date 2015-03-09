@@ -26,8 +26,7 @@ public class UpcomingEventsController {
     @FXML
     private Button btnNewAppointment, btnEditAppointment;
 
-    @FXML
-    private Label firstMeeting, secondMeeting, thirdMeeting;
+    @FXML ScrollPane scrollPane;
 
     @FXML
     private GridPane upcomingEvents;
@@ -67,7 +66,8 @@ public class UpcomingEventsController {
             }
         }*/
 
-
+        ScrollBar scrl =(ScrollBar) scrollPane.lookup(".scroll-bar:vertical");
+        scrl.setDisable(true);
 
 
     }

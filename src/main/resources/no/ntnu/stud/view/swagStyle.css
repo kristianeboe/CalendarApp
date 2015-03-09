@@ -72,7 +72,13 @@ Calendar END
 /*UpcomingEvents START*/
 
 .upcomingEvents{
-    -fx-background-color: rgba(62,69,72,1);
+    -fx-background-color: #3E4548;
+}
+
+.scroll-pane .scroll-bar:horizontal,
+.scroll-pane .scroll-bar:vertical{
+    -fx-padding:-7;
+    -fx-opacity: 0;
 }
 
 .appointments {

@@ -35,11 +35,11 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <ScrollPane style="-fx-background-color:transparent" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
+      <ScrollPane fx:id="scrollPane" styleClass="upcomingEvents" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
         <content>
-          <AnchorPane styleClass="upcomingEvents" style="-fx-background-color:transparent" minHeight="0.0" minWidth="0.0" prefHeight="1000.0" prefWidth="200.0">
+          <AnchorPane styleClass="upcomingEvents" minHeight="350.0" minWidth="0.0" prefWidth="200.0">
                <children>
-                  <GridPane layoutY="0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="65.0" prefWidth="200.0">
+                  <GridPane layoutY="0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="65.0" prefWidth="175.0">
                      <children>
                         <Separator maxWidth="150.0" prefWidth="30.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                            <GridPane.margin>
@@ -80,7 +80,7 @@
                         <RowConstraints maxHeight="27.0" minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                   </GridPane>
-                  <GridPane layoutX="0" layoutY="225" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="65.0" prefWidth="200">
+                  <GridPane layoutX="0" layoutY="225" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="65.0" prefWidth="175">
                      <children>
                         <Separator maxWidth="150.0" prefWidth="30.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                            <GridPane.margin>
@@ -121,7 +121,7 @@
                         <RowConstraints maxHeight="27.0" minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                   </GridPane>
-                  <GridPane layoutX="0" layoutY="150.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="65.0" prefWidth="200">
+                  <GridPane layoutX="0" layoutY="150.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="65.0" prefWidth="175">
                      <children>
                         <Separator maxWidth="150.0" prefWidth="30.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                            <GridPane.margin>
@@ -162,7 +162,7 @@
                         <RowConstraints maxHeight="27.0" minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                   </GridPane>
-                  <GridPane layoutX="0.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="65.0" prefWidth="200">
+                  <GridPane layoutX="0.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="65.0" prefWidth="175">
                      <children>
                         <Separator maxWidth="150.0" prefWidth="30.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                            <GridPane.margin>
