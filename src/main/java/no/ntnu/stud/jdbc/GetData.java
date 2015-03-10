@@ -9,7 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
@@ -453,7 +455,7 @@ public class GetData {
                         "INNER JOIN userInvited " +
                         "ON (appointment.appointmentID = userInvited.appointmentID) " +
                         "WHERE userID = '" + userID + "'" +
-                        "AND userInvited.attending = 0;";
+                        "AND userInvited.attending = '0';";
                 ResultSet rset = stmt.executeQuery(query);
                 invitations = ResultResolver.appointmentResolver(rset);
                 con.close();

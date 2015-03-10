@@ -1,5 +1,6 @@
 package no.ntnu.stud.jdbc;
 
+import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.model.User;
 import no.ntnu.stud.security.Authentication;
 import no.ntnu.stud.security.SHAHashGenerator;
@@ -78,7 +79,7 @@ public class EditData {
         }
     }
 
-    public void deleteReservation(int appointmentID){
+    public static void deleteReservation(int appointmentID){
         Connection con = DBConnector.getCon();
 
         if(con != null){
@@ -96,7 +97,7 @@ public class EditData {
         }
     }
 
-    public void changeReservationTime(int appointmentID, LocalTime newStartTime, LocalTime newEndTime, LocalDate newDate){
+    public static void changeReservationTime(int appointmentID, LocalTime newStartTime, LocalTime newEndTime, LocalDate newDate){
         Connection con = DBConnector.getCon();
         String startTime = newStartTime.toString();
         String endTime = newEndTime.toString();
@@ -118,7 +119,50 @@ public class EditData {
         }
     }
 
+    public static void acceptInvitation(User user, Appointment appointment){
+        Connection con = DBConnector.getCon();
+        int userID = user.getUserID();
+        int appointmentID = appointment.getAppointmentID();
+
+        if(con!=null){
+            try{
+                Statement stmt = con.createStatement();
+                String sql = "UPDATE userInvited" +
+                        " SET attending = '1' " +
+                        "WHERE userID = "+userID+" AND appointmentID = "+appointmentID+";";
+                logger.debug("Performing SQL Query [" + sql + "]");
+                stmt.executeUpdate(sql);
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }else{
+            logger.fatal("No Connection");
+        }
+    }
+
+    public static void declineInvitation(User user, Appointment appointment){
+        Connection con = DBConnector.getCon();
+        int userID = user.getUserID();
+        int appointmentID = appointment.getAppointmentID();
+
+        if(con!=null){
+            try{
+                Statement stmt = con.createStatement();
+                String sql = "UPDATE userInvited" +
+                        " SET attending = '2' " +
+                        "WHERE userID = "+userID+" AND appointmentID = "+appointmentID+";";
+                logger.debug("Performing SQL Query [" + sql + "]");
+                stmt.executeUpdate(sql);
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }else{
+            logger.fatal("No Connection");
+        }
+    }
+
     public static void main(String[] args) {
 
     }
+
 }

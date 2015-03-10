@@ -98,12 +98,12 @@
                 <Font size="20.0" />
             </font>
         </Button>
-        <ComboBox fx:id="btnRoom" onMouseClicked="#getAllAvailableRooms" prefHeight="44.0" prefWidth="299.0" promptText="Room" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="TOP">
+        <ComboBox fx:id="btnRoom" onAction="#getAllAvailableRooms" onMouseClicked="#getAllAvailableRooms" prefHeight="44.0" prefWidth="299.0" promptText="Room" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="TOP">
             <GridPane.margin>
                 <Insets right="15.0" top="10.0" />
             </GridPane.margin>
         </ComboBox>
-        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#getAllAvailableRooms" styleClass="menuButton" text="Save" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER">
+        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#handleSave" styleClass="menuButton" text="Save" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER">
             <font>
                 <Font size="15.0" />
             </font>
@@ -116,7 +116,7 @@
                 <Insets left="320.0" />
             </GridPane.margin>
         </Button>
-        <Label text="New Appointment" textFill="#6a7783" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+        <Label fx:id="viewTitle" text="New Appointment" textFill="#6a7783" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
             <font>
                 <Font size="24.0" />
             </font>
@@ -148,5 +148,18 @@
             <Insets right="15.0" top="10.0" />
          </GridPane.margin>
       </TextField>
+      <TextField fx:id="inpReminder" maxWidth="150.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="reminder" style="-fx-background-radius: 0px;" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <GridPane.margin>
+            <Insets right="165.0" />
+         </GridPane.margin>
+      </TextField>
+      <ComboBox fx:id="inpReminderType" maxWidth="145.0" onMouseClicked="#getAllAvailableRooms" prefHeight="44.0" prefWidth="150.0" promptText="min" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
+         <GridPane.margin>
+            <Insets right="15.0" />
+         </GridPane.margin>
+      </ComboBox>
     </children>
 </GridPane>
