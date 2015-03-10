@@ -26,18 +26,11 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <TableView maxWidth="400.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="5">
-        <columns>
-          <TableColumn prefWidth="335.0" text="C1" />
-          <TableColumn minWidth="0.0" prefWidth="64.0" text="C2" />
-        </columns>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-         <GridPane.margin>
-            <Insets top="10.0" />
-         </GridPane.margin>
-      </TableView>
+      <ScrollPane fx:id="results" maxHeight="500.0" maxWidth="530.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="5">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+        </content>
+      </ScrollPane>
    </children>
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
