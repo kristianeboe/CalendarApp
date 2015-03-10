@@ -1,6 +1,8 @@
 package no.ntnu.stud.view;
 
 import javafx.collections.ObservableArray;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -13,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.TextAlignment;
 import no.ntnu.stud.MainApp;
+import no.ntnu.stud.jdbc.EditData;
 import no.ntnu.stud.jdbc.GetData;
 import no.ntnu.stud.model.Appointment;
 import org.controlsfx.control.spreadsheet.Grid;
@@ -52,24 +55,26 @@ public class UpcomingEventsController {
     }
 
     public void renderUpcomingAppointments(){
+        ap.getChildren().clear();
         ArrayList<Appointment> appointments = gd.getAppointments(mainApp.getUser(),5);
         ArrayList<Appointment> invitations = gd.getInvitations(mainApp.getUser().getUserID());
         int counter = 0;
         for (int i = 0; i < invitations.size(); i++){
             if(counter > 9) break;
-            addEvent(invitations.get(i).getTitle(), counter, true);
+            addEvent(invitations.get(i), counter, true);
             counter++;
         }
         for(int i = 0; i < appointments.size();i++){
             if(counter > 9) break;
-            addEvent(appointments.get(i).getTitle(), counter, false);
+            addEvent(appointments.get(i), counter, false);
             counter++;
         }
 
     }
 
 
-    private void addEvent(String labelText, int position, boolean invitation){
+    private void addEvent(Appointment appointment, int position, boolean invitation){
+        String labelText = appointment.getTitle();
         GridPane gp = new GridPane();
         gp.setPrefHeight(65);
         gp.setPrefWidth(175);
@@ -89,6 +94,12 @@ public class UpcomingEventsController {
         acceptBtn.prefWidth(25);
         acceptBtn.getStyleClass().add("acceptButton");
 
+        acceptBtn.setOnAction((event) -> {
+            EditData editData = new EditData();
+            editData.acceptInvitation(mainApp.getUser(),appointment);
+            renderUpcomingAppointments();
+        });
+
         Button declineBtn = new Button();
         declineBtn.setText("x");
         declineBtn.minHeight(25);
@@ -96,6 +107,12 @@ public class UpcomingEventsController {
         declineBtn.minWidth(25);
         declineBtn.prefWidth(25);
         declineBtn.getStyleClass().add("declineButton");
+
+        declineBtn.setOnAction((event) -> {
+            EditData editData = new EditData();
+            editData.declineInvitation(mainApp.getUser(),appointment);
+            renderUpcomingAppointments();
+        });
 
 
         GridPane.setValignment(declineBtn, VPos.BOTTOM);
