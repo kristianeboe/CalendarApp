@@ -30,7 +30,7 @@
                 <Insets right="15.0" top="10.0" />
             </GridPane.margin>
         </TextField>
-        <Label text="New user" textFill="#6a7783" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+        <Label text="Create user" textFill="#6a7783" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
             <font>
                 <Font size="24.0" />
             </font>
@@ -100,7 +100,7 @@
                 <Insets bottom="5.0" left="15.0" top="10.0" />
             </GridPane.margin>
         </TextArea>
-                <Button fx:id="btnAddUser" mnemonicParsing="false" prefHeight="44.0" prefWidth="44.0" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" text="+" textFill="#f3f3f3" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="TOP">
+                <Button fx:id="btnAddGroup" mnemonicParsing="false" prefHeight="44.0" prefWidth="44.0" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" text="+" textFill="#f3f3f3" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="TOP">
             <GridPane.margin>
                 <Insets right="15.0" top="10.0" />
             </GridPane.margin>
