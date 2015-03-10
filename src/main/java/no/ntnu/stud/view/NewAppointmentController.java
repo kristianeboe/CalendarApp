@@ -1,6 +1,7 @@
 package no.ntnu.stud.view;
 
-import javafx.collections.ObservableList;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -12,7 +13,6 @@ import no.ntnu.stud.model.Room;
 import no.ntnu.stud.model.User;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -25,7 +25,6 @@ public class NewAppointmentController {
     private MainApp mainApp;
     private Stage newAppointmentStage;
     private Appointment appointment;
-    private boolean okClicked = false;
     @FXML
     private Label header;
     @FXML
@@ -54,16 +53,13 @@ public class NewAppointmentController {
 
     @FXML
     private void initialize() {
+        activateFocusedProperties();
     }
 
     public void setNewAppointmentStage(Stage newAppointmentStage) {
         this.newAppointmentStage = newAppointmentStage;
     }
     public void setMainApp(MainApp mainApp) { this.mainApp = mainApp;}
-
-    public boolean isOkClicked() {
-        return okClicked;
-    }
 
     public void insertAppointmentData(Appointment appointment){
             inpTitle.setText(appointment.getTitle());
@@ -72,7 +68,6 @@ public class NewAppointmentController {
             inpFrom.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
             inpTo.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
             inpMaxAttend.setText(Integer.toString(appointment.getAttending()));
-        //}
     }
 
     public Appointment addAppointment() {
@@ -112,36 +107,36 @@ public class NewAppointmentController {
 
     @FXML
     void getAllAvailableRooms(){
-        //Temporary validation START
-        inpDate.setStyle("-fx-border-width: 0px");
-        inpFrom.setStyle("-fx-border-width: 0px");
-        inpTo.setStyle("-fx-border-width: 0px");
-
-        if(inpDate.getValue() == null){
-            inpDate.setStyle("-fx-border-color: red" + "; -fx-border-width: 1px;");
-            return;
-        }else if(inpFrom.getText().isEmpty()){
-            inpFrom.setStyle("-fx-border-color: red" + "; -fx-border-width: 1px;");
-            return;
-        }else if(inpTo.getText().isEmpty()){
-            inpTo.setStyle("-fx-border-color: red" + "; -fx-border-width: 1px;");
-            return;
-        }
-        //Temporary validation END
-
-        btnRoom.getItems().clear();
-        GetData gd = new GetData();
-        LocalTime startTime = LocalTime.parse(inpFrom.getText());
-        LocalTime endTime = LocalTime.parse(inpTo.getText());
-        LocalDate date = inpDate.getValue();
-        ArrayList<Room> rooms = gd.getAllAvailableRooms(startTime, endTime, date, Integer.parseInt(inpMaxAttend.getText()));
-        for(Room r:rooms){
-            btnRoom.getItems().add(r);
+        validDate();
+        validTime();
+        validMaxAttend();
+        if (validMaxAttend() && validTime() && validDate()) {
+            btnRoom.getItems().clear();
+            GetData gd = new GetData();
+            LocalTime startTime = LocalTime.parse(inpFrom.getText());
+            LocalTime endTime = LocalTime.parse(inpTo.getText());
+            LocalDate date = inpDate.getValue();
+            ArrayList<Room> rooms = gd.getAllAvailableRooms(startTime, endTime, date, Integer.parseInt(inpMaxAttend.getText()));
+            for (Room r : rooms) {
+                btnRoom.getItems().add(r);
+            }
         }
     }
     @FXML
-    private void voidHandleSave() {
-        Appointment app = addAppointment();
+    private void handleSave() {
+        validTitle();
+        validDate();
+        validTime();
+        validMaxAttend();
+        if (validTitle() && validDate() && validTime() && validMaxAttend()){
+            try {
+                Appointment app = addAppointment();
+                InsertData.createAppointment(app);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        /*
         boolean DEBUG = false;
 
         if (DEBUG) {
@@ -153,7 +148,6 @@ public class NewAppointmentController {
             System.out.println("start: " + app.getStart());
             System.out.println("end  : " + app.getEnd());
         }
-        InsertData.createAppointment(app);
 
         if (DEBUG) {
             System.out.println("=== Let's try to get it back ===");
@@ -165,7 +159,7 @@ public class NewAppointmentController {
             System.out.println("date : " + app_check.getDate());
             System.out.println("start: " + app_check.getStart());
             System.out.println("end  : " + app_check.getEnd());
-        }
+        }*/
     }
 
     @FXML
@@ -183,5 +177,136 @@ public class NewAppointmentController {
     private void setWork(){
         inpLocation.setVisible(false);
         btnRoom.setVisible(true);
+    }
+
+    private void addErrorStyle(TextField textField){textField.getStyleClass().add("errorTextField");}
+    private void removeErrorStyle(TextField textField){textField.getStyleClass().remove("errorTextField");}
+
+
+    private void activateFocusedProperties() {
+        inpTitle.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                removeErrorStyle(inpTitle);
+                if (!inpTitle.getText().isEmpty()) {
+                    validTitle();
+                }
+            }
+        });
+        inpDate.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (!(inpDate.getValue() == null)) {
+                    validDate();
+                }
+            }
+        });
+        inpFrom.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                removeErrorStyle(inpFrom);
+                if (!inpFrom.getText().isEmpty() && !inpTo.getText().isEmpty()) {
+                    validTime();
+                }
+                if (!inpFrom.getText().matches("\\d\\d:\\d\\d")) {
+                    addErrorStyle(inpFrom);
+                }
+            }
+        });
+        inpTo.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                removeErrorStyle(inpTo);
+                if (!inpTo.getText().matches("\\d\\d:\\d\\d")) {
+                    addErrorStyle(inpTo);
+                }
+                if (!inpFrom.getText().isEmpty() && !inpTo.getText().isEmpty()) {
+                    validTime();
+                }
+            }
+        });
+        inpMaxAttend.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                removeErrorStyle(inpMaxAttend);
+                if (!inpMaxAttend.getText().isEmpty()) {
+                    validMaxAttend();
+                }
+            }
+        });
+    }
+
+    public boolean validTime() {
+        boolean noError = true;
+        if (inpFrom.getText().isEmpty()){
+            addErrorStyle(inpFrom);
+            noError = false;
+        }
+        if (inpTo.getText().isEmpty()){
+            addErrorStyle(inpTo);
+            noError = false;
+        }
+        if (!inpTo.getText().matches("\\d\\d:\\d\\d")) {
+            addErrorStyle(inpTo);
+            noError = false;
+        }
+        if (!inpFrom.getText().matches("\\d\\d:\\d\\d")){
+            addErrorStyle(inpFrom);
+            noError = false;
+        }
+        if (!inpTo.getText().isEmpty() && LocalTime.parse(inpTo.getText()).compareTo(LocalTime.parse(inpFrom.getText())) == -1){
+            addErrorStyle(inpTo);
+            noError = false;
+        }
+        if (!inpFrom.getText().isEmpty() && LocalTime.parse(inpTo.getText()).equals(LocalTime.parse(inpFrom.getText()))) {
+            addErrorStyle(inpFrom);
+            noError = false;
+        }
+        removeErrorStyle(inpFrom);
+        removeErrorStyle(inpTo);
+        return noError;
+    }
+
+    private boolean validDate(){
+        if (inpDate.getValue() == null || inpDate.getValue().isBefore(LocalDate.now())) {
+            inpDate.setStyle("-fx-border-color: red" + "; -fx-border-width: 1px;");
+            inpDate.setPromptText("Must be a date in the future or today");
+            return false;
+        }
+        inpDate.setStyle("-fx-border-width: 0px;");
+        return true;
+
+    }
+
+    public boolean validTitle() {
+        if (inpTitle.getText().isEmpty() || inpTitle.getText().length() > 40) {
+            addErrorStyle(inpTitle);
+            return false;
+        }
+        removeErrorStyle(inpTitle);
+        return true;
+    }
+
+    private boolean validMaxAttend(){
+        try{
+            if (inpMaxAttend.getText().isEmpty()){
+                addErrorStyle(inpMaxAttend);
+                return false;
+            }
+            int maxAttend = Integer.parseInt(inpMaxAttend.getText());
+            if (maxAttend < 0){
+                addErrorStyle(inpMaxAttend);
+                inpMaxAttend.clear();
+                inpMaxAttend.setPromptText("Must be a positive number!");
+                return false;
+            }
+            removeErrorStyle(inpMaxAttend);
+            return true;
+        } catch (NumberFormatException e) {
+            addErrorStyle(inpMaxAttend);
+            inpMaxAttend.clear();
+            inpMaxAttend.setPromptText("Must be a number!");
+            return false;
+        }
     }
 }
