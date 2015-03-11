@@ -37,7 +37,7 @@ public class AgendaController {
         ObservableList<Label> appointments = FXCollections.observableArrayList();
         String dateString = dateFormat.format(calendar.getTime());
 
-        lblAppointments.setText(dateString);
+        lblAppointments.setText("Appointments "+dateString);
 
         String dateStr = dbFormat.format(calendar.getTime());
         ArrayList<Appointment> apps = gd.getAppointments(mainApp.getUser(), dateStr);
