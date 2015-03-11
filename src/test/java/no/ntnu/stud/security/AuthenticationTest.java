@@ -1,12 +1,14 @@
 package no.ntnu.stud.security;
 
+import no.ntnu.stud.SetUp;
+import no.ntnu.stud.jdbc.DBConnector;
 import no.ntnu.stud.jdbc.EditData;
 import no.ntnu.stud.jdbc.InsertData;
 import no.ntnu.stud.model.User;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.apache.log4j.Logger;
+import org.junit.*;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import static org.junit.Assert.*;
@@ -19,6 +21,24 @@ public class AuthenticationTest {
     Authentication auth = new Authentication();
     private User user;
     String password;
+    private static Connection conn;
+    private static Logger logger;
+
+    @BeforeClass
+    public static void setUp() {
+        logger = Logger.getLogger("swag");
+        conn = DBConnector.getTestCon();
+        SetUp.setUpDatabase(conn);
+    }
+
+    @AfterClass
+    public static void tearDown() {
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Before
     public void createUser() {
