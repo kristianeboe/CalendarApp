@@ -594,4 +594,38 @@ public class GetData {
         }
         return groups;
     }
+
+    public static ArrayList<Group> getGroups(User user, boolean isOwner) {
+        Connection con = DBConnector.getCon();
+        ArrayList<Group> groups = new ArrayList<>();
+
+        if (con != null) {
+            try {
+                Statement stmt = con.createStatement();
+                String strSelect ="";
+                if(isOwner){
+                    strSelect = "SELECT * FROM user NATURAL JOIN userInGroup NATURAL JOIN userGroup WHERE userID = "+user.getUserID()+" AND userInGroup.isOwner = 1 ORDER BY userGroup.name ASC;";
+                }else{
+                    strSelect = "SELECT * FROM user NATURAL JOIN userInGroup NATURAL JOIN userGroup WHERE userID = "+user.getUserID()+" AND (userInGroup.isOwner = NULL OR userInGroup.isOwner = 0) ORDER BY userGroup.name ASC;";
+                }
+                logger.debug("Performing SQL Query [" + strSelect + "]");
+                ResultSet rset = stmt.executeQuery(strSelect);
+
+                while(rset.next()){
+                    String name = rset.getString("name");
+                    int id = rset.getInt("groupID");
+
+                    groups.add(new Group(id, name));
+                }
+
+                logger.debug("Performing SQL Query [" + strSelect + "]");
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            logger.fatal("No connection");
+        }
+        return groups;
+    }
 }
