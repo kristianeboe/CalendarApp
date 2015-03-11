@@ -223,6 +223,22 @@ public class MainApp extends Application {
         }
     }
 
+    public void showMyGroups(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/MyGroups.fxml"));
+            GridPane viewAppointment = (GridPane) loader.load();
+            rootLayout.setCenter(viewAppointment);
+
+            MyGroupsController controller = loader.getController();
+            controller.setMainApp(this);
+            controller.renderMyGroups();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public User getUser() {
         return user;
