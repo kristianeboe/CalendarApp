@@ -47,7 +47,6 @@ public class EditGroupController {
                 //mainApp.editGroup(groupID);
             }
         };
-        System.out.println(users.size());
 
         for(User usr:users){
             Label lbl = new Label();

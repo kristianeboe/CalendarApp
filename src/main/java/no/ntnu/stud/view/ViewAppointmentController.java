@@ -1,9 +1,14 @@
 package no.ntnu.stud.view;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseEvent;
 import no.ntnu.stud.MainApp;
 import no.ntnu.stud.jdbc.GetData;
 import no.ntnu.stud.model.Appointment;
@@ -18,13 +23,16 @@ public class ViewAppointmentController {
     private MainApp mainApp;
 
     @FXML
-    private Label from, to , date, type, maxAtt, loc, locationLabel, fromTo, lblTitle;
+    Label from, to , date, type, maxAtt, loc, locationLabel, fromTo, lblTitle;
 
     @FXML
-    private TextArea inpDesc, invited;
+    TextArea inpDesc, invited;
 
     @FXML
-    private Button btnSave, btnClose;
+    Button btnSave, btnClose;
+
+    @FXML
+    ListView invitedList;
 
     public ViewAppointmentController(){
 
@@ -50,12 +58,25 @@ public class ViewAppointmentController {
         }
         inpDesc.setText(appointment.getDescription());
         ArrayList<User> users = gd.getInvited(appointment);
-        String invitedStr ="";
+        ObservableList<Label> obsUsers = FXCollections.observableArrayList();
+
+        final EventHandler<MouseEvent> clickHandler = new EventHandler<MouseEvent>() {
+
+            public void handle(MouseEvent event) {
+                Object source = event.getSource();
+                Label clickedLabel = (Label) source;
+                int userID = Integer.parseInt(clickedLabel.getId());
+                //mainApp.editGroup(groupID);
+            }
+        };
         for(User usr:users){
-            invitedStr += usr.getFullName()+"\n";
+            Label lbl = new Label();
+            lbl.setOnMouseClicked(clickHandler);
+            lbl.setId("" + usr.getUserID());
+            lbl.setText(usr.getFullName());
+            obsUsers.add(lbl);
         }
-        invited.setMaxHeight(40*users.size());
-        invited.setText(invitedStr);
+        invitedList.setItems(obsUsers);
     }
 
     @FXML

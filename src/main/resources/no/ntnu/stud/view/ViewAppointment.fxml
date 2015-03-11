@@ -94,19 +94,12 @@
       <Label alignment="CENTER" prefHeight="62.0" prefWidth="315.0" text="Description" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <Label alignment="CENTER" prefHeight="62.0" prefWidth="315.0" text="Invited" GridPane.columnIndex="1" GridPane.rowIndex="4" />
       <ScrollPane maxHeight="150.0" maxWidth="300.0" minHeight="150.0" minWidth="300.0" prefHeight="150.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.rowSpan="3">
-         <content>
-              <TextArea fx:id="invited" editable="false" maxHeight="500.0" maxWidth="300.0" minHeight="150.0" minWidth="300.0" prefHeight="500.0" prefWidth="300.0" promptText="Invited">
-                  <font>
-                      <Font size="20.0" />
-                  </font>
-                  <opaqueInsets>
-                      <Insets />
-                  </opaqueInsets>
-              </TextArea>
-         </content>
          <GridPane.margin>
             <Insets bottom="5.0" left="15.0" top="10.0" />
          </GridPane.margin>
+         <content>
+            <ListView fx:id="invitedList" prefHeight="150.0" prefWidth="300.0" />
+         </content>
       </ScrollPane>
     </children>
 </GridPane>
