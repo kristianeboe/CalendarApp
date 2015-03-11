@@ -97,6 +97,28 @@ public class GetData {
         return users;
     }
 
+    public static ArrayList<User> getUsersInGroup(int groupID){
+        Connection con = DBConnector.getCon();
+        ArrayList<User> users = new ArrayList<>();
+
+        if (con != null) {
+            try {
+                Statement stmt = con.createStatement();
+                String strSelect = "SELECT * FROM user NATURAL JOIN userInGroup WHERE groupID = "+groupID+";";
+                logger.debug("Performing SQL Query [" + strSelect + "]");
+                ResultSet rset = stmt.executeQuery(strSelect);
+
+                users = ResultResolver.groupResolver(rset);
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            logger.fatal("No connection");
+        }
+        return users;
+    }
+
     /**
      * TODO: Test for this
      * @param groupID

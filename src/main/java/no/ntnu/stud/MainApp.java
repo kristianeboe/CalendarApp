@@ -239,6 +239,37 @@ public class MainApp extends Application {
         }
     }
 
+    public void showGroup(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/MyGroups.fxml"));
+            GridPane viewAppointment = (GridPane) loader.load();
+            rootLayout.setCenter(viewAppointment);
+
+            MyGroupsController controller = loader.getController();
+            controller.setMainApp(this);
+            controller.renderMyGroups();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void editGroup(int groupID){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/EditGroup.fxml"));
+            GridPane editGroup = (GridPane) loader.load();
+            rootLayout.setCenter(editGroup);
+
+            EditGroupController controller = loader.getController();
+            controller.setMainApp(this);
+            controller.renderGroup(groupID);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public User getUser() {
         return user;
