@@ -5,13 +5,12 @@ import no.ntnu.stud.model.User;
 import no.ntnu.stud.security.Authentication;
 import no.ntnu.stud.security.SHAHashGenerator;
 import org.apache.log4j.Logger;
-import org.h2.command.Prepared;
-import org.h2.tools.Server;
 import org.junit.*;
 import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 import static org.junit.Assert.*;
 
@@ -67,7 +66,7 @@ public class PasswordTest {
         assertTrue(Authentication.authenticate(user.getEmail(), "password"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testForgotPassword() {
         String newPassword = "";
         newPassword = EditData.forgotPassword(user.getEmail());
