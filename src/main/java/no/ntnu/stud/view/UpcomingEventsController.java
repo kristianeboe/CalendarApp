@@ -56,7 +56,7 @@ public class UpcomingEventsController {
 
     public void renderUpcomingAppointments(){
         ap.getChildren().clear();
-        ArrayList<Appointment> appointments = gd.getAppointments(mainApp.getUser(),5);
+        ArrayList<Appointment> appointments = gd.getAppointments(mainApp.getUser(),10, true);
         ArrayList<Appointment> invitations = gd.getInvitations(mainApp.getUser().getUserID());
         int counter = 0;
         for (int i = 0; i < invitations.size(); i++){
