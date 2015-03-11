@@ -42,7 +42,7 @@ public class ViewAppointmentController {
         fromTo.setText(appointment.getStart().toString()+"-"+appointment.getEnd().toString());
         date.setText(appointment.getDate().toString());
         maxAtt.setText(""+appointment.getAttending());
-        if(appointment.getLocation() == null){
+        if(appointment.getLocation() == null && appointment.getRoomID() >-1){
             locationLabel.setText("Room");
             loc.setText(gd.getRoom(appointment.getRoomID()).getName());
         }else{

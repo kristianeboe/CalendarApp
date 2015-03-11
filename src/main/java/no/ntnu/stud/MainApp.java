@@ -18,6 +18,7 @@ import org.apache.log4j.PropertyConfigurator;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 
 public class MainApp extends Application {
 
@@ -200,6 +201,22 @@ public class MainApp extends Application {
             ViewAppointmentController controller = loader.getController();
             controller.setMainApp(this);
             controller.renderViewAppointment(appointment);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showAgenda(Calendar calendar){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/Agenda.fxml"));
+            GridPane viewAppointment = (GridPane) loader.load();
+            rootLayout.setCenter(viewAppointment);
+
+            AgendaController controller = loader.getController();
+            controller.setMainApp(this);
+            controller.renderAgenda(calendar);
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -221,3 +221,8 @@ LeftMenu END
 //////////////
 //////////////
 */
+
+.mainWshadow{
+    -fx-background-color: #F3F3F3;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.2) , 5, 0.0 , 0 , 1 );
+}

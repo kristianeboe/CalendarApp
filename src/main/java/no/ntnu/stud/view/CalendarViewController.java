@@ -1,7 +1,9 @@
 package no.ntnu.stud.view;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import no.ntnu.stud.MainApp;
 import no.ntnu.stud.jdbc.GetData;
 import no.ntnu.stud.model.Appointment;
@@ -67,6 +69,18 @@ public class CalendarViewController {
             dates.get(i).getStyleClass().remove("dates");
         }
 
+        final EventHandler<MouseEvent> clickHandler = new EventHandler<MouseEvent>() {
+
+            public void handle(MouseEvent event) {
+                Object source = event.getSource();
+                Label clickedLabel = (Label) source;
+                int day  = Integer.parseInt(clickedLabel.getText().replaceAll("\\s+",""));
+                Calendar cal = calendar;
+                cal.set(Calendar.DAY_OF_MONTH,day);
+                mainApp.showAgenda(cal);
+            }
+        };
+
         //Render calendar dates
         int j = 1;
         for(int i = startOfMonth; i < dates.size(); i++){
@@ -88,6 +102,9 @@ public class CalendarViewController {
             //Remove underline and blue dates
             dates.get(i).setStyle("-fx-underline: false; -fx-text-fill: black;");
 
+            //Set onClickEvent
+            dates.get(i).setOnMouseClicked(clickHandler);
+
             j++;
         }
 
@@ -108,6 +125,16 @@ public class CalendarViewController {
 
         }
 
+    }
+
+
+
+    private void Handler(Label lblDay, int day){
+        Calendar cal = calendar;
+        cal.set(Calendar.DAY_OF_MONTH,day);
+        lblDay.setOnMouseClicked((event) ->{
+            mainApp.showAgenda(cal);
+        });
     }
 
     private int getFirstDayOfMonth(Calendar cal) {
