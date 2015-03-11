@@ -16,12 +16,7 @@
     <RowConstraints maxHeight="171.0" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label fx:id="lblGroups" text="My groups" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
-      <Label fx:id="lblCalendars" text="My calendars" GridPane.rowIndex="2" GridPane.valignment="TOP">
-         <padding>
-            <Insets top="15.0" />
-         </padding>
-      </Label>
+      <Label fx:id="lblGroups" text="My groups" onMouseClicked="#goToMyGroups" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
    </children>
    <padding>
       <Insets left="15.0" />

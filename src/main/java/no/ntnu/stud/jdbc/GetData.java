@@ -207,6 +207,28 @@ public class GetData {
         return appointments;
     }
 
+    public static ArrayList<Appointment> getAppointments(User user, String dateStr){
+        int userID = user.getUserID();
+        Connection con = DBConnector.getCon();
+        ArrayList<Appointment> appointments = new ArrayList<>();
+        String sql ="";
+            sql = "SELECT * FROM userInvited NATURAL JOIN user JOIN appointment ON(userInvited.appointmentID = appointment.appointmentID) WHERE userID = "+userID+" AND appointmentDate ='"+dateStr+"' ORDER BY startTime ASC;";
+        if (con != null) {
+            try {
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+                logger.debug("Performing SQL Query [" + sql + "]");
+                appointments = ResultResolver.appointmentResolver(rs);
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.err.print("No Connection");
+        }
+        return appointments;
+    }
+
     /**
      *
      *
@@ -296,6 +318,55 @@ public class GetData {
             System.err.print("No Connection");
         }
         return room;
+    }
+
+    public Room getRoom(int roomID){
+        Connection con = new DBConnector().getCon();
+        Room room = null;
+        if(con!=null){
+            try{
+                String sql = "SELECT * FROM room WHERE roomID = "+roomID+";";
+                Statement stmt = con.createStatement();
+                logger.debug("Performing SQL Query [" + sql + "]");
+                ResultSet rs = stmt.executeQuery(sql);
+                rs.next();
+                room = new Room(rs.getInt("roomID"), rs.getString("name"), rs.getInt("capacity"));
+            }catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }else{
+            System.err.print("No Connection");
+        }
+        return room;
+    }
+
+    public ArrayList<User> getInvited(Appointment appointment){
+        Connection con = DBConnector.getCon();
+        ArrayList<User> users = new ArrayList<>();
+
+        if (con != null) {
+            try {
+                Statement stmt = con.createStatement();
+                String strSelect = "SELECT * FROM userInvited NATURAL JOIN user JOIN appointment ON(userInvited.appointmentID = appointment.appointmentID) WHERE appointment.appointmentID = "+appointment.getAppointmentID()+" ORDER BY lastName ASC;";
+                logger.debug("Performing SQL Query [" + strSelect + "]");
+                ResultSet rs = stmt.executeQuery(strSelect);
+                while(rs.next()){
+                    int userID = rs.getInt("userID");
+                    String lastName = rs.getString("lastName");
+                    String middleName = rs.getString("middleName");
+                    String givenName = rs.getString("givenName");
+                    String email = rs.getString("email");
+                    users.add(new User(userID, (lastName), (middleName), (givenName), (email)));
+                }
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            logger.fatal("No connection");
+        }
+        return users;
     }
 
     public static ArrayList<Room> getAllAvailableRooms(LocalTime startTime, LocalTime endTime, LocalDate date, int numPeople){
@@ -520,6 +591,40 @@ public class GetData {
             }
         } else {
             System.err.print("No connection");
+        }
+        return groups;
+    }
+
+    public static ArrayList<Group> getGroups(User user, boolean isOwner) {
+        Connection con = DBConnector.getCon();
+        ArrayList<Group> groups = new ArrayList<>();
+
+        if (con != null) {
+            try {
+                Statement stmt = con.createStatement();
+                String strSelect ="";
+                if(isOwner){
+                    strSelect = "SELECT * FROM user NATURAL JOIN userInGroup NATURAL JOIN userGroup WHERE userID = "+user.getUserID()+" AND userInGroup.isOwner = 1 ORDER BY userGroup.name ASC;";
+                }else{
+                    strSelect = "SELECT * FROM user NATURAL JOIN userInGroup NATURAL JOIN userGroup WHERE userID = "+user.getUserID()+" AND (userInGroup.isOwner = NULL OR userInGroup.isOwner = 0) ORDER BY userGroup.name ASC;";
+                }
+                logger.debug("Performing SQL Query [" + strSelect + "]");
+                ResultSet rset = stmt.executeQuery(strSelect);
+
+                while(rset.next()){
+                    String name = rset.getString("name");
+                    int id = rset.getInt("groupID");
+
+                    groups.add(new Group(id, name));
+                }
+
+                logger.debug("Performing SQL Query [" + strSelect + "]");
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            logger.fatal("No connection");
         }
         return groups;
     }

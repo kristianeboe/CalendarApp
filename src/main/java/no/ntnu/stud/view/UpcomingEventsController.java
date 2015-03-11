@@ -4,6 +4,7 @@ import javafx.collections.ObservableArray;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,6 +21,7 @@ import no.ntnu.stud.jdbc.GetData;
 import no.ntnu.stud.model.Appointment;
 import org.controlsfx.control.spreadsheet.Grid;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -141,6 +143,9 @@ public class UpcomingEventsController {
         label.setAlignment(Pos.TOP_LEFT);
         label.setContentDisplay(ContentDisplay.CENTER);
         label.setTextAlignment(TextAlignment.CENTER);
+        label.setOnMouseClicked((event) ->{
+            mainApp.showAppointmentView(appointment);
+        });
         GridPane.setHalignment(label, HPos.CENTER);
         GridPane.setValignment(label, VPos.BOTTOM);
         GridPane.setMargin(label, new Insets(0,60,0,0));
