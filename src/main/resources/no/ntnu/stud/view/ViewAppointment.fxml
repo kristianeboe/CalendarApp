@@ -23,7 +23,7 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <TextArea fx:id="inpDesc" maxHeight="200.0" maxWidth="300.0" prefHeight="100.0" prefWidth="200.0" promptText="Description" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.rowSpan="3">
+        <TextArea fx:id="inpDesc" maxHeight="200.0" maxWidth="300.0" minHeight="100.0" minWidth="300.0" prefHeight="100.0" prefWidth="300.0" promptText="Description" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.rowSpan="2">
             <GridPane.margin>
                 <Insets bottom="5.0" left="15.0" top="10.0" />
             </GridPane.margin>
@@ -33,17 +33,6 @@
             <opaqueInsets>
                 <Insets />
             </opaqueInsets>
-        </TextArea>
-        <TextArea editable="false" maxHeight="200.0" maxWidth="300.0" prefHeight="100.0" prefWidth="200.0" promptText="Invited" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.rowSpan="3">
-            <font>
-                <Font size="20.0" />
-            </font>
-            <opaqueInsets>
-                <Insets />
-            </opaqueInsets>
-            <GridPane.margin>
-                <Insets bottom="5.0" left="15.0" top="10.0" />
-            </GridPane.margin>
         </TextArea>
         <Button fx:id="btnSave" mnemonicParsing="false" styleClass="menuButton" text="Save" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER">
             <font>
@@ -53,7 +42,7 @@
                 <Insets left="265.0" top="15.0" />
             </GridPane.margin>
         </Button>
-        <Button fx:id="btnClose" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 30; -fx-background-color: ee6666;" text="x" textFill="#f3f3f3" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+        <Button fx:id="btnClose" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#handleClose" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 30; -fx-background-color: ee6666;" text="x" textFill="#f3f3f3" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
             <GridPane.margin>
                 <Insets left="320.0" />
             </GridPane.margin>
@@ -98,9 +87,26 @@
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="5">
          <children>
-            <Label alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="58.0" prefWidth="300.0" text="Location" />
-            <Label fx:id="locationLabel" alignment="CENTER" prefHeight="58.0" prefWidth="141.0" text="Location" />
+            <Label fx:id="locationLabel" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="58.0" prefWidth="300.0" text="Location" />
+            <Label fx:id="loc" alignment="CENTER" prefHeight="58.0" prefWidth="141.0" text="Location" />
          </children>
       </HBox>
+      <Label alignment="CENTER" prefHeight="62.0" prefWidth="315.0" text="Description" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <Label alignment="CENTER" prefHeight="62.0" prefWidth="315.0" text="Invited" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <ScrollPane maxHeight="150.0" maxWidth="300.0" minHeight="150.0" minWidth="300.0" prefHeight="150.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.rowSpan="3">
+         <content>
+              <TextArea fx:id="invited" editable="false" maxHeight="500.0" maxWidth="300.0" minHeight="150.0" minWidth="300.0" prefHeight="500.0" prefWidth="300.0" promptText="Invited">
+                  <font>
+                      <Font size="20.0" />
+                  </font>
+                  <opaqueInsets>
+                      <Insets />
+                  </opaqueInsets>
+              </TextArea>
+         </content>
+         <GridPane.margin>
+            <Insets bottom="5.0" left="15.0" top="10.0" />
+         </GridPane.margin>
+      </ScrollPane>
     </children>
 </GridPane>
