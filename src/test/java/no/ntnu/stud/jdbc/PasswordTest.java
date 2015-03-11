@@ -1,13 +1,15 @@
 package no.ntnu.stud.jdbc;
 
+import no.ntnu.stud.SetUp;
 import no.ntnu.stud.model.User;
 import no.ntnu.stud.security.Authentication;
 import no.ntnu.stud.security.SHAHashGenerator;
-import org.junit.After;
-import org.junit.Before;
+import org.apache.log4j.Logger;
+import org.junit.*;
 import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import static org.junit.Assert.*;
@@ -17,11 +19,30 @@ import static org.junit.Assert.*;
  */
 public class PasswordTest {
 
-    private User user;
+    private static User user;
+    private static Connection conn;
+    private static Logger logger;
+
+    @BeforeClass
+    public static void setUp() {
+        logger = Logger.getLogger("swag");
+        conn = DBConnector.getTestCon();
+        SetUp.setUpDatabase(conn);
+    }
+
+    @AfterClass
+    public static void tearDown() {
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Before
     public void createUser() {
-        user = InsertData.createUser("Testerson", "Testing", "Test", "test@testing.test", "12345");
+        user = new User("Testerson", "Testing", "Test", "test@testing.test", "12345");
+        user = user.create();
     }
     @After
     public void deleteUser() {
@@ -53,7 +74,7 @@ public class PasswordTest {
         assertTrue(Authentication.authenticate(user.getEmail(), newPassword));
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testChangeWrongPassword() {
         byte[] newSalt = SHAHashGenerator.getSalt();
         try {
@@ -66,7 +87,7 @@ public class PasswordTest {
         assertFalse(Authentication.authenticate(user.getEmail(), "password"));
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testChangeBlankPassword() {
         byte[] newSalt = SHAHashGenerator.getSalt();
         try {
@@ -79,7 +100,7 @@ public class PasswordTest {
         assertFalse(Authentication.authenticate(user.getEmail(), "password"));
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testChangeNullPassword() {
         byte[] newSalt = SHAHashGenerator.getSalt();
         try{

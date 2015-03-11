@@ -92,7 +92,7 @@ public class CalendarViewController {
         }
 
         //get all appointments this month
-        ArrayList<Appointment> allAppointments = gd.getAppointments(mainApp.getUser(), 5000);
+        ArrayList<Appointment> allAppointments = gd.getAppointments(mainApp.getUser(), 5000, false);
         ArrayList<Appointment> appointmentsThisMonth = new ArrayList<>();
         for(int i = 0; i < allAppointments.size();i++){
             LocalDate appointmentDate = allAppointments.get(i).getDate();

@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="860.0" stylesheets="@swagStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.NewAppointmentController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="860.0" stylesheets="@swagStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.CreateUserController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -30,47 +30,7 @@
                 <Insets right="15.0" top="10.0" />
             </GridPane.margin>
         </TextField>
-        <TextField fx:id="inpGroup" maxWidth="300.0" minHeight="45.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Add user to group" style="-fx-background-radius: 0px;" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="TOP">
-            <font>
-                <Font size="20.0" />
-            </font>
-            <GridPane.margin>
-                <Insets right="15.0" top="10.0" />
-            </GridPane.margin>
-        </TextField>
-        <TextArea editable="false" maxHeight="200.0" maxWidth="300.0" prefHeight="100.0" prefWidth="200.0" promptText="Groups" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.rowSpan="3">
-            <font>
-                <Font size="20.0" />
-            </font>
-            <opaqueInsets>
-                <Insets />
-            </opaqueInsets>
-            <GridPane.margin>
-                <Insets bottom="5.0" left="15.0" top="10.0" />
-            </GridPane.margin>
-        </TextArea>
-        <Button fx:id="btnAddUser" mnemonicParsing="false" prefHeight="44.0" prefWidth="44.0" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" text="+" textFill="#f3f3f3" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="TOP">
-            <GridPane.margin>
-                <Insets right="15.0" top="10.0" />
-            </GridPane.margin>
-            <font>
-                <Font size="20.0" />
-            </font>
-        </Button>
-        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#getAllAvailableRooms" styleClass="menuButton" text="Save" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
-            <font>
-                <Font size="15.0" />
-            </font>
-            <GridPane.margin>
-                <Insets left="265.0" top="15.0" />
-            </GridPane.margin>
-        </Button>
-        <Button fx:id="btnClose" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#handleClose" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 30; -fx-background-color: ee6666;" text="x" textFill="#f3f3f3" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
-            <GridPane.margin>
-                <Insets left="320.0" />
-            </GridPane.margin>
-        </Button>
-        <Label text="New user" textFill="#6a7783" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+        <Label text="Create user" textFill="#6a7783" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
             <font>
                 <Font size="24.0" />
             </font>
@@ -99,21 +59,67 @@
             <Insets right="15.0" />
          </GridPane.margin>
       </TextField>
-      <TextField fx:id="inpPassword" maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Password" style="-fx-background-radius: 0px;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+       <TextField fx:id="inpGroup" maxWidth="300.0" minHeight="45.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Add user to group" style="-fx-background-radius: 0px;" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="TOP">
+            <font>
+                <Font size="20.0" />
+            </font>
+            <GridPane.margin>
+                <Insets right="15.0" top="10.0" />
+            </GridPane.margin>
+        </TextField>
+      <PasswordField maxWidth="300.0" promptText="********" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <font>
             <Font size="20.0" />
          </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
          <GridPane.margin>
             <Insets left="15.0" />
          </GridPane.margin>
-      </TextField>
-      <TextField fx:id="inpPassword2" maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Retype password" style="-fx-background-radius: 0px;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+      </PasswordField>
+      <PasswordField fx:id="inpPassword2" maxWidth="300.0" promptText="********" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <font>
             <Font size="20.0" />
          </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
          <GridPane.margin>
             <Insets left="15.0" />
          </GridPane.margin>
-      </TextField>
+      </PasswordField>
+      <TextArea editable="false" maxHeight="200.0" maxWidth="300.0" prefHeight="100.0" prefWidth="200.0" promptText="Groups" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.rowSpan="3">
+            <font>
+                <Font size="20.0" />
+            </font>
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+            <GridPane.margin>
+                <Insets bottom="5.0" left="15.0" top="10.0" />
+            </GridPane.margin>
+        </TextArea>
+                <Button fx:id="btnAddGroup" mnemonicParsing="false" prefHeight="44.0" prefWidth="44.0" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" text="+" textFill="#f3f3f3" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="TOP">
+            <GridPane.margin>
+                <Insets right="15.0" top="10.0" />
+            </GridPane.margin>
+            <font>
+                <Font size="20.0" />
+            </font>
+        </Button>
+        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#getAllAvailableRooms" styleClass="menuButton" text="Save" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
+            <font>
+                <Font size="15.0" />
+            </font>
+            <GridPane.margin>
+                <Insets left="265.0" top="15.0" />
+            </GridPane.margin>
+        </Button>
+        <Button fx:id="btnClose" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#handleClose" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 30; -fx-background-color: ee6666;" text="x" textFill="#f3f3f3" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+            <GridPane.margin>
+                <Insets left="320.0" />
+            </GridPane.margin>
+        </Button>
     </children>
 </GridPane>

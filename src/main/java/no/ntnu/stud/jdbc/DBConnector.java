@@ -1,6 +1,12 @@
 package no.ntnu.stud.jdbc;
 
+import org.h2.jdbcx.JdbcConnectionPool;
+
+import javax.sql.DataSource;
 import java.sql.*;
+import java.util.Arrays;
+import java.util.List;
+import org.apache.log4j.Logger;
 
 /**
  * Manages the connection to the database and serves as a general
@@ -13,6 +19,9 @@ public class DBConnector {
     private static String userid = "adrianah_pu_g12", password = "banan11";
     private static String url = "jdbc:mysql://mysql.stud.ntnu.no/adrianah_pu_g12";
     private static String driver = "com.mysql.jdbc.Driver";
+    private static String url_test = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;MODE=MySQL;IGNORECASE=TRUE";
+    private static String driver_test = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
+    private static Logger logger = Logger.getLogger("DBConn");
 
     /**
      * The connection to the database.
@@ -23,16 +32,45 @@ public class DBConnector {
      */
     private static Connection con = null;
 
-    public static Connection getCon() {
-        try {
-            Class.forName(driver);
-        } catch (ClassNotFoundException e) {
-            System.err.print("ClassNotFoundException: " + e.getMessage());
-        }
 
+    // Slightly hacky way of finding out if we're running JUnit
+    public static boolean isJUnitTest() {
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        List<StackTraceElement> list = Arrays.asList(stackTrace);
+        for (StackTraceElement element : list) {
+            if (element.getClassName().startsWith("org.junit.")) {
+                logger.debug("Detected JUnit testing");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static Connection getCon() {
+        if (!isJUnitTest()) {
+            try {
+                Class.forName(driver);
+            } catch (ClassNotFoundException e) {
+                logger.fatal("ClassNotFoundException: " + e.getMessage());
+            }
+
+            try {
+                con = DriverManager.getConnection(url, userid, password);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return con;
+        } else {
+            return getTestCon();
+        }
+    }
+
+    public static Connection getTestCon() {
         try {
-            con = DriverManager.getConnection(url, userid, password);
-        } catch (SQLException e) {
+            DataSource ds = JdbcConnectionPool.create(url_test, "user", "pw");
+            con = ds.getConnection();
+        }
+        catch (SQLException e) {
             e.printStackTrace();
         }
         return con;
@@ -47,7 +85,7 @@ public class DBConnector {
             ResultSet rset = stmt.executeQuery(query);
             while (rset.next()) {
                 String test = rset.getString("test1");
-                System.out.println(test);
+                logger.trace(test);
             }
         } catch (SQLException e) {
             e.printStackTrace();

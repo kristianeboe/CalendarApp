@@ -1,8 +1,10 @@
 package no.ntnu.stud.jdbc;
 
+import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.model.User;
 import no.ntnu.stud.security.Authentication;
 import no.ntnu.stud.security.SHAHashGenerator;
+import org.apache.log4j.Logger;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
@@ -16,6 +18,7 @@ import java.time.LocalTime;
  * Created by Adrian on 23.02.2015.
  */
 public class EditData {
+    private static Logger logger = Logger.getLogger("EditData");
 
     public static void changePassword(User loggedInUser, String oldPassword, char[] newPassword, byte[] newSalt) throws UnsupportedEncodingException, SQLException {
         Connection con = DBConnector.getCon();
@@ -32,9 +35,10 @@ public class EditData {
             stmt.setBytes(2, newSalt);
             stmt.setInt(3, loggedInUser.getUserID());
             stmt.execute();
-            System.out.println("Performing SQL Query [" + query + "]");
+            logger.debug("Performing SQL Query [" + query + "]");
         } else {
-            System.err.print("Wrong password");
+            throw new IllegalArgumentException("Wrong password");
+            //System.err.print("Wrong password");
         }
     }
 
@@ -54,7 +58,7 @@ public class EditData {
             stmt.setBytes(2, newSalt);
             stmt.setString(3, email);
             stmt.execute();
-            System.out.println("Performing SQL Query [" + query + "]");
+            logger.debug("Performing SQL Query [" + query + "]");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -69,31 +73,31 @@ public class EditData {
             String query = "DELETE FROM user WHERE userID = '" + userID + "';";
             Statement stmt = con.createStatement();
             stmt.executeUpdate(query);
-            System.out.println("Performing SQL Query [" + query + "]");
+            logger.debug("Performing SQL Query [" + query + "]");
         } else {
-            System.err.print("No Connection");
+            logger.fatal("No Connection");
         }
     }
 
-    public void deleteReservation(int appointmentID){
+    public static void deleteReservation(int appointmentID){
         Connection con = DBConnector.getCon();
 
         if(con != null){
             try {
                 Statement stmt = con.createStatement();
                 String sql = "UPDATE appointment SET roomID = NULL WHERE appointmentID = "+appointmentID+";";
-                System.out.println("Performing SQL Query [" + sql + "]");
+                logger.debug("Performing SQL Query [" + sql + "]");
                 stmt.executeUpdate(sql);
             }catch (SQLException e) {
                 e.printStackTrace();
             }
 
         }else {
-            System.err.print("No Connection");
+            logger.fatal("No Connection");
         }
     }
 
-    public void changeReservationTime(int appointmentID, LocalTime newStartTime, LocalTime newEndTime, LocalDate newDate){
+    public static void changeReservationTime(int appointmentID, LocalTime newStartTime, LocalTime newEndTime, LocalDate newDate){
         Connection con = DBConnector.getCon();
         String startTime = newStartTime.toString();
         String endTime = newEndTime.toString();
@@ -104,18 +108,61 @@ public class EditData {
                 String sql = "UPDATE appointment " +
                         "SET startTime = '"+startTime+"', endTime = '"+endTime+"', appointmentDate = '"+date+"' " +
                         "WHERE appointmentID = "+appointmentID+";";
-                System.out.println("Performing SQL Query [" + sql + "]");
+                logger.debug("Performing SQL Query [" + sql + "]");
                 stmt.executeUpdate(sql);
             }catch (SQLException e) {
                 e.printStackTrace();
             }
 
         }else {
-            System.err.print("No Connection");
+            logger.fatal("No Connection");
+        }
+    }
+
+    public static void acceptInvitation(User user, Appointment appointment){
+        Connection con = DBConnector.getCon();
+        int userID = user.getUserID();
+        int appointmentID = appointment.getAppointmentID();
+
+        if(con!=null){
+            try{
+                Statement stmt = con.createStatement();
+                String sql = "UPDATE userInvited" +
+                        " SET attending = '1' " +
+                        "WHERE userID = "+userID+" AND appointmentID = "+appointmentID+";";
+                logger.debug("Performing SQL Query [" + sql + "]");
+                stmt.executeUpdate(sql);
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }else{
+            logger.fatal("No Connection");
+        }
+    }
+
+    public static void declineInvitation(User user, Appointment appointment){
+        Connection con = DBConnector.getCon();
+        int userID = user.getUserID();
+        int appointmentID = appointment.getAppointmentID();
+
+        if(con!=null){
+            try{
+                Statement stmt = con.createStatement();
+                String sql = "UPDATE userInvited" +
+                        " SET attending = '2' " +
+                        "WHERE userID = "+userID+" AND appointmentID = "+appointmentID+";";
+                logger.debug("Performing SQL Query [" + sql + "]");
+                stmt.executeUpdate(sql);
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }else{
+            logger.fatal("No Connection");
         }
     }
 
     public static void main(String[] args) {
 
     }
+
 }

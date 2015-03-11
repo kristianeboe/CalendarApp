@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="860.0" style="-fx-background-color: #f0f0f0;" styleClass="calendar, boxShadow" stylesheets="@swagStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.CalendarViewController">
+   <children>
+      <Label fx:id="lblCurrentMonth" styleClass="current" text="Week 11" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin>
+      </Label>
+      <Label text="MON" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label text="TUE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label text="WED" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label text="THUR" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label text="FRI" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label text="SAT" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label text="SUN" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label fx:id="prev_arrow" onMouseClicked="#previousMonth" styleClass="arrow_" text="&lt;" GridPane.halignment="RIGHT" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="nxt_arrow" onMouseClicked="#nextMonth" styleClass="arrow_" text="&gt;" GridPane.columnIndex="8" GridPane.halignment="LEFT" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label text="06:00" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+      <Label text="08:00" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
+      <Label text="12:00" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM" />
+      <Label text="10:00" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" />
+      <Label text="14:00" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="BOTTOM" />
+      <Label text="16:00" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="BOTTOM" />
+      <Label text="18:00" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="BOTTOM" />
+      <Label text="20:00" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="BOTTOM" />
+   </children>
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="172.0" minHeight="30.0" prefHeight="85.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="401.0" minHeight="30.0" prefHeight="74.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="60.0" minHeight="20.0" prefHeight="50.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="60.0" minHeight="20.0" prefHeight="50.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="60.0" minHeight="20.0" prefHeight="50.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="60.0" minHeight="20.0" prefHeight="50.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="60.0" minHeight="20.0" prefHeight="50.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="60.0" minHeight="20.0" prefHeight="50.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="60.0" minHeight="20.0" prefHeight="50.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="10.0" minHeight="30.0" prefHeight="10.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+</GridPane>
