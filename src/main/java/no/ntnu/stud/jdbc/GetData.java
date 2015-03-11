@@ -212,7 +212,7 @@ public class GetData {
         Connection con = DBConnector.getCon();
         ArrayList<Appointment> appointments = new ArrayList<>();
         String sql ="";
-            sql = "SELECT * FROM userInvited NATURAL JOIN user JOIN appointment ON(userInvited.appointmentID = appointment.appointmentID) WHERE userID = "+userID+" AND appointmentDate ="+dateStr+" ORDER BY startTime ASC;";
+            sql = "SELECT * FROM userInvited NATURAL JOIN user JOIN appointment ON(userInvited.appointmentID = appointment.appointmentID) WHERE userID = "+userID+" AND appointmentDate ='"+dateStr+"' ORDER BY startTime ASC;";
         if (con != null) {
             try {
                 Statement stmt = con.createStatement();

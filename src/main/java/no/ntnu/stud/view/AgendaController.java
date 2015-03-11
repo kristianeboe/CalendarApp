@@ -23,24 +23,30 @@ public class AgendaController {
     private Label lblAppointments;
 
     @FXML
-    private ListView listAppointmets;
+    private ListView listAppointments;
 
     public AgendaController(){
 
     }
 
     public void renderAgenda(Calendar calendar){
+        GetData gd = new GetData();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         SimpleDateFormat dbFormat = new SimpleDateFormat("yyy-MM-dd");
+
         ObservableList<Label> appointments = FXCollections.observableArrayList();
         String dateString = dateFormat.format(calendar.getTime());
-        lblAppointments.setText(dateString);
-        GetData gd = new GetData();
-        ArrayList<Appointment> apps = gd.getAppointments(mainApp.getUser(), dbFormat.format(calendar.getTime()));
 
+        lblAppointments.setText(dateString);
+
+        String dateStr = dbFormat.format(calendar.getTime());
+        ArrayList<Appointment> apps = gd.getAppointments(mainApp.getUser(), dateStr);
+
+        //Move appointments from apps to an observable list, then add the observable list til listView
         for(Appointment app: apps){
             appointments.add(createLabel(app));
         }
+        listAppointments.setItems(appointments);
 
     }
 
