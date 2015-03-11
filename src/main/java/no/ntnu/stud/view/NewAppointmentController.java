@@ -10,7 +10,6 @@ import no.ntnu.stud.jdbc.GetData;
 import no.ntnu.stud.jdbc.InsertData;
 import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.model.Room;
-import no.ntnu.stud.model.User;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -77,7 +76,7 @@ public class NewAppointmentController {
         LocalTime endTime = LocalTime.parse(inpTo.getText());
         int maxAttending = Integer.parseInt(inpMaxAttend.getText());
         int roomID;
-        User owner;
+        int owner;
 
         // If roomID, use roomID. If not, use location.
 
@@ -93,7 +92,7 @@ public class NewAppointmentController {
         }
         String location = "";
 
-        owner = mainApp.getUser();
+        owner = mainApp.getUser().getUserID();
 
         String description = inpDesc.getText();
 

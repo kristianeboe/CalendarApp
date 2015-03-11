@@ -1,6 +1,5 @@
 package no.ntnu.stud.util;
 
-import no.ntnu.stud.jdbc.GetData;
 import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.model.Group;
 import no.ntnu.stud.model.User;
@@ -35,7 +34,7 @@ public class ResultResolver {
             if(appointmentResult.getTimestamp("alarmTime") != null){
                 alarmTime = appointmentResult.getTimestamp("alarmTime").toLocalDateTime();
             }
-            appointments.add(new Appointment(appointmentID, title, date, startTime, endTime, GetData.getUser(ownerID), description, location, roomID, attending, alarmTime));
+            appointments.add(new Appointment(appointmentID, title, date, startTime, endTime, ownerID, description, location, roomID, attending, alarmTime));
         }
         return appointments;
     }

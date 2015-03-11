@@ -7,9 +7,6 @@ import no.ntnu.stud.util.TimeConverter;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -105,7 +102,7 @@ public class InsertData {
                 stmt.setString(4, appointment.getEnd().toString());
                 stmt.setString(5, appointment.getLocation());
                 stmt.setInt(6, appointment.getRoomID());
-                stmt.setInt(7, appointment.getOwner().getUserID());
+                stmt.setInt(7, appointment.getOwner());
                 stmt.setInt(8, appointment.getAttending());
                 if (appointment.getAlarmTime() != null) {
                     stmt.setTimestamp(9, TimeConverter.localDateTimeToTimestamp(appointment.getAlarmTime()));
