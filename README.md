@@ -3,4 +3,4 @@ Fellesprosjekt 2015
 
 Hello world
 
-2
+We use Java
