@@ -190,6 +190,23 @@ public class MainApp extends Application {
         }
     }
 
+    public void showAppointmentView(Appointment appointment){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/ViewAppointment.fxml"));
+            GridPane viewAppointment = (GridPane) loader.load();
+            rootLayout.setCenter(viewAppointment);
+
+            ViewAppointmentController controller = loader.getController();
+            controller.setMainApp(this);
+            controller.renderViewAppointment(appointment);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public User getUser() {
         return user;
     }
