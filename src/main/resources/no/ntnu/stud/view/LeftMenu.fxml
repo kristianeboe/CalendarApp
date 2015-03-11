@@ -17,11 +17,7 @@
   </rowConstraints>
    <children>
       <Label fx:id="lblGroups" text="My groups" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
-      <Label fx:id="lblCalendars" text="My calendars" GridPane.rowIndex="2" GridPane.valignment="TOP">
-         <padding>
-            <Insets top="15.0" />
-         </padding>
-      </Label>
+      <Button mnemonicParsing="false" text="Log out" GridPane.rowIndex="2" />
    </children>
    <padding>
       <Insets left="15.0" />
