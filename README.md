@@ -4,3 +4,4 @@ Fellesprosjekt 2015
 Hello world
 
 We use Java
+And stuff
