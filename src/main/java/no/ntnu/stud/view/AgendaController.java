@@ -47,6 +47,11 @@ public class AgendaController {
             appointments.add(createLabel(app));
         }
         listAppointments.setItems(appointments);
+        if(apps.isEmpty()){
+            ObservableList<Label> obsList = FXCollections.observableArrayList();
+            obsList.add(new Label("No appointments today"));
+            listAppointments.setItems(obsList);
+        }
 
     }
 
