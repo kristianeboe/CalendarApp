@@ -153,7 +153,7 @@
             <Insets right="15.0" />
          </GridPane.margin>
       </ComboBox>
-      <ComboBox fx:id="searchResults" maxHeight="44.0" maxWidth="44.0" onMouseClicked="#getAllAvailableRooms" prefHeight="44.0" prefWidth="44.0" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP">
+      <ComboBox fx:id="searchResults" maxHeight="44.0" maxWidth="44.0" prefHeight="44.0" prefWidth="44.0" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets left="265.0" top="10.0" />
          </GridPane.margin>
