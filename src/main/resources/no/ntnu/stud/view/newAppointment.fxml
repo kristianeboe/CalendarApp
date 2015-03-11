@@ -90,14 +90,6 @@
                 <Insets bottom="5.0" left="15.0" top="10.0" />
             </GridPane.margin>
         </TextArea>
-        <Button fx:id="btnAddUser" mnemonicParsing="false" prefHeight="44.0" prefWidth="44.0" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" text="+" textFill="#f3f3f3" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
-            <GridPane.margin>
-                <Insets left="270.0" top="10.0" />
-            </GridPane.margin>
-            <font>
-                <Font size="20.0" />
-            </font>
-        </Button>
         <ComboBox fx:id="btnRoom" onAction="#getAllAvailableRooms" onMouseClicked="#getAllAvailableRooms" prefHeight="44.0" prefWidth="299.0" promptText="Room" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="TOP">
             <GridPane.margin>
                 <Insets right="15.0" top="10.0" />
@@ -159,6 +151,11 @@
       <ComboBox fx:id="inpReminderType" maxWidth="145.0" onMouseClicked="#getAllAvailableRooms" prefHeight="44.0" prefWidth="150.0" promptText="min" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
          <GridPane.margin>
             <Insets right="15.0" />
+         </GridPane.margin>
+      </ComboBox>
+      <ComboBox fx:id="searchResults" maxHeight="44.0" maxWidth="44.0" onMouseClicked="#getAllAvailableRooms" prefHeight="44.0" prefWidth="44.0" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP">
+         <GridPane.margin>
+            <Insets left="265.0" top="10.0" />
          </GridPane.margin>
       </ComboBox>
     </children>
