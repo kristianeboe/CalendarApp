@@ -11,6 +11,7 @@ import no.ntnu.stud.jdbc.InsertData;
 import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.model.Group;
 import no.ntnu.stud.model.Room;
+import no.ntnu.stud.model.User;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
