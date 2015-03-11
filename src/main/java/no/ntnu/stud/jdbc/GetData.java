@@ -180,11 +180,16 @@ public class GetData {
         return appointment;
     }
 
-    public static ArrayList<Appointment> getAppointments(User user, int limit){
+    public static ArrayList<Appointment> getAppointments(User user, int limit, boolean onlyAttending){
         int userID = user.getUserID();
         Connection con = DBConnector.getCon();
         ArrayList<Appointment> appointments = new ArrayList<>();
-        String sql = "SELECT * FROM userInvited NATURAL JOIN user JOIN appointment ON(userInvited.appointmentID = appointment.appointmentID) WHERE userID = "+userID+" ORDER BY appointmentDate, startTime ASC LIMIT "+limit+";";
+        String sql ="";
+        if(onlyAttending){
+            sql = "SELECT * FROM userInvited NATURAL JOIN user JOIN appointment ON(userInvited.appointmentID = appointment.appointmentID) WHERE userID = "+userID+" AND (userInvited.attending = '1') ORDER BY appointmentDate, startTime ASC LIMIT "+limit+";";
+        }else{
+            sql = "SELECT * FROM userInvited NATURAL JOIN user JOIN appointment ON(userInvited.appointmentID = appointment.appointmentID) WHERE userID = "+userID+" AND (userInvited.attending = '1' OR userInvited.attending = '0') ORDER BY appointmentDate, startTime ASC LIMIT "+limit+";";
+        }
         if (con != null) {
             try {
                 Statement stmt = con.createStatement();
