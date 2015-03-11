@@ -1,13 +1,13 @@
 package no.ntnu.stud.model;
 
-import no.ntnu.stud.model.Appointment;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.LocalDateTime;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Created by sklirg on 20/02/15.
@@ -15,14 +15,14 @@ import java.time.LocalDateTime;
 public class AppointmentTest {
     String title, description, location;
     int roomID, maxAttending;
-    User owner;
+    int owner;
     @Before
     public void init() {
         title = "Mote i dag";
         description = "Et lite mote";
         location = "Skogen 3";
 
-        owner = new User(1,"Testesen", "", "Test", "test@testststst.com");
+        owner = 1;
         roomID = 1;
     }
 

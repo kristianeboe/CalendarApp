@@ -1,17 +1,17 @@
 package no.ntnu.stud.model;
 
-import java.time.LocalDateTime;
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 import no.ntnu.stud.util.InputValidator;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * Created by sklirg on 20/02/15.
  */
 public class Appointment {
     private int appointmentID, roomID;
-    private User owner;
+    private int owner;
     private String title, location, description;
     private LocalDate date;
     private LocalTime start, end;
@@ -19,7 +19,7 @@ public class Appointment {
     private int attending;
 
 
-    public Appointment(String title, LocalDate date, LocalTime startTime, LocalTime endTime, User owner, String description, String location, int roomID, int attending) {
+    public Appointment(String title, LocalDate date, LocalTime startTime, LocalTime endTime, int owner, String description, String location, int roomID, int attending) {
         this.title = InputValidator.textInputValidator(title);
         this.description = InputValidator.textInputValidator(description);
         if (roomID != -1) {
@@ -32,7 +32,7 @@ public class Appointment {
         setAttending(attending);
     }
 
-    public Appointment(int appointmentID, String title, LocalDate date, LocalTime startTime, LocalTime endTime, User owner, String description, String location, int roomID, int attending, LocalDateTime alarmTime) {
+    public Appointment(int appointmentID, String title, LocalDate date, LocalTime startTime, LocalTime endTime, int owner, String description, String location, int roomID, int attending, LocalDateTime alarmTime) {
         setDateTime(date, startTime, endTime);
         setAttending(attending);
 
@@ -73,7 +73,7 @@ public class Appointment {
         this.appointmentID = appointmentID;
     }
 
-    public void setOwner(User owner){
+    public void setOwner(int owner){
         this.owner = owner;
     }
 
@@ -164,7 +164,7 @@ public class Appointment {
         return appointmentID;
     }
 
-    public User getOwner() {
+    public int getOwner() {
         return owner;
     }
 
