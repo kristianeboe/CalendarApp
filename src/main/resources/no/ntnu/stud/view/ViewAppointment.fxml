@@ -13,8 +13,8 @@
     </columnConstraints>
     <rowConstraints>
         <RowConstraints maxHeight="90.0" minHeight="10.0" prefHeight="90.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="52.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="52.0" vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
@@ -52,7 +52,7 @@
                 <Font size="24.0" />
             </font>
         </Label>
-      <TextField fx:id="inpLocation" maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Location" style="-fx-background-radius: 0px;" visible="false" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="TOP">
+      <TextField fx:id="inpLocation" maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Location" style="-fx-background-radius: 0px;" visible="false" GridPane.halignment="RIGHT" GridPane.rowIndex="7" GridPane.valignment="TOP">
          <font>
             <Font size="20.0" />
          </font>
@@ -60,32 +60,32 @@
             <Insets right="15.0" top="10.0" />
          </GridPane.margin>
       </TextField>
-      <Label GridPane.rowIndex="1" />
-      <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
+      <Label GridPane.rowIndex="2" />
+      <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
          <children>
             <Label alignment="CENTER_RIGHT" prefHeight="58.0" prefWidth="390.0" text="Date" />
             <Label fx:id="date" alignment="CENTER" contentDisplay="CENTER" prefHeight="81.0" prefWidth="238.0" text="Date" />
          </children>
       </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
+      <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3">
          <children>
             <Label alignment="CENTER_RIGHT" prefHeight="58.0" prefWidth="300.0" text="From-to" />
             <Label fx:id="fromTo" alignment="CENTER" contentDisplay="CENTER" prefHeight="58.0" prefWidth="142.0" text="time" />
          </children>
       </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3">
+      <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="4">
          <children>
             <Label alignment="CENTER_RIGHT" prefHeight="58.0" prefWidth="300.0" text="Type" />
             <Label fx:id="type" alignment="CENTER" prefHeight="58.0" prefWidth="141.0" text="Type" />
          </children>
       </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="4">
+      <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="5">
          <children>
             <Label alignment="CENTER_RIGHT" prefHeight="58.0" prefWidth="300.0" text="Max attendees" />
             <Label fx:id="maxAtt" alignment="CENTER" minHeight="58.0" prefWidth="141.0" text="Max attendees" />
          </children>
       </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="5">
+      <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="6">
          <children>
             <Label fx:id="locationLabel" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="58.0" prefWidth="300.0" text="Location" />
             <Label fx:id="loc" alignment="CENTER" prefHeight="58.0" prefWidth="141.0" text="Location" />
@@ -94,19 +94,12 @@
       <Label alignment="CENTER" prefHeight="62.0" prefWidth="315.0" text="Description" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <Label alignment="CENTER" prefHeight="62.0" prefWidth="315.0" text="Invited" GridPane.columnIndex="1" GridPane.rowIndex="4" />
       <ScrollPane maxHeight="150.0" maxWidth="300.0" minHeight="150.0" minWidth="300.0" prefHeight="150.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.rowSpan="3">
-         <content>
-              <TextArea fx:id="invited" editable="false" maxHeight="500.0" maxWidth="300.0" minHeight="150.0" minWidth="300.0" prefHeight="500.0" prefWidth="300.0" promptText="Invited">
-                  <font>
-                      <Font size="20.0" />
-                  </font>
-                  <opaqueInsets>
-                      <Insets />
-                  </opaqueInsets>
-              </TextArea>
-         </content>
          <GridPane.margin>
             <Insets bottom="5.0" left="15.0" top="10.0" />
          </GridPane.margin>
+         <content>
+            <ListView fx:id="invitedList" prefHeight="150.0" prefWidth="300.0" />
+         </content>
       </ScrollPane>
     </children>
 </GridPane>

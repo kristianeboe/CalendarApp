@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane fx:id="newAppointment" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="611.0" prefWidth="890.0" stylesheets="@swagStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.NewAppointmentController">
+<GridPane fx:id="newAppointment" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="611.0" prefWidth="890.0" stylesheets="@swagStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.EditGroupController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -22,7 +22,7 @@
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <TextField fx:id="inpTitle" maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Title" style="-fx-background-radius: 0px;" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+        <TextField fx:id="inpName" maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Title" style="-fx-background-radius: 0px;" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
             <font>
                 <Font size="20.0" />
             </font>
@@ -49,17 +49,6 @@
                 <Insets />
             </opaqueInsets>
         </TextArea>
-        <TextArea editable="false" maxHeight="200.0" maxWidth="300.0" prefHeight="100.0" prefWidth="200.0" promptText="Users" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.rowSpan="3">
-            <font>
-                <Font size="20.0" />
-            </font>
-            <opaqueInsets>
-                <Insets />
-            </opaqueInsets>
-            <GridPane.margin>
-                <Insets bottom="5.0" left="15.0" top="10.0" />
-            </GridPane.margin>
-        </TextArea>
         <Button fx:id="btnAddUser" mnemonicParsing="false" prefHeight="44.0" prefWidth="44.0" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" text="+" textFill="#f3f3f3" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="TOP">
             <GridPane.margin>
                 <Insets right="15.0" top="10.0" />
@@ -68,7 +57,7 @@
                 <Font size="20.0" />
             </font>
         </Button>
-        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#getAllAvailableRooms" styleClass="menuButton" text="Save" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
+        <Button fx:id="btnSave" mnemonicParsing="false" styleClass="menuButton" text="Save" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
             <font>
                 <Font size="15.0" />
             </font>
@@ -86,5 +75,13 @@
                 <Font size="24.0" />
             </font>
         </Label>
+      <ScrollPane maxHeight="200.0" maxWidth="300.0" minHeight="150.0" minWidth="300.0" prefHeight="150.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.rowSpan="3">
+         <GridPane.margin>
+            <Insets bottom="5.0" left="15.0" top="10.0" />
+         </GridPane.margin>
+         <content>
+            <ListView fx:id="members" maxHeight="1.7976931348623157E308" maxWidth="300.0" minHeight="150.0" minWidth="300.0" prefHeight="162.0" prefWidth="300.0" />
+         </content>
+      </ScrollPane>
     </children>
 </GridPane>
