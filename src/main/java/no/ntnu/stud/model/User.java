@@ -89,7 +89,7 @@ public class User {
 
 
     public void setMiddleName(String middleName) {
-        this.middleName = InputValidator.textInputValidator(middleName, 45);
+        this.middleName = middleName;
     }
 
     public String getGivenName() {
