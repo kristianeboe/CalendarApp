@@ -8,6 +8,7 @@ import javafx.scene.control.ListView;
 import no.ntnu.stud.MainApp;
 import no.ntnu.stud.jdbc.GetData;
 import no.ntnu.stud.model.Appointment;
+import org.apache.log4j.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.Calendar;
  */
 public class AgendaController {
     private MainApp mainApp;
+    Logger logger = Logger.getLogger("AgendaController");
 
     @FXML
     private Label lblAppointments;
