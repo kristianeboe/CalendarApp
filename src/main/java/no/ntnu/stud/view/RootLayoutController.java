@@ -2,7 +2,10 @@ package no.ntnu.stud.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import no.ntnu.stud.MainApp;
+import no.ntnu.stud.model.User;
 
 
 /**
@@ -11,8 +14,23 @@ import no.ntnu.stud.MainApp;
 public class RootLayoutController {
     private MainApp mainApp;
 
+    @FXML
+    Menu menu;
+
     public RootLayoutController() {
         //trollllooolllll
+    }
+
+    public void generateMenu() {
+        User user = mainApp.getUser();
+        if (user.isSuperuser()) {
+            appendAdminMenus();
+        }
+    }
+
+    public void appendAdminMenus() {
+        MenuItem hey = new MenuItem("HEY");
+        menu.getItems().add(hey);
     }
 
     public void setMainApp(MainApp mainApp) {

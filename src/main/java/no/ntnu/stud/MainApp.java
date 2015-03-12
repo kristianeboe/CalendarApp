@@ -29,7 +29,7 @@ public class MainApp extends Application {
 
     public static void main(String[] args) {
         startLogger();
-        logger.info("Hello World!");
+        logger.info("Welcome to Ultimate Saga Calendar Pro 365 Cloud Edition!");
         logger.debug("Starting application");
 
         launch(args);
