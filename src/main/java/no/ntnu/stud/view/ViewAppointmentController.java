@@ -66,7 +66,49 @@ public class ViewAppointmentController {
                 Object source = event.getSource();
                 Label clickedLabel = (Label) source;
                 int userID = Integer.parseInt(clickedLabel.getId());
-                //mainApp.editGroup(groupID);
+                mainApp.showUser(userID);
+            }
+        };
+        for(User usr:users){
+            Label lbl = new Label();
+            lbl.setOnMouseClicked(clickHandler);
+            lbl.setId("" + usr.getUserID());
+            lbl.setText(usr.getFullName());
+            obsUsers.add(lbl);
+        }
+        invitedList.setItems(obsUsers);
+    }
+
+    public void renderViewAppointment(int appointmentID){
+        GetData gd = new GetData();
+        Appointment appointment = gd.getAppointment(appointmentID);
+        if(mainApp.getUser().getUserID() != appointment.getOwner()){
+            inpDesc.setEditable(false);
+            btnSave.setVisible(false);
+        }
+        inpDesc.setEditable(false);
+        btnSave.setVisible(false);
+        lblTitle.setText(appointment.getTitle());
+        fromTo.setText(appointment.getStart().toString()+"-"+appointment.getEnd().toString());
+        date.setText(appointment.getDate().toString());
+        maxAtt.setText(""+appointment.getAttending());
+        if(appointment.getLocation() == null && appointment.getRoomID() >-1){
+            locationLabel.setText("Room");
+            loc.setText(gd.getRoom(appointment.getRoomID()).getName());
+        }else{
+            loc.setText(appointment.getLocation());
+        }
+        inpDesc.setText(appointment.getDescription());
+        ArrayList<User> users = gd.getInvited(appointment);
+        ObservableList<Label> obsUsers = FXCollections.observableArrayList();
+
+        final EventHandler<MouseEvent> clickHandler = new EventHandler<MouseEvent>() {
+
+            public void handle(MouseEvent event) {
+                Object source = event.getSource();
+                Label clickedLabel = (Label) source;
+                int userID = Integer.parseInt(clickedLabel.getId());
+                mainApp.showUser(userID);
             }
         };
         for(User usr:users){

@@ -40,7 +40,7 @@ public class MyGroupsController {
                 Object source = event.getSource();
                 Label clickedLabel = (Label) source;
                 int groupID = Integer.parseInt(clickedLabel.getId());
-                mainApp.editGroup(groupID);
+                mainApp.showEditGroup(groupID);
             }
         };
 
@@ -57,8 +57,19 @@ public class MyGroupsController {
 
         ObservableList<Label> memberObsList = FXCollections.observableArrayList();
 
+        final EventHandler<MouseEvent> clickHandlerMember = new EventHandler<MouseEvent>() {
+
+            public void handle(MouseEvent event) {
+                Object source = event.getSource();
+                Label clickedLabel = (Label) source;
+                int groupID = Integer.parseInt(clickedLabel.getId());
+                mainApp.showGroup(groupID);
+            }
+        };
         for(Group grp: memberGroups){
             Label lbl = new Label(grp.getName());
+            lbl.setOnMouseClicked(clickHandlerMember);
+            lbl.setId(""+grp.getGroupID());
             memberObsList.add(lbl);
         }
         memberList.setItems(memberObsList);

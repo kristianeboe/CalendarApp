@@ -207,6 +207,22 @@ public class MainApp extends Application {
         }
     }
 
+    public void showAppointmentView(int appointmentID){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/ViewAppointment.fxml"));
+            GridPane viewAppointment = (GridPane) loader.load();
+            rootLayout.setCenter(viewAppointment);
+
+            ViewAppointmentController controller = loader.getController();
+            controller.setMainApp(this);
+            controller.renderViewAppointment(appointmentID);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void showAgenda(Calendar calendar){
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -239,23 +255,7 @@ public class MainApp extends Application {
         }
     }
 
-    public void showGroup(){
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/MyGroups.fxml"));
-            GridPane viewAppointment = (GridPane) loader.load();
-            rootLayout.setCenter(viewAppointment);
-
-            MyGroupsController controller = loader.getController();
-            controller.setMainApp(this);
-            controller.renderMyGroups();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void editGroup(int groupID){
+    public void showEditGroup(int groupID){
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/EditGroup.fxml"));
@@ -263,6 +263,38 @@ public class MainApp extends Application {
             rootLayout.setCenter(editGroup);
 
             EditGroupController controller = loader.getController();
+            controller.setMainApp(this);
+            controller.renderGroup(groupID);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showUser(int userID){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/User.fxml"));
+            GridPane userView = (GridPane) loader.load();
+            rootLayout.setCenter(userView);
+
+            UserController controller = loader.getController();
+            controller.setMainApp(this);
+            controller.renderUser(userID);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showGroup(int groupID){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/Group.fxml"));
+            GridPane groupView = (GridPane) loader.load();
+            rootLayout.setCenter(groupView);
+
+            GroupViewController controller = loader.getController();
             controller.setMainApp(this);
             controller.renderGroup(groupID);
 
