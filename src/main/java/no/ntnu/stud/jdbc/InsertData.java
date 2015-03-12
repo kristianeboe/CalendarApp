@@ -73,6 +73,23 @@ public class InsertData {
         return GetData.getUser(userID);
     }
 
+    public static void inviteUser(User user, Appointment appointment){
+        Connection con = DBConnector.getCon();
+
+        if (con != null) {
+            String query = "INSERT INTO userInvited (userID, appointmentID) VALUES(" + user.getUserID() + ", "+appointment.getAppointmentID()+");";
+            try {
+                logger.debug("Performing SQL Query [" + query + "]");
+                Statement stmt = con.prepareStatement(query);
+                stmt.executeUpdate(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            logger.fatal("No connection");
+        }
+    }
+
     public static void createAppointment(Appointment appointment) {
         Connection con = DBConnector.getCon();
 
