@@ -7,7 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="200" styleClass="upcomingEvents" stylesheets="@swagStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.UpcomingEventsController">
+<GridPane maxWidth="200.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="200" styleClass="upcomingEvents" stylesheets="@swagStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.UpcomingEventsController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -36,9 +36,9 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <ScrollPane fx:id="scrollPane" styleClass="upcomingEvents" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
+      <ScrollPane fx:id="scrollPane" maxWidth="198.0" prefHeight="200.0" prefWidth="198.0" styleClass="upcomingEvents" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
         <content>
-          <AnchorPane fx:id="ap" styleClass="upcomingEvents" minHeight="350.0" minWidth="0.0" prefWidth="200.0">
+          <AnchorPane fx:id="ap" maxWidth="199.0" minHeight="350.0" minWidth="0.0" prefWidth="199.0" styleClass="upcomingEvents">
             </AnchorPane>
         </content>
       </ScrollPane>
