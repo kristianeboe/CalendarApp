@@ -39,14 +39,19 @@ public class NewAppointmentController {
     @FXML
     private TextField inpInvite;
     @FXML
-    private TextArea inpDesc;
+    private TextArea inpDesc, outInvited;
     @FXML
     private ComboBox<Room> btnRoom;
+    @FXML
+    private ComboBox<String> cmbSearchResults;
     @FXML
     private Button btnSave, btnClose, btnAddUser;
     @FXML
     private TextField inpLocation;
-
+    @FXML
+    private RadioButton radioWork, radioPersonal;
+    @FXML
+    private ToggleGroup radioGroup;
 
     public NewAppointmentController() {
 
@@ -133,6 +138,7 @@ public class NewAppointmentController {
             try {
                 Appointment app = addAppointment();
                 InsertData.createAppointment(app);
+               // for (String line : outInvited.getText().split("\\n")) InsertData.inviteUser(, app);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
@@ -165,6 +171,7 @@ public class NewAppointmentController {
 
     @FXML
     private void searchForUser(){
+        cmbSearchResults.getItems().clear();
         GetData gd = new GetData();
         String partOfName = inpInvite.getText();
         ArrayList<User> users;
@@ -175,17 +182,26 @@ public class NewAppointmentController {
             String results ="";
             if(users.size()>0){
                 for(User usr:users){
-                    results += usr.getFullName()+"\n";
+                    cmbSearchResults.getItems().add(usr.getFullName());
+                    //results += usr.getFullName()+"\n";
                 }
+                cmbSearchResults.show();
             }
             if(groups.size()>0){
                 for(Group grp:groups){
-                    results += grp.getName() +"\n";
+                    cmbSearchResults.getItems().add(grp.getName());
+                    //results += grp.getName() +"\n";
                 }
+                cmbSearchResults.show();
             }
-            inpDesc.setText(results);
-        }else{
-            inpDesc.setText("");
+        }
+    }
+
+    @FXML
+    private void addInvitedUser(){
+        if (cmbSearchResults.getItems().size() > 0) {
+            outInvited.setText(outInvited.getText().concat(cmbSearchResults.getSelectionModel().getSelectedItem())+"\n");
+            inpInvite.clear();
         }
     }
 
@@ -195,7 +211,7 @@ public class NewAppointmentController {
     }
 
     @FXML
-    private void setPrivate(){
+    private void setPersonal(){
         inpLocation.setVisible(true);
         btnRoom.setVisible(false);
     }
