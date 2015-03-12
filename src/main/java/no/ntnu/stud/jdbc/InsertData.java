@@ -96,8 +96,9 @@ public class InsertData {
         }
     }
 
-    public static void createAppointment(Appointment appointment) {
+    public static Appointment createAppointment(Appointment appointment) {
         Connection con = DBConnector.getCon();
+        Appointment created_appointment = null;
 
         if (con != null) {
             String query = "INSERT INTO appointment ("
@@ -129,11 +130,17 @@ public class InsertData {
                 }
                 stmt.setString(10, appointment.getDescription());
                 stmt.execute();
-                logger.debug("Performing SQL Query [" + query + "]");
+                logger.debug("[Create Appointment] Performing SQL Query [" + query + "]");
+                String getID = "SELECT LAST_INSERT_ID()";
+                ResultSet rs = stmt.executeQuery(getID);
+                rs.next();
+                created_appointment = appointment;
+                created_appointment.setAppointmentID(rs.getInt(0));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+        return created_appointment;
     }
 
     public static int createAppointmentGetID(Appointment appointment) {
