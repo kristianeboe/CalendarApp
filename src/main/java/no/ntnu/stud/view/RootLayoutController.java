@@ -1,11 +1,15 @@
 package no.ntnu.stud.view;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.BorderPane;
 import no.ntnu.stud.MainApp;
 import no.ntnu.stud.model.User;
+
+import java.io.IOException;
 
 
 /**
@@ -29,8 +33,13 @@ public class RootLayoutController {
     }
 
     public void appendAdminMenus() {
-        MenuItem hey = new MenuItem("HEY");
-        menu.getItems().add(hey);
+        try {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(MainApp.class.getResource("view/AdminMenu.fxml"));
+        menu =  loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setMainApp(MainApp mainApp) {
