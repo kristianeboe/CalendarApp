@@ -3,14 +3,12 @@ package no.ntnu.stud.view;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import no.ntnu.stud.MainApp;
+import no.ntnu.stud.jdbc.EditData;
 import no.ntnu.stud.jdbc.GetData;
 import no.ntnu.stud.jdbc.InsertData;
 import no.ntnu.stud.model.Appointment;
@@ -149,10 +147,15 @@ public class NewAppointmentController {
                 for(User usr:invitedUsers){
                     InsertData.inviteUser(usr, app);
                 }
+                InsertData.inviteUser(mainApp.getUser(),app);
+                EditData.acceptInvitation(mainApp.getUser(),app);
+                mainApp.showAppointmentView(app);
+                mainApp.showUpcomingEvents();
                // for (String line : outInvited.getText().split("\\n")) InsertData.inviteUser(, app);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
+
         }
         /*
         boolean DEBUG = false;
