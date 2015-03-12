@@ -180,6 +180,31 @@ public class EditData {
         }
     }
 
+    public static void editAppointment(Appointment a) {
+        Connection con = DBConnector.getCon();
+
+        if (con != null) {
+            try {
+                Statement stmt = con.createStatement();
+                String sql = "" +
+                        "UPDATE appointment SET " +
+                        "title='" + a.getTitle() + "' " +
+                        "ownerID='" + a.getOwner() + "' " +
+                        "startTime='" + a.getStart() + "' " +
+                        "endTime='" + a.getEnd() + "' " +
+                        "roomID='" + a.getRoomID() + "' " +
+                        "location='" + a.getLocation() + "' " +
+                        "description='" + a.getDescription() + "' " +
+                        "appointmentDate='" + a.getDate() + "' " +
+                        "WHERE AppointmentID='" + a.getAppointmentID() + "';";
+                logger.debug("Updating " + a + " using [" + sql + "]");
+                stmt.execute(sql);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void main(String[] args) {
 
     }

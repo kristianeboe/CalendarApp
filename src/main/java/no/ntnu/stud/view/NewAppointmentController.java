@@ -154,8 +154,7 @@ public class NewAppointmentController {
         if (validTitle() && validDate() && validTime() && validMaxAttend()) {
             try {
                 Appointment app = addAppointment();
-                int appointmentID = InsertData.createAppointment(app).getAppointmentID();
-                app.setAppointmentID(appointmentID);
+                app = InsertData.createAppointment(app);
                 for (User usr : invitedUsers) {
                     InsertData.inviteUser(usr, app);
                 }
@@ -167,6 +166,14 @@ public class NewAppointmentController {
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
+        }
+    }
+
+    @FXML
+    private void handleEdit() {
+        if (validTitle() && validDate() && validTime() && validMaxAttend()) {
+            Appointment app = addAppointment();
+
         }
     }
 
