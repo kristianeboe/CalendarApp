@@ -98,6 +98,13 @@ public class MainApp extends Application {
         showLeftMenu();
     }
 
+    public void signedOut() {
+        this.user = null;
+        rootLayout.setLeft(null);
+        rootLayout.setRight(null);
+        showSignInView();
+    }
+
     public void showCalendarView(){
         try {
             FXMLLoader loader = new FXMLLoader();

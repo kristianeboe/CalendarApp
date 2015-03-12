@@ -40,4 +40,9 @@ public class RootLayoutController {
         System.exit(0);
     }
 
+    @FXML
+    private void handleSignOut() {
+        mainApp.signedOut();
+    }
+
 }
