@@ -16,7 +16,7 @@ public class InputValidator {
     }
 
     public static String textInputValidator(String text, int minLength, int maxLength) {
-        if (text == null) {
+        if (text == null || text.equals("")) {
             throw new IllegalArgumentException("Text is null");
         }
         else if (text.length() <= minLength || text.length() >= maxLength)

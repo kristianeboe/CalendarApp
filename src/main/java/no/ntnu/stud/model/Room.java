@@ -4,6 +4,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import no.ntnu.stud.util.InputValidator;
 
 /**
  * Created by Adrian on 23.02.2015.
@@ -40,9 +41,7 @@ public class Room {
 
 
     public void setName(String name) {
-        if (name.isEmpty())
-            throw new IllegalArgumentException("Empty room name is not allowed");
-        this.name=name;
+        this.name = InputValidator.textInputValidator(name, 45);
     }
 
     public int getCapacity() {
