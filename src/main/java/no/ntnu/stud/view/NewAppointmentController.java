@@ -82,6 +82,7 @@ public class NewAppointmentController {
         inpFrom.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
         inpTo.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
         inpMaxAttend.setText(Integer.toString(appointment.getAttending()));
+        btnRoom.setValue(GetData.getRoomById(appointment.getRoomID()));
     }
 
     public Appointment addAppointment() {
@@ -153,7 +154,7 @@ public class NewAppointmentController {
         if (validTitle() && validDate() && validTime() && validMaxAttend()) {
             try {
                 Appointment app = addAppointment();
-                int appointmentID = InsertData.createAppointmentGetID(app);
+                int appointmentID = InsertData.createAppointment(app).getAppointmentID();
                 app.setAppointmentID(appointmentID);
                 for (User usr : invitedUsers) {
                     InsertData.inviteUser(usr, app);
@@ -166,32 +167,7 @@ public class NewAppointmentController {
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
-
         }
-        /*
-        boolean DEBUG = false;
-
-        if (DEBUG) {
-            System.out.println("=== Created appointment ===");
-            System.out.println("toStr: " + app);
-            System.out.println("title: " + app.getTitle());
-            System.out.println("desc : " + app.getDescription());
-            System.out.println("date : " + app.getDate());
-            System.out.println("start: " + app.getStart());
-            System.out.println("end  : " + app.getEnd());
-        }
-
-        if (DEBUG) {
-            System.out.println("=== Let's try to get it back ===");
-            Appointment app_check = GetData.getAppointment(app.getRoomID(), app.getDate(), app.getStart(), app.getEnd());
-            System.out.println("toStr: " + app_check);
-            System.out.println("id   : " + app_check.getAppointmentID());
-            System.out.println("title: " + app_check.getTitle());
-            System.out.println("desc : " + app_check.getDescription());
-            System.out.println("date : " + app_check.getDate());
-            System.out.println("start: " + app_check.getStart());
-            System.out.println("end  : " + app_check.getEnd());
-        }*/
     }
 
     ArrayList<User> searchResultsUsers = new ArrayList<>();
@@ -398,5 +374,12 @@ public class NewAppointmentController {
             inpMaxAttend.setPromptText("Must be a number!");
             return false;
         }
+    }
+
+    public void renderEditView(Appointment appointment) {
+        // Populate fields
+        insertAppointmentData(appointment);
+
+        // Set access control
     }
 }

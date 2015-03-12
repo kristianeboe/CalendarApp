@@ -759,4 +759,30 @@ public class GetData {
         }
         return alarms;
     }
+
+    public static Room getRoomById(int roomId) {
+        Connection con = DBConnector.getCon();
+        Room room = null;
+
+        if (con != null) {
+            try {
+                Statement stmt = con.createStatement();
+                String query = "SELECT * FROM room WHERE roomID = '" + roomId + "'";
+                logger.info("[GetRoomById] Performing SQL Query [" + query + "]");
+                ResultSet rset = stmt.executeQuery(query);
+
+                while (rset.next()) {
+                    String name = rset.getString("name");
+                    int capacity = rset.getInt("capacity");
+                    room = new Room(roomId, name, capacity);
+                }
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            logger.error("No Connection");
+        }
+        return room;
+    }
 }
