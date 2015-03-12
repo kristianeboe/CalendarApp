@@ -70,15 +70,18 @@ public class NewAppointmentController {
     public void setNewAppointmentStage(Stage newAppointmentStage) {
         this.newAppointmentStage = newAppointmentStage;
     }
-    public void setMainApp(MainApp mainApp) { this.mainApp = mainApp;}
 
-    public void insertAppointmentData(Appointment appointment){
-            inpTitle.setText(appointment.getTitle());
-            inpDesc.setText(appointment.getDescription());
-            inpDate.setValue(appointment.getDate());
-            inpFrom.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
-            inpTo.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
-            inpMaxAttend.setText(Integer.toString(appointment.getAttending()));
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
+    }
+
+    public void insertAppointmentData(Appointment appointment) {
+        inpTitle.setText(appointment.getTitle());
+        inpDesc.setText(appointment.getDescription());
+        inpDate.setValue(appointment.getDate());
+        inpFrom.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
+        inpTo.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
+        inpMaxAttend.setText(Integer.toString(appointment.getAttending()));
     }
 
     public Appointment addAppointment() {
@@ -117,7 +120,7 @@ public class NewAppointmentController {
     }
 
     @FXML
-    void getAllAvailableRooms(){
+    void getAllAvailableRooms() {
         validDate();
         validTime();
         validMaxAttend();
@@ -133,25 +136,26 @@ public class NewAppointmentController {
             }
         }
     }
+
     @FXML
     private void handleSave() {
         validTitle();
         validDate();
         validTime();
         validMaxAttend();
-        if (validTitle() && validDate() && validTime() && validMaxAttend()){
+        if (validTitle() && validDate() && validTime() && validMaxAttend()) {
             try {
                 Appointment app = addAppointment();
                 int appointmentID = InsertData.createAppointmentGetID(app);
                 app.setAppointmentID(appointmentID);
-                for(User usr:invitedUsers){
+                for (User usr : invitedUsers) {
                     InsertData.inviteUser(usr, app);
                 }
-                InsertData.inviteUser(mainApp.getUser(),app);
-                EditData.acceptInvitation(mainApp.getUser(),app);
+                InsertData.inviteUser(mainApp.getUser(), app);
+                EditData.acceptInvitation(mainApp.getUser(), app);
                 mainApp.showAppointmentView(app);
                 mainApp.showUpcomingEvents();
-               // for (String line : outInvited.getText().split("\\n")) InsertData.inviteUser(, app);
+                // for (String line : outInvited.getText().split("\\n")) InsertData.inviteUser(, app);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
@@ -182,31 +186,34 @@ public class NewAppointmentController {
             System.out.println("end  : " + app_check.getEnd());
         }*/
     }
+
     ArrayList<User> searchResultsUsers = new ArrayList<>();
     ArrayList<User> invitedUsers = new ArrayList<>();
 
     @FXML
-    private void searchForUser(){
+    private void searchForUser() {
         cmbSearchResults.getItems().clear();
         GetData gd = new GetData();
         String partOfName = inpInvite.getText();
         ArrayList<User> users;
         ArrayList<Group> groups;
-        if(partOfName.length()>2){
+        if (partOfName.length() > 2) {
             groups = gd.searchGroup(partOfName);
             users = gd.searchUser(partOfName);
-            String results ="";
-            if(users.size()>0){
-                for(User usr:users){
-                    searchResultsUsers.clear();
-                    searchResultsUsers.add(usr);
-                    cmbSearchResults.getItems().add(usr.getFullName());
-                    //results += usr.getFullName()+"\n";
+            String results = "";
+            if (users.size() > 0) {
+                for (User usr : users) {
+                    if (usr.getUserID() != (mainApp.getUser().getUserID())) {
+                        searchResultsUsers.clear();
+                        searchResultsUsers.add(usr);
+                        cmbSearchResults.getItems().add(usr.getFullName());
+                        //results += usr.getFullName()+"\n";
+                    }
                 }
                 cmbSearchResults.show();
             }
-            if(groups.size()>0){
-                for(Group grp:groups){
+            if (groups.size() > 0) {
+                for (Group grp : groups) {
                     cmbSearchResults.getItems().add(grp.getName());
                     //results += grp.getName() +"\n";
                 }
@@ -216,7 +223,7 @@ public class NewAppointmentController {
     }
 
     @FXML
-    private void addInvitedUser(){
+    private void addInvitedUser() {
         if (cmbSearchResults.getItems().size() > 0) {
             int index = cmbSearchResults.getSelectionModel().getSelectedIndex();
             invitedUsers.add(searchResultsUsers.get(index));
@@ -238,19 +245,24 @@ public class NewAppointmentController {
     }
 
     @FXML
-    private void setPersonal(){
+    private void setPersonal() {
         inpLocation.setVisible(true);
         btnRoom.setVisible(false);
     }
 
     @FXML
-    private void setWork(){
+    private void setWork() {
         inpLocation.setVisible(false);
         btnRoom.setVisible(true);
     }
 
-    private void addErrorStyle(TextField textField){textField.getStyleClass().add("errorTextField");}
-    private void removeErrorStyle(TextField textField){textField.getStyleClass().remove("errorTextField");}
+    private void addErrorStyle(TextField textField) {
+        textField.getStyleClass().add("errorTextField");
+    }
+
+    private void removeErrorStyle(TextField textField) {
+        textField.getStyleClass().remove("errorTextField");
+    }
 
 
     private void activateFocusedProperties() {
@@ -308,11 +320,11 @@ public class NewAppointmentController {
 
     public boolean validTime() {
         boolean noError = true;
-        if (inpFrom.getText().isEmpty()){
+        if (inpFrom.getText().isEmpty()) {
             addErrorStyle(inpFrom);
             noError = false;
         }
-        if (inpTo.getText().isEmpty()){
+        if (inpTo.getText().isEmpty()) {
             addErrorStyle(inpTo);
             noError = false;
         }
@@ -320,11 +332,11 @@ public class NewAppointmentController {
             addErrorStyle(inpTo);
             noError = false;
         }
-        if (!inpFrom.getText().matches("\\d\\d:\\d\\d")){
+        if (!inpFrom.getText().matches("\\d\\d:\\d\\d")) {
             addErrorStyle(inpFrom);
             noError = false;
         }
-        if (!inpTo.getText().isEmpty() && LocalTime.parse(inpTo.getText()).compareTo(LocalTime.parse(inpFrom.getText())) == -1){
+        if (!inpTo.getText().isEmpty() && LocalTime.parse(inpTo.getText()).compareTo(LocalTime.parse(inpFrom.getText())) == -1) {
             addErrorStyle(inpTo);
             noError = false;
         }
@@ -337,7 +349,7 @@ public class NewAppointmentController {
         return noError;
     }
 
-    private boolean validDate(){
+    private boolean validDate() {
         if (inpDate.getValue() == null || inpDate.getValue().isBefore(LocalDate.now())) {
             inpDate.setStyle("-fx-border-color: red" + "; -fx-border-width: 1px;");
             inpDate.setPromptText("Must be a date in the future or today");
@@ -357,14 +369,14 @@ public class NewAppointmentController {
         return true;
     }
 
-    private boolean validMaxAttend(){
-        try{
-            if (inpMaxAttend.getText().isEmpty()){
+    private boolean validMaxAttend() {
+        try {
+            if (inpMaxAttend.getText().isEmpty()) {
                 addErrorStyle(inpMaxAttend);
                 return false;
             }
             int maxAttend = Integer.parseInt(inpMaxAttend.getText());
-            if (maxAttend < 0){
+            if (maxAttend < 0) {
                 addErrorStyle(inpMaxAttend);
                 inpMaxAttend.clear();
                 inpMaxAttend.setPromptText("Must be a positive number!");
