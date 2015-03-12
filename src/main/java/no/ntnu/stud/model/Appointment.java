@@ -46,11 +46,13 @@ public class Appointment {
         // Get from DB. Map to User-object?
         setOwner(owner);
 
-        // Do we need any validation for this?
-        setLocation(location);
-
         // Get from DB. Map to Room-object?
-        setRoomID(roomID);
+        if (roomID != -1) {
+            setRoomID(roomID);
+        } else {
+            // Do we need any validation for this?
+            setLocation(location);
+        }
 
         // Do we need any validation for this?
         setDescription(description);
