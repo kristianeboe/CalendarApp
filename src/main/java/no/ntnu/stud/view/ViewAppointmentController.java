@@ -13,6 +13,7 @@ import no.ntnu.stud.MainApp;
 import no.ntnu.stud.jdbc.GetData;
 import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.model.User;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,7 @@ import java.util.ArrayList;
  */
 public class ViewAppointmentController {
     private MainApp mainApp;
+    Logger logger = Logger.getLogger("ViewAppointmentCtrl");
 
     @FXML
     Label from, to , date, type, maxAtt, loc, locationLabel, fromTo, lblTitle;
@@ -38,14 +40,25 @@ public class ViewAppointmentController {
 
     }
 
-    public void renderViewAppointment(Appointment appointment){
-        GetData gd = new GetData();
-        if(mainApp.getUser().getUserID() != appointment.getOwner()){
-            inpDesc.setEditable(false);
-            btnSave.setVisible(false);
+    public void renderViewAppointment(int appointmentID){
+        renderAppointment(GetData.getAppointment(appointmentID));
+    }
+
+    public void renderAppointment(Appointment appointment){
+        boolean isOwner = mainApp.getUser().getUserID() == appointment.getOwner();
+
+        if (isOwner) {
+            logger.debug("User is owner");
+            renderEditAppointment(appointment);
+        } else {
+            logger.debug("User is participant");
+            renderViewAppointment(appointment);
         }
-        inpDesc.setEditable(false);
-        btnSave.setVisible(false);
+    }
+
+    public void renderViewAppointment(Appointment appointment) {
+        GetData gd = new GetData();
+        // Render view
         lblTitle.setText(appointment.getTitle());
         fromTo.setText(appointment.getStart().toString()+"-"+appointment.getEnd().toString());
         date.setText(appointment.getDate().toString());
@@ -93,10 +106,14 @@ public class ViewAppointmentController {
             obsUsers.add(lbl);
         }
         invitedList.setItems(obsUsers);
+
+        // Access control
+        inpDesc.setEditable(false);
+        btnSave.setVisible(false);
     }
 
-    public void renderViewAppointment(int appointmentID){
-        renderViewAppointment(GetData.getAppointment(appointmentID));
+    public void renderEditAppointment(Appointment appointment) {
+        logger.debug("Rendering " + appointment + " editable");
     }
 
     @FXML
