@@ -57,7 +57,9 @@ public class ViewAppointmentController {
             loc.setText(appointment.getLocation());
         }
         inpDesc.setText(appointment.getDescription());
-        ArrayList<User> users = gd.getInvited(appointment);
+        ArrayList<User> invitedUsers = gd.getInvited(appointment);
+        ArrayList<User> acceptedUsers = gd.getAccepted(appointment);
+        ArrayList<User> declinedUsers = gd.getDeclined(appointment);
         ObservableList<Label> obsUsers = FXCollections.observableArrayList();
 
         final EventHandler<MouseEvent> clickHandler = new EventHandler<MouseEvent>() {
@@ -69,11 +71,25 @@ public class ViewAppointmentController {
                 mainApp.showUser(userID);
             }
         };
-        for(User usr:users){
+        for(User usr:acceptedUsers){
             Label lbl = new Label();
             lbl.setOnMouseClicked(clickHandler);
             lbl.setId("" + usr.getUserID());
-            lbl.setText(usr.getFullName());
+            lbl.setText("[Going] " + usr.getFullName());
+            obsUsers.add(lbl);
+        }
+        for(User usr:invitedUsers){
+            Label lbl = new Label();
+            lbl.setOnMouseClicked(clickHandler);
+            lbl.setId("" + usr.getUserID());
+            lbl.setText("[Invited] "+usr.getFullName());
+            obsUsers.add(lbl);
+        }
+        for(User usr:declinedUsers){
+            Label lbl = new Label();
+            lbl.setOnMouseClicked(clickHandler);
+            lbl.setId("" + usr.getUserID());
+            lbl.setText("[Not going] "+usr.getFullName());
             obsUsers.add(lbl);
         }
         invitedList.setItems(obsUsers);
@@ -99,7 +115,9 @@ public class ViewAppointmentController {
             loc.setText(appointment.getLocation());
         }
         inpDesc.setText(appointment.getDescription());
-        ArrayList<User> users = gd.getInvited(appointment);
+        ArrayList<User> invitedUsers = gd.getInvited(appointment);
+        ArrayList<User> acceptedUsers = gd.getAccepted(appointment);
+        ArrayList<User> declinedUsers = gd.getDeclined(appointment);
         ObservableList<Label> obsUsers = FXCollections.observableArrayList();
 
         final EventHandler<MouseEvent> clickHandler = new EventHandler<MouseEvent>() {
@@ -111,11 +129,25 @@ public class ViewAppointmentController {
                 mainApp.showUser(userID);
             }
         };
-        for(User usr:users){
+        for(User usr:acceptedUsers){
             Label lbl = new Label();
             lbl.setOnMouseClicked(clickHandler);
             lbl.setId("" + usr.getUserID());
-            lbl.setText(usr.getFullName());
+            lbl.setText("[Going] " + usr.getFullName());
+            obsUsers.add(lbl);
+        }
+        for(User usr:invitedUsers){
+            Label lbl = new Label();
+            lbl.setOnMouseClicked(clickHandler);
+            lbl.setId("" + usr.getUserID());
+            lbl.setText("[Invited] "+usr.getFullName());
+            obsUsers.add(lbl);
+        }
+        for(User usr:declinedUsers){
+            Label lbl = new Label();
+            lbl.setOnMouseClicked(clickHandler);
+            lbl.setId("" + usr.getUserID());
+            lbl.setText("[Not going] "+usr.getFullName());
             obsUsers.add(lbl);
         }
         invitedList.setItems(obsUsers);
