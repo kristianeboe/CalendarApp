@@ -79,17 +79,6 @@
                 <Insets />
             </opaqueInsets>
         </TextArea>
-        <TextArea fx:id="outInvited" editable="false" maxHeight="200.0" maxWidth="300.0" prefHeight="100.0" prefWidth="200.0" promptText="Invited" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.rowSpan="3">
-            <font>
-                <Font size="20.0" />
-            </font>
-            <opaqueInsets>
-                <Insets />
-            </opaqueInsets>
-            <GridPane.margin>
-                <Insets bottom="5.0" left="15.0" top="10.0" />
-            </GridPane.margin>
-        </TextArea>
         <ComboBox fx:id="btnRoom" onMouseClicked="#getAllAvailableRooms" prefHeight="44.0" prefWidth="299.0" promptText="Room" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="TOP">
             <GridPane.margin>
                 <Insets right="15.0" top="10.0" />
@@ -161,5 +150,13 @@
             <Insets left="265.0" top="10.0" />
          </GridPane.margin>
       </ComboBox>
+      <ScrollPane maxHeight="200.0" maxWidth="300.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.rowSpan="3">
+         <GridPane.margin>
+            <Insets bottom="5.0" left="15.0" top="10.0" />
+         </GridPane.margin>
+         <content>
+            <ListView fx:id="invitedUsersList" maxWidth="300.0" minHeight="164.0" prefHeight="164.0" prefWidth="300.0" />
+         </content>
+      </ScrollPane>
     </children>
 </GridPane>

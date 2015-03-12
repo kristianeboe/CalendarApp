@@ -2,8 +2,13 @@ package no.ntnu.stud.view;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import no.ntnu.stud.MainApp;
 import no.ntnu.stud.jdbc.GetData;
@@ -52,6 +57,8 @@ public class NewAppointmentController {
     private RadioButton radioWork, radioPersonal;
     @FXML
     private ToggleGroup radioGroup;
+    @FXML
+    ListView invitedUsersList;
 
     public NewAppointmentController() {
 
@@ -137,7 +144,11 @@ public class NewAppointmentController {
         if (validTitle() && validDate() && validTime() && validMaxAttend()){
             try {
                 Appointment app = addAppointment();
-                InsertData.createAppointment(app);
+                int appointmentID = InsertData.createAppointmentGetID(app);
+                app.setAppointmentID(appointmentID);
+                for(User usr:invitedUsers){
+                    InsertData.inviteUser(usr, app);
+                }
                // for (String line : outInvited.getText().split("\\n")) InsertData.inviteUser(, app);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
@@ -168,6 +179,8 @@ public class NewAppointmentController {
             System.out.println("end  : " + app_check.getEnd());
         }*/
     }
+    ArrayList<User> searchResultsUsers = new ArrayList<>();
+    ArrayList<User> invitedUsers = new ArrayList<>();
 
     @FXML
     private void searchForUser(){
@@ -182,6 +195,8 @@ public class NewAppointmentController {
             String results ="";
             if(users.size()>0){
                 for(User usr:users){
+                    searchResultsUsers.clear();
+                    searchResultsUsers.add(usr);
                     cmbSearchResults.getItems().add(usr.getFullName());
                     //results += usr.getFullName()+"\n";
                 }
@@ -200,8 +215,17 @@ public class NewAppointmentController {
     @FXML
     private void addInvitedUser(){
         if (cmbSearchResults.getItems().size() > 0) {
-            outInvited.setText(outInvited.getText().concat(cmbSearchResults.getSelectionModel().getSelectedItem())+"\n");
+            int index = cmbSearchResults.getSelectionModel().getSelectedIndex();
+            invitedUsers.add(searchResultsUsers.get(index));
+            ObservableList<Label> obsUsersInvited = FXCollections.observableArrayList();
+            for (User usr : invitedUsers) {
+                Label lbl = new Label();
+                lbl.setId("" + usr.getUserID());
+                lbl.setText(usr.getFullName());
+                obsUsersInvited.add(lbl);
+            }
             inpInvite.clear();
+            invitedUsersList.setItems(obsUsersInvited);
         }
     }
 

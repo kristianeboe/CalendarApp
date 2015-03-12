@@ -112,7 +112,7 @@ public class InsertData {
                     + "description) VALUES ("
                     + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             try {
-                PreparedStatement stmt = con.prepareStatement(query);
+                PreparedStatement stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                 stmt.setString(1, appointment.getTitle());
                 stmt.setString(2, appointment.getDate().toString());
                 stmt.setString(3, appointment.getStart().toString());
@@ -133,6 +133,51 @@ public class InsertData {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static int createAppointmentGetID(Appointment appointment) {
+        Connection con = DBConnector.getCon();
+        int appointmentID = -1;
+        if (con != null) {
+            String query = "INSERT INTO appointment ("
+                    + "title,"
+                    + "appointmentDate,"
+                    + "startTime,"
+                    + "endTime,"
+                    + "location,"
+                    + "roomID,"
+                    + "ownerID, "
+                    + "attending,"
+                    + "alarmTime,"
+                    + "description) VALUES ("
+                    + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            try {
+                PreparedStatement stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                stmt.setString(1, appointment.getTitle());
+                stmt.setString(2, appointment.getDate().toString());
+                stmt.setString(3, appointment.getStart().toString());
+                stmt.setString(4, appointment.getEnd().toString());
+                stmt.setString(5, appointment.getLocation());
+                stmt.setInt(6, appointment.getRoomID());
+                stmt.setInt(7, appointment.getOwner());
+                stmt.setInt(8, appointment.getAttending());
+                if (appointment.getAlarmTime() != null) {
+                    stmt.setTimestamp(9, TimeConverter.localDateTimeToTimestamp(appointment.getAlarmTime()));
+                } else {
+                    stmt.setTimestamp(9, null);
+                }
+                stmt.setString(10, appointment.getDescription());
+                stmt.execute();
+                logger.debug("Performing SQL Query [" + query + "]");
+                String getID = "SELECT LAST_INSERT_ID()";
+                ResultSet rs = stmt.executeQuery(getID);
+                rs.next();
+                appointmentID = rs.getInt(1);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return appointmentID;
     }
 
     public static void bookRoom(int roomID, int appointmentID) {
