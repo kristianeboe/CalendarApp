@@ -225,6 +225,23 @@ public class InsertData {
         }
     }
 
+
+    public static void addToGroup(User user, int groupID){
+        Connection con = DBConnector.getCon();
+        if (con != null) {
+            String query = "INSERT INTO userInGroup (userID, groupID) VALUES(" + user.getUserID() + ", "+groupID+");";
+            try {
+                logger.debug("Performing SQL Query [" + query + "]");
+                Statement stmt = con.prepareStatement(query);
+                stmt.executeUpdate(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            logger.error("No Connection");
+        }
+    }
+
     public void setAlarm(User user, Appointment appointment, Timestamp alarmTime) {
         Connection con = DBConnector.getCon();
         if (con != null) {
