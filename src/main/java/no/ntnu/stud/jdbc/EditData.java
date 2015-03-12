@@ -161,6 +161,25 @@ public class EditData {
         }
     }
 
+    public static void editGroupName(int groupID, String newName) {
+        Connection con = DBConnector.getCon();
+
+        if (con != null) {
+            try {
+                Statement stmt = con.createStatement();
+                String sql = "UPDATE userGroup" +
+                        " SET name = '" + newName + "' " +
+                        "WHERE groupID = " + groupID + ";";
+                logger.debug("Performing SQL Query [" + sql + "]");
+                stmt.executeUpdate(sql);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            logger.fatal("No Connection");
+        }
+    }
+
     public static void main(String[] args) {
 
     }

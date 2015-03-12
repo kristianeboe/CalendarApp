@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane fx:id="newAppointment" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="611.0" prefWidth="890.0" stylesheets="@swagStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.EditGroupController">
+<GridPane fx:id="newAppointment" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="920.0" stylesheets="@swagStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.EditGroupController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -30,23 +30,7 @@
                 <Insets right="15.0" top="10.0" />
             </GridPane.margin>
         </TextField>
-        <TextField fx:id="inpUser" maxWidth="300.0" minHeight="45.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Add user to group" style="-fx-background-radius: 0px;" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="TOP">
-            <font>
-                <Font size="20.0" />
-            </font>
-            <GridPane.margin>
-                <Insets right="15.0" top="10.0" />
-            </GridPane.margin>
-        </TextField>
-        <Button fx:id="btnAddUser" mnemonicParsing="false" prefHeight="44.0" prefWidth="44.0" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" text="+" textFill="#f3f3f3" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="TOP">
-            <GridPane.margin>
-                <Insets right="15.0" top="10.0" />
-            </GridPane.margin>
-            <font>
-                <Font size="20.0" />
-            </font>
-        </Button>
-        <Button fx:id="btnSave" mnemonicParsing="false" styleClass="menuButton" text="Save" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
+        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#handleSave" styleClass="menuButton" text="Save" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
             <font>
                 <Font size="15.0" />
             </font>
@@ -74,5 +58,18 @@
       </ScrollPane>
       <Label alignment="CENTER" prefHeight="68.0" prefWidth="313.0" text="Members" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <Label alignment="CENTER" prefHeight="80.0" prefWidth="315.0" text="Name" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+      <TextField fx:id="inpInvite" maxWidth="300.0" minHeight="45.0" minWidth="0.0" onKeyReleased="#searchForUser" prefHeight="45.0" prefWidth="10.0" promptText="Invite user or group" style="-fx-background-radius: 0px;" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <GridPane.margin>
+            <Insets right="15.0" />
+         </GridPane.margin>
+      </TextField>
+      <ComboBox fx:id="cmbSearchResults" maxHeight="44.0" maxWidth="44.0" onAction="#addInvitedUser" prefHeight="44.0" prefWidth="44.0" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+         <GridPane.margin>
+            <Insets right="15.0" />
+         </GridPane.margin>
+      </ComboBox>
     </children>
 </GridPane>
