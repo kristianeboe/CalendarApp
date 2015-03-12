@@ -32,12 +32,6 @@ public class InsertData {
     }
 
     public static User createUser(User user) {
-        String lastName = user.getLastName();
-        String middleName = user.getMiddleName();
-        String givenName = user.getGivenName();
-        String email = user.getEmail();
-        HashMap<String, byte[]> passwordHashMap = user.getPasswordHashMap();
-
         Connection con = DBConnector.getCon();
         int userID = 0;
 
@@ -52,19 +46,20 @@ public class InsertData {
                     + "?, ?, ?, ?, ?, ?)";
             try {
                 PreparedStatement preparedStmt = con.prepareStatement(query);
-                preparedStmt.setString(1, lastName);
-                preparedStmt.setString(2, middleName);
-                preparedStmt.setString(3, givenName);
-                preparedStmt.setString(4, email);
-                preparedStmt.setBytes(5, passwordHashMap.get("hash"));
-                preparedStmt.setBytes(6, passwordHashMap.get("salt"));
+                preparedStmt.setString(1, user.getLastName());
+                preparedStmt.setString(2, user.getMiddleName());
+                preparedStmt.setString(3, user.getGivenName());
+                preparedStmt.setString(4, user.getEmail());
+                preparedStmt.setBytes(5, user.getPasswordHashMap().get("hash"));
+                preparedStmt.setBytes(6, user.getPasswordHashMap().get("salt"));
+                preparedStmt.setBoolean(7, user.isSuperuser());
                 preparedStmt.execute();
                 logger.debug("Performing SQL Query [" + query + "]");
             } catch (SQLException e) {
                 logger.fatal("SQLException: " + e.getMessage());
             }
 
-            String getID = "SELECT userID FROM user WHERE email='" + email + "';";
+            String getID = "SELECT userID FROM user WHERE email='" + user.getEmail() + "';";
             try {
                 Statement stmt = con.createStatement();
                 ResultSet rset = stmt.executeQuery(getID);
