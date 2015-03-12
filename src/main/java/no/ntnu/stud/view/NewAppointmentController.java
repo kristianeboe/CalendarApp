@@ -92,20 +92,27 @@ public class NewAppointmentController {
         int maxAttending = Integer.parseInt(inpMaxAttend.getText());
         int roomID;
         int owner;
+        String location;
 
         // If roomID, use roomID. If not, use location.
 
         // Cleanest hack ever to find roomID
-        String roomValue = btnRoom.getValue().toString();
-        Pattern pattern = Pattern.compile("(\\d+)");
-        Matcher m = pattern.matcher(roomValue);
-        if (m.find()) {
-            roomID = Integer.parseInt(m.group(1));
-            // System.out.println("match: " + m.group(1));
-        } else {
-            throw new IllegalArgumentException("FUCK YOU DIDNT FIND THE ROOM SHIT");
+        if (radioWork.isSelected()) {
+            location = "";
+            String roomValue = btnRoom.getValue().toString();
+            Pattern pattern = Pattern.compile("(\\d+)");
+            Matcher m = pattern.matcher(roomValue);
+
+            if (m.find()) {
+                roomID = Integer.parseInt(m.group(1));
+                // System.out.println("match: " + m.group(1));
+            } else {
+                throw new IllegalArgumentException("FUCK YOU DIDNT FIND THE ROOM SHIT");
+            }
+        } else{
+            roomID = -1;
+            location = inpLocation.getText();
         }
-        String location = "";
 
         owner = mainApp.getUser().getUserID();
 
@@ -202,12 +209,12 @@ public class NewAppointmentController {
             users = gd.searchUser(partOfName);
             String results = "";
             if (users.size() > 0) {
+                searchResultsUsers.clear();
                 for (User usr : users) {
+                    System.out.println(invitedUsers);
                     if (usr.getUserID() != (mainApp.getUser().getUserID())) {
-                        searchResultsUsers.clear();
                         searchResultsUsers.add(usr);
                         cmbSearchResults.getItems().add(usr.getFullName());
-                        //results += usr.getFullName()+"\n";
                     }
                 }
                 cmbSearchResults.show();
@@ -215,7 +222,6 @@ public class NewAppointmentController {
             if (groups.size() > 0) {
                 for (Group grp : groups) {
                     cmbSearchResults.getItems().add(grp.getName());
-                    //results += grp.getName() +"\n";
                 }
                 cmbSearchResults.show();
             }
@@ -246,12 +252,14 @@ public class NewAppointmentController {
 
     @FXML
     private void setPersonal() {
+        inpMaxAttend.setVisible(false);
         inpLocation.setVisible(true);
         btnRoom.setVisible(false);
     }
 
     @FXML
     private void setWork() {
+        inpMaxAttend.setVisible(true);
         inpLocation.setVisible(false);
         btnRoom.setVisible(true);
     }

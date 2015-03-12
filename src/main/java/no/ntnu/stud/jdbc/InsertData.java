@@ -1,5 +1,6 @@
 package no.ntnu.stud.jdbc;
 
+import no.ntnu.stud.model.Alarm;
 import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.model.User;
 import no.ntnu.stud.security.SHAHashGenerator;
@@ -216,6 +217,67 @@ public class InsertData {
         }
         else {
             logger.fatal("No Connection");
+        }
+    }
+
+
+    public static void addToGroup(User user, int groupID){
+        Connection con = DBConnector.getCon();
+        if (con != null) {
+            String query = "INSERT INTO userInGroup (userID, groupID) VALUES(" + user.getUserID() + ", "+groupID+");";
+            try {
+                logger.debug("Performing SQL Query [" + query + "]");
+                Statement stmt = con.prepareStatement(query);
+                stmt.executeUpdate(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            logger.error("No Connection");
+        }
+    }
+
+    public void setAlarm(User user, Appointment appointment, Timestamp alarmTime) {
+        Connection con = DBConnector.getCon();
+        if (con != null) {
+            String query = "INSERT INTO alarm (" +
+                    "userID," +
+                    "appointmentID," +
+                    "alarmTime) VALUES(" +
+                    "?, ?, ?)";
+            try {
+                PreparedStatement stmt = con.prepareStatement(query);
+                stmt.setInt(1, user.getUserID());
+                stmt.setInt(2, appointment.getAppointmentID());
+                stmt.setTimestamp(3, alarmTime);
+                stmt.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            logger.error("No Connection");
+        }
+    }
+
+    public void setAlarm(Alarm alarm) {
+        Connection con = DBConnector.getCon();
+        if (con != null) {
+            String query = "INSERT INTO alarm (" +
+                    "userID," +
+                    "appointmentID," +
+                    "alarmTime) VALUES(" +
+                    "?, ?, ?)";
+            try {
+                PreparedStatement stmt = con.prepareStatement(query);
+                stmt.setInt(1, alarm.getUser().getUserID());
+                stmt.setInt(2, alarm.getAppointment().getAppointmentID());
+                stmt.setTimestamp(3, alarm.getAlarmTime());
+                stmt.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            logger.error("No Connection");
         }
     }
 

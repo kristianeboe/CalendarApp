@@ -5,10 +5,9 @@ import no.ntnu.stud.model.*;
 import no.ntnu.stud.util.ResultResolver;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.security.*;
+import java.sql.*;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -705,5 +704,59 @@ public class GetData {
             logger.fatal("No connection");
         }
         return groups;
+    }
+
+    public static ArrayList<Alarm> getAlarms(User user) {
+        Connection con = DBConnector.getCon();
+        ArrayList<Alarm> alarms = new ArrayList<Alarm>();
+
+        if (con != null) {
+            try {
+                Statement stmt = con.createStatement();
+                String query = "SELECT * FROM alarm WHERE userID = '" + user.getUserID() + "'";
+                logger.info("Performing SQL Query [" + query + "]");
+                ResultSet rset = stmt.executeQuery(query);
+
+                while (rset.next()) {
+                    int appointmentID = rset.getInt("appointmentID");
+                    Timestamp alarmTime = rset.getTimestamp("alarmTime");
+                    Alarm alarm = new Alarm(user, getAppointment(appointmentID), alarmTime);
+                    alarms.add(alarm);
+                }
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            logger.error("No Connection");
+        }
+        return alarms;
+    }
+
+    public static ArrayList<Alarm> getAlarms(Appointment appointment) {
+        Connection con = DBConnector.getCon();
+        ArrayList<Alarm> alarms = new ArrayList<Alarm>();
+
+        if (con != null) {
+            try {
+                Statement stmt = con.createStatement();
+                String query = "SELECT * FROM alarm WHERE appointmentID = '" + appointment.getAppointmentID() + "'";
+                logger.info("Performing SQL Query [" + query + "]");
+                ResultSet rset = stmt.executeQuery(query);
+
+                while (rset.next()) {
+                    int userID = rset.getInt("userID");
+                    Timestamp alarmTime = rset.getTimestamp("alarmTime");
+                    Alarm alarm = new Alarm(getUser(userID), appointment, alarmTime);
+                    alarms.add(alarm);
+                }
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            logger.error("No Connection");
+        }
+        return alarms;
     }
 }

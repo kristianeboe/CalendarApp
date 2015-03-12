@@ -2,6 +2,7 @@ package no.ntnu.stud.model;
 
 import no.ntnu.stud.jdbc.GetData;
 import no.ntnu.stud.jdbc.InsertData;
+import no.ntnu.stud.util.InputValidator;
 
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -106,12 +107,7 @@ public class User {
 
 
     public void setLastName(String lastName) {
-        if(lastName.isEmpty()){
-            throw new IllegalArgumentException("lastName cannot be empty");
-        }else if(lastName.length()>45){
-            throw new IllegalArgumentException("lastName cannot be longer than 45 characters");
-        }
-        this.lastName=lastName;
+        this.lastName = InputValidator.textInputValidator(lastName, 45);
     }
 
     public String getMiddleName() {
@@ -120,10 +116,7 @@ public class User {
 
 
     public void setMiddleName(String middleName) {
-        if(middleName.length()>45){
-            throw new IllegalArgumentException("middleName cannot be longer than 45 characters");
-        }
-        this.middleName=middleName;
+        this.middleName = middleName;
     }
 
     public String getGivenName() {
@@ -132,10 +125,7 @@ public class User {
 
 
     public void setGivenName(String givenName) {
-        if(givenName.length()>45){
-            throw new IllegalArgumentException("givenName cannot be longer than 45 characters");
-        }
-        this.givenName=givenName;
+        this.givenName = InputValidator.textInputValidator(givenName, 45);
     }
 
     public String getFullName() {
