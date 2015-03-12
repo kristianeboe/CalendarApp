@@ -67,7 +67,7 @@
                 <Insets right="15.0" top="10.0" />
             </GridPane.margin>
         </TextField>
-      <PasswordField maxWidth="300.0" promptText="********" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <PasswordField fx:id="inpPassword" maxWidth="300.0" promptText="********" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <font>
             <Font size="20.0" />
          </font>
@@ -108,7 +108,7 @@
                 <Font size="20.0" />
             </font>
         </Button>
-        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#getAllAvailableRooms" styleClass="menuButton" text="Save" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
+        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#handleCreateUser" styleClass="menuButton" text="Save" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
             <font>
                 <Font size="15.0" />
             </font>
