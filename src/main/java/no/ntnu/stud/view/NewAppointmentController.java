@@ -9,7 +9,9 @@ import no.ntnu.stud.MainApp;
 import no.ntnu.stud.jdbc.GetData;
 import no.ntnu.stud.jdbc.InsertData;
 import no.ntnu.stud.model.Appointment;
+import no.ntnu.stud.model.Group;
 import no.ntnu.stud.model.Room;
+import no.ntnu.stud.model.User;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -159,6 +161,32 @@ public class NewAppointmentController {
             System.out.println("start: " + app_check.getStart());
             System.out.println("end  : " + app_check.getEnd());
         }*/
+    }
+
+    @FXML
+    private void searchForUser(){
+        GetData gd = new GetData();
+        String partOfName = inpInvite.getText();
+        ArrayList<User> users;
+        ArrayList<Group> groups;
+        if(partOfName.length()>2){
+            groups = gd.searchGroup(partOfName);
+            users = gd.searchUser(partOfName);
+            String results ="";
+            if(users.size()>0){
+                for(User usr:users){
+                    results += usr.getFullName()+"\n";
+                }
+            }
+            if(groups.size()>0){
+                for(Group grp:groups){
+                    results += grp.getName() +"\n";
+                }
+            }
+            inpDesc.setText(results);
+        }else{
+            inpDesc.setText("");
+        }
     }
 
     @FXML

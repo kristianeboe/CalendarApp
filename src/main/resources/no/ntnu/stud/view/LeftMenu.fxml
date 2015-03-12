@@ -16,8 +16,7 @@
     <RowConstraints maxHeight="171.0" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label fx:id="lblGroups" text="My groups" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
-      <Button mnemonicParsing="false" text="Log out" GridPane.rowIndex="2" />
+      <Label fx:id="lblGroups" text="My groups" onMouseClicked="#goToMyGroups" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
    </children>
    <padding>
       <Insets left="15.0" />

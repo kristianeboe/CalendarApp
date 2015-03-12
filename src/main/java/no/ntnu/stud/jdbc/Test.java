@@ -25,11 +25,10 @@ public class Test {
         //Test GetData START////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //Get all notifications for user 1
-        ArrayList<Notification> list;
-        list = gd.getNotifications(1);
-        for (int i = 0; i < list.size(); i++){
-            System.out.println(list.get(i).getMessage());
-        }
+        //ArrayList<Notification> list;
+        //list = gd.getNotifications(1);
+        ////  System.out.println(list.get(i).getMessage());
+        //}
 
         //Check if room is available
         boolean available;

@@ -60,7 +60,7 @@
                 <Insets right="15.0" top="10.0" />
             </GridPane.margin>
         </TextField>
-        <TextField fx:id="inpInvite" maxWidth="300.0" minHeight="45.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Invite user or group" style="-fx-background-radius: 0px;" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
+        <TextField fx:id="inpInvite" maxWidth="300.0" minHeight="45.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Invite user or group" onKeyReleased="#searchForUser" style="-fx-background-radius: 0px;" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="TOP">
             <font>
                 <Font size="20.0" />
             </font>

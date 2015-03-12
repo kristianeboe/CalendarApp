@@ -1,5 +1,6 @@
 package no.ntnu.stud.view;
 
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -16,6 +17,11 @@ public class LeftMenuController {
 
     public LeftMenuController(){
 
+    }
+
+    @FXML
+    void goToMyGroups(){
+        mainApp.showMyGroups();
     }
 
     public void setMainApp(MainApp mainApp) {
