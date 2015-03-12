@@ -20,12 +20,12 @@ public class Appointment {
 
 
     public Appointment(String title, LocalDate date, LocalTime startTime, LocalTime endTime, int owner, String description, String location, int roomID, int attending) {
-        this.title = InputValidator.textInputValidator(title);
-        this.description = InputValidator.textInputValidator(description);
+        setTitle(InputValidator.textInputValidator(title));
+        setDescription(description);
         if (roomID != -1) {
             this.roomID = roomID;
         } else {
-            this.location = InputValidator.textInputValidator(location);
+            setLocation(InputValidator.textInputValidator(location));
         }
         this.owner = owner;
         setDateTime(date, startTime, endTime);
@@ -94,30 +94,15 @@ public class Appointment {
     }
 
     public void setTitle(String title) {
-        if (title.isEmpty()){
-            throw new IllegalArgumentException("Title must be defined");
-        } else if (title.length() > 40){
-            throw new IllegalArgumentException("Title cannot be longer than 40 characters");
-        }
-        this.title = title;
+        this.title = InputValidator.textInputValidator(title, 40);
     }
 
     public void setLocation(String location) {
-        if (location == null)
-            return;
-        else if (location.length()>100) {
-            throw new IllegalArgumentException("location cannot be longer than 100 characters");
-        }
-        this.location = location;
+        this.location = InputValidator.textInputValidator(location, 100);
     }
 
     public void setDescription(String description) {
-        if(description.isEmpty()){
-            throw new IllegalArgumentException("description cannot be empty");
-        }else if(description.length()>250){
-            throw new IllegalArgumentException("description cannot be longer than 250 characters");
-        }
-        this.description = description;
+        this.description = InputValidator.textInputValidator(description, 250);
     }
 
     public void setRoomID(int roomID){

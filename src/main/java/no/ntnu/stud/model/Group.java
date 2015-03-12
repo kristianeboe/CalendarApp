@@ -2,6 +2,7 @@ package no.ntnu.stud.model;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
+import no.ntnu.stud.util.InputValidator;
 
 import java.util.ArrayList;
 
@@ -44,11 +45,6 @@ public class Group extends ArrayList<User> {
     }
 
     public void setName(String name) {
-        if(name.isEmpty()){
-            throw new IllegalArgumentException("Name cannot be empty");
-        }else if(name.length()>45){
-            throw new IllegalArgumentException("Name cannot be longer than 45 characters");
-        }
-        this.name=name;
+        this.name = InputValidator.textInputValidator(name, 45);
     }
 }

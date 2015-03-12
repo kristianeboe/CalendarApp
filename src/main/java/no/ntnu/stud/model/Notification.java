@@ -1,5 +1,7 @@
 package no.ntnu.stud.model;
 
+import no.ntnu.stud.util.InputValidator;
+
 /**
  * Created by Kristoffer on 25/02/2015.
  */
@@ -34,9 +36,6 @@ public class Notification {
     }
 
     private void setMessage(String message){
-        if(message.equals("")){
-            throw new IllegalArgumentException("Message can not be an empty string");
-        }
-        this.message = message;
+        this.message = InputValidator.textInputValidator(message);
     }
 }
