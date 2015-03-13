@@ -789,7 +789,6 @@ public class GetData {
                     ResultSet rs2 = stmt2.executeQuery(sql2);
                     if(rs2.next()){
                         int attending = Integer.parseInt(rs2.getString("attending"));
-                        logger.debug("AttendingStatus: "+attending);
                         if(attending == 1){
                             return 2;
                         }else if(attending == 0){

@@ -250,7 +250,6 @@ public class NewAppointmentController {
                 User usr = searchResultsUsers.get(index);
                 invitedUsers.add(usr);
                 int status = GetData.userIsAvailable(usr,LocalTime.parse(inpFrom.getText()),LocalTime.parse(inpTo.getText()),inpDate.getValue());
-                System.out.println("Status for user "+usr.getFullName()+": "+status);
                 Label lbl = new Label();
                 if(status == 2){
                     lbl.setTextFill(Color.RED);
