@@ -1,8 +1,10 @@
 package no.ntnu.stud;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -26,6 +28,8 @@ public class MainApp extends Application {
     private BorderPane rootLayout;
     private User user;
     private static Logger logger;
+    private RootLayoutController rootLayoutController;
+
 
     public static void main(String[] args) {
         startLogger();
@@ -59,6 +63,7 @@ public class MainApp extends Application {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
+            rootLayoutController = loader.getController();
             rootLayout = (BorderPane) loader.load();
 
             // Show the scene containing the root layout.
@@ -91,11 +96,22 @@ public class MainApp extends Application {
     }
 
     public void signedIn(){
+        if (user.isSuperuser()){
+            setAdminMenu();
+        } else {
+            setDefaultMenu();
+        }
+
         showCalendarView();
 
         showUpcomingEvents();
 
         showLeftMenu();
+
+
+
+        //rootLayoutController.generateMenu();
+
     }
 
     public void signedOut() {
@@ -305,6 +321,28 @@ public class MainApp extends Application {
             controller.setMainApp(this);
             controller.renderGroup(groupID);
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setDefaultMenu(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/DefaultMenu.fxml"));
+            MenuBar menuBar =  loader.load();
+            rootLayout.setTop(menuBar);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setAdminMenu(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/AdminMenu.fxml"));
+            MenuBar menuBar =  loader.load();
+            rootLayout.setTop(menuBar);
         } catch (IOException e) {
             e.printStackTrace();
         }

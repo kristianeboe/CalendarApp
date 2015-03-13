@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import no.ntnu.stud.MainApp;
@@ -19,16 +20,33 @@ public class RootLayoutController {
     private MainApp mainApp;
 
     @FXML
-    Menu menu;
+    MenuBar menu;
 
     public RootLayoutController() {
         //trollllooolllll
     }
 
     public void generateMenu() {
+        System.out.println(0);
         User user = mainApp.getUser();
+        System.out.println(1);
         if (user.isSuperuser()) {
+            System.out.println(2);
             appendAdminMenus();
+        }
+        else {
+            System.out.println(3);
+            appendDefaultMenu();
+        }
+    }
+
+    public void appendDefaultMenu(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/DefaultMenu.fxml"));
+            menu =  loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
