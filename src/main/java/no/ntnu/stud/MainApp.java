@@ -108,10 +108,6 @@ public class MainApp extends Application {
 
         showLeftMenu();
 
-
-
-        //rootLayoutController.generateMenu();
-
     }
 
     public void signedOut() {
@@ -332,6 +328,7 @@ public class MainApp extends Application {
             loader.setLocation(MainApp.class.getResource("view/DefaultMenu.fxml"));
             MenuBar menuBar =  loader.load();
             rootLayout.setTop(menuBar);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

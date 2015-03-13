@@ -23,6 +23,6 @@
     </Menu>
   </menus>
    <opaqueInsets>
-      <Insets bottom="50.0" />
+      <Insets />
    </opaqueInsets>
 </MenuBar>
