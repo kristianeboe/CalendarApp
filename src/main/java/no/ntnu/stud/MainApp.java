@@ -327,6 +327,8 @@ public class MainApp extends Application {
             loader.setLocation(MainApp.class.getResource("view/DefaultMenu.fxml"));
             MenuBar menuBar =  loader.load();
             rootLayout.setTop(menuBar);
+            RootLayoutController controller = loader.getController();
+            controller.setMainApp(this);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -339,6 +341,8 @@ public class MainApp extends Application {
             loader.setLocation(MainApp.class.getResource("view/AdminMenu.fxml"));
             MenuBar menuBar =  loader.load();
             rootLayout.setTop(menuBar);
+            RootLayoutController controller = loader.getController();
+            controller.setMainApp(this);
         } catch (IOException e) {
             e.printStackTrace();
         }

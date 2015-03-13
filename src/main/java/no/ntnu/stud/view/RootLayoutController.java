@@ -27,15 +27,12 @@ public class RootLayoutController {
     }
 
     public void generateMenu() {
-        System.out.println(0);
         User user = mainApp.getUser();
         System.out.println(1);
         if (user.isSuperuser()) {
-            System.out.println(2);
             appendAdminMenus();
         }
         else {
-            System.out.println(3);
             appendDefaultMenu();
         }
     }
