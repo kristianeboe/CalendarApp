@@ -3,16 +3,12 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 
-<MenuBar xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<MenuBar xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.RootLayoutController">
   <menus>
     <Menu mnemonicParsing="false" text="File">
       <items>
-        <MenuItem mnemonicParsing="false" text="Close" />
-      </items>
-    </Menu>
-    <Menu mnemonicParsing="false" text="Edit">
-      <items>
-        <MenuItem mnemonicParsing="false" text="Delete" />
+            <MenuItem mnemonicParsing="false" onAction="#handleSignOut" text="Sign out" />
+        <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Close" />
       </items>
     </Menu>
       <Menu mnemonicParsing="false" text="Admin">
@@ -20,12 +16,12 @@
             <MenuItem mnemonicParsing="false" text="Edit group" />
             <MenuItem mnemonicParsing="false" text="Add group" />
             <MenuItem mnemonicParsing="false" text="Edit user" />
-            <MenuItem mnemonicParsing="false" text="Add user" />
+            <MenuItem mnemonicParsing="false" onAction="#handleAddUser" text="Add user" />
         </items>
       </Menu>
     <Menu mnemonicParsing="false" text="Help">
       <items>
-        <MenuItem mnemonicParsing="false" text="About" />
+        <MenuItem mnemonicParsing="false" onAction="#handleAbout" text="About" />
       </items>
     </Menu>
   </menus>
