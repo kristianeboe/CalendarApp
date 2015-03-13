@@ -63,15 +63,14 @@ public class MainApp extends Application {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
-            rootLayoutController = loader.getController();
             rootLayout = (BorderPane) loader.load();
+
+            rootLayoutController = loader.getController();
+            rootLayoutController.setMainApp(this);
 
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
-
-            RootLayoutController controller = loader.getController();
-            controller.setMainApp(this);
 
             primaryStage.show();
         } catch (IOException e) {
