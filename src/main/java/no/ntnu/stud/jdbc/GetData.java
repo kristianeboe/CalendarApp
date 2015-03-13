@@ -759,4 +759,50 @@ public class GetData {
         }
         return alarms;
     }
+
+    public static int userIsAvailable(User user, LocalTime startTime, LocalTime endTime, LocalDate date){
+        Connection con = DBConnector.getCon();
+        int status = 1;
+        if(con != null){
+            try{
+                Statement stmt = con.createStatement();
+                String sql = "SELECT * FROM user NATURAL JOIN userInvited JOIN appointment ON(userInvited.appointmentID = appointment.appointmentID) WHERE user.userID="+user.getUserID()+";";
+                logger.debug("Peforming SQL Query [" + sql + "]");
+                ResultSet rs = stmt.executeQuery(sql);
+
+                while(rs.next()){
+                    int appointmentID = rs.getInt("appointmentID");
+                    String from_time = startTime.toString();
+                    String to_time = endTime.toString();
+                    String dt = date.toString();
+                    Statement stmt2 = con.createStatement();
+                    String sql2 = "SELECT userInvited.attending FROM user NATURAL JOIN userInvited JOIN appointment ON(userInvited.appointmentID = appointment.appointmentID) WHERE user.userID="+user.getUserID()+" "+
+                            "AND appointment.appointmentID="+appointmentID+" " +
+                            "AND (('"+from_time+"' > startTime "+
+                            "AND '"+from_time+"' <  endTime) " +
+                            "OR ('"+to_time+"'> startTime "+
+                            "AND '"+to_time+"'< endTime) "+
+                            "OR ('"+from_time+"' < startTime "+
+                            "AND '"+to_time+"' >  endTime ))" +
+                            "AND '"+dt+"' = appointmentDate;";
+                    logger.debug("Peforming SQL Query [" + sql2 + "]");
+                    ResultSet rs2 = stmt2.executeQuery(sql2);
+                    if(rs2.next()){
+                        int attending = Integer.parseInt(rs2.getString("attending"));
+                        logger.debug("AttendingStatus: "+attending);
+                        if(attending == 1){
+                            return 2;
+                        }else if(attending == 0){
+                            status = 0;
+                        }
+                    }
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        } else {
+            System.err.print("No connection");
+        }
+        return status;
+    }
 }

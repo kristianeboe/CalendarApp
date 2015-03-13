@@ -6,6 +6,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import no.ntnu.stud.MainApp;
 import no.ntnu.stud.jdbc.EditData;
@@ -247,8 +249,16 @@ public class NewAppointmentController {
             if(!searchResultsUsers.isEmpty()){
                 User usr = searchResultsUsers.get(index);
                 invitedUsers.add(usr);
-
+                int status = GetData.userIsAvailable(usr,LocalTime.parse(inpFrom.getText()),LocalTime.parse(inpTo.getText()),inpDate.getValue());
+                System.out.println("Status for user "+usr.getFullName()+": "+status);
                 Label lbl = new Label();
+                if(status == 2){
+                    lbl.setTextFill(Color.RED);
+                }else if(status == 1){
+                    lbl.setTextFill(Color.GREEN);
+                }else{
+                    lbl.setTextFill(Color.ORANGE);
+                }
                 lbl.setId("" + usr.getUserID());
                 lbl.setText(usr.getFullName());
                 obsInvited.add(lbl);
