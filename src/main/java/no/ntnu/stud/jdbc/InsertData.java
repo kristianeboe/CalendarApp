@@ -1,5 +1,6 @@
 package no.ntnu.stud.jdbc;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import no.ntnu.stud.model.Alarm;
 import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.model.User;
@@ -87,12 +88,22 @@ public class InsertData {
             try {
                 logger.debug("Performing SQL Query [" + query + "]");
                 Statement stmt = con.prepareStatement(query);
-                stmt.executeUpdate(query);
-            } catch (SQLException e) {
+                executeQuery(stmt, query);
+            }catch (MySQLIntegrityConstraintViolationException e){
+                logger.debug("Tried to invite a user that has already been invited");
+            }catch (SQLException e) {
                 e.printStackTrace();
             }
         } else {
             logger.fatal("No connection");
+        }
+    }
+
+    public static void executeQuery (Statement stmt, String sql) throws MySQLIntegrityConstraintViolationException{
+        try{
+            stmt.execute(sql);
+        }catch (SQLException e){
+            throw new MySQLIntegrityConstraintViolationException();
         }
     }
 

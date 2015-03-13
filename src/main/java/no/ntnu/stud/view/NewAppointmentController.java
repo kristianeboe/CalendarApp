@@ -160,6 +160,11 @@ public class NewAppointmentController {
                 }
                 InsertData.inviteUser(mainApp.getUser(), app);
                 EditData.acceptInvitation(mainApp.getUser(), app);
+                for(Group grp:invitedGroups){
+                    for (User usr : GetData.getUsersInGroup(grp.getGroupID())) {
+                        InsertData.inviteUser(usr, app);
+                    }
+                }
                 mainApp.showAppointmentView(app);
                 mainApp.showUpcomingEvents();
                 // for (String line : outInvited.getText().split("\\n")) InsertData.inviteUser(, app);
@@ -197,6 +202,12 @@ public class NewAppointmentController {
     ArrayList<User> searchResultsUsers = new ArrayList<>();
     ArrayList<User> invitedUsers = new ArrayList<>();
 
+    ArrayList<Group> searchResultsGroups = new ArrayList<>();
+    ArrayList<Group> invitedGroups = new ArrayList<>();
+
+    ObservableList<Label> obsInvited = FXCollections.observableArrayList();
+
+
     @FXML
     private void searchForUser() {
         cmbSearchResults.getItems().clear();
@@ -207,20 +218,21 @@ public class NewAppointmentController {
         if (partOfName.length() > 2) {
             groups = gd.searchGroup(partOfName);
             users = gd.searchUser(partOfName);
-            String results = "";
             if (users.size() > 0) {
+                searchResultsGroups.clear();
                 searchResultsUsers.clear();
                 for (User usr : users) {
-                    System.out.println(invitedUsers);
                     if (usr.getUserID() != (mainApp.getUser().getUserID())) {
                         searchResultsUsers.add(usr);
                         cmbSearchResults.getItems().add(usr.getFullName());
                     }
                 }
                 cmbSearchResults.show();
-            }
-            if (groups.size() > 0) {
+            }else if (groups.size() > 0) {
+                searchResultsGroups.clear();
+                searchResultsUsers.clear();
                 for (Group grp : groups) {
+                    searchResultsGroups.add(grp);
                     cmbSearchResults.getItems().add(grp.getName());
                 }
                 cmbSearchResults.show();
@@ -232,16 +244,31 @@ public class NewAppointmentController {
     private void addInvitedUser() {
         if (cmbSearchResults.getItems().size() > 0) {
             int index = cmbSearchResults.getSelectionModel().getSelectedIndex();
-            invitedUsers.add(searchResultsUsers.get(index));
-            ObservableList<Label> obsUsersInvited = FXCollections.observableArrayList();
-            for (User usr : invitedUsers) {
+            if(!searchResultsUsers.isEmpty()){
+                User usr = searchResultsUsers.get(index);
+                invitedUsers.add(usr);
+
                 Label lbl = new Label();
                 lbl.setId("" + usr.getUserID());
                 lbl.setText(usr.getFullName());
-                obsUsersInvited.add(lbl);
+                obsInvited.add(lbl);
+
+                inpInvite.clear();
+            }else if(!searchResultsGroups.isEmpty()){
+                Group grp = searchResultsGroups.get(index);
+                invitedGroups.add(grp);
+
+                Label lbl = new Label();
+                lbl.setId("" + grp.getGroupID());
+                lbl.setText(grp.getName());
+                obsInvited.add(lbl);
+
+                inpInvite.clear();
+
             }
-            inpInvite.clear();
-            invitedUsersList.setItems(obsUsersInvited);
+            //invitedUsersList.getItems().clear();
+            invitedUsersList.setItems(obsInvited);
+
         }
     }
 
