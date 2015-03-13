@@ -113,7 +113,8 @@ public class ViewAppointmentController {
     }
 
     public void renderEditAppointment(Appointment appointment) {
-        logger.debug("Rendering " + appointment + " editable");
+        logger.debug("Rendering " + appointment + " as editable");
+        mainApp.showAppointmentDialog(appointment);
     }
 
     @FXML

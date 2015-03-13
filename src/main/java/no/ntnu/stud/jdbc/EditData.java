@@ -7,10 +7,7 @@ import no.ntnu.stud.security.SHAHashGenerator;
 import org.apache.log4j.Logger;
 
 import java.io.UnsupportedEncodingException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -180,8 +177,9 @@ public class EditData {
         }
     }
 
-    public static void editAppointment(Appointment a) {
+    public static Appointment editAppointment(Appointment a) {
         Connection con = DBConnector.getCon();
+        Appointment edited_appointment = null;
 
         if (con != null) {
             try {
@@ -190,19 +188,25 @@ public class EditData {
                         "UPDATE appointment SET " +
                         "title='" + a.getTitle() + "' " +
                         "ownerID='" + a.getOwner() + "' " +
-                        "startTime='" + a.getStart() + "' " +
-                        "endTime='" + a.getEnd() + "' " +
+                        "startTime='" + a.getStart().toString() + "' " +
+                        "endTime='" + a.getEnd().toString() + "' " +
                         "roomID='" + a.getRoomID() + "' " +
                         "location='" + a.getLocation() + "' " +
                         "description='" + a.getDescription() + "' " +
-                        "appointmentDate='" + a.getDate() + "' " +
+                        "appointmentDate='" + a.getDate().toString() + "' " +
                         "WHERE AppointmentID='" + a.getAppointmentID() + "';";
                 logger.debug("Updating " + a + " using [" + sql + "]");
                 stmt.execute(sql);
+                String getID = "SELECT LAST_INSERT_ID()";
+                ResultSet rs = stmt.executeQuery(getID);
+                rs.next();
+                edited_appointment = a;
+                edited_appointment.setAppointmentID(rs.getInt(0));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+        return edited_appointment;
     }
 
     public static void main(String[] args) {

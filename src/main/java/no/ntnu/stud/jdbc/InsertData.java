@@ -8,6 +8,8 @@ import no.ntnu.stud.util.TimeConverter;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -129,13 +131,15 @@ public class InsertData {
                     stmt.setTimestamp(9, null);
                 }
                 stmt.setString(10, appointment.getDescription());
-                stmt.execute();
                 logger.debug("[Create Appointment] Performing SQL Query [" + query + "]");
+                stmt.execute();
                 String getID = "SELECT LAST_INSERT_ID()";
+                logger.debug("[Create Appointment] Getting ID of created appointment");
+                logger.debug("[Create Appointment] Performing SQL Query [" + getID+ "]");
                 ResultSet rs = stmt.executeQuery(getID);
                 rs.next();
                 created_appointment = appointment;
-                created_appointment.setAppointmentID(rs.getInt(0));
+                created_appointment.setAppointmentID(rs.getInt(1));
             } catch (SQLException e) {
                 e.printStackTrace();
             }

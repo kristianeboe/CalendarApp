@@ -15,6 +15,8 @@ import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.model.Group;
 import no.ntnu.stud.model.Room;
 import no.ntnu.stud.model.User;
+import org.apache.log4j.Logger;
+import org.h2.command.dml.Insert;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -29,6 +31,8 @@ public class NewAppointmentController {
     private MainApp mainApp;
     private Stage newAppointmentStage;
     private Appointment appointment;
+    Logger logger = Logger.getLogger("NewAppointmentCtrl");
+
     @FXML
     private Label header;
     @FXML
@@ -147,25 +151,41 @@ public class NewAppointmentController {
 
     @FXML
     private void handleSave() {
+        logger.trace("Clicked save");
         validTitle();
         validDate();
         validTime();
         validMaxAttend();
         if (validTitle() && validDate() && validTime() && validMaxAttend()) {
+            logger.trace("Valid inputs");
+            Appointment app = addAppointment();
+            logger.debug("Created appointment instance");
             try {
-                Appointment app = addAppointment();
-                app = InsertData.createAppointment(app);
-                for (User usr : invitedUsers) {
-                    InsertData.inviteUser(usr, app);
-                }
-                InsertData.inviteUser(mainApp.getUser(), app);
-                EditData.acceptInvitation(mainApp.getUser(), app);
+                insertOrUpdateAppointment(app, mainApp.getUser());
                 mainApp.showAppointmentView(app);
                 mainApp.showUpcomingEvents();
                 // for (String line : outInvited.getText().split("\\n")) InsertData.inviteUser(, app);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
+        }
+    }
+
+    public Appointment insertOrUpdateAppointment(Appointment appointment, User user) {
+        logger.trace("Insert or update appointment");
+        if (appointment.getAppointmentID() == -1) {
+            logger.debug("Creating new appointment");
+            Appointment new_appointment = InsertData.createAppointment(appointment);
+            InsertData.inviteUser(user, appointment);
+            EditData.acceptInvitation(user, appointment);
+            for (User usr : invitedUsers) {
+                InsertData.inviteUser(usr, appointment);
+            }
+            return new_appointment;
+        } else {
+            logger.debug("Updating existing appointment");
+            Appointment edited_appointment = EditData.editAppointment(appointment);
+            return edited_appointment;
         }
     }
 
