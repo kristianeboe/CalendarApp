@@ -178,11 +178,6 @@ public class UpcomingEventsController {
         mainApp.showAppointmentDialog(null);
     }
 
-    @FXML
-    public void handleEditEvent(){
-        mainApp.showAppointmentDialog(appointment);
-    }
-
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }

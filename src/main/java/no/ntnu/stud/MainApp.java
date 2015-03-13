@@ -6,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.model.User;
@@ -14,9 +13,7 @@ import no.ntnu.stud.view.*;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
@@ -207,7 +204,7 @@ public class MainApp extends Application {
 
             ViewAppointmentController controller = loader.getController();
             controller.setMainApp(this);
-            controller.renderViewAppointment(appointment);
+            controller.renderAppointment(appointment);
 
         } catch (IOException e) {
             e.printStackTrace();
