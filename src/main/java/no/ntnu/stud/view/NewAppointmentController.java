@@ -294,11 +294,16 @@ public class NewAppointmentController {
         inpFrom.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                removeErrorStyle(inpFrom);
+                String time = inpFrom.getText();
+                if(time.indexOf(":") != -1){
+                    if (time.substring(0, time.indexOf(":")).length() < 2){
+                        inpFrom.setText("0"+time);
+                    }
+                }
                 if (!inpFrom.getText().isEmpty() && !inpTo.getText().isEmpty()) {
                     validTime();
                 }
-                if (!inpFrom.getText().matches("\\d\\d:\\d\\d")) {
+                if (!inpFrom.getText().isEmpty() && !inpFrom.getText().matches("([01]?[0-9]|2[0-3]):[0-5][0-9]")) {
                     addErrorStyle(inpFrom);
                 }
             }
@@ -306,12 +311,17 @@ public class NewAppointmentController {
         inpTo.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                removeErrorStyle(inpTo);
-                if (!inpTo.getText().matches("\\d\\d:\\d\\d")) {
-                    addErrorStyle(inpTo);
+                String time = inpTo.getText();
+                if(time.indexOf(":") != -1){
+                    if (time.substring(0, time.indexOf(":")).length() < 2){
+                        inpTo.setText("0"+time);
+                    }
                 }
                 if (!inpFrom.getText().isEmpty() && !inpTo.getText().isEmpty()) {
                     validTime();
+                }
+                if (!inpTo.getText().isEmpty() && !inpTo.getText().matches("([01]?[0-9]|2[0-3]):[0-5][0-9]")) {
+                    addErrorStyle(inpTo);
                 }
             }
         });
@@ -336,24 +346,18 @@ public class NewAppointmentController {
             addErrorStyle(inpTo);
             noError = false;
         }
-        if (!inpTo.getText().matches("\\d\\d:\\d\\d")) {
+        if (!inpFrom.getText().matches("\\d?\\d:\\d?\\d") || !inpTo.getText().matches("\\d?\\d:\\d?\\d") || !inpTo.getText().isEmpty() && LocalTime.parse(inpTo.getText()).compareTo(LocalTime.parse(inpFrom.getText())) == -1) {
             addErrorStyle(inpTo);
             noError = false;
         }
-        if (!inpFrom.getText().matches("\\d\\d:\\d\\d")) {
+        if (!inpFrom.getText().matches("\\d?\\d:\\d?\\d") || !inpTo.getText().matches("\\d?\\d:\\d?\\d") || !inpFrom.getText().isEmpty() && LocalTime.parse(inpTo.getText()).equals(LocalTime.parse(inpFrom.getText()))) {
             addErrorStyle(inpFrom);
             noError = false;
         }
-        if (!inpTo.getText().isEmpty() && LocalTime.parse(inpTo.getText()).compareTo(LocalTime.parse(inpFrom.getText())) == -1) {
-            addErrorStyle(inpTo);
-            noError = false;
+        if (noError){
+            removeErrorStyle(inpFrom);
+            removeErrorStyle(inpTo);
         }
-        if (!inpFrom.getText().isEmpty() && LocalTime.parse(inpTo.getText()).equals(LocalTime.parse(inpFrom.getText()))) {
-            addErrorStyle(inpFrom);
-            noError = false;
-        }
-        removeErrorStyle(inpFrom);
-        removeErrorStyle(inpTo);
         return noError;
     }
 
