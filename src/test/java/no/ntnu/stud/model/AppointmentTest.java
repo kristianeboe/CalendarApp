@@ -70,4 +70,10 @@ public class AppointmentTest {
     public void testBookingStartTimeEqualsEndTime() {
         Appointment res = new Appointment(title, date, startTime, startTime, owner, description, location, roomID, attendees);
     }
+
+    @Test
+    public void testCreateAppointment() {
+        Appointment res = new Appointment(title, date, startTime, endTime, owner, description, location, roomID, attendees);
+        res.create();
+    }
 }

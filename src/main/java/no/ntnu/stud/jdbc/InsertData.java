@@ -8,6 +8,8 @@ import no.ntnu.stud.util.TimeConverter;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -96,8 +98,9 @@ public class InsertData {
         }
     }
 
-    public static void createAppointment(Appointment appointment) {
+    public static Appointment createAppointment(Appointment appointment) {
         Connection con = DBConnector.getCon();
+        Appointment created_appointment = null;
 
         if (con != null) {
             String query = "INSERT INTO appointment ("
@@ -128,12 +131,20 @@ public class InsertData {
                     stmt.setTimestamp(9, null);
                 }
                 stmt.setString(10, appointment.getDescription());
+                logger.debug("[Create Appointment] Performing SQL Query [" + query + "]");
                 stmt.execute();
-                logger.debug("Performing SQL Query [" + query + "]");
+                String getID = "SELECT LAST_INSERT_ID()";
+                logger.debug("[Create Appointment] Getting ID of created appointment");
+                logger.debug("[Create Appointment] Performing SQL Query [" + getID+ "]");
+                ResultSet rs = stmt.executeQuery(getID);
+                rs.next();
+                created_appointment = appointment;
+                created_appointment.setAppointmentID(rs.getInt(1));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+        return created_appointment;
     }
 
     public static int createAppointmentGetID(Appointment appointment) {

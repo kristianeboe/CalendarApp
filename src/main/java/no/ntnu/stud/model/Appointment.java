@@ -1,5 +1,6 @@
 package no.ntnu.stud.model;
 
+import no.ntnu.stud.jdbc.InsertData;
 import no.ntnu.stud.util.InputValidator;
 
 import java.time.LocalDate;
@@ -30,6 +31,7 @@ public class Appointment {
         this.owner = owner;
         setDateTime(date, startTime, endTime);
         setAttending(attending);
+        this.appointmentID = -1;
     }
 
     public Appointment(int appointmentID, String title, LocalDate date, LocalTime startTime, LocalTime endTime, int owner, String description, String location, int roomID, int attending, LocalDateTime alarmTime) {
@@ -60,6 +62,10 @@ public class Appointment {
         // Should alarmTime be at appointment start, 15 minutes before, 60 minutes before…
         //User defined?
         setAlarmTime(alarmTime);
+    }
+
+    public Appointment(String title, LocalDate date, LocalTime startTime, LocalTime endTime, User owner, String description, String location, int roomID, int attending) {
+        this(title, date, startTime, endTime, owner.getUserID(), description, location, roomID, attending);
     }
 
     public String toString() {
@@ -165,5 +171,13 @@ public class Appointment {
 
     public LocalDateTime getAlarmTime() {
         return alarmTime;
+    }
+
+    public Appointment create() {
+        return InsertData.createAppointment(this);
+    }
+
+    public void inviteUser(User user) {
+        InsertData.inviteUser(user, this);
     }
 }
