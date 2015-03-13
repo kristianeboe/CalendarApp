@@ -80,7 +80,7 @@ public class User {
 
 
     public void setLastName(String lastName) {
-        this.lastName = InputValidator.textInputValidator(lastName, 45);
+        this.lastName = InputValidator.textInputValidator(lastName,1, 45);
     }
 
     public String getMiddleName() {
