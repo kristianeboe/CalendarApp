@@ -45,6 +45,6 @@ public class Group extends ArrayList<User> {
     }
 
     public void setName(String name) {
-        this.name = InputValidator.textInputValidator(name, 45);
+        this.name = InputValidator.textInputValidator(name,1, 45);
     }
 }
