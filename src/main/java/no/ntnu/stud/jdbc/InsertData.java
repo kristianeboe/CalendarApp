@@ -2,6 +2,7 @@ package no.ntnu.stud.jdbc;
 
 import no.ntnu.stud.model.Alarm;
 import no.ntnu.stud.model.Appointment;
+import no.ntnu.stud.model.Group;
 import no.ntnu.stud.model.User;
 import no.ntnu.stud.security.SHAHashGenerator;
 import no.ntnu.stud.util.TimeConverter;
@@ -253,6 +254,22 @@ public class InsertData {
         }
     }
 
+    public static void addSubGroup(int groupID, int subGroupID) {
+        Connection con = DBConnector.getCon();
+        if (con != null) {
+            String query = "INSERT INTO subGroup (groupID, subGroupID) VALUES(" + groupID + ", "+ subGroupID +");";
+            try {
+                logger.debug("Performing SQL Query [" + query + "]");
+                Statement stmt = con.prepareStatement(query);
+                stmt.executeUpdate(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            logger.error("No Connection");
+        }
+    }
+
     public void setAlarm(User user, Appointment appointment, Timestamp alarmTime) {
         Connection con = DBConnector.getCon();
         if (con != null) {
@@ -294,6 +311,35 @@ public class InsertData {
             }
         } else {
             logger.error("No Connection");
+        }
+    }
+
+    public void createGroup(String name, Group group) {
+        Connection con = DBConnector.getCon();
+        int groupID;
+        if (con != null) {
+            try {
+                String query = "INSERT INTO group (name) VALUES ('" + name + "')";
+                Statement stmt = con.createStatement();
+                stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+                String getID = "SELECT LAST_INSERT_ID()";
+                ResultSet rs = stmt.executeQuery(getID);
+                rs.next();
+                groupID = rs.getInt(1);
+
+                if (group != null) {
+                    for (Object user : group) {
+                        if (user.getClass().equals(User.class)) {
+                            addToGroup((User) user, groupID);
+                        } else if (user.getClass().equals(Group.class)) {
+                            Group subGroup = (Group) user;
+                            addSubGroup(groupID, subGroup.getGroupID());
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
