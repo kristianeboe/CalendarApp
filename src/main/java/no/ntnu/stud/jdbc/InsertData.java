@@ -314,18 +314,20 @@ public class InsertData {
         }
     }
 
-    public void createGroup(String name, Group group) {
+    public static void createGroup(String name, Group group) {
         Connection con = DBConnector.getCon();
         int groupID;
         if (con != null) {
             try {
-                String query = "INSERT INTO group (name) VALUES ('" + name + "')";
+                //String query = "INSERT INTO group (name) VALUES ('" + name + "')";
+                String query = "INSERT INTO userGroup (name) VALUES ('" + name + "')";
                 Statement stmt = con.createStatement();
                 stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
                 String getID = "SELECT LAST_INSERT_ID()";
                 ResultSet rs = stmt.executeQuery(getID);
                 rs.next();
                 groupID = rs.getInt(1);
+                group.setGroupID(groupID);
 
                 if (group != null) {
                     for (Object user : group) {

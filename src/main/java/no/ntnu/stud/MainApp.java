@@ -275,6 +275,22 @@ public class MainApp extends Application {
         }
     }
 
+    public void showNewGroup(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/EditGroup.fxml"));
+            GridPane editGroup = (GridPane) loader.load();
+            rootLayout.setCenter(editGroup);
+
+            EditGroupController controller = loader.getController();
+            controller.setMainApp(this);
+            controller.lblTitle.setText("New Group");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void showUser(int userID){
         try {
             FXMLLoader loader = new FXMLLoader();

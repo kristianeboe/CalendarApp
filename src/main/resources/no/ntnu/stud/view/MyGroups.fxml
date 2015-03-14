@@ -47,5 +47,9 @@
             <Insets right="30.0" />
          </GridPane.margin>
       </Button>
+      <Button fx:id="btnNewGroup" mnemonicParsing="false" onAction="#handleNewGroup" styleClass="menuButton" text="New Group" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+         <GridPane.margin>
+            <Insets top="20.0" />
+         </GridPane.margin></Button>
    </children>
 </GridPane>
