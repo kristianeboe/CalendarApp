@@ -32,6 +32,8 @@ public class MainApp extends Application {
     public static void main(String[] args) {
         startLogger();
         logger.info("Hello World!");
+
+
         logger.debug("Starting application");
 
         launch(args);
@@ -313,7 +315,7 @@ public class MainApp extends Application {
     }
 
     public void changeStatusBar(String message){
-            rootLayoutController.setLblStatusBar("123");
+            rootLayoutController.setLblStatusBar(message);
     }
 
     public User getUser() {
@@ -323,4 +325,5 @@ public class MainApp extends Application {
     public void setUser(User user) {
         this.user = user;
     }
+
 }
