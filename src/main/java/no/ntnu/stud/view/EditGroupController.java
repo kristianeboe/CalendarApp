@@ -140,7 +140,7 @@ public class EditGroupController {
                 group.add(usr);
             }
             group.add(mainApp.getUser());
-            InsertData.createGroup(inpName.getText(), group);
+            InsertData.createGroup(inpName.getText(), group, mainApp.getUser());
 
             mainApp.showGroup(group.getGroupID());
         } else {

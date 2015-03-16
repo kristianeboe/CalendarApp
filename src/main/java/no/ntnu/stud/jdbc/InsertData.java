@@ -314,7 +314,7 @@ public class InsertData {
         }
     }
 
-    public static void createGroup(String name, Group group) {
+    public static void createGroup(String name, Group group, User owner) {
         Connection con = DBConnector.getCon();
         int groupID;
         if (con != null) {
@@ -332,7 +332,14 @@ public class InsertData {
                 if (group != null) {
                     for (Object user : group) {
                         if (user.getClass().equals(User.class)) {
-                            addToGroup((User) user, groupID);
+                            User userInGroup = (User) user;
+                            if (userInGroup.getUserID() == owner.getUserID()){
+                                query = "INSERT INTO userInGroup (userID, groupId, isOwner) VALUES (" + owner.getUserID()+ ", " + groupID + ", " + 1 + ");";
+                                stmt = con.createStatement();
+                                stmt.executeUpdate(query);
+                            } else {
+                                addToGroup((User) user, groupID);
+                            }
                         } else if (user.getClass().equals(Group.class)) {
                             Group subGroup = (Group) user;
                             addSubGroup(groupID, subGroup.getGroupID());
