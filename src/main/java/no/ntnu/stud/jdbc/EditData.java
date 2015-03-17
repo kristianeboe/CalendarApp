@@ -33,7 +33,7 @@ public class EditData {
             stmt.setBytes(2, newSalt);
             stmt.setInt(3, loggedInUser.getUserID());
             stmt.execute();
-            logger.debug("Performing SQL Query [" + query + "]");
+            logger.trace("Performing SQL Query [" + query + "]");
         } else {
             throw new IllegalArgumentException("Wrong password");
             //System.err.print("Wrong password");
@@ -56,7 +56,7 @@ public class EditData {
             stmt.setBytes(2, newSalt);
             stmt.setString(3, email);
             stmt.execute();
-            logger.debug("Performing SQL Query [" + query + "]");
+            logger.trace("Performing SQL Query [" + query + "]");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -71,7 +71,7 @@ public class EditData {
             String query = "DELETE FROM user WHERE userID = '" + userID + "';";
             Statement stmt = con.createStatement();
             stmt.executeUpdate(query);
-            logger.debug("Performing SQL Query [" + query + "]");
+            logger.trace("Performing SQL Query [" + query + "]");
         } else {
             logger.fatal("No Connection");
         }
@@ -84,7 +84,7 @@ public class EditData {
             try {
                 Statement stmt = con.createStatement();
                 String sql = "UPDATE appointment SET roomID = NULL WHERE appointmentID = "+appointmentID+";";
-                logger.debug("Performing SQL Query [" + sql + "]");
+                logger.trace("Performing SQL Query [" + sql + "]");
                 stmt.executeUpdate(sql);
             }catch (SQLException e) {
                 e.printStackTrace();
@@ -106,7 +106,7 @@ public class EditData {
                 String sql = "UPDATE appointment " +
                         "SET startTime = '"+startTime+"', endTime = '"+endTime+"', appointmentDate = '"+date+"' " +
                         "WHERE appointmentID = "+appointmentID+";";
-                logger.debug("Performing SQL Query [" + sql + "]");
+                logger.trace("Performing SQL Query [" + sql + "]");
                 stmt.executeUpdate(sql);
             }catch (SQLException e) {
                 e.printStackTrace();
@@ -128,7 +128,7 @@ public class EditData {
                 String sql = "UPDATE userInvited" +
                         " SET attending = '1' " +
                         "WHERE userID = "+userID+" AND appointmentID = "+appointmentID+";";
-                logger.debug("Performing SQL Query [" + sql + "]");
+                logger.trace("Performing SQL Query [" + sql + "]");
                 stmt.executeUpdate(sql);
             }catch(SQLException e){
                 e.printStackTrace();
@@ -149,7 +149,7 @@ public class EditData {
                 String sql = "UPDATE userInvited" +
                         " SET attending = '2' " +
                         "WHERE userID = "+userID+" AND appointmentID = "+appointmentID+";";
-                logger.debug("Performing SQL Query [" + sql + "]");
+                logger.trace("Performing SQL Query [" + sql + "]");
                 stmt.executeUpdate(sql);
             }catch(SQLException e){
                 e.printStackTrace();
@@ -168,7 +168,7 @@ public class EditData {
                 String sql = "UPDATE userGroup" +
                         " SET name = '" + newName + "' " +
                         "WHERE groupID = " + groupID + ";";
-                logger.debug("Performing SQL Query [" + sql + "]");
+                logger.trace("Performing SQL Query [" + sql + "]");
                 stmt.executeUpdate(sql);
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -217,7 +217,7 @@ public class EditData {
             try {
                 Statement stmt = con.createStatement();
                 String sql = "UPDATE hasNotification SET seen = '1' WHERE userID = "+user.getUserID()+" AND notificationID = "+notificationID+";";
-                logger.debug("Performing SQL Query [" + sql + "]");
+                logger.trace("Performing SQL Query [" + sql + "]");
                 stmt.executeUpdate(sql);
             } catch (SQLException e) {
                 e.printStackTrace();
