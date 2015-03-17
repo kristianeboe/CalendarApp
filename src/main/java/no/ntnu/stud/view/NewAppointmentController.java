@@ -7,7 +7,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import no.ntnu.stud.MainApp;
 import no.ntnu.stud.jdbc.EditData;
@@ -18,7 +17,6 @@ import no.ntnu.stud.model.Group;
 import no.ntnu.stud.model.Room;
 import no.ntnu.stud.model.User;
 import org.apache.log4j.Logger;
-import org.h2.command.dml.Insert;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -63,6 +61,30 @@ public class NewAppointmentController {
     private ToggleGroup radioGroup;
     @FXML
     ListView invitedUsersList;
+    @FXML
+    private Button btnAddReminder;
+    @FXML
+    private Button btnRemoveReminder;
+    @FXML
+    private TextField inpReminder;
+    @FXML
+    private ComboBox<String> inpReminderType;
+    @FXML
+    private Button btnAddReminder1;
+    @FXML
+    private Button btnRemoveReminder1;
+    @FXML
+    private TextField inpReminder1;
+    @FXML
+    private ComboBox<String> inpReminderType1;
+    @FXML
+    private Button btnAddReminder2;
+    @FXML
+    private Button btnRemoveReminder2;
+    @FXML
+    private TextField inpReminder2;
+    @FXML
+    private ComboBox<String> inpReminderType2;
 
     public NewAppointmentController() {
 
@@ -451,5 +473,72 @@ public class NewAppointmentController {
         insertAppointmentData(appointment);
 
         // Set access control
+    }
+
+    public void handleAddReminder() {
+        inpReminder.setVisible(true);
+        inpReminderType.setVisible(true);
+        btnAddReminder.setVisible(false);
+        btnRemoveReminder.setVisible(true);
+
+        btnAddReminder1.setVisible(true);
+    }
+
+    public void handleRemoveReminder() {
+        if (inpReminder1.visibleProperty().getValue()) {
+            inpReminder.setText(inpReminder1.getText());
+            inpReminderType.setValue(inpReminderType1.getValue());
+            handleRemoveReminder1();
+        } else {
+            inpReminder.clear();
+            btnAddReminder1.setVisible(false);
+            inpReminder.setVisible(false);
+            inpReminderType.setVisible(false);
+            btnAddReminder.setVisible(true);
+            btnRemoveReminder.setVisible(false);
+        }
+    }
+
+    public void handleAddReminder1() {
+        inpReminder1.setVisible(true);
+        inpReminderType1.setVisible(true);
+        btnAddReminder1.setVisible(false);
+        btnRemoveReminder1.setVisible(true);
+
+        btnAddReminder2.setVisible(true);
+    }
+
+    public void handleRemoveReminder1() {
+        if (inpReminder2.visibleProperty().getValue()) {
+            inpReminder1.setText(inpReminder2.getText());
+            inpReminderType1.setValue(inpReminderType2.getValue());
+            inpReminder2.clear();
+            inpReminder2.setVisible(false);
+            inpReminderType2.setVisible(false);
+            btnAddReminder2.setVisible(true);
+            btnRemoveReminder2.setVisible(false);
+        } else {
+            inpReminder1.clear();
+            btnAddReminder2.setVisible(false);
+            inpReminder1.setVisible(false);
+            inpReminderType1.setVisible(false);
+            btnAddReminder1.setVisible(true);
+            btnRemoveReminder1.setVisible(false);
+        }
+    }
+
+    public void handleAddReminder2() {
+        inpReminder2.setVisible(true);
+        inpReminderType2.setVisible(true);
+        btnAddReminder2.setVisible(false);
+        btnRemoveReminder2.setVisible(true);
+    }
+
+    public void handleRemoveReminder2() {
+        inpReminder2.setVisible(false);
+        inpReminderType2.setVisible(false);
+        inpReminder2.clear();
+        btnAddReminder2.setVisible(true);
+        btnRemoveReminder2.setVisible(false);
     }
 }
