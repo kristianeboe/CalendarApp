@@ -1,6 +1,7 @@
 package no.ntnu.stud.jdbc;
 
 import no.ntnu.stud.model.Appointment;
+import no.ntnu.stud.model.Notification;
 import no.ntnu.stud.model.User;
 import no.ntnu.stud.security.Authentication;
 import no.ntnu.stud.security.SHAHashGenerator;
@@ -207,6 +208,23 @@ public class EditData {
             }
         }
         return edited_appointment;
+    }
+
+    public static void removeNotification(User user, int notificationID){
+        Connection con = DBConnector.getCon();
+
+        if (con != null) {
+            try {
+                Statement stmt = con.createStatement();
+                String sql = "UPDATE hasNotification SET seen = '1' WHERE userID = "+user.getUserID()+" AND notificationID = "+notificationID+";";
+                logger.debug("Performing SQL Query [" + sql + "]");
+                stmt.executeUpdate(sql);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            logger.fatal("No Connection");
+        }
     }
 
     public static void main(String[] args) {

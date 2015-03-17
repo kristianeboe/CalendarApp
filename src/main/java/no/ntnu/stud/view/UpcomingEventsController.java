@@ -52,34 +52,32 @@ public class UpcomingEventsController {
     public void renderUpcomingAppointments(){
         ap.getChildren().clear();
         ArrayList<Notification> notifications = gd.getNotifications(mainApp.getUser());
-        ArrayList<Appointment> appointments = gd.getAppointments(mainApp.getUser(),10, true);
+        ArrayList<Appointment> appointments = gd.getAppointments(mainApp.getUser(), 10, true);
         ArrayList<Appointment> invitations = gd.getInvitations(mainApp.getUser().getUserID());
-        ArrayList<Appointment> changedAppointments = new ArrayList<>();
         int counter = 0;
         for(Notification nf:notifications){
-            changedAppointments.add(gd.getAppointment(nf.getAppointment().getAppointmentID()));
-        }
-        for(Appointment app:changedAppointments){
+            int notificationID = nf.getNotificationID();
+            Appointment app = gd.getAppointment(nf.getAppointment().getAppointmentID());
             if(counter > 9) break;
             if(app == null) break;
-            addEvent(app, counter, false, true);
+            addEvent(app, counter, false, true, notificationID);
             counter++;
         }
         for (int i = 0; i < invitations.size(); i++){
             if(counter > 9) break;
-            addEvent(invitations.get(i), counter, true, false);
+            addEvent(invitations.get(i), counter, true, false, -1);
             counter++;
         }
         for(int i = 0; i < appointments.size();i++){
             if(counter > 9) break;
-            addEvent(appointments.get(i), counter, false, false);
+            addEvent(appointments.get(i), counter, false, false, -1);
             counter++;
         }
 
     }
 
 
-    private void addEvent(Appointment appointment, int position, boolean invitation, boolean notification){
+    private void addEvent(Appointment appointment, int position, boolean invitation, boolean notification, int notificationID){
         String labelText ="";
         labelText += appointment.getTitle();
         GridPane gp = new GridPane();
@@ -133,6 +131,7 @@ public class UpcomingEventsController {
 
 
         Button notificationButton = new Button();
+        notificationButton.setText("i");
         notificationButton.setMaxHeight(25);
         notificationButton.setMaxWidth(25);
         notificationButton.setPrefWidth(25);
@@ -140,8 +139,10 @@ public class UpcomingEventsController {
         notificationButton.setMinWidth(25);
         notificationButton.setMinHeight(25);
         notificationButton.getStyleClass().add("notificationButton");
-        notificationButton.setText("i");
+
         notificationButton.setOnAction((event) ->{
+            EditData.removeNotification(mainApp.getUser(), notificationID);
+            mainApp.showUpcomingEvents();
             mainApp.showAppointmentView(appointment);
         });
 
@@ -178,8 +179,7 @@ public class UpcomingEventsController {
         GridPane.setConstraints(label, 0,0,2,1);
         if(notification){
             gp.getChildren().addAll(notificationButton, label, separator);
-        }
-        if(invitation){
+        }else if(invitation){
             gp.getChildren().addAll(acceptBtn, declineBtn, label, separator);
 
 

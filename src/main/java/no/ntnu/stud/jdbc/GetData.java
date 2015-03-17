@@ -162,13 +162,25 @@ public class GetData {
                 Statement stmt = con.createStatement();
                 String strSelect = "SELECT * FROM appointment " +
                         "WHERE appointmentID = " + appointmentID + ";";
-                ResultSet rset = stmt.executeQuery(strSelect);
+                ResultSet appointmentResult = stmt.executeQuery(strSelect);
                 logger.debug("Performing SQL Query [" + strSelect + "]");
-                logger.debug("rsgreier: "+ResultResolver.appointmentResolver(rset).size());
-                if(ResultResolver.appointmentResolver(rset).size()>0){
-                    appointment = ResultResolver.appointmentResolver(rset).get(0);
+                appointmentResult.next();
 
+                int appID = appointmentResult.getInt("appointmentID");
+                String title = appointmentResult.getString("title");
+                LocalDate date = appointmentResult.getTimestamp("appointmentDate").toLocalDateTime().toLocalDate();
+                LocalTime startTime = appointmentResult.getTimestamp("startTime").toLocalDateTime().toLocalTime();
+                LocalTime endTime = appointmentResult.getTimestamp("endTime").toLocalDateTime().toLocalTime();
+                int ownerID = appointmentResult.getInt("ownerID");
+                String description = appointmentResult.getString("description");
+                String location = appointmentResult.getString("location");
+                int roomID = appointmentResult.getInt("roomID");
+                int attending = appointmentResult.getInt("attending");
+                LocalDateTime alarmTime = LocalDateTime.parse("0001-01-01 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                if(appointmentResult.getTimestamp("alarmTime") != null){
+                    alarmTime = appointmentResult.getTimestamp("alarmTime").toLocalDateTime();
                 }
+                appointment = new Appointment(appointmentID, title, date, startTime, endTime, ownerID, description, location, roomID, attending, alarmTime);
                 con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -497,19 +509,14 @@ public class GetData {
         if(con != null){
             try {
                 Statement stmt = con.createStatement();
-                String sql = "SELECT notificationID, message, appointmentID FROM notification NATURAL JOIN hasNotification WHERE userID="+userID+"";
+                String sql = "SELECT notificationID, message, appointmentID FROM notification NATURAL JOIN hasNotification WHERE userID="+userID+" AND seen = '0';";
                 logger.debug("Performing SQL Query [" + sql + "]");
                 ResultSet rs = stmt.executeQuery(sql);
                 while(rs.next()){
                     int notificationID = rs.getInt("notificationID");
                     int appointmentID = rs.getInt("appointmentID");
-                    logger.debug("AppointmentID = "+appointmentID);
-                    logger.debug("Appointmetn name: " + GetData.getAppointment(appointmentID).getTitle());
-                    Appointment appointment = GetData.getAppointment(rs.getInt("appointmentID"));
+                    Appointment appointment = GetData.getAppointment(appointmentID);
                     String message = rs.getString("message");
-                    if(appointment == null){
-                        logger.debug("Appointment is null!");
-                    }
                     notifications.add(new Notification(notificationID, appointment, message));
                 }
                 con.close();
