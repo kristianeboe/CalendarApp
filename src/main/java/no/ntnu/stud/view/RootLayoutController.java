@@ -2,6 +2,7 @@ package no.ntnu.stud.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import no.ntnu.stud.MainApp;
 
 
@@ -10,6 +11,9 @@ import no.ntnu.stud.MainApp;
  */
 public class RootLayoutController {
     private MainApp mainApp;
+
+    @FXML
+    private Label lblStatusBar;
 
     public RootLayoutController() {
         //trollllooolllll
@@ -43,6 +47,10 @@ public class RootLayoutController {
     @FXML
     private void handleSignOut() {
         mainApp.signedOut();
+    }
+
+    public void setLblStatusBar(String str){
+        lblStatusBar.setText(str);
     }
 
 }
