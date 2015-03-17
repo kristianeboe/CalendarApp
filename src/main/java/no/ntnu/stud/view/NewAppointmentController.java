@@ -17,6 +17,8 @@ import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.model.Group;
 import no.ntnu.stud.model.Room;
 import no.ntnu.stud.model.User;
+import org.apache.log4j.Logger;
+import org.h2.command.dml.Insert;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -31,6 +33,8 @@ public class NewAppointmentController {
     private MainApp mainApp;
     private Stage newAppointmentStage;
     private Appointment appointment;
+    Logger logger = Logger.getLogger("NewAppointmentCtrl");
+
     @FXML
     private Label header;
     @FXML
@@ -84,6 +88,7 @@ public class NewAppointmentController {
         inpFrom.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
         inpTo.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
         inpMaxAttend.setText(Integer.toString(appointment.getAttending()));
+        btnRoom.setValue(GetData.getRoomById(appointment.getRoomID()));
     }
 
     public Appointment addAppointment() {
@@ -148,57 +153,50 @@ public class NewAppointmentController {
 
     @FXML
     private void handleSave() {
+        logger.trace("Clicked save");
         validTitle();
         validDate();
         validTime();
         validMaxAttend();
         if (validTitle() && validDate() && validTime() && validMaxAttend()) {
+            logger.trace("Valid inputs");
+            Appointment app = addAppointment();
+            logger.debug("Created appointment instance");
             try {
-                Appointment app = addAppointment();
-                int appointmentID = InsertData.createAppointmentGetID(app);
-                app.setAppointmentID(appointmentID);
-                for (User usr : invitedUsers) {
-                    InsertData.inviteUser(usr, app);
-                }
-                InsertData.inviteUser(mainApp.getUser(), app);
-                EditData.acceptInvitation(mainApp.getUser(), app);
-                for(Group grp:invitedGroups){
-                    for (User usr : GetData.getUsersInGroup(grp.getGroupID())) {
-                        InsertData.inviteUser(usr, app);
-                    }
-                }
+                insertOrUpdateAppointment(app, mainApp.getUser());
                 mainApp.showAppointmentView(app);
                 mainApp.showUpcomingEvents();
                 // for (String line : outInvited.getText().split("\\n")) InsertData.inviteUser(, app);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
+        }
+    }
+
+    public Appointment insertOrUpdateAppointment(Appointment appointment, User user) {
+        logger.trace("Insert or update appointment");
+        if (appointment.getAppointmentID() == -1) {
+            logger.debug("Creating new appointment");
+            Appointment new_appointment = InsertData.createAppointment(appointment);
+            InsertData.inviteUser(user, appointment);
+            EditData.acceptInvitation(user, appointment);
+            for (User usr : invitedUsers) {
+                InsertData.inviteUser(usr, appointment);
+            }
+            return new_appointment;
+        } else {
+            logger.debug("Updating existing appointment");
+            Appointment edited_appointment = EditData.editAppointment(appointment);
+            return edited_appointment;
+        }
+    }
+
+    @FXML
+    private void handleEdit() {
+        if (validTitle() && validDate() && validTime() && validMaxAttend()) {
+            Appointment app = addAppointment();
 
         }
-        /*
-        boolean DEBUG = false;
-
-        if (DEBUG) {
-            System.out.println("=== Created appointment ===");
-            System.out.println("toStr: " + app);
-            System.out.println("title: " + app.getTitle());
-            System.out.println("desc : " + app.getDescription());
-            System.out.println("date : " + app.getDate());
-            System.out.println("start: " + app.getStart());
-            System.out.println("end  : " + app.getEnd());
-        }
-
-        if (DEBUG) {
-            System.out.println("=== Let's try to get it back ===");
-            Appointment app_check = GetData.getAppointment(app.getRoomID(), app.getDate(), app.getStart(), app.getEnd());
-            System.out.println("toStr: " + app_check);
-            System.out.println("id   : " + app_check.getAppointmentID());
-            System.out.println("title: " + app_check.getTitle());
-            System.out.println("desc : " + app_check.getDescription());
-            System.out.println("date : " + app_check.getDate());
-            System.out.println("start: " + app_check.getStart());
-            System.out.println("end  : " + app_check.getEnd());
-        }*/
     }
 
     ArrayList<User> searchResultsUsers = new ArrayList<>();
@@ -330,11 +328,16 @@ public class NewAppointmentController {
         inpFrom.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                removeErrorStyle(inpFrom);
+                String time = inpFrom.getText();
+                if(time.indexOf(":") != -1){
+                    if (time.substring(0, time.indexOf(":")).length() < 2){
+                        inpFrom.setText("0"+time);
+                    }
+                }
                 if (!inpFrom.getText().isEmpty() && !inpTo.getText().isEmpty()) {
                     validTime();
                 }
-                if (!inpFrom.getText().matches("\\d\\d:\\d\\d")) {
+                if (!inpFrom.getText().isEmpty() && !inpFrom.getText().matches("([01]?[0-9]|2[0-3]):[0-5][0-9]")) {
                     addErrorStyle(inpFrom);
                 }
             }
@@ -342,12 +345,17 @@ public class NewAppointmentController {
         inpTo.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                removeErrorStyle(inpTo);
-                if (!inpTo.getText().matches("\\d\\d:\\d\\d")) {
-                    addErrorStyle(inpTo);
+                String time = inpTo.getText();
+                if(time.indexOf(":") != -1){
+                    if (time.substring(0, time.indexOf(":")).length() < 2){
+                        inpTo.setText("0"+time);
+                    }
                 }
                 if (!inpFrom.getText().isEmpty() && !inpTo.getText().isEmpty()) {
                     validTime();
+                }
+                if (!inpTo.getText().isEmpty() && !inpTo.getText().matches("([01]?[0-9]|2[0-3]):[0-5][0-9]")) {
+                    addErrorStyle(inpTo);
                 }
             }
         });
@@ -372,24 +380,18 @@ public class NewAppointmentController {
             addErrorStyle(inpTo);
             noError = false;
         }
-        if (!inpTo.getText().matches("\\d\\d:\\d\\d")) {
+        if (!inpFrom.getText().matches("\\d?\\d:\\d?\\d") || !inpTo.getText().matches("\\d?\\d:\\d?\\d") || !inpTo.getText().isEmpty() && LocalTime.parse(inpTo.getText()).compareTo(LocalTime.parse(inpFrom.getText())) == -1) {
             addErrorStyle(inpTo);
             noError = false;
         }
-        if (!inpFrom.getText().matches("\\d\\d:\\d\\d")) {
+        if (!inpFrom.getText().matches("\\d?\\d:\\d?\\d") || !inpTo.getText().matches("\\d?\\d:\\d?\\d") || !inpFrom.getText().isEmpty() && LocalTime.parse(inpTo.getText()).equals(LocalTime.parse(inpFrom.getText()))) {
             addErrorStyle(inpFrom);
             noError = false;
         }
-        if (!inpTo.getText().isEmpty() && LocalTime.parse(inpTo.getText()).compareTo(LocalTime.parse(inpFrom.getText())) == -1) {
-            addErrorStyle(inpTo);
-            noError = false;
+        if (noError){
+            removeErrorStyle(inpFrom);
+            removeErrorStyle(inpTo);
         }
-        if (!inpFrom.getText().isEmpty() && LocalTime.parse(inpTo.getText()).equals(LocalTime.parse(inpFrom.getText()))) {
-            addErrorStyle(inpFrom);
-            noError = false;
-        }
-        removeErrorStyle(inpFrom);
-        removeErrorStyle(inpTo);
         return noError;
     }
 
@@ -434,5 +436,12 @@ public class NewAppointmentController {
             inpMaxAttend.setPromptText("Must be a number!");
             return false;
         }
+    }
+
+    public void renderEditView(Appointment appointment) {
+        // Populate fields
+        insertAppointmentData(appointment);
+
+        // Set access control
     }
 }

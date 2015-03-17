@@ -30,10 +30,13 @@ public class EditGroupController {
 
     @FXML
     TextField inpName, inpInvite;
+    @FXML
+    public Label lblTitle;
+
     private MainApp mainApp;
 
     @FXML
-    ListView members;
+    public ListView members;
     @FXML
     private ComboBox<String> cmbSearchResults;
 
@@ -70,29 +73,30 @@ public class EditGroupController {
     }
 
     @FXML
-    private void searchForUser(){
+    private void searchForUser() {
         cmbSearchResults.getItems().clear();
         GetData gd = new GetData();
         String partOfName = inpInvite.getText();
         ArrayList<User> users;
         ArrayList<Group> groups;
-        if(partOfName.length()>2){
+        if (partOfName.length() > 2) {
             groups = gd.searchGroup(partOfName);
             users = gd.searchUser(partOfName);
-            String results ="";
-            if(users.size()>0){
-                for(User usr:users){
-                    searchResultsUsers.clear();
-                    searchResultsUsers.add(usr);
-                    cmbSearchResults.getItems().add(usr.getFullName());
-                    //results += usr.getFullName()+"\n";
+            String results = "";
+            if (users.size() > 0) {
+                searchResultsUsers.clear();
+                for (User usr : users) {
+                    System.out.println(invitedUsers);
+                    if (usr.getUserID() != (mainApp.getUser().getUserID())) {
+                        searchResultsUsers.add(usr);
+                        cmbSearchResults.getItems().add(usr.getFullName());
+                    }
                 }
                 cmbSearchResults.show();
             }
-            if(groups.size()>0){
-                for(Group grp:groups){
+            if (groups.size() > 0) {
+                for (Group grp : groups) {
                     cmbSearchResults.getItems().add(grp.getName());
-                    //results += grp.getName() +"\n";
                 }
                 cmbSearchResults.show();
             }
@@ -103,11 +107,11 @@ public class EditGroupController {
     ArrayList<User> invitedUsers = new ArrayList<>();
 
     @FXML
-    private void addInvitedUser(){
+    private void addInvitedUser() {
         if (cmbSearchResults.getItems().size() > 0) {
             int index = cmbSearchResults.getSelectionModel().getSelectedIndex();
             invitedUsers.add(searchResultsUsers.get(index));
-            ObservableList<Label> obsUsersInvited = obsUsers;
+            ObservableList<Label> obsUsersInvited = FXCollections.observableArrayList();
             for (User usr : invitedUsers) {
                 Label lbl = new Label();
                 lbl.setId("" + usr.getUserID());
@@ -129,11 +133,23 @@ public class EditGroupController {
     }
 
     @FXML
-    void handleSave(){
-        for (User usr:invitedUsers){
-            InsertData.addToGroup(usr, this.groupID);
+    void handleSave() {
+        if (lblTitle.getText() == "New Group") {
+            Group group = new Group();
+            for (User usr : invitedUsers) {
+                group.add(usr);
+            }
+            group.add(mainApp.getUser());
+            InsertData.createGroup(inpName.getText(), group, mainApp.getUser());
+
+            mainApp.showGroup(group.getGroupID());
+        } else {
+
+            for (User usr : invitedUsers) {
+                InsertData.addToGroup(usr, this.groupID);
+            }
+            EditData.editGroupName(groupID, inpName.getText());
+            mainApp.showGroup(groupID);
         }
-        EditData.editGroupName(groupID,inpName.getText());
-        mainApp.showGroup(groupID);
     }
 }

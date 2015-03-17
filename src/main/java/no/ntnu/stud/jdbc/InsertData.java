@@ -3,12 +3,15 @@ package no.ntnu.stud.jdbc;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import no.ntnu.stud.model.Alarm;
 import no.ntnu.stud.model.Appointment;
+import no.ntnu.stud.model.Group;
 import no.ntnu.stud.model.User;
 import no.ntnu.stud.security.SHAHashGenerator;
 import no.ntnu.stud.util.TimeConverter;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -107,8 +110,9 @@ public class InsertData {
         }
     }
 
-    public static void createAppointment(Appointment appointment) {
+    public static Appointment createAppointment(Appointment appointment) {
         Connection con = DBConnector.getCon();
+        Appointment created_appointment = null;
 
         if (con != null) {
             String query = "INSERT INTO appointment ("
@@ -139,12 +143,20 @@ public class InsertData {
                     stmt.setTimestamp(9, null);
                 }
                 stmt.setString(10, appointment.getDescription());
+                logger.debug("[Create Appointment] Performing SQL Query [" + query + "]");
                 stmt.execute();
-                logger.debug("Performing SQL Query [" + query + "]");
+                String getID = "SELECT LAST_INSERT_ID()";
+                logger.debug("[Create Appointment] Getting ID of created appointment");
+                logger.debug("[Create Appointment] Performing SQL Query [" + getID+ "]");
+                ResultSet rs = stmt.executeQuery(getID);
+                rs.next();
+                created_appointment = appointment;
+                created_appointment.setAppointmentID(rs.getInt(1));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+        return created_appointment;
     }
 
     public static int createAppointmentGetID(Appointment appointment) {
@@ -253,6 +265,22 @@ public class InsertData {
         }
     }
 
+    public static void addSubGroup(int groupID, int subGroupID) {
+        Connection con = DBConnector.getCon();
+        if (con != null) {
+            String query = "INSERT INTO subGroup (groupID, subGroupID) VALUES(" + groupID + ", "+ subGroupID +");";
+            try {
+                logger.debug("Performing SQL Query [" + query + "]");
+                Statement stmt = con.prepareStatement(query);
+                stmt.executeUpdate(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            logger.error("No Connection");
+        }
+    }
+
     public void setAlarm(User user, Appointment appointment, Timestamp alarmTime) {
         Connection con = DBConnector.getCon();
         if (con != null) {
@@ -294,6 +322,44 @@ public class InsertData {
             }
         } else {
             logger.error("No Connection");
+        }
+    }
+
+    public static void createGroup(String name, Group group, User owner) {
+        Connection con = DBConnector.getCon();
+        int groupID;
+        if (con != null) {
+            try {
+                //String query = "INSERT INTO group (name) VALUES ('" + name + "')";
+                String query = "INSERT INTO userGroup (name) VALUES ('" + name + "')";
+                Statement stmt = con.createStatement();
+                stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+                String getID = "SELECT LAST_INSERT_ID()";
+                ResultSet rs = stmt.executeQuery(getID);
+                rs.next();
+                groupID = rs.getInt(1);
+                group.setGroupID(groupID);
+
+                if (group != null) {
+                    for (Object user : group) {
+                        if (user.getClass().equals(User.class)) {
+                            User userInGroup = (User) user;
+                            if (userInGroup.getUserID() == owner.getUserID()){
+                                query = "INSERT INTO userInGroup (userID, groupId, isOwner) VALUES (" + owner.getUserID()+ ", " + groupID + ", " + 1 + ");";
+                                stmt = con.createStatement();
+                                stmt.executeUpdate(query);
+                            } else {
+                                addToGroup((User) user, groupID);
+                            }
+                        } else if (user.getClass().equals(Group.class)) {
+                            Group subGroup = (Group) user;
+                            addSubGroup(groupID, subGroup.getGroupID());
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
