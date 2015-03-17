@@ -1,5 +1,6 @@
 package no.ntnu.stud.model;
 
+import no.ntnu.stud.jdbc.InsertData;
 import no.ntnu.stud.util.InputValidator;
 
 /**
@@ -56,5 +57,9 @@ public class Notification {
 
     private void setMessage(String message){
         this.message = InputValidator.textInputValidator(message);
+    }
+
+    public Notification create() {
+        return InsertData.createNotification(this);
     }
 }
