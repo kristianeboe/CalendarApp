@@ -57,7 +57,7 @@ public class UpcomingEventsController {
         ArrayList<Appointment> changedAppointments = new ArrayList<>();
         int counter = 0;
         for(Notification nf:notifications){
-            changedAppointments.add(gd.getAppointment(nf.getAppointmentID()));
+            changedAppointments.add(gd.getAppointment(nf.getAppointment().getAppointmentID()));
         }
         for(Appointment app:changedAppointments){
             if(counter > 9) break;

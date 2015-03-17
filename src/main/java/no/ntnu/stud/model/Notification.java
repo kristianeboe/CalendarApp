@@ -1,5 +1,6 @@
 package no.ntnu.stud.model;
 
+import no.ntnu.stud.jdbc.InsertData;
 import no.ntnu.stud.util.InputValidator;
 
 /**
@@ -7,16 +8,18 @@ import no.ntnu.stud.util.InputValidator;
  */
 public class Notification {
     private String message;
-    private int notificationID, appointmentID;
+    Appointment appointment;
+    int notificationID;
 
-    public Notification(int notificationID, String message, int appointmentID){
-        setNotificationID(notificationID);
+    public Notification(Appointment appointment, String message) {
+        setAppointment(appointment);
         setMessage(message);
-        this.appointmentID = appointmentID;
+        notificationID = -1;
     }
 
-    public int getAppointmentID(){
-        return appointmentID;
+    public Notification(int notificationID, Appointment appointment, String message){
+        this(appointment, message);
+        this.notificationID = notificationID;
     }
 
     public String toString() {
@@ -31,7 +34,7 @@ public class Notification {
         return notificationID;
     }
 
-    private void setNotificationID(int notificationID){
+    public void setNotificationID(int notificationID){
         if(notificationID < 0){
             throw new IllegalArgumentException("NotificationID can not be negative");
         }else if(notificationID == 0){
@@ -40,7 +43,23 @@ public class Notification {
         this.notificationID = notificationID;
     }
 
+    public void setAppointment(Appointment appointment) {
+        if (appointment.getAppointmentID() != -1) {
+            this.appointment = appointment;
+        } else {
+            throw new IllegalArgumentException("Appointment har no ID (does not exist in database - probably not synced yet)");
+        }
+    }
+
+    public Appointment getAppointment() {
+        return this.appointment;
+    }
+
     private void setMessage(String message){
         this.message = InputValidator.textInputValidator(message);
+    }
+
+    public Notification create() {
+        return InsertData.createNotification(this);
     }
 }

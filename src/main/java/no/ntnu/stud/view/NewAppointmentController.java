@@ -13,15 +13,14 @@ import no.ntnu.stud.MainApp;
 import no.ntnu.stud.jdbc.EditData;
 import no.ntnu.stud.jdbc.GetData;
 import no.ntnu.stud.jdbc.InsertData;
-import no.ntnu.stud.model.Appointment;
-import no.ntnu.stud.model.Group;
-import no.ntnu.stud.model.Room;
-import no.ntnu.stud.model.User;
+import no.ntnu.stud.model.*;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.h2.command.dml.Insert;
 
 import javax.swing.text.DateFormatter;
 import java.text.SimpleDateFormat;
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -96,6 +95,10 @@ public class NewAppointmentController {
         inpTo.setText(toTime);
         inpMaxAttend.setText(Integer.toString(appointment.getAttending()));
         btnRoom.setValue(GetData.getRoomById(appointment.getRoomID()));
+        logger.debug("Adding invited users to box");
+        logger.trace(GetData.getInvited(appointment));
+        logger.setLevel(Level.TRACE);
+        addInvitedToBox(GetData.getInvited(appointment));
     }
 
     public Appointment addAppointment() {
@@ -194,6 +197,11 @@ public class NewAppointmentController {
         } else {
             logger.debug("Updating existing appointment");
             Appointment edited_appointment = EditData.editAppointment(appointment);
+            Notification notification = new Notification(edited_appointment, "Something changed");
+            notification = notification.create();
+            for (User invitedUser : invitedUsers) {
+                InsertData.notifyUser(notification, invitedUser);
+            }
             return edited_appointment;
         }
     }
@@ -254,36 +262,55 @@ public class NewAppointmentController {
             if(!searchResultsUsers.isEmpty()){
                 User usr = searchResultsUsers.get(index);
                 invitedUsers.add(usr);
-                int status = GetData.userIsAvailable(usr,LocalTime.parse(inpFrom.getText()),LocalTime.parse(inpTo.getText()),inpDate.getValue());
-                Label lbl = new Label();
-                if(status == 2){
-                    lbl.setTextFill(Color.RED);
-                }else if(status == 1){
-                    lbl.setTextFill(Color.GREEN);
-                }else{
-                    lbl.setTextFill(Color.ORANGE);
-                }
-                lbl.setId("" + usr.getUserID());
-                lbl.setText(usr.getFullName());
-                obsInvited.add(lbl);
-
+                addUserToInvitedBox(usr);
                 inpInvite.clear();
             }else if(!searchResultsGroups.isEmpty()){
                 Group grp = searchResultsGroups.get(index);
                 invitedGroups.add(grp);
-
-                Label lbl = new Label();
-                lbl.setId("" + grp.getGroupID());
-                lbl.setText(grp.getName());
-                obsInvited.add(lbl);
-
+                addGroupToInvitedBox(grp);
                 inpInvite.clear();
-
             }
             //invitedUsersList.getItems().clear();
             invitedUsersList.setItems(obsInvited);
 
         }
+    }
+
+    public void addInvitedToBox(ArrayList<Inevitable> inviteables) {
+        for (Inevitable invited : inviteables) {
+            if (invited.getClass().equals(Group.class)) {
+                logger.trace("Adding group \"" + invited.getName() + "\" to box");
+                addGroupToInvitedBox((Group) invited);
+            }
+            else if (invited.getClass().equals(User.class)) {
+                logger.trace("Adding user \"" + invited.getName() + "\" to box");
+                addUserToInvitedBox((User) invited);
+            }
+        }
+        logger.debug("Invited users: (" + obsInvited.size() + ") " + obsInvited.toString());
+        invitedUsersList.setItems(obsInvited);
+    }
+
+    private void addUserToInvitedBox(User user) {
+        int status = GetData.userIsAvailable(user,LocalTime.parse(inpFrom.getText()),LocalTime.parse(inpTo.getText()),inpDate.getValue());
+        Label lbl = new Label();
+        if(status == 2){
+            lbl.setTextFill(Color.RED);
+        }else if(status == 1){
+            lbl.setTextFill(Color.GREEN);
+        }else{
+            lbl.setTextFill(Color.ORANGE);
+        }
+        lbl.setId("" + user.getUserID());
+        lbl.setText(user.getFullName());
+        obsInvited.add(lbl);
+    }
+
+    private void addGroupToInvitedBox(Group group) {
+        Label lbl = new Label();
+        lbl.setId("" + group.getGroupID());
+        lbl.setText(group.getName());
+        obsInvited.add(lbl);
     }
 
     @FXML

@@ -365,9 +365,9 @@ public class GetData {
         return room;
     }
 
-    public ArrayList<User> getInvited(Appointment appointment){
+    public static ArrayList<Inevitable> getInvited(Appointment appointment){
         Connection con = DBConnector.getCon();
-        ArrayList<User> users = new ArrayList<>();
+        ArrayList<Inevitable> users = new ArrayList<>();
 
         if (con != null) {
             try {
@@ -393,9 +393,9 @@ public class GetData {
         return users;
     }
 
-    public ArrayList<User> getAccepted(Appointment appointment){
+    public static ArrayList<Inevitable> getAccepted(Appointment appointment){
         Connection con = DBConnector.getCon();
-        ArrayList<User> users = new ArrayList<>();
+        ArrayList<Inevitable> users = new ArrayList<>();
 
         if (con != null) {
             try {
@@ -421,9 +421,9 @@ public class GetData {
         return users;
     }
 
-    public ArrayList<User> getDeclined(Appointment appointment){
+    public static ArrayList<Inevitable> getDeclined(Appointment appointment){
         Connection con = DBConnector.getCon();
-        ArrayList<User> users = new ArrayList<>();
+        ArrayList<Inevitable> users = new ArrayList<>();
 
         if (con != null) {
             try {
@@ -503,9 +503,14 @@ public class GetData {
                 while(rs.next()){
                     int notificationID = rs.getInt("notificationID");
                     int appointmentID = rs.getInt("appointmentID");
+                    logger.debug("AppointmentID = "+appointmentID);
+                    logger.debug("Appointmetn name: " + GetData.getAppointment(appointmentID).getTitle());
+                    Appointment appointment = GetData.getAppointment(rs.getInt("appointmentID"));
                     String message = rs.getString("message");
-                    System.out.println("Notification: "+notificationID+" "+appointmentID + " " + message);
-                    notifications.add(new Notification(notificationID,message, appointmentID));
+                    if(appointment == null){
+                        logger.debug("Appointment is null!");
+                    }
+                    notifications.add(new Notification(notificationID, appointment, message));
                 }
                 con.close();
             }catch (SQLException e) {

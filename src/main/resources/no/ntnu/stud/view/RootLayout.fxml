@@ -11,8 +11,8 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Add user" onAction="#handleAddUser" />
-              <MenuItem mnemonicParsing="false" text="Sign out" onAction="#handleSignOut"/>
+              <MenuItem mnemonicParsing="false" onAction="#handleAddUser" text="Add user" />
+              <MenuItem mnemonicParsing="false" onAction="#handleSignOut" text="Sign out" />
               <MenuItem mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
@@ -23,7 +23,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" onAction="#handleAbout"/>
+              <MenuItem mnemonicParsing="false" onAction="#handleAbout" text="About" />
             </items>
           </Menu>
         </menus>
@@ -82,6 +82,9 @@
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
+         <children>
+            <Label fx:id="lblStatusBar" text="Label" />
+         </children>
       </GridPane>
    </bottom>
 </BorderPane>
