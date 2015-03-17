@@ -85,8 +85,16 @@ public class NewAppointmentController {
         inpTitle.setText(appointment.getTitle());
         inpDesc.setText(appointment.getDescription());
         inpDate.setValue(appointment.getDate());
-        inpFrom.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
-        inpTo.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
+        String startHour = appointment.getStart().getHour()+"";
+        String startMinute = appointment.getStart().getMinute()+"";
+        String endHour = appointment.getEnd().getHour()+"";
+        String endMinute = appointment.getEnd().getMinute()+"";
+        if (startHour.length()==1) startHour="0"+startHour;
+        if (startMinute.length()==1) startMinute=startMinute+"0";
+        inpFrom.setText(startHour + ":" + startMinute);
+        if (endHour.length()==1) endHour="0"+endHour;
+        if (endMinute.length()==1) endMinute=endMinute+"0";
+        inpTo.setText(endHour + ":" + endMinute);
         inpMaxAttend.setText(Integer.toString(appointment.getAttending()));
         btnRoom.setValue(GetData.getRoomById(appointment.getRoomID()));
     }
