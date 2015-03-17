@@ -85,20 +85,23 @@ public class NewAppointmentController {
     }
 
     public void insertAppointmentData(Appointment appointment) {
+        logger.setLevel(Level.TRACE);
         inpTitle.setText(appointment.getTitle());
         inpDesc.setText(appointment.getDescription());
         inpDate.setValue(appointment.getDate());
 
         String fromTime = hourFormat.format(appointment.getStart().getHour()) + ":" + minuteFormat.format(appointment.getStart().getMinute());
+        logger.trace("fromTime: " + appointment.getStart() + " | formatted: " + fromTime);
         inpFrom.setText(fromTime);
-        String toTime = hourFormat.format(appointment.getStart().getHour()) + ":" + minuteFormat.format(appointment.getStart().getMinute());
+        String toTime = hourFormat.format(appointment.getEnd().getHour()) + ":" + minuteFormat.format(appointment.getEnd().getMinute());
+        logger.trace("toTime: " + appointment.getEnd() + " | formatted: " + toTime);
         inpTo.setText(toTime);
         inpMaxAttend.setText(Integer.toString(appointment.getAttending()));
         btnRoom.setValue(GetData.getRoomById(appointment.getRoomID()));
         logger.debug("Adding invited users to box");
         logger.trace(GetData.getInvited(appointment));
-        logger.setLevel(Level.TRACE);
         addInvitedToBox(GetData.getInvited(appointment));
+        logger.setLevel(Level.DEBUG);
     }
 
     public Appointment addAppointment() {
