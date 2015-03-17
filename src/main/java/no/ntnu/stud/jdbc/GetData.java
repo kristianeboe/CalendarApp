@@ -362,7 +362,7 @@ public class GetData {
         return room;
     }
 
-    public ArrayList<User> getInvited(Appointment appointment){
+    public static ArrayList<User> getInvited(Appointment appointment){
         Connection con = DBConnector.getCon();
         ArrayList<User> users = new ArrayList<>();
 
@@ -390,7 +390,7 @@ public class GetData {
         return users;
     }
 
-    public ArrayList<User> getAccepted(Appointment appointment){
+    public static ArrayList<User> getAccepted(Appointment appointment){
         Connection con = DBConnector.getCon();
         ArrayList<User> users = new ArrayList<>();
 
@@ -418,7 +418,7 @@ public class GetData {
         return users;
     }
 
-    public ArrayList<User> getDeclined(Appointment appointment){
+    public static ArrayList<User> getDeclined(Appointment appointment){
         Connection con = DBConnector.getCon();
         ArrayList<User> users = new ArrayList<>();
 
