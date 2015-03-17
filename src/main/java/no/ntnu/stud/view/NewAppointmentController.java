@@ -90,10 +90,10 @@ public class NewAppointmentController {
         String endHour = appointment.getEnd().getHour()+"";
         String endMinute = appointment.getEnd().getMinute()+"";
         if (startHour.length()==1) startHour="0"+startHour;
-        if (startMinute.length()==1) startMinute=startMinute+"0";
+        if (startMinute.length()==1) startMinute="0"+startMinute;
         inpFrom.setText(startHour + ":" + startMinute);
         if (endHour.length()==1) endHour="0"+endHour;
-        if (endMinute.length()==1) endMinute=endMinute+"0";
+        if (endMinute.length()==1) endMinute="0"+endMinute;
         inpTo.setText(endHour + ":" + endMinute);
         inpMaxAttend.setText(Integer.toString(appointment.getAttending()));
         btnRoom.setValue(GetData.getRoomById(appointment.getRoomID()));
