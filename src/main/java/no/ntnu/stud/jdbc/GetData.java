@@ -362,9 +362,9 @@ public class GetData {
         return room;
     }
 
-    public static ArrayList<User> getInvited(Appointment appointment){
+    public static ArrayList<Inevitable> getInvited(Appointment appointment){
         Connection con = DBConnector.getCon();
-        ArrayList<User> users = new ArrayList<>();
+        ArrayList<Inevitable> users = new ArrayList<>();
 
         if (con != null) {
             try {
@@ -390,9 +390,9 @@ public class GetData {
         return users;
     }
 
-    public static ArrayList<User> getAccepted(Appointment appointment){
+    public static ArrayList<Inevitable> getAccepted(Appointment appointment){
         Connection con = DBConnector.getCon();
-        ArrayList<User> users = new ArrayList<>();
+        ArrayList<Inevitable> users = new ArrayList<>();
 
         if (con != null) {
             try {
@@ -418,9 +418,9 @@ public class GetData {
         return users;
     }
 
-    public static ArrayList<User> getDeclined(Appointment appointment){
+    public static ArrayList<Inevitable> getDeclined(Appointment appointment){
         Connection con = DBConnector.getCon();
-        ArrayList<User> users = new ArrayList<>();
+        ArrayList<Inevitable> users = new ArrayList<>();
 
         if (con != null) {
             try {
