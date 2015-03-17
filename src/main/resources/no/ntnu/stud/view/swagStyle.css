@@ -105,11 +105,20 @@ Calendar END
 .declineButton{
     -fx-background-color: #ee6666;
 }
-.acceptButton:hover, .declineButton:hover{
+.notificationButton{
+    -fx-background-color: #3e94ec;
+    -fx-background-insets: 0,1,2,0;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+    -fx-font-size: 12px;
+    -fx-padding: 8 20 8 20;
+    -fx-background-radius: 2px;
+    -fx-text-fill: #F3F3F3;
+}
+.acceptButton:hover, .declineButton:hover, .notificationButton:hover{
     -fx-cursor: hand;
     -fx-opacity: 0.7;
 }
-.acceptButton:pressed, .declineButton:pressed{
+.acceptButton:pressed, .declineButton:pressed, .notificationButton:pressed{
     -fx-opacity: 0.5;
 }
 
@@ -133,6 +142,8 @@ Calendar END
 #btnNewAppointment{
     -fx-font-size: 15px;
 }
+
+
 
 
 /*

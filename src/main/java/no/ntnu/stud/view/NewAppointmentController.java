@@ -20,6 +20,8 @@ import no.ntnu.stud.model.User;
 import org.apache.log4j.Logger;
 import org.h2.command.dml.Insert;
 
+import javax.swing.text.DateFormatter;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -64,6 +66,8 @@ public class NewAppointmentController {
     @FXML
     ListView invitedUsersList;
 
+    SimpleDateFormat hourFormat = new SimpleDateFormat("HH");
+    SimpleDateFormat minuteFormat = new SimpleDateFormat("mm");
     public NewAppointmentController() {
 
     }
@@ -85,8 +89,11 @@ public class NewAppointmentController {
         inpTitle.setText(appointment.getTitle());
         inpDesc.setText(appointment.getDescription());
         inpDate.setValue(appointment.getDate());
-        inpFrom.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
-        inpTo.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
+
+        String fromTime = hourFormat.format(appointment.getStart().getHour()) + ":" + minuteFormat.format(appointment.getStart().getMinute());
+        inpFrom.setText(fromTime);
+        String toTime = hourFormat.format(appointment.getStart().getHour()) + ":" + minuteFormat.format(appointment.getStart().getMinute());
+        inpTo.setText(toTime);
         inpMaxAttend.setText(Integer.toString(appointment.getAttending()));
         btnRoom.setValue(GetData.getRoomById(appointment.getRoomID()));
     }
@@ -333,6 +340,9 @@ public class NewAppointmentController {
                     if (time.substring(0, time.indexOf(":")).length() < 2){
                         inpFrom.setText("0"+time);
                     }
+                    if(time.substring(time.indexOf(":")+1).length() < 2){
+                        inpFrom.setText(time+"0");
+                    }
                 }
                 if (!inpFrom.getText().isEmpty() && !inpTo.getText().isEmpty()) {
                     validTime();
@@ -349,6 +359,9 @@ public class NewAppointmentController {
                 if(time.indexOf(":") != -1){
                     if (time.substring(0, time.indexOf(":")).length() < 2){
                         inpTo.setText("0"+time);
+                    }
+                    if(time.substring(time.indexOf(":")+1).length() < 2){
+                        inpTo.setText(time+"0");
                     }
                 }
                 if (!inpFrom.getText().isEmpty() && !inpTo.getText().isEmpty()) {

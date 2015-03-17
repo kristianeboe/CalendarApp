@@ -164,8 +164,11 @@ public class GetData {
                         "WHERE appointmentID = " + appointmentID + ";";
                 ResultSet rset = stmt.executeQuery(strSelect);
                 logger.debug("Performing SQL Query [" + strSelect + "]");
+                logger.debug("rsgreier: "+ResultResolver.appointmentResolver(rset).size());
+                if(ResultResolver.appointmentResolver(rset).size()>0){
+                    appointment = ResultResolver.appointmentResolver(rset).get(0);
 
-                appointment = ResultResolver.appointmentResolver(rset).get(0);
+                }
                 con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -494,13 +497,15 @@ public class GetData {
         if(con != null){
             try {
                 Statement stmt = con.createStatement();
-                String sql = "SELECT notificationID, message FROM notification NATURAL JOIN hasNotification WHERE userID="+userID+"";
+                String sql = "SELECT notificationID, message, appointmentID FROM notification NATURAL JOIN hasNotification WHERE userID="+userID+"";
                 logger.debug("Performing SQL Query [" + sql + "]");
                 ResultSet rs = stmt.executeQuery(sql);
                 while(rs.next()){
                     int notificationID = rs.getInt("notificationID");
+                    int appointmentID = rs.getInt("appointmentID");
                     String message = rs.getString("message");
-                    notifications.add(new Notification(notificationID,message));
+                    System.out.println("Notification: "+notificationID+" "+appointmentID + " " + message);
+                    notifications.add(new Notification(notificationID,message, appointmentID));
                 }
                 con.close();
             }catch (SQLException e) {

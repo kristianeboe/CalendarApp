@@ -7,11 +7,16 @@ import no.ntnu.stud.util.InputValidator;
  */
 public class Notification {
     private String message;
-    int notificationID;
+    private int notificationID, appointmentID;
 
-    public Notification(int notificationID, String message){
+    public Notification(int notificationID, String message, int appointmentID){
         setNotificationID(notificationID);
         setMessage(message);
+        this.appointmentID = appointmentID;
+    }
+
+    public int getAppointmentID(){
+        return appointmentID;
     }
 
     public String toString() {

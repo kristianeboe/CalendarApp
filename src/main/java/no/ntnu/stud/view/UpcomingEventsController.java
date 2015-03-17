@@ -19,6 +19,7 @@ import no.ntnu.stud.MainApp;
 import no.ntnu.stud.jdbc.EditData;
 import no.ntnu.stud.jdbc.GetData;
 import no.ntnu.stud.model.Appointment;
+import no.ntnu.stud.model.Notification;
 import org.controlsfx.control.spreadsheet.Grid;
 
 import java.io.IOException;
@@ -32,21 +33,13 @@ import java.util.ArrayList;
 public class UpcomingEventsController {
 
     private MainApp mainApp;
-    private Appointment appointment;
 
     GetData gd = new GetData();
-    MainApp ma = new MainApp();
-
-    @FXML
-    private Button btnNewAppointment, btnEditAppointment;
 
     @FXML ScrollPane scrollPane;
 
     @FXML
     AnchorPane ap;
-
-    @FXML
-    private GridPane upcomingEvents;
 
     public UpcomingEventsController(){
 
@@ -58,25 +51,37 @@ public class UpcomingEventsController {
 
     public void renderUpcomingAppointments(){
         ap.getChildren().clear();
+        ArrayList<Notification> notifications = gd.getNotifications(mainApp.getUser());
         ArrayList<Appointment> appointments = gd.getAppointments(mainApp.getUser(),10, true);
         ArrayList<Appointment> invitations = gd.getInvitations(mainApp.getUser().getUserID());
+        ArrayList<Appointment> changedAppointments = new ArrayList<>();
         int counter = 0;
+        for(Notification nf:notifications){
+            changedAppointments.add(gd.getAppointment(nf.getAppointmentID()));
+        }
+        for(Appointment app:changedAppointments){
+            if(counter > 9) break;
+            if(app == null) break;
+            addEvent(app, counter, false, true);
+            counter++;
+        }
         for (int i = 0; i < invitations.size(); i++){
             if(counter > 9) break;
-            addEvent(invitations.get(i), counter, true);
+            addEvent(invitations.get(i), counter, true, false);
             counter++;
         }
         for(int i = 0; i < appointments.size();i++){
             if(counter > 9) break;
-            addEvent(appointments.get(i), counter, false);
+            addEvent(appointments.get(i), counter, false, false);
             counter++;
         }
 
     }
 
 
-    private void addEvent(Appointment appointment, int position, boolean invitation){
-        String labelText = appointment.getTitle();
+    private void addEvent(Appointment appointment, int position, boolean invitation, boolean notification){
+        String labelText ="";
+        labelText += appointment.getTitle();
         GridPane gp = new GridPane();
         gp.setPrefHeight(65);
         gp.setPrefWidth(175);
@@ -88,45 +93,64 @@ public class UpcomingEventsController {
         gp.getRowConstraints().add(new RowConstraints(15));
         gp.setLayoutY(75*position);
 
-        Button acceptBtn = new Button();
-        acceptBtn.setText("✓");
-        acceptBtn.minHeight(25);
-        acceptBtn.prefHeight(25);
-        acceptBtn.minWidth(25);
-        acceptBtn.prefWidth(25);
-        acceptBtn.getStyleClass().add("acceptButton");
 
-        acceptBtn.setOnAction((event) -> {
-            EditData editData = new EditData();
-            editData.acceptInvitation(mainApp.getUser(),appointment);
-            renderUpcomingAppointments();
+            Button acceptBtn = new Button();
+            acceptBtn.setText("✓");
+            acceptBtn.minHeight(25);
+            acceptBtn.prefHeight(25);
+            acceptBtn.minWidth(25);
+            acceptBtn.prefWidth(25);
+            acceptBtn.getStyleClass().add("acceptButton");
+
+            acceptBtn.setOnAction((event) -> {
+                EditData editData = new EditData();
+                editData.acceptInvitation(mainApp.getUser(),appointment);
+                renderUpcomingAppointments();
+            });
+
+            Button declineBtn = new Button();
+            declineBtn.setText("x");
+            declineBtn.minHeight(25);
+            declineBtn.prefHeight(25);
+            declineBtn.minWidth(25);
+            declineBtn.prefWidth(25);
+            declineBtn.getStyleClass().add("declineButton");
+
+            declineBtn.setOnAction((event) -> {
+                EditData editData = new EditData();
+                editData.declineInvitation(mainApp.getUser(),appointment);
+                renderUpcomingAppointments();
+            });
+
+            GridPane.setValignment(declineBtn, VPos.BOTTOM);
+            GridPane.setHalignment(declineBtn, HPos.RIGHT);
+            GridPane.setValignment(acceptBtn, VPos.BOTTOM);
+            GridPane.setHalignment(acceptBtn, HPos.LEFT);
+            GridPane.setMargin(acceptBtn, new Insets(0,0,2,45));
+            GridPane.setMargin(declineBtn, new Insets(0,0,2,75));
+            GridPane.setConstraints(acceptBtn, 1, 0);
+            GridPane.setConstraints(declineBtn, 1,0);
+
+
+        Button notificationButton = new Button();
+        notificationButton.setMaxHeight(25);
+        notificationButton.setMaxWidth(25);
+        notificationButton.setPrefWidth(25);
+        notificationButton.setPrefHeight(25);
+        notificationButton.setMinWidth(25);
+        notificationButton.setMinHeight(25);
+        notificationButton.getStyleClass().add("notificationButton");
+        notificationButton.setText("i");
+        notificationButton.setOnAction((event) ->{
+            mainApp.showAppointmentView(appointment);
         });
 
-        Button declineBtn = new Button();
-        declineBtn.setText("x");
-        declineBtn.minHeight(25);
-        declineBtn.prefHeight(25);
-        declineBtn.minWidth(25);
-        declineBtn.prefWidth(25);
-        declineBtn.getStyleClass().add("declineButton");
-
-        declineBtn.setOnAction((event) -> {
-            EditData editData = new EditData();
-            editData.declineInvitation(mainApp.getUser(),appointment);
-            renderUpcomingAppointments();
-        });
-
-
-        GridPane.setValignment(declineBtn, VPos.BOTTOM);
-        GridPane.setHalignment(declineBtn, HPos.RIGHT);
-        GridPane.setValignment(acceptBtn, VPos.BOTTOM);
-        GridPane.setHalignment(acceptBtn, HPos.LEFT);
-        GridPane.setMargin(acceptBtn, new Insets(0,0,2,45));
-        GridPane.setMargin(declineBtn, new Insets(0,0,2,75));
-        GridPane.setConstraints(acceptBtn, 1, 0);
-        GridPane.setConstraints(declineBtn, 1,0);
-
-
+        if(notification) {
+            GridPane.setValignment(notificationButton, VPos.BOTTOM);
+            GridPane.setHalignment(notificationButton, HPos.LEFT);
+            GridPane.setMargin(notificationButton, new Insets(0, 0, 2, 45));
+            GridPane.setConstraints(notificationButton, 1, 0);
+        }
         Separator separator = new Separator();
         separator.setPrefWidth(30);
 
@@ -146,15 +170,19 @@ public class UpcomingEventsController {
         label.setOnMouseClicked((event) ->{
             mainApp.showAppointmentView(appointment);
         });
+
         GridPane.setHalignment(label, HPos.CENTER);
         GridPane.setValignment(label, VPos.BOTTOM);
         GridPane.setMargin(label, new Insets(0,60,0,0));
 
         GridPane.setConstraints(label, 0,0,2,1);
-
+        if(notification){
+            gp.getChildren().addAll(notificationButton, label, separator);
+        }
         if(invitation){
+            gp.getChildren().addAll(acceptBtn, declineBtn, label, separator);
 
-        gp.getChildren().addAll(acceptBtn, declineBtn, label, separator);
+
         }else{
             GridPane.setMargin(label, new Insets(0,0,0,0));
             gp.getChildren().addAll(label, separator);
