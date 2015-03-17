@@ -1,14 +1,13 @@
 package no.ntnu.stud.jdbc;
 
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
-import no.ntnu.stud.model.Alarm;
-import no.ntnu.stud.model.Appointment;
-import no.ntnu.stud.model.Group;
-import no.ntnu.stud.model.User;
+import com.sun.tools.corba.se.idl.constExpr.Not;
+import no.ntnu.stud.model.*;
 import no.ntnu.stud.security.SHAHashGenerator;
 import no.ntnu.stud.util.TimeConverter;
 import org.apache.log4j.Logger;
 
+import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -357,6 +356,45 @@ public class InsertData {
                         }
                     }
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
+    public static Notification createNotification(Notification notification) {
+        Connection conn = DBConnector.getCon();
+        int notificationId = -1;
+        if (conn != null) {
+            String query = "INSERT INTO notification (message, appointmentID) VALUES ('" + notification.getMessage() + "', '" + notification.getAppointment().getAppointmentID() + "');";
+            try {
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+                String notificationIdSql = "SELECT LAST_INSERT_ID()";
+                ResultSet rs = stmt.executeQuery(notificationIdSql);
+                rs.next();
+                notificationId = rs.getInt(1);
+                notification.setNotificationID(notificationId);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return notification;
+    }
+
+    public static void notifyUser(Notification notification, User user) {
+        Connection conn = DBConnector.getCon();
+        if (notification.getNotificationID() == -1)
+            throw new IllegalStateException("Notification object has no ID");
+        if (conn != null) {
+            String query = "INSERT INTO hasNotification (notificationID, userID, seen) VALUES ('" + notification.getNotificationID() + "', '" + user.getUserID() + "', '" + 0 + "');";
+            logger.trace("Performing SQL Query [" + query + "]");
+            try {
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

@@ -499,8 +499,9 @@ public class GetData {
                 ResultSet rs = stmt.executeQuery(sql);
                 while(rs.next()){
                     int notificationID = rs.getInt("notificationID");
+                    Appointment appointment = GetData.getAppointment(rs.getInt("appointmentID"));
                     String message = rs.getString("message");
-                    notifications.add(new Notification(notificationID,message));
+                    notifications.add(new Notification(notificationID, appointment, message));
                 }
                 con.close();
             }catch (SQLException e) {
