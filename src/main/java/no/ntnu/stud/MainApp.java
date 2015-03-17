@@ -1,6 +1,7 @@
 package no.ntnu.stud;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -23,10 +24,13 @@ public class MainApp extends Application {
     private BorderPane rootLayout;
     private User user;
     private static Logger logger;
+    private RootLayoutController rootLayoutController;
 
     public static void main(String[] args) {
         startLogger();
         logger.info("Hello World!");
+
+
         logger.debug("Starting application");
 
         launch(args);
@@ -62,8 +66,8 @@ public class MainApp extends Application {
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
 
-            RootLayoutController controller = loader.getController();
-            controller.setMainApp(this);
+            rootLayoutController = loader.getController();
+            rootLayoutController.setMainApp(this);
 
             primaryStage.show();
         } catch (IOException e) {
@@ -323,6 +327,10 @@ public class MainApp extends Application {
         }
     }
 
+    public void changeStatusBar(String message){
+            rootLayoutController.setLblStatusBar(message);
+    }
+
     public User getUser() {
         return user;
     }
@@ -330,4 +338,5 @@ public class MainApp extends Application {
     public void setUser(User user) {
         this.user = user;
     }
+
 }
