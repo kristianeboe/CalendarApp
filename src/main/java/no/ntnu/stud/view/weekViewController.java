@@ -21,7 +21,7 @@ import java.util.Date;
  */
 public class WeekViewController {
     @FXML
-    private Label lblDateMon, lblDateTue, lblDateWed, lblDateThu, lblDateFri, lblDateSat, lblDateSun;
+    private Label lblDateMon, lblDateTue, lblDateWed, lblDateThu, lblDateFri, lblDateSat, lblDateSun, lblCurrentWeek;
     @FXML
     private GridPane gridWeek;
 
@@ -42,6 +42,7 @@ public class WeekViewController {
     @FXML
     private void initialize(){
 
+
     }
 
     public WeekViewController(){
@@ -50,15 +51,11 @@ public class WeekViewController {
 
     public void renderDates(Calendar calendar) {
         this.calendar = calendar;
+        lblCurrentWeek.setText("Week: "+calendar.get(Calendar.WEEK_OF_YEAR));
         GetData gd = new GetData();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM");
-        SimpleDateFormat dbFormat = new SimpleDateFormat("yyy-MM-dd");
-
         ArrayList<Label> week = new ArrayList<>(Arrays.asList(lblDateMon, lblDateTue, lblDateWed, lblDateThu, lblDateFri, lblDateSat, lblDateSun));
-        String dateString = dateFormat.format(calendar.getTime());
-        String idString = dbFormat.format(calendar.getTime());
-        lblDateMon.setText(dateString);
-        lblDateMon.setId(idString);
+
+
         renderAgenda(calendar.getTime());
     }
 
@@ -111,14 +108,17 @@ public class WeekViewController {
     }
     */
 
-    private Label createLabel(Appointment appointment){
-        Label lbl = new Label();
-        lbl.setText(appointment.getStart().toString()+ " - "+appointment.getTitle());
-        lbl.setOnMouseClicked((event) -> {
-            mainApp.showAppointmentView(appointment);
-        });
 
-        return lbl;
+    @FXML
+    private void handleNextWeek(){
+        calendar.add(Calendar.WEEK_OF_YEAR, 1);
+        renderDates(calendar);
+    }
+
+    @FXML
+    private void handlePrevWeek(){
+        calendar.add(Calendar.WEEK_OF_YEAR, -1);
+        renderDates(calendar);
     }
 
     @FXML

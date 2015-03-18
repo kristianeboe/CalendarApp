@@ -8,7 +8,7 @@
 
 <GridPane alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="920.0" style="-fx-background-color: #f0f0f0;" styleClass="calendar, boxShadow" stylesheets="@swagStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.WeekViewController">
 <children>
-    <Label fx:id="lblCurrentMonth" styleClass="current" text="Week 11" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+    <Label fx:id="lblCurrentWeek" styleClass="current" text="Week 11" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
         <font>
             <Font size="24.0" />
         </font>
@@ -51,12 +51,12 @@
             <Font size="22.0" />
         </font>
     </Label>
-    <Label fx:id="prev_arrow" styleClass="arrow_" text="&lt;" GridPane.halignment="RIGHT" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+    <Label fx:id="prev_arrow" onMouseClicked="#handlePrevWeek" styleClass="arrow_" text="&lt;" GridPane.halignment="RIGHT" GridPane.rowSpan="2" GridPane.valignment="CENTER">
         <font>
             <Font size="30.0" />
         </font>
     </Label>
-    <Label fx:id="nxt_arrow" styleClass="arrow_" text="&gt;" GridPane.columnIndex="8" GridPane.halignment="LEFT" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+    <Label fx:id="nxt_arrow" onMouseClicked="#handleNextWeek" styleClass="arrow_" text="&gt;" GridPane.columnIndex="8" GridPane.halignment="LEFT" GridPane.rowSpan="2" GridPane.valignment="CENTER">
         <font>
             <Font size="30.0" />
         </font>
@@ -235,6 +235,7 @@
       <Label fx:id="lblDateFri" layoutX="415.0" layoutY="138.0" text="&lt;date&gt;" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
       <Label fx:id="lblDateSat" layoutX="528.0" layoutY="138.0" text="&lt;date&gt;" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
       <Label fx:id="lblDateSun" layoutX="641.0" layoutY="138.0" text="&lt;date&gt;" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+      <Button fx:id="btnClose" alignment="CENTER_RIGHT" contentDisplay="CENTER" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#handleClose" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 30; -fx-background-color: ee6666;" text="x" textFill="#f3f3f3" GridPane.columnIndex="8" />
 </children>
 <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
