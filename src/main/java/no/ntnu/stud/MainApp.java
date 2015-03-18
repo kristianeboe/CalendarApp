@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -29,13 +30,13 @@ public class MainApp extends Application {
     private BorderPane rootLayout;
     private User user;
     private static Logger logger;
-    private ArrayList<Alarm> alarms;
     private RootLayoutController rootLayoutController;
+
+    private ArrayList<Alarm> alarms;
 
     public static void main(String[] args) {
         startLogger();
-        logger.info("Hello World!");
-
+        logger.info("Welcome to Ultimate Saga Calendar Pro 365 Cloud Edition!");
 
         logger.debug("Starting application");
 
@@ -68,6 +69,9 @@ public class MainApp extends Application {
             loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
             rootLayout = (BorderPane) loader.load();
 
+            rootLayoutController = loader.getController();
+            rootLayoutController.setMainApp(this);
+
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
@@ -98,6 +102,12 @@ public class MainApp extends Application {
     }
 
     public void signedIn(){
+        if (user.isSuperuser()){
+            setAdminMenu();
+        } else {
+            setDefaultMenu();
+        }
+
         logger.debug("Signed in successfully");
         logger.info("Logged in as " + user.getFullName());
         showCalendarView();
@@ -337,6 +347,32 @@ public class MainApp extends Application {
         }
     }
 
+    public void setDefaultMenu(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/DefaultMenu.fxml"));
+            MenuBar menuBar =  loader.load();
+            rootLayout.setTop(menuBar);
+            RootLayoutController controller = loader.getController();
+            controller.setMainApp(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setAdminMenu() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/AdminMenu.fxml"));
+            MenuBar menuBar = loader.load();
+            rootLayout.setTop(menuBar);
+            RootLayoutController controller = loader.getController();
+            controller.setMainApp(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public void changeStatusBar(String message){
             rootLayoutController.setLblStatusBar(message);
     }

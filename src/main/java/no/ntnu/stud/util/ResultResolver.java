@@ -58,7 +58,8 @@ public class ResultResolver {
             String middleName = userResult.getString("middleName");
             String givenName = userResult.getString("givenName");
             String email = userResult.getString("email");
-            return new User(userID, (lastName), (middleName), (givenName), (email));
+            boolean superuser = userResult.getBoolean("superuser");
+            return new User(userID, (lastName), (middleName), (givenName), (email), (superuser));
         }
         return null;
     }

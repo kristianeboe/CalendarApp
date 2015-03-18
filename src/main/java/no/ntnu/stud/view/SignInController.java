@@ -51,7 +51,6 @@ public class SignInController {
             inpPassword.clear();
 
         }
-
     }
 
     private void activateFocusedProperties() {

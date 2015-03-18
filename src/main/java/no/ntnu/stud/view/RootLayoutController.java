@@ -1,9 +1,17 @@
 package no.ntnu.stud.view;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Label;
 import no.ntnu.stud.MainApp;
+import no.ntnu.stud.model.User;
+
+import java.io.IOException;
 
 
 /**
@@ -13,10 +21,43 @@ public class RootLayoutController {
     private MainApp mainApp;
 
     @FXML
+    MenuBar menu;
+    @FXML
     private Label lblStatusBar;
 
     public RootLayoutController() {
         //trollllooolllll
+    }
+
+    public void generateMenu() {
+        User user = mainApp.getUser();
+        System.out.println(1);
+        if (user.isSuperuser()) {
+            appendAdminMenus();
+        }
+        else {
+            appendDefaultMenu();
+        }
+    }
+
+    public void appendDefaultMenu(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/DefaultMenu.fxml"));
+            menu =  loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void appendAdminMenus() {
+        try {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(MainApp.class.getResource("view/AdminMenu.fxml"));
+        menu =  loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setMainApp(MainApp mainApp) {

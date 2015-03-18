@@ -17,6 +17,7 @@ public class User implements Inevitable {
     private String lastName, middleName, givenName;
     private String email;
     private byte[] hash, salt;
+    private boolean superuser;
 
     // This should not be allowed for outsiders. This is only used for internal calls. Therefore, private.
     private User(String lastName, String middleName, String givenName, String email) {
@@ -24,6 +25,28 @@ public class User implements Inevitable {
         setMiddleName(middleName);
         setGivenName(givenName);
         setEmail(email);
+        userID = -1;
+        superuser = false;
+    }
+
+    /**
+     * Creates a new user object
+     * @param userID User id
+     * @param lastName User last name
+     * @param middleName User middle name
+     * @param givenName User given name
+     * @param email User email
+     * @param passwordHashMap Map of a user's hashed password and salt
+     * @param superuser Flagged if user is superuser
+     */
+    public User(int userID, String lastName, String middleName, String givenName, String email, HashMap<String, byte[]> passwordHashMap, boolean superuser) {
+        this(lastName, middleName, givenName, email, passwordHashMap, superuser);
+        setUserID(userID);
+    }
+
+    public User(String lastName, String middleName, String givenName, String email, HashMap<String, byte[]> passwordHashMap) {
+        this(lastName, middleName, givenName, email);
+        setHashSaltByPasswordHashMap(passwordHashMap);
     }
 
     public User(int userID, String lastName, String middleName, String givenName, String email) {
@@ -31,16 +54,20 @@ public class User implements Inevitable {
         setUserID(userID);
     }
 
-    public User(int userID, String lastName, String middleName, String givenName, String email, HashMap<String, byte[]> passwordHashMap) {
+    public User(int userID, String lastName, String middleName, String givenName, String email, boolean superuser) {
         this(lastName, middleName, givenName, email);
         setUserID(userID);
-        setHashSaltByPasswordHashMap(passwordHashMap);
+        setSuperuser(superuser);
     }
 
-    public User(String lastName, String middleName, String givenName, String email, HashMap<String, byte[]> passwordHashMap) {
-        this(lastName, middleName, givenName, email);
-        this.userID = -1;
-        setHashSaltByPasswordHashMap(passwordHashMap);
+    public User(int userID, String lastName, String middleName, String givenName, String email, HashMap<String, byte[]> passwordHashMap) {
+        this(lastName, middleName, givenName, email, passwordHashMap);
+        setUserID(userID);
+    }
+
+    public User(String lastName, String middleName, String givenName, String email, HashMap<String, byte[]> passwordHashMap, boolean superuser) {
+        this(lastName, middleName, givenName, email, passwordHashMap);
+        this.superuser = superuser;
     }
 
     public User(String lastName, String middleName, String givenName, String email, String password) {
@@ -144,6 +171,12 @@ public class User implements Inevitable {
         passwordHashMap.put("hash", hash);
         passwordHashMap.put("salt", salt);
         return passwordHashMap;
+    }
+
+    public boolean isSuperuser() { return superuser; }
+
+    public void setSuperuser(boolean superuser) {
+        this.superuser = superuser;
     }
 
     public int getId() {
