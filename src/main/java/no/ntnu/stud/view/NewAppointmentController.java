@@ -6,19 +6,24 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import no.ntnu.stud.MainApp;
 import no.ntnu.stud.jdbc.EditData;
 import no.ntnu.stud.jdbc.GetData;
 import no.ntnu.stud.jdbc.InsertData;
-import no.ntnu.stud.model.Appointment;
-import no.ntnu.stud.model.Group;
-import no.ntnu.stud.model.Room;
-import no.ntnu.stud.model.User;
+import no.ntnu.stud.model.*;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
+import javax.swing.text.DateFormatter;
+import java.text.SimpleDateFormat;
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,6 +34,8 @@ public class NewAppointmentController {
     private MainApp mainApp;
     private Stage newAppointmentStage;
     private Appointment appointment;
+    Logger logger = Logger.getLogger("NewAppointmentCtrl");
+
     @FXML
     private Label header;
     @FXML
@@ -57,7 +64,32 @@ public class NewAppointmentController {
     private ToggleGroup radioGroup;
     @FXML
     ListView invitedUsersList;
+    @FXML
+    private Button btnAddReminder;
+    @FXML
+    private Button btnRemoveReminder;
+    @FXML
+    private TextField inpReminder;
+    @FXML
+    private ComboBox<String> inpReminderType;
+    @FXML
+    private Button btnAddReminder1;
+    @FXML
+    private Button btnRemoveReminder1;
+    @FXML
+    private TextField inpReminder1;
+    @FXML
+    private ComboBox<String> inpReminderType1;
+    @FXML
+    private Button btnAddReminder2;
+    @FXML
+    private Button btnRemoveReminder2;
+    @FXML
+    private TextField inpReminder2;
+    @FXML
+    private ComboBox<String> inpReminderType2;
 
+    DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
     public NewAppointmentController() {
 
     }
@@ -79,25 +111,68 @@ public class NewAppointmentController {
         inpTitle.setText(appointment.getTitle());
         inpDesc.setText(appointment.getDescription());
         inpDate.setValue(appointment.getDate());
-        inpFrom.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
-        inpTo.setText(appointment.getStart().getHour() + ":" + appointment.getStart().getMinute());
+        this.appointment = appointment;
+
+        String fromTime = appointment.getStart().format(timeFormat);
+        logger.trace("fromTime: " + appointment.getStart() + " | formatted: " + fromTime);
+        inpFrom.setText(fromTime);
+        String toTime = appointment.getEnd().format(timeFormat);
+        logger.trace("toTime: " + appointment.getEnd() + " | formatted: " + toTime);
+        inpTo.setText(toTime);
         inpMaxAttend.setText(Integer.toString(appointment.getAttending()));
+        btnRoom.setValue(GetData.getRoomById(appointment.getRoomID()));
+
+        List<Alarm> alarms = mainApp.getAlarms(mainApp.getUser().getUserID(), appointment.getAppointmentID());
+        switch(alarms.size()) {
+            case 0:
+                break;
+            case 3:
+                handleAddReminder2();
+                inpReminder2.setText(String.valueOf(alarms.get(2).getNumberOfType()));
+                inpReminderType2.setValue(alarms.get(2).getType());
+            case 2:
+                handleAddReminder1();
+                inpReminder1.setText(String.valueOf(alarms.get(1).getNumberOfType()));
+                inpReminderType1.setValue(alarms.get(1).getType());
+            case 1:
+                handleAddReminder();
+                inpReminder.setText(String.valueOf(alarms.get(0).getNumberOfType()));
+                inpReminderType.setValue(alarms.get(0).getType());
+                break;
+        }
+
+        logger.debug("Adding invited users to box");
+        logger.trace(GetData.getInvited(appointment));
+        addInvitedToBox(GetData.getInvited(appointment));
     }
 
     public Appointment addAppointment() {
+        logger.setLevel(Level.TRACE);
+        logger.trace("Starting addAppointment");
         String title = inpTitle.getText();
         LocalDate date = inpDate.getValue();
         LocalTime startTime = LocalTime.parse(inpFrom.getText());
         LocalTime endTime = LocalTime.parse(inpTo.getText());
-        int maxAttending = Integer.parseInt(inpMaxAttend.getText());
+        int maxAttending;
         int roomID;
         int owner;
         String location;
 
-        // If roomID, use roomID. If not, use location.
+        owner = mainApp.getUser().getUserID();
 
-        // Cleanest hack ever to find roomID
+        String description = inpDesc.getText();
+
+        logger.trace("Cool data: " +
+                "Title: " + title + "| " +
+                "Date: " +date + "| " + "" +
+                "Start: " + startTime + " | End: " + endTime + " | "
+        );
+
+        Appointment appointment;
+
+        // If roomID, use roomID. If not, use location.
         if (radioWork.isSelected()) {
+            // Cleanest hack ever to find roomID
             location = "";
             String roomValue = btnRoom.getValue().toString();
             Pattern pattern = Pattern.compile("(\\d+)");
@@ -109,20 +184,34 @@ public class NewAppointmentController {
             } else {
                 throw new IllegalArgumentException("FUCK YOU DIDNT FIND THE ROOM SHIT");
             }
-        } else{
-            roomID = -1;
+            maxAttending = Integer.parseInt(inpMaxAttend.getText());
+            appointment = new Appointment(title, date, startTime, endTime, owner, description, roomID, maxAttending);
+        } else {
             location = inpLocation.getText();
+            appointment = new Appointment(title, date, startTime, endTime, owner, description, location);
         }
 
-        owner = mainApp.getUser().getUserID();
 
-        String description = inpDesc.getText();
 
-        /*
-        for (User u : invited) {}
-         */
+        if (!inpReminder.getText().equals("")) {
+            logger.info("inpReminder.getTest(): " + inpReminder.getText());
+            logger.info("inpReminderType.getValue(): " + inpReminderType.getValue());
+            mainApp.addAlarm(new Alarm(mainApp.getUser(), appointment, inpReminder.getText(), inpReminderType.getValue()));
+        } else {
+            return appointment;
+        }
 
-        Appointment appointment = new Appointment(title, date, startTime, endTime, owner, description, location, roomID, maxAttending);
+        if (!inpReminder1.getText().equals("")) {
+            mainApp.addAlarm(new Alarm(mainApp.getUser(), appointment, inpReminder1.getText(), inpReminderType.getValue()));
+        } else {
+            return appointment;
+        }
+
+        if (!inpReminder2.getText().equals("")) {
+            mainApp.addAlarm(new Alarm(mainApp.getUser(), appointment, inpReminder2.getText(), inpReminderType2.getValue()));
+        } else {
+            return appointment;
+        }
         return appointment;
     }
 
@@ -146,56 +235,76 @@ public class NewAppointmentController {
 
     @FXML
     private void handleSave() {
+        logger.trace("Clicked save");
         validTitle();
         validDate();
         validTime();
         validMaxAttend();
-        if (validTitle() && validDate() && validTime() && validMaxAttend()) {
+        if (validTitle() && validDate() && validTime()) {
+            logger.trace("Valid inputs");
+            Appointment new_appointment = addAppointment();
+            logger.debug("Created appointment instance");
             try {
-                Appointment app = addAppointment();
-                int appointmentID = InsertData.createAppointmentGetID(app);
-                app.setAppointmentID(appointmentID);
-                for (User usr : invitedUsers) {
-                    InsertData.inviteUser(usr, app);
-                }
-                InsertData.inviteUser(mainApp.getUser(), app);
-                EditData.acceptInvitation(mainApp.getUser(), app);
-                mainApp.showAppointmentView(app);
+                insertOrUpdateAppointment(new_appointment, mainApp.getUser());
+                mainApp.showAppointmentView(new_appointment);
                 mainApp.showUpcomingEvents();
                 // for (String line : outInvited.getText().split("\\n")) InsertData.inviteUser(, app);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
+        } else {
+            logger.error("Validation failed. Please check the fields again.");
+        }
+    }
+
+    public Appointment insertOrUpdateAppointment(Appointment appointment, User user) {
+        logger.trace("Insert or update appointment");
+        if (this.appointment == null || this.appointment.getAppointmentID() == -1) {
+            logger.debug("Creating new appointment");
+            Appointment new_appointment = InsertData.createAppointment(appointment);
+            EditData.removeAlarms(mainApp.getUser().getUserID(), new_appointment.getAppointmentID());
+            InsertData.setAlarms(mainApp.getAlarms(mainApp.getUser().getUserID(), new_appointment.getAppointmentID()));
+            InsertData.inviteUser(user, appointment);
+            EditData.acceptInvitation(user, appointment);
+            for (User usr : invitedUsers) {
+                logger.trace("Inviting " + usr + " to " + appointment);
+                InsertData.inviteUser(usr, appointment);
+            }
+            return new_appointment;
+        } else {
+            logger.debug("Updating existing appointment");
+            appointment.setAppointmentID(this.appointment.getAppointmentID());
+            Appointment edited_appointment = EditData.editAppointment(appointment);
+            EditData.removeAlarms(mainApp.getUser().getUserID(), edited_appointment.getAppointmentID());
+            InsertData.setAlarms(mainApp.getAlarms(mainApp.getUser().getUserID(), edited_appointment.getAppointmentID()));
+            Notification notification = new Notification(edited_appointment, "Something changed");
+            notification = notification.create();
+            logger.debug("Notifying users about change to " + edited_appointment);
+            logger.trace("invitedUsers-list: " + invitedUsers);
+            for (User invitedUser : invitedUsers) {
+                logger.trace("Notifying " + invitedUser + " about change to " + edited_appointment);
+                InsertData.notifyUser(notification, invitedUser);
+            }
+            return edited_appointment;
+        }
+    }
+
+    @FXML
+    private void handleEdit() {
+        if (validTitle() && validDate() && validTime() && validMaxAttend()) {
+            Appointment app = addAppointment();
 
         }
-        /*
-        boolean DEBUG = false;
-
-        if (DEBUG) {
-            System.out.println("=== Created appointment ===");
-            System.out.println("toStr: " + app);
-            System.out.println("title: " + app.getTitle());
-            System.out.println("desc : " + app.getDescription());
-            System.out.println("date : " + app.getDate());
-            System.out.println("start: " + app.getStart());
-            System.out.println("end  : " + app.getEnd());
-        }
-
-        if (DEBUG) {
-            System.out.println("=== Let's try to get it back ===");
-            Appointment app_check = GetData.getAppointment(app.getRoomID(), app.getDate(), app.getStart(), app.getEnd());
-            System.out.println("toStr: " + app_check);
-            System.out.println("id   : " + app_check.getAppointmentID());
-            System.out.println("title: " + app_check.getTitle());
-            System.out.println("desc : " + app_check.getDescription());
-            System.out.println("date : " + app_check.getDate());
-            System.out.println("start: " + app_check.getStart());
-            System.out.println("end  : " + app_check.getEnd());
-        }*/
     }
 
     ArrayList<User> searchResultsUsers = new ArrayList<>();
     ArrayList<User> invitedUsers = new ArrayList<>();
+
+    ArrayList<Group> searchResultsGroups = new ArrayList<>();
+    ArrayList<Group> invitedGroups = new ArrayList<>();
+
+    ObservableList<Label> obsInvited = FXCollections.observableArrayList();
+
 
     @FXML
     private void searchForUser() {
@@ -207,20 +316,21 @@ public class NewAppointmentController {
         if (partOfName.length() > 2) {
             groups = gd.searchGroup(partOfName);
             users = gd.searchUser(partOfName);
-            String results = "";
             if (users.size() > 0) {
+                searchResultsGroups.clear();
                 searchResultsUsers.clear();
                 for (User usr : users) {
-                    System.out.println(invitedUsers);
                     if (usr.getUserID() != (mainApp.getUser().getUserID())) {
                         searchResultsUsers.add(usr);
                         cmbSearchResults.getItems().add(usr.getFullName());
                     }
                 }
                 cmbSearchResults.show();
-            }
-            if (groups.size() > 0) {
+            }else if (groups.size() > 0) {
+                searchResultsGroups.clear();
+                searchResultsUsers.clear();
                 for (Group grp : groups) {
+                    searchResultsGroups.add(grp);
                     cmbSearchResults.getItems().add(grp.getName());
                 }
                 cmbSearchResults.show();
@@ -232,17 +342,60 @@ public class NewAppointmentController {
     private void addInvitedUser() {
         if (cmbSearchResults.getItems().size() > 0) {
             int index = cmbSearchResults.getSelectionModel().getSelectedIndex();
-            invitedUsers.add(searchResultsUsers.get(index));
-            ObservableList<Label> obsUsersInvited = FXCollections.observableArrayList();
-            for (User usr : invitedUsers) {
-                Label lbl = new Label();
-                lbl.setId("" + usr.getUserID());
-                lbl.setText(usr.getFullName());
-                obsUsersInvited.add(lbl);
+            if(!searchResultsUsers.isEmpty()){
+                User usr = searchResultsUsers.get(index);
+                invitedUsers.add(usr);
+                addUserToInvitedBox(usr);
+                inpInvite.clear();
+            }else if(!searchResultsGroups.isEmpty()){
+                Group grp = searchResultsGroups.get(index);
+                invitedGroups.add(grp);
+                addGroupToInvitedBox(grp);
+                inpInvite.clear();
             }
-            inpInvite.clear();
-            invitedUsersList.setItems(obsUsersInvited);
+            //invitedUsersList.getItems().clear();
+            invitedUsersList.setItems(obsInvited);
+
         }
+    }
+
+    public void addInvitedToBox(ArrayList<Inevitable> inviteables) {
+        for (Inevitable invited : inviteables) {
+            if (invited.getClass().equals(Group.class)) {
+                logger.trace("Adding group \"" + invited.getName() + "\" to box");
+                addGroupToInvitedBox((Group) invited);
+            }
+            else if (invited.getClass().equals(User.class)) {
+                logger.trace("Adding user \"" + invited.getName() + "\" to box");
+                addUserToInvitedBox((User) invited);
+                logger.trace("Adding user \"" + invited.getName() + "\" to invitedUsersr");
+                invitedUsers.add((User) invited);
+            }
+        }
+        logger.debug("Invited users: (" + obsInvited.size() + ") " + obsInvited.toString());
+        invitedUsersList.setItems(obsInvited);
+    }
+
+    private void addUserToInvitedBox(User user) {
+        int status = GetData.userIsAvailable(user,LocalTime.parse(inpFrom.getText()),LocalTime.parse(inpTo.getText()),inpDate.getValue());
+        Label lbl = new Label();
+        if(status == 2){
+            lbl.setTextFill(Color.RED);
+        }else if(status == 1){
+            lbl.setTextFill(Color.GREEN);
+        }else{
+            lbl.setTextFill(Color.ORANGE);
+        }
+        lbl.setId("" + user.getUserID());
+        lbl.setText(user.getFullName());
+        obsInvited.add(lbl);
+    }
+
+    private void addGroupToInvitedBox(Group group) {
+        Label lbl = new Label();
+        lbl.setId("" + group.getGroupID());
+        lbl.setText(group.getName());
+        obsInvited.add(lbl);
     }
 
     @FXML
@@ -294,11 +447,19 @@ public class NewAppointmentController {
         inpFrom.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                removeErrorStyle(inpFrom);
+                String time = inpFrom.getText();
+                if(time.indexOf(":") != -1){
+                    if (time.substring(0, time.indexOf(":")).length() < 2){
+                        inpFrom.setText("0"+time);
+                    }
+                    if(time.substring(time.indexOf(":")+1).length() < 2){
+                        inpFrom.setText(time+"0");
+                    }
+                }
                 if (!inpFrom.getText().isEmpty() && !inpTo.getText().isEmpty()) {
                     validTime();
                 }
-                if (!inpFrom.getText().matches("\\d\\d:\\d\\d")) {
+                if (!inpFrom.getText().isEmpty() && !inpFrom.getText().matches("([01]?[0-9]|2[0-3]):[0-5][0-9]")) {
                     addErrorStyle(inpFrom);
                 }
             }
@@ -306,12 +467,20 @@ public class NewAppointmentController {
         inpTo.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                removeErrorStyle(inpTo);
-                if (!inpTo.getText().matches("\\d\\d:\\d\\d")) {
-                    addErrorStyle(inpTo);
+                String time = inpTo.getText();
+                if(time.indexOf(":") != -1){
+                    if (time.substring(0, time.indexOf(":")).length() < 2){
+                        inpTo.setText("0"+time);
+                    }
+                    if(time.substring(time.indexOf(":")+1).length() < 2){
+                        inpTo.setText(time+"0");
+                    }
                 }
                 if (!inpFrom.getText().isEmpty() && !inpTo.getText().isEmpty()) {
                     validTime();
+                }
+                if (!inpTo.getText().isEmpty() && !inpTo.getText().matches("([01]?[0-9]|2[0-3]):[0-5][0-9]")) {
+                    addErrorStyle(inpTo);
                 }
             }
         });
@@ -336,24 +505,18 @@ public class NewAppointmentController {
             addErrorStyle(inpTo);
             noError = false;
         }
-        if (!inpTo.getText().matches("\\d\\d:\\d\\d")) {
+        if (!inpFrom.getText().matches("\\d?\\d:\\d?\\d") || !inpTo.getText().matches("\\d?\\d:\\d?\\d") || !inpTo.getText().isEmpty() && LocalTime.parse(inpTo.getText()).compareTo(LocalTime.parse(inpFrom.getText())) == -1) {
             addErrorStyle(inpTo);
             noError = false;
         }
-        if (!inpFrom.getText().matches("\\d\\d:\\d\\d")) {
+        if (!inpFrom.getText().matches("\\d?\\d:\\d?\\d") || !inpTo.getText().matches("\\d?\\d:\\d?\\d") || !inpFrom.getText().isEmpty() && LocalTime.parse(inpTo.getText()).equals(LocalTime.parse(inpFrom.getText()))) {
             addErrorStyle(inpFrom);
             noError = false;
         }
-        if (!inpTo.getText().isEmpty() && LocalTime.parse(inpTo.getText()).compareTo(LocalTime.parse(inpFrom.getText())) == -1) {
-            addErrorStyle(inpTo);
-            noError = false;
+        if (noError){
+            removeErrorStyle(inpFrom);
+            removeErrorStyle(inpTo);
         }
-        if (!inpFrom.getText().isEmpty() && LocalTime.parse(inpTo.getText()).equals(LocalTime.parse(inpFrom.getText()))) {
-            addErrorStyle(inpFrom);
-            noError = false;
-        }
-        removeErrorStyle(inpFrom);
-        removeErrorStyle(inpTo);
         return noError;
     }
 
@@ -398,5 +561,79 @@ public class NewAppointmentController {
             inpMaxAttend.setPromptText("Must be a number!");
             return false;
         }
+    }
+
+    public void renderEditView(Appointment appointment) {
+        // Populate fields
+        insertAppointmentData(appointment);
+
+        // Set access control
+    }
+
+    public void handleAddReminder() {
+        inpReminder.setVisible(true);
+        inpReminderType.setVisible(true);
+        btnAddReminder.setVisible(false);
+        btnRemoveReminder.setVisible(true);
+
+        btnAddReminder1.setVisible(true);
+    }
+
+    public void handleRemoveReminder() {
+        if (inpReminder1.visibleProperty().getValue()) {
+            inpReminder.setText(inpReminder1.getText());
+            inpReminderType.setValue(inpReminderType1.getValue());
+            handleRemoveReminder1();
+        } else {
+            inpReminder.clear();
+            btnAddReminder1.setVisible(false);
+            inpReminder.setVisible(false);
+            inpReminderType.setVisible(false);
+            btnAddReminder.setVisible(true);
+            btnRemoveReminder.setVisible(false);
+        }
+    }
+
+    public void handleAddReminder1() {
+        inpReminder1.setVisible(true);
+        inpReminderType1.setVisible(true);
+        btnAddReminder1.setVisible(false);
+        btnRemoveReminder1.setVisible(true);
+
+        btnAddReminder2.setVisible(true);
+    }
+
+    public void handleRemoveReminder1() {
+        if (inpReminder2.visibleProperty().getValue()) {
+            inpReminder1.setText(inpReminder2.getText());
+            inpReminderType1.setValue(inpReminderType2.getValue());
+            inpReminder2.clear();
+            inpReminder2.setVisible(false);
+            inpReminderType2.setVisible(false);
+            btnAddReminder2.setVisible(true);
+            btnRemoveReminder2.setVisible(false);
+        } else {
+            inpReminder1.clear();
+            btnAddReminder2.setVisible(false);
+            inpReminder1.setVisible(false);
+            inpReminderType1.setVisible(false);
+            btnAddReminder1.setVisible(true);
+            btnRemoveReminder1.setVisible(false);
+        }
+    }
+
+    public void handleAddReminder2() {
+        inpReminder2.setVisible(true);
+        inpReminderType2.setVisible(true);
+        btnAddReminder2.setVisible(false);
+        btnRemoveReminder2.setVisible(true);
+    }
+
+    public void handleRemoveReminder2() {
+        inpReminder2.setVisible(false);
+        inpReminderType2.setVisible(false);
+        inpReminder2.clear();
+        btnAddReminder2.setVisible(true);
+        btnRemoveReminder2.setVisible(false);
     }
 }

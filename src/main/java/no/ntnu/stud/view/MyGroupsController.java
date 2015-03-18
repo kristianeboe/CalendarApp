@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
@@ -21,7 +22,14 @@ public class MyGroupsController {
     private MainApp mainApp;
 
     @FXML
-    ListView ownerList, memberList;
+    private ListView ownerList, memberList;
+    @FXML
+    private Button btnNewGroup;
+
+    @FXML
+    private void initialize(){
+
+    }
 
     public MyGroupsController(){
 
@@ -75,6 +83,12 @@ public class MyGroupsController {
         memberList.setItems(memberObsList);
     }
 
+
+    @FXML
+    private void handleNewGroup(){
+        mainApp.showNewGroup();
+
+    }
 
     @FXML
     void handleClose(){

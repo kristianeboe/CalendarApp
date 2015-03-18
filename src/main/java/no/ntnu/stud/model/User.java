@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 /**
  * Created by adrianh on 23.02.15.
  */
-public class User {
+public class User implements Inevitable {
 
     private int userID;
     private String lastName, middleName, givenName;
@@ -177,6 +177,14 @@ public class User {
 
     public void setSuperuser(boolean superuser) {
         this.superuser = superuser;
+    }
+
+    public int getId() {
+        return this.getUserID();
+    }
+
+    public String getName() {
+        return this.getFullName();
     }
 
     public static User getById(int userID) {

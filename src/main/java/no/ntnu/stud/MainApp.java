@@ -8,19 +8,21 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
+import no.ntnu.stud.jdbc.GetData;
+import no.ntnu.stud.model.Alarm;
 import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.model.User;
 import no.ntnu.stud.view.*;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainApp extends Application {
 
@@ -30,10 +32,12 @@ public class MainApp extends Application {
     private static Logger logger;
     private RootLayoutController rootLayoutController;
 
+    private ArrayList<Alarm> alarms;
 
     public static void main(String[] args) {
         startLogger();
         logger.info("Welcome to Ultimate Saga Calendar Pro 365 Cloud Edition!");
+
         logger.debug("Starting application");
 
         launch(args);
@@ -52,9 +56,9 @@ public class MainApp extends Application {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Ultimate Saga Calendar Pro 365 Cloud Edition");
         this.primaryStage.getIcons().add(new Image("file:/images/favicon.png"));
-
+        logger.trace("initRootLayout");
         initRootLayout();
-
+        logger.trace("showSignInView");
         showSignInView();
     }
 
@@ -71,6 +75,9 @@ public class MainApp extends Application {
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
+
+            rootLayoutController = loader.getController();
+            rootLayoutController.setMainApp(this);
 
             primaryStage.show();
         } catch (IOException e) {
@@ -101,12 +108,15 @@ public class MainApp extends Application {
             setDefaultMenu();
         }
 
+        logger.debug("Signed in successfully");
+        logger.info("Logged in as " + user.getFullName());
         showCalendarView();
 
         showUpcomingEvents();
 
         showLeftMenu();
 
+        this.alarms = GetData.getAlarms();
     }
 
     public void signedOut() {
@@ -218,7 +228,7 @@ public class MainApp extends Application {
 
             ViewAppointmentController controller = loader.getController();
             controller.setMainApp(this);
-            controller.renderViewAppointment(appointment);
+            controller.renderAppointment(appointment);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -289,6 +299,22 @@ public class MainApp extends Application {
         }
     }
 
+    public void showNewGroup(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/EditGroup.fxml"));
+            GridPane editGroup = (GridPane) loader.load();
+            rootLayout.setCenter(editGroup);
+
+            EditGroupController controller = loader.getController();
+            controller.setMainApp(this);
+            controller.lblTitle.setText("New Group");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void showUser(int userID){
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -335,17 +361,20 @@ public class MainApp extends Application {
         }
     }
 
-    private void setAdminMenu(){
+    private void setAdminMenu() {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/AdminMenu.fxml"));
-            MenuBar menuBar =  loader.load();
+            MenuBar menuBar = loader.load();
             rootLayout.setTop(menuBar);
             RootLayoutController controller = loader.getController();
             controller.setMainApp(this);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void changeStatusBar(String message){
+            rootLayoutController.setLblStatusBar(message);
     }
 
     public User getUser() {
@@ -354,5 +383,31 @@ public class MainApp extends Application {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public ArrayList<Alarm> getAlarms() {
+        return this.alarms;
+    }
+
+    public List<Alarm> getAlarmsByUser(int userID) {
+        return alarms.stream()
+                .filter(a -> getUser().getUserID() == userID)
+                .collect(Collectors.toList());
+    }
+
+    public List<Alarm> getAlarmsByAppointment(int appointmentID) {
+        return alarms.stream()
+                .filter(a -> a.getAppointment().getAppointmentID() == appointmentID)
+                .collect(Collectors.toList());
+    }
+
+    public List<Alarm> getAlarms(int userID, int appointmenID) {
+        return alarms.stream()
+                .filter(a -> a.getAppointment().getAppointmentID() == appointmenID && a.getUser().getUserID() == userID)
+                .collect(Collectors.toList());
+    }
+
+    public void addAlarm(Alarm alarm) {
+        this.alarms.add(alarm);
     }
 }

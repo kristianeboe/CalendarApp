@@ -5,6 +5,10 @@
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
 <GridPane fx:id="newAppointment" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="920.0" stylesheets="@swagStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.NewAppointmentController">
     <columnConstraints>
@@ -20,6 +24,7 @@
         <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
@@ -84,7 +89,7 @@
                 <Insets right="15.0" top="10.0" />
             </GridPane.margin>
         </ComboBox>
-        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#handleSave" styleClass="menuButton" text="Save" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER">
+        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#handleSave" styleClass="menuButton" text="Save" textFill="#3e94ec" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="9" GridPane.valignment="CENTER">
             <font>
                 <Font size="15.0" />
             </font>
@@ -92,7 +97,7 @@
                 <Insets left="265.0" top="15.0" />
             </GridPane.margin>
         </Button>
-        <Button fx:id="btnClose" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#handleClose" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 30; -fx-background-color: ee6666;" text="x" textFill="#f3f3f3" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+        <Button fx:id="btnClose" cancelButton="true" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#handleClose" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 30; -fx-background-color: ee6666;" text="x" textFill="#f3f3f3" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
             <GridPane.margin>
                 <Insets left="320.0" />
             </GridPane.margin>
@@ -132,31 +137,120 @@
             <Insets right="15.0" top="10.0" />
          </GridPane.margin>
       </TextField>
-      <TextField fx:id="inpReminder" maxWidth="150.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="reminder" style="-fx-background-radius: 0px;" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
+        <Button fx:id="btnRemoveReminder" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#handleRemoveReminder" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 30; -fx-background-color: ee6666;" text="-" textFill="#f3f3f3" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
+            <GridPane.margin>
+                <Insets right="330.0" />
+            </GridPane.margin>
+        </Button>
+        <Button fx:id="btnAddReminder" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#handleAddReminder" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 30; -fx-background-color: #3e94ec;" text="+" textFill="#f3f3f3" visible="false" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
+            <GridPane.margin>
+                <Insets right="330.0" />
+            </GridPane.margin>
+        </Button>
+      <TextField fx:id="inpReminder" maxWidth="150.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Reminder" style="-fx-background-radius: 0px;" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
          <font>
             <Font size="20.0" />
          </font>
          <GridPane.margin>
-            <Insets right="165.0" />
+             <Insets right="165.0" />
          </GridPane.margin>
       </TextField>
-      <ComboBox fx:id="inpReminderType" maxWidth="145.0" onMouseClicked="#getAllAvailableRooms" prefHeight="44.0" prefWidth="150.0" promptText="min" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
-         <GridPane.margin>
-            <Insets right="15.0" />
-         </GridPane.margin>
-      </ComboBox>
-      <ComboBox fx:id="cmbSearchResults" maxHeight="44.0" maxWidth="44.0" onAction="#addInvitedUser" prefHeight="44.0" prefWidth="44.0" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP">
-         <GridPane.margin>
-            <Insets left="265.0" top="10.0" />
-         </GridPane.margin>
-      </ComboBox>
-      <ScrollPane maxHeight="200.0" maxWidth="300.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.rowSpan="3">
-         <GridPane.margin>
-            <Insets bottom="5.0" left="15.0" top="10.0" />
-         </GridPane.margin>
-         <content>
-            <ListView fx:id="invitedUsersList" maxWidth="300.0" minHeight="164.0" prefHeight="164.0" prefWidth="300.0" />
-         </content>
-      </ScrollPane>
+        <ComboBox fx:id="inpReminderType" maxWidth="145.0" prefHeight="44.0" prefWidth="150.0" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
+            <GridPane.margin>
+                <Insets right="15.0" />
+            </GridPane.margin>
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="minutes" />
+                    <String fx:value="hours" />
+                    <String fx:value="days" />
+                    <String fx:value="weeks" />
+                </FXCollections>
+            </items>
+            <value>
+                <String fx:value="minutes" />
+            </value>
+        </ComboBox>
+        <Button fx:id="btnAddReminder1" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#handleAddReminder1" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 30; -fx-background-color: #3e94ec;" text="+" textFill="#f3f3f3" GridPane.halignment="RIGHT" GridPane.rowIndex="8">
+            <GridPane.margin>
+                <Insets right="330.0" />
+            </GridPane.margin>
+        </Button>
+        <TextField fx:id="inpReminder1" maxWidth="150.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Reminder" style="-fx-background-radius: 0px;" visible="false" GridPane.halignment="RIGHT" GridPane.rowIndex="8">
+            <font>
+                <Font size="20.0" />
+            </font>
+            <GridPane.margin>
+                <Insets right="165.0" />
+            </GridPane.margin>
+        </TextField>
+        <ComboBox fx:id="inpReminderType1" maxWidth="145.0" onMouseClicked="#getAllAvailableRooms" prefHeight="44.0" prefWidth="150.0" promptText="min" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" visible="false" GridPane.halignment="RIGHT" GridPane.rowIndex="8">
+            <GridPane.margin>
+                <Insets right="15.0" />
+            </GridPane.margin>
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="minutes" />
+                    <String fx:value="hours" />
+                    <String fx:value="days" />
+                    <String fx:value="weeks" />
+                </FXCollections>
+            </items>
+            <value>
+                <String fx:value="minutes" />
+            </value>
+        </ComboBox>
+        <Button fx:id="btnAddReminder2" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#handleAddReminder2" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 30; -fx-background-color: #3e94ec;" text="+" textFill="#f3f3f3" visible="false" GridPane.halignment="RIGHT" GridPane.rowIndex="9">
+            <GridPane.margin>
+                <Insets right="330.0" />
+            </GridPane.margin>
+        </Button>
+        <TextField fx:id="inpReminder2" maxWidth="150.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Reminder" style="-fx-background-radius: 0px;" visible="false" GridPane.halignment="RIGHT" GridPane.rowIndex="9">
+            <font>
+                <Font size="20.0" />
+            </font>
+            <GridPane.margin>
+                <Insets right="165.0" />
+            </GridPane.margin>
+        </TextField>
+        <ComboBox fx:id="inpReminderType2" maxWidth="145.0" onMouseClicked="#getAllAvailableRooms" prefHeight="44.0" prefWidth="150.0" promptText="min" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" visible="false" GridPane.halignment="RIGHT" GridPane.rowIndex="9">
+            <GridPane.margin>
+                <Insets right="15.0" />
+            </GridPane.margin>
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="minutes" />
+                    <String fx:value="hours" />
+                    <String fx:value="days" />
+                    <String fx:value="weeks" />
+                </FXCollections>
+            </items>
+            <value>
+                <String fx:value="minutes" />
+            </value>
+        </ComboBox>
+        <Button fx:id="btnRemoveReminder1" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#handleRemoveReminder1" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 30; -fx-background-color: ee6666;" text="-" textFill="#f3f3f3" visible="false" GridPane.halignment="RIGHT" GridPane.rowIndex="8">
+            <GridPane.margin>
+                <Insets right="330.0" />
+            </GridPane.margin>
+        </Button>
+        <Button fx:id="btnRemoveReminder2" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#handleRemoveReminder2" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 30; -fx-background-color: ee6666;" text="-" textFill="#f3f3f3" visible="false" GridPane.halignment="RIGHT" GridPane.rowIndex="9">
+            <GridPane.margin>
+                <Insets right="330.0" />
+            </GridPane.margin>
+        </Button>
+        <ComboBox fx:id="cmbSearchResults" maxHeight="44.0" maxWidth="44.0" onAction="#addInvitedUser" prefHeight="44.0" prefWidth="44.0" style="-fx-background-radius: 0; -fx-background-color: #8a98a7;" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.valignment="TOP">
+            <GridPane.margin>
+                <Insets left="265.0" top="10.0" />
+            </GridPane.margin>
+        </ComboBox>
+        <ScrollPane maxHeight="200.0" maxWidth="300.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.rowSpan="3">
+            <GridPane.margin>
+                <Insets bottom="5.0" left="15.0" top="10.0" />
+            </GridPane.margin>
+            <content>
+                <ListView fx:id="invitedUsersList" maxWidth="300.0" minHeight="164.0" prefHeight="164.0" prefWidth="300.0" />
+            </content>
+        </ScrollPane>
     </children>
 </GridPane>

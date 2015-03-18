@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Created by adrianh on 26.02.15.
  */
-public class Group extends ArrayList<User> {
+public class Group extends ArrayList<User> implements Inevitable {
 
     private int groupID;
     private String name;
@@ -38,6 +38,10 @@ public class Group extends ArrayList<User> {
             throw new IllegalArgumentException("groupID cannot be 0");
         }
         this.groupID=groupID;
+    }
+
+    public int getId() {
+        return this.getGroupID();
     }
 
     public String getName() {

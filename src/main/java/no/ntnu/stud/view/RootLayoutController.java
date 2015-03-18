@@ -7,6 +7,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.control.Label;
 import no.ntnu.stud.MainApp;
 import no.ntnu.stud.model.User;
 
@@ -21,6 +22,8 @@ public class RootLayoutController {
 
     @FXML
     MenuBar menu;
+    @FXML
+    private Label lblStatusBar;
 
     public RootLayoutController() {
         //trollllooolllll
@@ -85,6 +88,10 @@ public class RootLayoutController {
     @FXML
     private void handleSignOut() {
         mainApp.signedOut();
+    }
+
+    public void setLblStatusBar(String str){
+        lblStatusBar.setText(str);
     }
 
 }
