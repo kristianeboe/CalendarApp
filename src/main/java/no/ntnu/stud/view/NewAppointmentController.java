@@ -143,7 +143,11 @@ public class NewAppointmentController {
 
         logger.debug("Adding invited users to box");
         logger.trace(GetData.getInvited(appointment));
-        addInvitedToBox(GetData.getInvited(appointment));
+        ArrayList<Inevitable> invitedUsers = new ArrayList<>();
+        invitedUsers.addAll(GetData.getAccepted(appointment));
+        invitedUsers.addAll(GetData.getInvited(appointment));
+        invitedUsers.addAll(GetData.getDeclined(appointment));
+        addInvitedToBox(invitedUsers);
     }
 
     public Appointment addAppointment() {

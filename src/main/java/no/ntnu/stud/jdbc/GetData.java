@@ -377,8 +377,8 @@ public class GetData {
         if (con != null) {
             try {
                 Statement stmt = con.createStatement();
-                String strSelect = "SELECT * FROM userInvited NATURAL JOIN user JOIN appointment ON(userInvited.appointmentID = appointment.appointmentID) WHERE appointment.appointmentID = "+appointment.getAppointmentID()+" ORDER BY lastName ASC;";
-                logger.trace("Performing SQL Query [" + strSelect + "]");
+                String strSelect = "SELECT * FROM userInvited NATURAL JOIN user JOIN appointment ON(userInvited.appointmentID = appointment.appointmentID) WHERE appointment.appointmentID = "+appointment.getAppointmentID()+" AND userInvited.attending ='0' ORDER BY lastName ASC;";
+                logger.debug("Performing SQL Query [" + strSelect + "]");
                 ResultSet rs = stmt.executeQuery(strSelect);
                 while(rs.next()){
                     int userID = rs.getInt("userID");
