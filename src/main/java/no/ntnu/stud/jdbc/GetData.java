@@ -2,6 +2,7 @@ package no.ntnu.stud.jdbc;
 
 import no.ntnu.stud.model.*;
 import no.ntnu.stud.util.ResultResolver;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
@@ -536,7 +537,7 @@ public class GetData {
                 String query = "SELECT * FROM appointment " +
                         "WHERE ownerID = " + userID +
                         " ORDER BY appointmentDate;";
-                logger.debug("Peforming SQL Query [" + query + "]");
+                logger.trace("Peforming SQL Query [" + query + "]");
                 ResultSet rs = stmt.executeQuery(query);
                 appointments = ResultResolver.appointmentResolver(rs);
                 con.close();
@@ -562,7 +563,7 @@ public class GetData {
                 Statement stmt = con.createStatement();
                 String query = "SELECT * FROM appointment " +
                         "WHERE ownerID = " + userID + " AND appointmentID = " + appointmentID + ";";
-                logger.debug("Peforming SQL Query [" + query + "]");
+                logger.trace("Peforming SQL Query [" + query + "]");
                 ResultSet rs = stmt.executeQuery(query);
                 if (rs.getFetchSize() != 0) {
                     return true;
@@ -591,7 +592,7 @@ public class GetData {
                 Statement stmt = con.createStatement();
                 String query = "SELECT * FROM groupInvited " +
                         "WHERE appointmentID = '" + appointmentID + "';";
-                logger.debug(("Performing SQL Query [" + query + "]"));
+                logger.trace(("Performing SQL Query [" + query + "]"));
                 ResultSet rset = stmt.executeQuery(query);
                 while (rset.next()) {
                     groupIDs.add(rset.getInt("groupID"));
@@ -692,7 +693,7 @@ public class GetData {
                 if(isOwner){
                     strSelect = "SELECT * FROM user NATURAL JOIN userInGroup NATURAL JOIN userGroup WHERE userID = "+user.getUserID()+" AND userInGroup.isOwner = 1 ORDER BY userGroup.name ASC;";
                 }else{
-                    strSelect = "SELECT * FROM user NATURAL JOIN userInGroup NATURAL JOIN userGroup WHERE userID = "+user.getUserID()+" AND (userInGroup.isOwner = NULL OR userInGroup.isOwner = 0) ORDER BY userGroup.name ASC;";
+                    strSelect = "SELECT * FROM user NATURAL JOIN userInGroup NATURAL JOIN userGroup WHERE userID = "+user.getUserID()+" AND (userInGroup.isOwner IS NULL OR userInGroup.isOwner = 0) ORDER BY userGroup.name ASC;";
                 }
                 logger.trace("Performing SQL Query [" + strSelect + "]");
                 ResultSet rset = stmt.executeQuery(strSelect);
@@ -810,7 +811,7 @@ public class GetData {
             try{
                 Statement stmt = con.createStatement();
                 String sql = "SELECT * FROM user NATURAL JOIN userInvited JOIN appointment ON(userInvited.appointmentID = appointment.appointmentID) WHERE user.userID="+user.getUserID()+";";
-                logger.debug("Peforming SQL Query [" + sql + "]");
+                logger.trace("Peforming SQL Query [" + sql + "]");
                 ResultSet rs = stmt.executeQuery(sql);
 
                 while(rs.next()){
@@ -828,7 +829,7 @@ public class GetData {
                             "OR ('"+from_time+"' < startTime "+
                             "AND '"+to_time+"' >  endTime ))" +
                             "AND '"+dt+"' = appointmentDate;";
-                    logger.debug("Peforming SQL Query [" + sql2 + "]");
+                    logger.trace("Peforming SQL Query [" + sql2 + "]");
                     ResultSet rs2 = stmt2.executeQuery(sql2);
                     if(rs2.next()){
                         int attending = Integer.parseInt(rs2.getString("attending"));
