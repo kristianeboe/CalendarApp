@@ -788,7 +788,7 @@ public class GetData {
                     int userID = rset.getInt("userID");
                     int appointmentID = rset.getInt("appointmentID");
                     Timestamp alarmTime = rset.getTimestamp("alarmTime");
-                    int numberOfType = rset.getInt("numberOfTypes");
+                    int numberOfType = rset.getInt("numberOfType");
                     String beforeUnit = rset.getString("beforeUnit");
                     Alarm alarm = new Alarm(getUser(userID), getAppointment(appointmentID), alarmTime, numberOfType, beforeUnit);
                     alarms.add(alarm);
