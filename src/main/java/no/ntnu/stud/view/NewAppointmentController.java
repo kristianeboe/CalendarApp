@@ -147,19 +147,32 @@ public class NewAppointmentController {
     }
 
     public Appointment addAppointment() {
+        logger.setLevel(Level.TRACE);
+        logger.trace("Starting addAppointment");
         String title = inpTitle.getText();
         LocalDate date = inpDate.getValue();
         LocalTime startTime = LocalTime.parse(inpFrom.getText());
         LocalTime endTime = LocalTime.parse(inpTo.getText());
-        int maxAttending = Integer.parseInt(inpMaxAttend.getText());
+        int maxAttending;
         int roomID;
         int owner;
         String location;
 
-        // If roomID, use roomID. If not, use location.
+        owner = mainApp.getUser().getUserID();
 
-        // Cleanest hack ever to find roomID
+        String description = inpDesc.getText();
+
+        logger.trace("Cool data: " +
+                "Title: " + title + "| " +
+                "Date: " +date + "| " + "" +
+                "Start: " + startTime + " | End: " + endTime + " | "
+        );
+
+        Appointment appointment;
+
+        // If roomID, use roomID. If not, use location.
         if (radioWork.isSelected()) {
+            // Cleanest hack ever to find roomID
             location = "";
             String roomValue = btnRoom.getValue().toString();
             Pattern pattern = Pattern.compile("(\\d+)");
@@ -171,20 +184,14 @@ public class NewAppointmentController {
             } else {
                 throw new IllegalArgumentException("FUCK YOU DIDNT FIND THE ROOM SHIT");
             }
-        } else{
-            roomID = -1;
+            maxAttending = Integer.parseInt(inpMaxAttend.getText());
+            appointment = new Appointment(title, date, startTime, endTime, owner, description, roomID, maxAttending);
+        } else {
             location = inpLocation.getText();
+            appointment = new Appointment(title, date, startTime, endTime, owner, description, location);
         }
 
-        owner = mainApp.getUser().getUserID();
 
-        String description = inpDesc.getText();
-
-        /*
-        for (User u : invited) {}
-         */
-
-        Appointment appointment = new Appointment(title, date, startTime, endTime, owner, description, location, roomID, maxAttending);
 
         if (!inpReminder.getText().equals("")) {
             logger.info("inpReminder.getTest(): " + inpReminder.getText());
@@ -233,7 +240,7 @@ public class NewAppointmentController {
         validDate();
         validTime();
         validMaxAttend();
-        if (validTitle() && validDate() && validTime() && validMaxAttend()) {
+        if (validTitle() && validDate() && validTime()) {
             logger.trace("Valid inputs");
             Appointment new_appointment = addAppointment();
             logger.debug("Created appointment instance");
@@ -245,6 +252,8 @@ public class NewAppointmentController {
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
+        } else {
+            logger.error("Validation failed. Please check the fields again.");
         }
     }
 
