@@ -144,7 +144,6 @@ public class NewAppointmentController {
         logger.debug("Adding invited users to box");
         logger.trace(GetData.getInvited(appointment));
         addInvitedToBox(GetData.getInvited(appointment));
-        logger.setLevel(Level.DEBUG);
     }
 
     public Appointment addAppointment() {
@@ -259,6 +258,7 @@ public class NewAppointmentController {
             InsertData.inviteUser(user, appointment);
             EditData.acceptInvitation(user, appointment);
             for (User usr : invitedUsers) {
+                logger.trace("Inviting " + usr + " to " + appointment);
                 InsertData.inviteUser(usr, appointment);
             }
             return new_appointment;
@@ -270,7 +270,10 @@ public class NewAppointmentController {
             InsertData.setAlarms(mainApp.getAlarms(mainApp.getUser().getUserID(), edited_appointment.getAppointmentID()));
             Notification notification = new Notification(edited_appointment, "Something changed");
             notification = notification.create();
+            logger.debug("Notifying users about change to " + edited_appointment);
+            logger.trace("invitedUsers-list: " + invitedUsers);
             for (User invitedUser : invitedUsers) {
+                logger.trace("Notifying " + invitedUser + " about change to " + edited_appointment);
                 InsertData.notifyUser(notification, invitedUser);
             }
             return edited_appointment;
@@ -356,6 +359,8 @@ public class NewAppointmentController {
             else if (invited.getClass().equals(User.class)) {
                 logger.trace("Adding user \"" + invited.getName() + "\" to box");
                 addUserToInvitedBox((User) invited);
+                logger.trace("Adding user \"" + invited.getName() + "\" to invitedUsersr");
+                invitedUsers.add((User) invited);
             }
         }
         logger.debug("Invited users: (" + obsInvited.size() + ") " + obsInvited.toString());
