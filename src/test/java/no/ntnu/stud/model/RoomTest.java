@@ -15,7 +15,7 @@ public class RoomTest {
         assertEquals(id, room.getRoomID());
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test
     public void testZeroID() {
         int id = 0;
         Room room = new Room(id, "testRom", 1);
