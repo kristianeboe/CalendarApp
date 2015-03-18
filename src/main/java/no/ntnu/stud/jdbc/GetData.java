@@ -171,11 +171,8 @@ public class GetData {
                 String location = appointmentResult.getString("location");
                 int roomID = appointmentResult.getInt("roomID");
                 int attending = appointmentResult.getInt("attending");
-                LocalDateTime alarmTime = LocalDateTime.parse("0001-01-01 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-                if(appointmentResult.getTimestamp("alarmTime") != null){
-                    alarmTime = appointmentResult.getTimestamp("alarmTime").toLocalDateTime();
-                }
-                appointment = new Appointment(appointmentID, title, date, startTime, endTime, ownerID, description, location, roomID, attending, alarmTime);
+                
+                appointment = new Appointment(appointmentID, title, date, startTime, endTime, ownerID, description, location, roomID, attending);
                 con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
