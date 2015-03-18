@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import no.ntnu.stud.MainApp;
 import no.ntnu.stud.jdbc.GetData;
 import no.ntnu.stud.model.Appointment;
@@ -28,6 +29,8 @@ public class WeekViewController {
     @FXML
     private ScrollPane scrollWeek;
 
+    GridPane oldGridWeek;
+
     private MainApp mainApp;
 
     private Calendar calendar;
@@ -44,7 +47,6 @@ public class WeekViewController {
 
     @FXML
     private void initialize(){
-
     }
 
     public WeekViewController(){
@@ -55,8 +57,8 @@ public class WeekViewController {
         this.calendar = calendar;
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM");
         lblCurrentWeek.setText("Week: "+calendar.get(Calendar.WEEK_OF_YEAR));
-        GetData gd = new GetData();
         ArrayList<Label> week = new ArrayList<>(Arrays.asList(lblDateMon, lblDateTue, lblDateWed, lblDateThu, lblDateFri, lblDateSat, lblDateSun));
+
 
         Calendar first = (Calendar) calendar.clone();
         first.add(Calendar.DAY_OF_WEEK,
@@ -70,53 +72,25 @@ public class WeekViewController {
 
     public void renderAgenda(Date date){
         GetData gd = new GetData();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         SimpleDateFormat dbFormat = new SimpleDateFormat("yyy-MM-dd");
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
 
         String dateStr = dbFormat.format(date);
         ArrayList<Appointment> appointments = gd.getAppointments(mainApp.getUser(), dateStr);
-        System.out.println(appointments);
         for (Appointment app:appointments) {
             int start = app.getStart().getHour();
             int end = app.getEnd().getHour();
-            int day = date.getDay();
             for (int i = start; i < end; i++) {
-                gridWeek.add(new Label(app.getTitle()), i, day);
+                Pane pane = new Pane();
+                pane.setStyle("-fx-background-color: #3e94ec");
+                gridWeek.add(pane, day, i);
+                gridWeek.add(new Label(app.getTitle()), day, i);
 
             }
         }
 
 
     }
-
-/*
-    public void renderAgenda(Calendar calendar){
-        GetData gd = new GetData();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        SimpleDateFormat dbFormat = new SimpleDateFormat("yyy-MM-dd");
-
-        ObservableList<Label> appointments = FXCollections.observableArrayList();
-        String dateString = dateFormat.format(calendar.getTime());
-
-        lblAppointments.setText("Appointments "+dateString);
-
-        String dateStr = dbFormat.format(calendar.getTime());
-        ArrayList<Appointment> apps = gd.getAppointments(mainApp.getUser(), dateStr);
-
-        //Move appointments from apps to an observable list, then add the observable list til listView
-        for(Appointment app: apps){
-            appointments.add(createLabel(app));
-        }
-        listAppointments.setItems(appointments);
-        if(apps.isEmpty()){
-            ObservableList<Label> obsList = FXCollections.observableArrayList();
-            obsList.add(new Label("No appointments today"));
-            listAppointments.setItems(obsList);
-        }
-
-    }
-    */
-
 
     @FXML
     private void handleNextWeek(){
