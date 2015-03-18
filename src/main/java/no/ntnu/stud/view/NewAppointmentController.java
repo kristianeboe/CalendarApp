@@ -108,10 +108,10 @@ public class NewAppointmentController {
     }
 
     public void insertAppointmentData(Appointment appointment) {
-        logger.setLevel(Level.TRACE);
         inpTitle.setText(appointment.getTitle());
         inpDesc.setText(appointment.getDescription());
         inpDate.setValue(appointment.getDate());
+        this.appointment = appointment;
 
         String fromTime = appointment.getStart().format(timeFormat);
         logger.trace("fromTime: " + appointment.getStart() + " | formatted: " + fromTime);
@@ -236,11 +236,11 @@ public class NewAppointmentController {
         validMaxAttend();
         if (validTitle() && validDate() && validTime() && validMaxAttend()) {
             logger.trace("Valid inputs");
-            Appointment app = addAppointment();
+            Appointment new_appointment = addAppointment();
             logger.debug("Created appointment instance");
             try {
-                insertOrUpdateAppointment(app, mainApp.getUser());
-                mainApp.showAppointmentView(app);
+                insertOrUpdateAppointment(new_appointment, mainApp.getUser());
+                mainApp.showAppointmentView(new_appointment);
                 mainApp.showUpcomingEvents();
                 // for (String line : outInvited.getText().split("\\n")) InsertData.inviteUser(, app);
             } catch (IllegalArgumentException e) {
@@ -251,7 +251,7 @@ public class NewAppointmentController {
 
     public Appointment insertOrUpdateAppointment(Appointment appointment, User user) {
         logger.trace("Insert or update appointment");
-        if (appointment.getAppointmentID() == -1) {
+        if (this.appointment == null || this.appointment.getAppointmentID() == -1) {
             logger.debug("Creating new appointment");
             Appointment new_appointment = InsertData.createAppointment(appointment);
             EditData.removeAlarms(mainApp.getUser().getUserID(), new_appointment.getAppointmentID());
@@ -264,6 +264,7 @@ public class NewAppointmentController {
             return new_appointment;
         } else {
             logger.debug("Updating existing appointment");
+            appointment.setAppointmentID(this.appointment.getAppointmentID());
             Appointment edited_appointment = EditData.editAppointment(appointment);
             EditData.removeAlarms(mainApp.getUser().getUserID(), edited_appointment.getAppointmentID());
             InsertData.setAlarms(mainApp.getAlarms(mainApp.getUser().getUserID(), edited_appointment.getAppointmentID()));
