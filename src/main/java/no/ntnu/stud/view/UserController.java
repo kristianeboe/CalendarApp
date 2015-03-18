@@ -13,6 +13,7 @@ import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.model.Group;
 import no.ntnu.stud.model.User;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -48,6 +49,9 @@ public class UserController {
         };
 
         for(Appointment app:appointments){
+            if((app.getDate().compareTo(LocalDate.now())<=0)){
+                continue;
+            }
             Label lbl = new Label();
             lbl.setOnMouseClicked(clickHandler);
             lbl.setId("" + app.getAppointmentID());

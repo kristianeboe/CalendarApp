@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -65,8 +66,7 @@ public class NewAppointmentController {
     @FXML
     ListView invitedUsersList;
 
-    SimpleDateFormat hourFormat = new SimpleDateFormat("HH");
-    SimpleDateFormat minuteFormat = new SimpleDateFormat("mm");
+    DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
     public NewAppointmentController() {
 
     }
@@ -85,19 +85,23 @@ public class NewAppointmentController {
     }
 
     public void insertAppointmentData(Appointment appointment) {
+        logger.setLevel(Level.TRACE);
         inpTitle.setText(appointment.getTitle());
         inpDesc.setText(appointment.getDescription());
         inpDate.setValue(appointment.getDate());
-        String fromTime = hourFormat.format(appointment.getStart().getHour()) + ":" + minuteFormat.format(appointment.getStart().getMinute());
+
+        String fromTime = appointment.getStart().format(timeFormat);
+        logger.trace("fromTime: " + appointment.getStart() + " | formatted: " + fromTime);
         inpFrom.setText(fromTime);
-        String toTime = hourFormat.format(appointment.getStart().getHour()) + ":" + minuteFormat.format(appointment.getStart().getMinute());
+        String toTime = appointment.getEnd().format(timeFormat);
+        logger.trace("toTime: " + appointment.getEnd() + " | formatted: " + toTime);
         inpTo.setText(toTime);
         inpMaxAttend.setText(Integer.toString(appointment.getAttending()));
         btnRoom.setValue(GetData.getRoomById(appointment.getRoomID()));
         logger.debug("Adding invited users to box");
         logger.trace(GetData.getInvited(appointment));
-        logger.setLevel(Level.TRACE);
         addInvitedToBox(GetData.getInvited(appointment));
+        logger.setLevel(Level.DEBUG);
     }
 
     public Appointment addAppointment() {

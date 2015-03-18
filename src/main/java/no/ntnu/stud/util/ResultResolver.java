@@ -31,9 +31,6 @@ public class ResultResolver {
             int roomID = appointmentResult.getInt("roomID");
             int attending = appointmentResult.getInt("attending");
             LocalDateTime alarmTime = LocalDateTime.parse("0001-01-01 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-            if(appointmentResult.getTimestamp("alarmTime") != null){
-                alarmTime = appointmentResult.getTimestamp("alarmTime").toLocalDateTime();
-            }
             appointments.add(new Appointment(appointmentID, title, date, startTime, endTime, ownerID, description, location, roomID, attending, alarmTime));
         }
         return appointments;
