@@ -60,17 +60,28 @@ public class UpcomingEventsController {
             Appointment app = gd.getAppointment(nf.getAppointment().getAppointmentID());
             if(counter > 9) break;
             if(app == null) break;
+            if((app.getDate().compareTo(LocalDate.now())<=0)){
+                continue;
+            }
             addEvent(app, counter, false, true, notificationID);
             counter++;
         }
         for (int i = 0; i < invitations.size(); i++){
             if(counter > 9) break;
-            addEvent(invitations.get(i), counter, true, false, -1);
+            Appointment app = invitations.get(i);
+            if((app.getDate().compareTo(LocalDate.now())<=0)){
+                continue;
+            }
+            addEvent(app, counter, true, false, -1);
             counter++;
         }
         for(int i = 0; i < appointments.size();i++){
             if(counter > 9) break;
-            addEvent(appointments.get(i), counter, false, false, -1);
+            Appointment app = appointments.get(i);
+            if((app.getDate().compareTo(LocalDate.now())<=0)){
+                continue;
+            }
+            addEvent(app, counter, false, false, -1);
             counter++;
         }
 
