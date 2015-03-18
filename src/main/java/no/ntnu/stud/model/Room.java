@@ -29,9 +29,6 @@ public class Room {
     public void setRoomID(int roomID) {
         if (roomID < 0)
             throw new IllegalArgumentException("Negative Room ID not allowed");
-        if(roomID == 0){
-            throw new IllegalArgumentException("RoomID can not be 0");
-        }
         this.roomID=roomID;
     }
 
