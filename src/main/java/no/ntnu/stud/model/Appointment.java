@@ -47,6 +47,19 @@ public class Appointment {
         setLocation(location);
     }
 
+    public Appointment(int appointmentID, String title, LocalDate date, LocalTime startTime, LocalTime endTime, int owner, String description, int roomID, int attending) {
+        this(title, date, startTime, endTime, owner, description);
+        this.appointmentID = appointmentID;
+        this.roomID = roomID;
+        this.attending = attending;
+    }
+
+    public Appointment(int appointmentID, String title, LocalDate date, LocalTime startTime, LocalTime endTime, int owner, String description, String location) {
+        this(title, date, startTime, endTime, owner, description);
+        this.appointmentID = appointmentID;
+        setLocation(location);
+    }
+
     public Appointment(int appointmentID, String title, LocalDate date, LocalTime startTime, LocalTime endTime, int owner, String description, String location, int roomID, int attending) {
         setDateTime(date, startTime, endTime);
         setAttending(attending);

@@ -28,7 +28,10 @@ public class ResultResolver {
             String location = appointmentResult.getString("location");
             int roomID = appointmentResult.getInt("roomID");
             int attending = appointmentResult.getInt("attending");
-            appointments.add(new Appointment(appointmentID, title, date, startTime, endTime, ownerID, description, location, roomID, attending));
+            if (roomID == 0)
+                appointments.add(new Appointment(appointmentID, title, date, startTime, endTime, ownerID, description, location));
+            else
+                appointments.add(new Appointment(appointmentID, title, date, startTime, endTime, ownerID, description, roomID, attending));
         }
         return appointments;
     }
