@@ -98,6 +98,8 @@ public class MainApp extends Application {
     }
 
     public void signedIn(){
+        logger.debug("Signed in successfully");
+        logger.info("Logged in as " + user.getFullName());
         showCalendarView();
 
         showUpcomingEvents();

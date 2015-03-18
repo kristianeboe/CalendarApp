@@ -18,19 +18,33 @@ public class Appointment {
     private LocalTime start, end;
     private int attending;
 
+    private Appointment(String title, LocalDate date, LocalTime startTime, LocalTime endTime, int owner, String description) {
+        setTitle(InputValidator.textInputValidator(title));
+        setDateTime(date, startTime, endTime);
+        setDescription(description);
+        this.owner = owner;
+    }
 
     public Appointment(String title, LocalDate date, LocalTime startTime, LocalTime endTime, int owner, String description, String location, int roomID, int attending) {
-        setTitle(InputValidator.textInputValidator(title));
-        setDescription(description);
+        this(title, date, startTime, endTime, owner, description);
         if (roomID != -1) {
             this.roomID = roomID;
         } else {
             setLocation(InputValidator.textInputValidator(location));
         }
-        this.owner = owner;
-        setDateTime(date, startTime, endTime);
         setAttending(attending);
         this.appointmentID = -1;
+    }
+
+    public Appointment(String title, LocalDate date, LocalTime startTime, LocalTime endTime, int owner, String description, int roomID, int attending) {
+        this(title, date, startTime, endTime, owner, description);
+        this.roomID = roomID;
+        this.attending = attending;
+    }
+
+    public Appointment(String title, LocalDate date, LocalTime startTime, LocalTime endTime, int owner, String description, String location) {
+        this(title, date, startTime, endTime, owner, description);
+        setLocation(location);
     }
 
     public Appointment(int appointmentID, String title, LocalDate date, LocalTime startTime, LocalTime endTime, int owner, String description, String location, int roomID, int attending) {
@@ -84,9 +98,12 @@ public class Appointment {
     }
 
     public void setAttending(int attending) {
-        if (attending < 0)
+        if (attending == -1)
+            this.attending = -1;
+        else if (attending < 0)
             throw new IllegalArgumentException("Negative number of attendees is not allowed.");
-        this.attending = attending;
+        else
+            this.attending = attending;
     }
 
     public void setDateTime(LocalDate date, LocalTime start, LocalTime end) {
