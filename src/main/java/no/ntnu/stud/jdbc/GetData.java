@@ -179,7 +179,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No Connection");
+            logger.fatal("No Connection");
         }
         return appointment;
     }
@@ -205,7 +205,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No Connection");
+            logger.fatal("No Connection");
         }
         return appointment;
     }
@@ -231,7 +231,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No Connection");
+            logger.fatal("No Connection");
         }
         return appointments;
     }
@@ -253,7 +253,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No Connection");
+            logger.fatal("No Connection");
         }
         return appointments;
     }
@@ -294,7 +294,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No Connection");
+            logger.fatal("No Connection");
         }
         return counter == 0;
     }
@@ -344,7 +344,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No Connection");
+            logger.fatal("No Connection");
         }
         return room;
     }
@@ -365,7 +365,7 @@ public class GetData {
             }
 
         }else{
-            System.err.print("No Connection");
+            logger.fatal("No Connection");
         }
         return room;
     }
@@ -490,7 +490,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No Connection");
+            logger.fatal("No Connection");
         }
         return rooms;
     }
@@ -518,7 +518,7 @@ public class GetData {
             }
 
         }else {
-            System.err.print("No Connection");
+            logger.fatal("No Connection");
         }
         return notifications;
     }
@@ -545,7 +545,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No connection");
+            logger.fatal("No connection");
         }
         return appointments;
     }
@@ -573,7 +573,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No connection");
+            logger.fatal("No connection");
         }
         return false;
     }
@@ -602,7 +602,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No Connection");
+            logger.fatal("No Connection");
         }
         for (int groupID : groupIDs) {
             groups.add(getGroup(groupID));
@@ -640,7 +640,7 @@ public class GetData {
             try{
                 Statement stmt = con.createStatement();
                 String sql = "SELECT * FROM user WHERE CONCAT(givenName,' ',middleName,' ',lastName) LIKE '"+partOfName+"%';";
-                System.out.println("Peforming SQL Query [" + sql + "]");
+                logger.trace("[Search User] Peforming SQL Query [" + sql + "]");
                 ResultSet rs = stmt.executeQuery(sql);
                 while(rs.next()){
                     String lastName = rs.getString("lastName");
@@ -654,7 +654,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No connection");
+            logger.fatal("No connection");
         }
         return users;
     }
@@ -666,7 +666,7 @@ public class GetData {
             try{
                 Statement stmt = con.createStatement();
                 String sql = "SELECT * FROM userGroup WHERE name LIKE '"+partOfName+"%';";
-                System.out.println("Peforming SQL Query [" + sql + "]");
+                logger.trace("[Search Group] Peforming SQL Query [" + sql + "]");
                 ResultSet rs = stmt.executeQuery(sql);
                 while(rs.next()){
                     String name = rs.getString("name");
@@ -677,7 +677,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No connection");
+            logger.fatal("No connection");
         }
         return groups;
     }
@@ -724,7 +724,7 @@ public class GetData {
             try {
                 Statement stmt = con.createStatement();
                 String query = "SELECT * FROM alarm WHERE userID = '" + user.getUserID() + "'";
-                logger.info("Performing SQL Query [" + query + "]");
+                logger.trace("[Get Alarms] Performing SQL Query [" + query + "]");
                 ResultSet rset = stmt.executeQuery(query);
 
                 while (rset.next()) {
@@ -753,7 +753,7 @@ public class GetData {
             try {
                 Statement stmt = con.createStatement();
                 String query = "SELECT * FROM alarm WHERE appointmentID = '" + appointment.getAppointmentID() + "'";
-                logger.info("Performing SQL Query [" + query + "]");
+                logger.trace("[Get Alarms] Performing SQL Query [" + query + "]");
                 ResultSet rset = stmt.executeQuery(query);
 
                 while (rset.next()) {
@@ -782,7 +782,7 @@ public class GetData {
             try {
                 Statement stmt = con.createStatement();
                 String query = "SELECT * FROM alarm;";
-                logger.info("Performing SQL Query [" + query + "]");
+                logger.trace("[Get Alarms] Performing SQL Query [" + query + "]");
                 ResultSet rset = stmt.executeQuery(query);
 
                 while (rset.next()) {
@@ -844,7 +844,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No connection");
+            logger.fatal("No connection");
         }
         return status;
     }
@@ -857,7 +857,7 @@ public class GetData {
             try {
                 Statement stmt = con.createStatement();
                 String query = "SELECT * FROM room WHERE roomID = '" + roomId + "'";
-                logger.info("[GetRoomById] Performing SQL Query [" + query + "]");
+                logger.trace("[GetRoomById] Performing SQL Query [" + query + "]");
                 ResultSet rset = stmt.executeQuery(query);
 
                 while (rset.next()) {

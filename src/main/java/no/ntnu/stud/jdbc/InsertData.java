@@ -133,11 +133,11 @@ public class InsertData {
                 stmt.setInt(7, appointment.getOwner());
                 stmt.setInt(8, appointment.getAttending());
                 stmt.setString(9, appointment.getDescription());
-                logger.debug("[Create Appointment] Performing SQL Query [" + query + "]");
+                logger.trace("[Create Appointment] Performing SQL Query [" + query + "]");
                 stmt.execute();
                 String getID = "SELECT LAST_INSERT_ID()";
-                logger.debug("[Create Appointment] Getting ID of created appointment");
-                logger.debug("[Create Appointment] Performing SQL Query [" + getID+ "]");
+                logger.debug("Getting ID of created appointment");
+                logger.trace("[Create Appointment] Performing SQL Query [" + getID+ "]");
                 ResultSet rs = stmt.executeQuery(getID);
                 rs.next();
                 created_appointment = appointment;
@@ -282,7 +282,7 @@ public class InsertData {
                 stmt.setTimestamp(3, alarm.getAlarmTime());
                 stmt.setInt(4, alarm.getNumberOfType());
                 stmt.setString(5, alarm.getType());
-                logger.debug("Performing SQL Query [" + query + "]");
+                logger.trace("[Set Alarm] Performing SQL Query [" + query + "]");
                 stmt.execute();
             } catch (SQLException e) {
                 e.printStackTrace();
