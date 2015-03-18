@@ -12,15 +12,13 @@ import no.ntnu.stud.MainApp;
 import no.ntnu.stud.jdbc.EditData;
 import no.ntnu.stud.jdbc.GetData;
 import no.ntnu.stud.jdbc.InsertData;
-import no.ntnu.stud.model.Appointment;
-import no.ntnu.stud.model.Group;
-import no.ntnu.stud.model.Room;
-import no.ntnu.stud.model.User;
+import no.ntnu.stud.model.*;
 import org.apache.log4j.Logger;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -119,6 +117,24 @@ public class NewAppointmentController {
         inpTo.setText(endHour + ":" + endMinute);
         inpMaxAttend.setText(Integer.toString(appointment.getAttending()));
         btnRoom.setValue(GetData.getRoomById(appointment.getRoomID()));
+        List<Alarm> alarms = mainApp.getAlarms(mainApp.getUser().getUserID(), appointment.getAppointmentID());
+        switch(alarms.size()) {
+            case 0:
+                break;
+            case 3:
+                handleAddReminder2();
+                inpReminder2.setText(String.valueOf(alarms.get(2).getNumberOfType()));
+                inpReminderType2.setValue(alarms.get(2).getType());
+            case 2:
+                handleAddReminder1();
+                inpReminder1.setText(String.valueOf(alarms.get(1).getNumberOfType()));
+                inpReminderType1.setValue(alarms.get(1).getType());
+            case 1:
+                handleAddReminder();
+                inpReminder.setText(String.valueOf(alarms.get(0).getNumberOfType()));
+                inpReminderType.setValue(alarms.get(0).getType());
+                break;
+        }
     }
 
     public Appointment addAppointment() {
@@ -160,6 +176,26 @@ public class NewAppointmentController {
          */
 
         Appointment appointment = new Appointment(title, date, startTime, endTime, owner, description, location, roomID, maxAttending);
+
+        if (!inpReminder.getText().equals("")) {
+            logger.info("inpReminder.getTest(): " + inpReminder.getText());
+            logger.info("inpReminderType.getValue(): " + inpReminderType.getValue());
+            mainApp.addAlarm(new Alarm(mainApp.getUser(), appointment, inpReminder.getText(), inpReminderType.getValue()));
+        } else {
+            return appointment;
+        }
+
+        if (!inpReminder1.getText().equals("")) {
+            mainApp.addAlarm(new Alarm(mainApp.getUser(), appointment, inpReminder1.getText(), inpReminderType.getValue()));
+        } else {
+            return appointment;
+        }
+
+        if (!inpReminder2.getText().equals("")) {
+            mainApp.addAlarm(new Alarm(mainApp.getUser(), appointment, inpReminder2.getText(), inpReminderType2.getValue()));
+        } else {
+            return appointment;
+        }
         return appointment;
     }
 
@@ -208,6 +244,8 @@ public class NewAppointmentController {
         if (appointment.getAppointmentID() == -1) {
             logger.debug("Creating new appointment");
             Appointment new_appointment = InsertData.createAppointment(appointment);
+            EditData.removeAlarms(mainApp.getUser().getUserID(), new_appointment.getAppointmentID());
+            InsertData.setAlarms(mainApp.getAlarms(mainApp.getUser().getUserID(), new_appointment.getAppointmentID()));
             InsertData.inviteUser(user, appointment);
             EditData.acceptInvitation(user, appointment);
             for (User usr : invitedUsers) {
@@ -217,6 +255,8 @@ public class NewAppointmentController {
         } else {
             logger.debug("Updating existing appointment");
             Appointment edited_appointment = EditData.editAppointment(appointment);
+            EditData.removeAlarms(mainApp.getUser().getUserID(), appointment.getAppointmentID());
+            InsertData.setAlarms(mainApp.getAlarms(mainApp.getUser().getUserID(), appointment.getAppointmentID()));
             return edited_appointment;
         }
     }

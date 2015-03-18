@@ -7,9 +7,7 @@ import no.ntnu.stud.model.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
@@ -30,11 +28,7 @@ public class ResultResolver {
             String location = appointmentResult.getString("location");
             int roomID = appointmentResult.getInt("roomID");
             int attending = appointmentResult.getInt("attending");
-            LocalDateTime alarmTime = LocalDateTime.parse("0001-01-01 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-            if(appointmentResult.getTimestamp("alarmTime") != null){
-                alarmTime = appointmentResult.getTimestamp("alarmTime").toLocalDateTime();
-            }
-            appointments.add(new Appointment(appointmentID, title, date, startTime, endTime, ownerID, description, location, roomID, attending, alarmTime));
+            appointments.add(new Appointment(appointmentID, title, date, startTime, endTime, ownerID, description, location, roomID, attending));
         }
         return appointments;
     }

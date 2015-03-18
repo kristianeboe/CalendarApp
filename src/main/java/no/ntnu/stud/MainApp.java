@@ -7,6 +7,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import no.ntnu.stud.jdbc.GetData;
+import no.ntnu.stud.model.Alarm;
 import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.model.User;
 import no.ntnu.stud.view.*;
@@ -15,7 +17,10 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainApp extends Application {
 
@@ -23,6 +28,7 @@ public class MainApp extends Application {
     private BorderPane rootLayout;
     private User user;
     private static Logger logger;
+    private ArrayList<Alarm> alarms;
 
     public static void main(String[] args) {
         startLogger();
@@ -93,6 +99,8 @@ public class MainApp extends Application {
         showUpcomingEvents();
 
         showLeftMenu();
+
+        this.alarms = GetData.getAlarms();
     }
 
     public void signedOut() {
@@ -329,5 +337,31 @@ public class MainApp extends Application {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public ArrayList<Alarm> getAlarms() {
+        return this.alarms;
+    }
+
+    public List<Alarm> getAlarmsByUser(int userID) {
+        return alarms.stream()
+                .filter(a -> getUser().getUserID() == userID)
+                .collect(Collectors.toList());
+    }
+
+    public List<Alarm> getAlarmsByAppointment(int appointmentID) {
+        return alarms.stream()
+                .filter(a -> a.getAppointment().getAppointmentID() == appointmentID)
+                .collect(Collectors.toList());
+    }
+
+    public List<Alarm> getAlarms(int userID, int appointmenID) {
+        return alarms.stream()
+                .filter(a -> a.getAppointment().getAppointmentID() == appointmenID && a.getUser().getUserID() == userID)
+                .collect(Collectors.toList());
+    }
+
+    public void addAlarm(Alarm alarm) {
+        this.alarms.add(alarm);
     }
 }

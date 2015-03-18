@@ -6,14 +6,12 @@ import no.ntnu.stud.model.Appointment;
 import no.ntnu.stud.model.Group;
 import no.ntnu.stud.model.User;
 import no.ntnu.stud.security.SHAHashGenerator;
-import no.ntnu.stud.util.TimeConverter;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by adrianh on 21.02.15.
@@ -124,9 +122,8 @@ public class InsertData {
                     + "roomID,"
                     + "ownerID, "
                     + "attending,"
-                    + "alarmTime,"
                     + "description) VALUES ("
-                    + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    + "?, ?, ?, ?, ?, ?, ?, ?, ?)";
             try {
                 PreparedStatement stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                 stmt.setString(1, appointment.getTitle());
@@ -137,12 +134,7 @@ public class InsertData {
                 stmt.setInt(6, appointment.getRoomID());
                 stmt.setInt(7, appointment.getOwner());
                 stmt.setInt(8, appointment.getAttending());
-                if (appointment.getAlarmTime() != null) {
-                    stmt.setTimestamp(9, TimeConverter.localDateTimeToTimestamp(appointment.getAlarmTime()));
-                } else {
-                    stmt.setTimestamp(9, null);
-                }
-                stmt.setString(10, appointment.getDescription());
+                stmt.setString(9, appointment.getDescription());
                 logger.debug("[Create Appointment] Performing SQL Query [" + query + "]");
                 stmt.execute();
                 String getID = "SELECT LAST_INSERT_ID()";
@@ -172,9 +164,8 @@ public class InsertData {
                     + "roomID,"
                     + "ownerID, "
                     + "attending,"
-                    + "alarmTime,"
                     + "description) VALUES ("
-                    + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    + "?, ?, ?, ?, ?, ?, ?, ?, ?)";
             try {
                 PreparedStatement stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                 stmt.setString(1, appointment.getTitle());
@@ -185,12 +176,7 @@ public class InsertData {
                 stmt.setInt(6, appointment.getRoomID());
                 stmt.setInt(7, appointment.getOwner());
                 stmt.setInt(8, appointment.getAttending());
-                if (appointment.getAlarmTime() != null) {
-                    stmt.setTimestamp(9, TimeConverter.localDateTimeToTimestamp(appointment.getAlarmTime()));
-                } else {
-                    stmt.setTimestamp(9, null);
-                }
-                stmt.setString(10, appointment.getDescription());
+                stmt.setString(9, appointment.getDescription());
                 stmt.execute();
                 logger.debug("Performing SQL Query [" + query + "]");
                 String getID = "SELECT LAST_INSERT_ID()";
@@ -281,41 +267,24 @@ public class InsertData {
         }
     }
 
-    public void setAlarm(User user, Appointment appointment, Timestamp alarmTime) {
+    public static void setAlarm(Alarm alarm) {
         Connection con = DBConnector.getCon();
         if (con != null) {
             String query = "INSERT INTO alarm (" +
                     "userID," +
                     "appointmentID," +
-                    "alarmTime) VALUES(" +
-                    "?, ?, ?)";
-            try {
-                PreparedStatement stmt = con.prepareStatement(query);
-                stmt.setInt(1, user.getUserID());
-                stmt.setInt(2, appointment.getAppointmentID());
-                stmt.setTimestamp(3, alarmTime);
-                stmt.execute();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else {
-            logger.error("No Connection");
-        }
-    }
-
-    public void setAlarm(Alarm alarm) {
-        Connection con = DBConnector.getCon();
-        if (con != null) {
-            String query = "INSERT INTO alarm (" +
-                    "userID," +
-                    "appointmentID," +
-                    "alarmTime) VALUES(" +
-                    "?, ?, ?)";
+                    "alarmTime," +
+                    "numberOfType," +
+                    "beforeUnit) VALUES(" +
+                    "?, ?, ?, ?, ?)";
             try {
                 PreparedStatement stmt = con.prepareStatement(query);
                 stmt.setInt(1, alarm.getUser().getUserID());
                 stmt.setInt(2, alarm.getAppointment().getAppointmentID());
                 stmt.setTimestamp(3, alarm.getAlarmTime());
+                stmt.setInt(4, alarm.getNumberOfType());
+                stmt.setString(5, alarm.getType());
+                logger.debug("Performing SQL Query [" + query + "]");
                 stmt.execute();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -365,5 +334,9 @@ public class InsertData {
 
     public static void main(String[] args) {
         //createUser("Normann", "", "Ola", "ola.normann@mail.no", "passord");
+    }
+
+    public static void setAlarms(List<Alarm> alarms) {
+        alarms.forEach(InsertData::setAlarm);
     }
 }

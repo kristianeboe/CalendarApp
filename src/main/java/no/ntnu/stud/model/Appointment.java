@@ -16,7 +16,6 @@ public class Appointment {
     private String title, location, description;
     private LocalDate date;
     private LocalTime start, end;
-    private LocalDateTime alarmTime;
     private int attending;
 
 
@@ -34,7 +33,7 @@ public class Appointment {
         this.appointmentID = -1;
     }
 
-    public Appointment(int appointmentID, String title, LocalDate date, LocalTime startTime, LocalTime endTime, int owner, String description, String location, int roomID, int attending, LocalDateTime alarmTime) {
+    public Appointment(int appointmentID, String title, LocalDate date, LocalTime startTime, LocalTime endTime, int owner, String description, String location, int roomID, int attending) {
         setDateTime(date, startTime, endTime);
         setAttending(attending);
 
@@ -61,7 +60,6 @@ public class Appointment {
 
         // Should alarmTime be at appointment start, 15 minutes before, 60 minutes before…
         //User defined?
-        setAlarmTime(alarmTime);
     }
 
     public Appointment(String title, LocalDate date, LocalTime startTime, LocalTime endTime, User owner, String description, String location, int roomID, int attending) {
@@ -122,10 +120,6 @@ public class Appointment {
         this.roomID = roomID;
     }
 
-    public void setAlarmTime(LocalDateTime alarmTime){
-        this.alarmTime = alarmTime;
-    }
-
     public LocalTime getStart() {
         return start;
     }
@@ -167,10 +161,6 @@ public class Appointment {
 
     public String getLocation() {
         return location;
-    }
-
-    public LocalDateTime getAlarmTime() {
-        return alarmTime;
     }
 
     public Appointment create() {
