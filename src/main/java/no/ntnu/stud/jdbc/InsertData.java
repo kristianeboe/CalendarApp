@@ -1,13 +1,11 @@
 package no.ntnu.stud.jdbc;
 
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
-import no.ntnu.stud.model.Alarm;
-import no.ntnu.stud.model.Appointment;
-import no.ntnu.stud.model.Group;
-import no.ntnu.stud.model.User;
+import no.ntnu.stud.model.*;
 import no.ntnu.stud.security.SHAHashGenerator;
 import org.apache.log4j.Logger;
 
+import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,7 +60,7 @@ public class InsertData {
                 preparedStmt.setBytes(5, passwordHashMap.get("hash"));
                 preparedStmt.setBytes(6, passwordHashMap.get("salt"));
                 preparedStmt.execute();
-                logger.debug("Performing SQL Query [" + query + "]");
+                logger.trace("Performing SQL Query [" + query + "]");
             } catch (SQLException e) {
                 logger.fatal("SQLException: " + e.getMessage());
             }
@@ -87,7 +85,7 @@ public class InsertData {
         if (con != null) {
             String query = "INSERT INTO userInvited (userID, appointmentID) VALUES(" + user.getUserID() + ", "+appointment.getAppointmentID()+");";
             try {
-                logger.debug("Performing SQL Query [" + query + "]");
+                logger.trace("Performing SQL Query [" + query + "]");
                 Statement stmt = con.prepareStatement(query);
                 executeQuery(stmt, query);
             }catch (MySQLIntegrityConstraintViolationException e){
@@ -178,7 +176,7 @@ public class InsertData {
                 stmt.setInt(8, appointment.getAttending());
                 stmt.setString(9, appointment.getDescription());
                 stmt.execute();
-                logger.debug("Performing SQL Query [" + query + "]");
+                logger.trace("Performing SQL Query [" + query + "]");
                 String getID = "SELECT LAST_INSERT_ID()";
                 ResultSet rs = stmt.executeQuery(getID);
                 rs.next();
@@ -196,7 +194,7 @@ public class InsertData {
         if (con != null) {
             String query = "UPDATE appointment SET roomID = '" + roomID + "' WHERE appointmentID = '" + appointmentID + "';";
             try {
-                logger.debug("Performing SQL Query [" + query + "]");
+                logger.trace("Performing SQL Query [" + query + "]");
                 Statement stmt = con.prepareStatement(query);
                 stmt.executeUpdate(query);
             } catch (SQLException e) {
@@ -213,7 +211,7 @@ public class InsertData {
         if(con != null) try {
             Statement stmt = con.createStatement();
             String sql = "INSERT INTO notification(message) VALUES('" + message + "')";
-            logger.debug("Performing SQL Query [" + sql + "]");
+            logger.trace("Performing SQL Query [" + sql + "]");
             stmt.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
             String getID = "SELECT LAST_INSERT_ID()";
             ResultSet rs = stmt.executeQuery(getID);
@@ -222,7 +220,7 @@ public class InsertData {
 
             for (User user : users) {
                 sql = "INSERT INTO hasNotification(userID, notificationID) VALUES(" + user.getUserID() + ", " + notificationID + ")";
-                logger.debug("Performing SQL Query [" + sql + "]");
+                logger.trace("Performing SQL Query [" + sql + "]");
                 stmt.executeUpdate(sql);
             }
 
@@ -240,7 +238,7 @@ public class InsertData {
         if (con != null) {
             String query = "INSERT INTO userInGroup (userID, groupID) VALUES(" + user.getUserID() + ", "+groupID+");";
             try {
-                logger.debug("Performing SQL Query [" + query + "]");
+                logger.trace("Performing SQL Query [" + query + "]");
                 Statement stmt = con.prepareStatement(query);
                 stmt.executeUpdate(query);
             } catch (SQLException e) {
@@ -256,7 +254,7 @@ public class InsertData {
         if (con != null) {
             String query = "INSERT INTO subGroup (groupID, subGroupID) VALUES(" + groupID + ", "+ subGroupID +");";
             try {
-                logger.debug("Performing SQL Query [" + query + "]");
+                logger.trace("Performing SQL Query [" + query + "]");
                 Statement stmt = con.prepareStatement(query);
                 stmt.executeUpdate(query);
             } catch (SQLException e) {
@@ -326,6 +324,45 @@ public class InsertData {
                         }
                     }
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
+    public static Notification createNotification(Notification notification) {
+        Connection conn = DBConnector.getCon();
+        int notificationId = -1;
+        if (conn != null) {
+            String query = "INSERT INTO notification (message, appointmentID) VALUES ('" + notification.getMessage() + "', '" + notification.getAppointment().getAppointmentID() + "');";
+            try {
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+                String notificationIdSql = "SELECT LAST_INSERT_ID()";
+                ResultSet rs = stmt.executeQuery(notificationIdSql);
+                rs.next();
+                notificationId = rs.getInt(1);
+                notification.setNotificationID(notificationId);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return notification;
+    }
+
+    public static void notifyUser(Notification notification, User user) {
+        Connection conn = DBConnector.getCon();
+        if (notification.getNotificationID() == -1)
+            throw new IllegalStateException("Notification object has no ID");
+        if (conn != null) {
+            String query = "INSERT INTO hasNotification (notificationID, userID, seen) VALUES ('" + notification.getNotificationID() + "', '" + user.getUserID() + "', '" + 0 + "');";
+            logger.trace("Performing SQL Query [" + query + "]");
+            try {
+                Statement stmt = conn.createStatement();
+                stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

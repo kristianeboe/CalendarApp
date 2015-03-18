@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import no.ntnu.stud.MainApp;
 import no.ntnu.stud.jdbc.GetData;
 import no.ntnu.stud.model.Appointment;
+import no.ntnu.stud.model.Inevitable;
 import no.ntnu.stud.model.User;
 import org.apache.log4j.Logger;
 
@@ -70,9 +71,9 @@ public class ViewAppointmentController {
             loc.setText(appointment.getLocation());
         }
         inpDesc.setText(appointment.getDescription());
-        ArrayList<User> invitedUsers = gd.getInvited(appointment);
-        ArrayList<User> acceptedUsers = gd.getAccepted(appointment);
-        ArrayList<User> declinedUsers = gd.getDeclined(appointment);
+        ArrayList<Inevitable> invitedUsers = gd.getInvited(appointment);
+        ArrayList<Inevitable> acceptedUsers = gd.getAccepted(appointment);
+        ArrayList<Inevitable> declinedUsers = gd.getDeclined(appointment);
         ObservableList<Label> obsUsers = FXCollections.observableArrayList();
 
         final EventHandler<MouseEvent> clickHandler = new EventHandler<MouseEvent>() {
@@ -84,25 +85,25 @@ public class ViewAppointmentController {
                 mainApp.showUser(userID);
             }
         };
-        for(User usr:acceptedUsers){
+        for(Inevitable usr:acceptedUsers){
             Label lbl = new Label();
             lbl.setOnMouseClicked(clickHandler);
-            lbl.setId("" + usr.getUserID());
-            lbl.setText("[Going] " + usr.getFullName());
+            lbl.setId("" + usr.getId());
+            lbl.setText("[Going] " + usr.getName());
             obsUsers.add(lbl);
         }
-        for(User usr:invitedUsers){
+        for(Inevitable usr:invitedUsers){
             Label lbl = new Label();
             lbl.setOnMouseClicked(clickHandler);
-            lbl.setId("" + usr.getUserID());
-            lbl.setText("[Invited] "+usr.getFullName());
+            lbl.setId("" + usr.getId());
+            lbl.setText("[Invited] "+usr.getName());
             obsUsers.add(lbl);
         }
-        for(User usr:declinedUsers){
+        for(Inevitable usr:declinedUsers){
             Label lbl = new Label();
             lbl.setOnMouseClicked(clickHandler);
-            lbl.setId("" + usr.getUserID());
-            lbl.setText("[Not going] "+usr.getFullName());
+            lbl.setId("" + usr.getId());
+            lbl.setText("[Not going] "+usr.getName());
             obsUsers.add(lbl);
         }
         invitedList.setItems(obsUsers);

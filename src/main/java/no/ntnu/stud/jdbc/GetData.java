@@ -28,7 +28,7 @@ public class GetData {
             try {
                 Statement stmt = con.createStatement();
                 String strSelect = "SELECT * FROM user WHERE userID='" + userID + "';";
-                logger.debug("Performing SQL Query [" + strSelect + "]");
+                logger.trace("Performing SQL Query [" + strSelect + "]");
                 ResultSet rset = stmt.executeQuery(strSelect);
                 user = ResultResolver.user(rset);
 
@@ -54,7 +54,7 @@ public class GetData {
             try {
                 Statement stmt = con.createStatement();
                 String strSelect = "SELECT * FROM user WHERE email='" + email + "';";
-                logger.debug("Performing SQL Query [" + strSelect + "]");
+                logger.trace("Performing SQL Query [" + strSelect + "]");
                 ResultSet rset = stmt.executeQuery(strSelect);
 
                 user = ResultResolver.user(rset);
@@ -77,7 +77,7 @@ public class GetData {
             try {
                 Statement stmt = con.createStatement();
                 String strSelect = "SELECT * FROM user";
-                logger.debug("Performing SQL Query [" + strSelect + "]");
+                logger.trace("Performing SQL Query [" + strSelect + "]");
                 ResultSet rset = stmt.executeQuery(strSelect);
 
                 users = ResultResolver.groupResolver(rset);
@@ -99,7 +99,7 @@ public class GetData {
             try {
                 Statement stmt = con.createStatement();
                 String strSelect = "SELECT * FROM user NATURAL JOIN userInGroup WHERE groupID = "+groupID+";";
-                logger.debug("Performing SQL Query [" + strSelect + "]");
+                logger.trace("Performing SQL Query [" + strSelect + "]");
                 ResultSet rset = stmt.executeQuery(strSelect);
 
                 users = ResultResolver.groupResolver(rset);
@@ -126,14 +126,14 @@ public class GetData {
             try {
                 Statement stmt = con.createStatement();
                 String strSelect = "SELECT * FROM user NATURAL JOIN userInGroup WHERE groupID = "+groupID+";";
-                logger.debug("Performing SQL Query [" + strSelect + "]");
+                logger.trace("Performing SQL Query [" + strSelect + "]");
                 ResultSet rset = stmt.executeQuery(strSelect);
 
                 users = ResultResolver.groupResolver(rset);
 
                 String query = "SELECT * FROM userGroup WHERE groupID = " + groupID + ";";
                 rset = stmt.executeQuery(query);
-                logger.debug("Performing SQL Query [" + strSelect + "]");
+                logger.trace("Performing SQL Query [" + strSelect + "]");
                 while (rset.next()) {
                     users.setGroupID(rset.getInt("groupID"));
                     users.setName(rset.getString("name"));
@@ -157,10 +157,25 @@ public class GetData {
                 Statement stmt = con.createStatement();
                 String strSelect = "SELECT * FROM appointment " +
                         "WHERE appointmentID = " + appointmentID + ";";
-                ResultSet rset = stmt.executeQuery(strSelect);
-                logger.debug("Performing SQL Query [" + strSelect + "]");
+                ResultSet appointmentResult = stmt.executeQuery(strSelect);
+                logger.trace("Performing SQL Query [" + strSelect + "]");
+                appointmentResult.next();
 
-                appointment = ResultResolver.appointmentResolver(rset).get(0);
+                int appID = appointmentResult.getInt("appointmentID");
+                String title = appointmentResult.getString("title");
+                LocalDate date = appointmentResult.getTimestamp("appointmentDate").toLocalDateTime().toLocalDate();
+                LocalTime startTime = appointmentResult.getTimestamp("startTime").toLocalDateTime().toLocalTime();
+                LocalTime endTime = appointmentResult.getTimestamp("endTime").toLocalDateTime().toLocalTime();
+                int ownerID = appointmentResult.getInt("ownerID");
+                String description = appointmentResult.getString("description");
+                String location = appointmentResult.getString("location");
+                int roomID = appointmentResult.getInt("roomID");
+                int attending = appointmentResult.getInt("attending");
+                LocalDateTime alarmTime = LocalDateTime.parse("0001-01-01 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                if(appointmentResult.getTimestamp("alarmTime") != null){
+                    alarmTime = appointmentResult.getTimestamp("alarmTime").toLocalDateTime();
+                }
+                appointment = new Appointment(appointmentID, title, date, startTime, endTime, ownerID, description, location, roomID, attending, alarmTime);
                 con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -185,7 +200,7 @@ public class GetData {
                         "AND endTime = '" + qEndTime + "'" +
                         ";";
                 ResultSet rset = stmt.executeQuery(strSelect);
-                logger.debug("Performing SQL Query [" + strSelect + "]");
+                logger.trace("Performing SQL Query [" + strSelect + "]");
                 appointment = ResultResolver.appointmentResolver(rset).get(0);
                 con.close();
             } catch (SQLException e) {
@@ -211,7 +226,7 @@ public class GetData {
             try {
                 Statement stmt = con.createStatement();
                 ResultSet rs = stmt.executeQuery(sql);
-                logger.debug("Performing SQL Query [" + sql + "]");
+                logger.trace("Performing SQL Query [" + sql + "]");
                 appointments = ResultResolver.appointmentResolver(rs);
                 con.close();
             } catch (SQLException e) {
@@ -233,7 +248,7 @@ public class GetData {
             try {
                 Statement stmt = con.createStatement();
                 ResultSet rs = stmt.executeQuery(sql);
-                logger.debug("Performing SQL Query [" + sql + "]");
+                logger.trace("Performing SQL Query [" + sql + "]");
                 appointments = ResultResolver.appointmentResolver(rs);
                 con.close();
             } catch (SQLException e) {
@@ -270,7 +285,7 @@ public class GetData {
                         "OR ('"+from_time+"' < startTime "+
                         "AND '"+to_time+"' >  endTime ))" +
                         "AND '"+dt+"' = appointmentDate;";
-                logger.debug("Performing SQL Query [" + strSelect + "]");
+                logger.trace("Performing SQL Query [" + strSelect + "]");
                 ResultSet rset = stmt.executeQuery(strSelect);
 
                 while (rset.next()) {
@@ -311,7 +326,7 @@ public class GetData {
                         "AND '"+end+"' > endTime) )" +
                         "AND '"+dt+"' = appointmentDate ) " +
                         "ORDER BY capacity ASC LIMIT 1;";
-                logger.debug("Performing SQL Query [" + sql + "]");
+                logger.trace("Performing SQL Query [" + sql + "]");
                 ResultSet rs = stmt.executeQuery(sql);
                 int roomID = 0;
                 String roomName ="";
@@ -343,7 +358,7 @@ public class GetData {
             try{
                 String sql = "SELECT * FROM room WHERE roomID = "+roomID+";";
                 Statement stmt = con.createStatement();
-                logger.debug("Performing SQL Query [" + sql + "]");
+                logger.trace("Performing SQL Query [" + sql + "]");
                 ResultSet rs = stmt.executeQuery(sql);
                 rs.next();
                 room = new Room(rs.getInt("roomID"), rs.getString("name"), rs.getInt("capacity"));
@@ -357,15 +372,15 @@ public class GetData {
         return room;
     }
 
-    public ArrayList<User> getInvited(Appointment appointment){
+    public static ArrayList<Inevitable> getInvited(Appointment appointment){
         Connection con = DBConnector.getCon();
-        ArrayList<User> users = new ArrayList<>();
+        ArrayList<Inevitable> users = new ArrayList<>();
 
         if (con != null) {
             try {
                 Statement stmt = con.createStatement();
-                String strSelect = "SELECT * FROM userInvited NATURAL JOIN user JOIN appointment ON(userInvited.appointmentID = appointment.appointmentID) WHERE appointment.appointmentID = "+appointment.getAppointmentID()+" AND userInvited.attending = '0' ORDER BY lastName ASC;";
-                logger.debug("Performing SQL Query [" + strSelect + "]");
+                String strSelect = "SELECT * FROM userInvited NATURAL JOIN user JOIN appointment ON(userInvited.appointmentID = appointment.appointmentID) WHERE appointment.appointmentID = "+appointment.getAppointmentID()+" ORDER BY lastName ASC;";
+                logger.trace("Performing SQL Query [" + strSelect + "]");
                 ResultSet rs = stmt.executeQuery(strSelect);
                 while(rs.next()){
                     int userID = rs.getInt("userID");
@@ -385,15 +400,15 @@ public class GetData {
         return users;
     }
 
-    public ArrayList<User> getAccepted(Appointment appointment){
+    public static ArrayList<Inevitable> getAccepted(Appointment appointment){
         Connection con = DBConnector.getCon();
-        ArrayList<User> users = new ArrayList<>();
+        ArrayList<Inevitable> users = new ArrayList<>();
 
         if (con != null) {
             try {
                 Statement stmt = con.createStatement();
                 String strSelect = "SELECT * FROM userInvited NATURAL JOIN user JOIN appointment ON(userInvited.appointmentID = appointment.appointmentID) WHERE appointment.appointmentID = "+appointment.getAppointmentID()+" AND userInvited.attending = '1' ORDER BY lastName ASC;";
-                logger.debug("Performing SQL Query [" + strSelect + "]");
+                logger.trace("Performing SQL Query [" + strSelect + "]");
                 ResultSet rs = stmt.executeQuery(strSelect);
                 while(rs.next()){
                     int userID = rs.getInt("userID");
@@ -413,15 +428,15 @@ public class GetData {
         return users;
     }
 
-    public ArrayList<User> getDeclined(Appointment appointment){
+    public static ArrayList<Inevitable> getDeclined(Appointment appointment){
         Connection con = DBConnector.getCon();
-        ArrayList<User> users = new ArrayList<>();
+        ArrayList<Inevitable> users = new ArrayList<>();
 
         if (con != null) {
             try {
                 Statement stmt = con.createStatement();
                 String strSelect = "SELECT * FROM userInvited NATURAL JOIN user JOIN appointment ON(userInvited.appointmentID = appointment.appointmentID) WHERE appointment.appointmentID = "+appointment.getAppointmentID()+" AND userInvited.attending = '2' ORDER BY lastName ASC;";
-                logger.debug("Performing SQL Query [" + strSelect + "]");
+                logger.trace("Performing SQL Query [" + strSelect + "]");
                 ResultSet rs = stmt.executeQuery(strSelect);
                 while(rs.next()){
                     int userID = rs.getInt("userID");
@@ -463,7 +478,7 @@ public class GetData {
                         "AND '"+end+"' > endTime) )" +
                         "AND '"+dt+"' = appointmentDate ) " +
                         "ORDER BY capacity ASC;";
-                logger.debug("Performing SQL Query [" + sql + "]");
+                logger.trace("Performing SQL Query [" + sql + "]");
                 ResultSet rs = stmt.executeQuery(sql);
                 while(rs.next()){
                     int roomID = rs.getInt("roomID");
@@ -489,13 +504,15 @@ public class GetData {
         if(con != null){
             try {
                 Statement stmt = con.createStatement();
-                String sql = "SELECT notificationID, message FROM notification NATURAL JOIN hasNotification WHERE userID="+userID+"";
-                logger.debug("Performing SQL Query [" + sql + "]");
+                String sql = "SELECT notificationID, message, appointmentID FROM notification NATURAL JOIN hasNotification WHERE userID="+userID+" AND seen = '0';";
+                logger.trace("Performing SQL Query [" + sql + "]");
                 ResultSet rs = stmt.executeQuery(sql);
                 while(rs.next()){
                     int notificationID = rs.getInt("notificationID");
+                    int appointmentID = rs.getInt("appointmentID");
+                    Appointment appointment = GetData.getAppointment(appointmentID);
                     String message = rs.getString("message");
-                    notifications.add(new Notification(notificationID,message));
+                    notifications.add(new Notification(notificationID, appointment, message));
                 }
                 con.close();
             }catch (SQLException e) {
@@ -680,7 +697,7 @@ public class GetData {
                 }else{
                     strSelect = "SELECT * FROM user NATURAL JOIN userInGroup NATURAL JOIN userGroup WHERE userID = "+user.getUserID()+" AND (userInGroup.isOwner = NULL OR userInGroup.isOwner = 0) ORDER BY userGroup.name ASC;";
                 }
-                logger.debug("Performing SQL Query [" + strSelect + "]");
+                logger.trace("Performing SQL Query [" + strSelect + "]");
                 ResultSet rset = stmt.executeQuery(strSelect);
 
                 while(rset.next()){
@@ -690,7 +707,7 @@ public class GetData {
                     groups.add(new Group(id, name));
                 }
 
-                logger.debug("Performing SQL Query [" + strSelect + "]");
+                logger.trace("Performing SQL Query [" + strSelect + "]");
                 con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
