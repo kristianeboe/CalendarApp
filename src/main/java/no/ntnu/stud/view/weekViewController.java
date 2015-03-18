@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import no.ntnu.stud.MainApp;
 import no.ntnu.stud.jdbc.GetData;
@@ -24,6 +25,8 @@ public class WeekViewController {
     private Label lblDateMon, lblDateTue, lblDateWed, lblDateThu, lblDateFri, lblDateSat, lblDateSun, lblCurrentWeek;
     @FXML
     private GridPane gridWeek;
+    @FXML
+    private ScrollPane scrollWeek;
 
     private MainApp mainApp;
 
@@ -42,7 +45,6 @@ public class WeekViewController {
     @FXML
     private void initialize(){
 
-
     }
 
     public WeekViewController(){
@@ -51,13 +53,19 @@ public class WeekViewController {
 
     public void renderDates(Calendar calendar) {
         this.calendar = calendar;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM");
         lblCurrentWeek.setText("Week: "+calendar.get(Calendar.WEEK_OF_YEAR));
         GetData gd = new GetData();
         ArrayList<Label> week = new ArrayList<>(Arrays.asList(lblDateMon, lblDateTue, lblDateWed, lblDateThu, lblDateFri, lblDateSat, lblDateSun));
-        lblDateMon.setText(calendar.get(Calendar.MONDAY)+"");
-        lblDateTue.setText(calendar.get(Calendar.DAY_OF_WEEK)+"");
 
-        renderAgenda(calendar.getTime());
+        Calendar first = (Calendar) calendar.clone();
+        first.add(Calendar.DAY_OF_WEEK,
+                first.getFirstDayOfWeek() - first.get(Calendar.DAY_OF_WEEK));
+        for(Label day:week) {
+            day.setText(dateFormat.format(first.getTime()));
+            renderAgenda(first.getTime());
+            first.add(Calendar.DAY_OF_WEEK, 1);
+        }
     }
 
     public void renderAgenda(Date date){
@@ -65,9 +73,9 @@ public class WeekViewController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         SimpleDateFormat dbFormat = new SimpleDateFormat("yyy-MM-dd");
 
-        String dateStr = dbFormat.format(calendar.getTime());
+        String dateStr = dbFormat.format(date);
         ArrayList<Appointment> appointments = gd.getAppointments(mainApp.getUser(), dateStr);
-
+        System.out.println(appointments);
         for (Appointment app:appointments) {
             int start = app.getStart().getHour();
             int end = app.getEnd().getHour();
