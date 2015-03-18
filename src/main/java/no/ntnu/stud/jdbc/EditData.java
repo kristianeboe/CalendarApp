@@ -187,13 +187,13 @@ public class EditData {
                 Statement stmt = con.createStatement();
                 String sql = "" +
                         "UPDATE appointment SET " +
-                        "title='" + a.getTitle() + "' " +
-                        "ownerID='" + a.getOwner() + "' " +
-                        "startTime='" + a.getStart().toString() + "' " +
-                        "endTime='" + a.getEnd().toString() + "' " +
-                        "roomID='" + a.getRoomID() + "' " +
-                        "location='" + a.getLocation() + "' " +
-                        "description='" + a.getDescription() + "' " +
+                        "title='" + a.getTitle() + "', " +
+                        "ownerID='" + a.getOwner() + "', " +
+                        "startTime='" + a.getStart().toString() + "', " +
+                        "endTime='" + a.getEnd().toString() + "', " +
+                        "roomID='" + a.getRoomID() + "', " +
+                        "location='" + a.getLocation() + "', " +
+                        "description='" + a.getDescription() + "', " +
                         "appointmentDate='" + a.getDate().toString() + "' " +
                         "WHERE AppointmentID='" + a.getAppointmentID() + "';";
                 logger.debug("Updating " + a + " using [" + sql + "]");
@@ -202,7 +202,6 @@ public class EditData {
                 ResultSet rs = stmt.executeQuery(getID);
                 rs.next();
                 edited_appointment = a;
-                edited_appointment.setAppointmentID(rs.getInt(0));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -239,7 +238,7 @@ public class EditData {
                 Statement stmt = con.createStatement();
                 String query = "DELETE FROM alarm WHERE userID = '" + userID + "' AND appointmentID = '" + appointmentID + "';";
                 stmt.executeUpdate(query);
-                logger.debug("Performing SQL Query [" + query + "]");
+                logger.trace("[Remove Alarm] Performing SQL Query [" + query + "]");
             } catch (SQLException e) {
                 e.printStackTrace();
             }

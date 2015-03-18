@@ -108,10 +108,10 @@ public class NewAppointmentController {
     }
 
     public void insertAppointmentData(Appointment appointment) {
-        logger.setLevel(Level.TRACE);
         inpTitle.setText(appointment.getTitle());
         inpDesc.setText(appointment.getDescription());
         inpDate.setValue(appointment.getDate());
+        this.appointment = appointment;
 
         String fromTime = appointment.getStart().format(timeFormat);
         logger.trace("fromTime: " + appointment.getStart() + " | formatted: " + fromTime);
@@ -144,23 +144,35 @@ public class NewAppointmentController {
         logger.debug("Adding invited users to box");
         logger.trace(GetData.getInvited(appointment));
         addInvitedToBox(GetData.getInvited(appointment));
-        logger.setLevel(Level.DEBUG);
     }
 
     public Appointment addAppointment() {
+        logger.setLevel(Level.TRACE);
+        logger.trace("Starting addAppointment");
         String title = inpTitle.getText();
         LocalDate date = inpDate.getValue();
         LocalTime startTime = LocalTime.parse(inpFrom.getText());
         LocalTime endTime = LocalTime.parse(inpTo.getText());
-        int maxAttending = Integer.parseInt(inpMaxAttend.getText());
+        int maxAttending;
         int roomID;
         int owner;
         String location;
 
-        // If roomID, use roomID. If not, use location.
+        owner = mainApp.getUser().getUserID();
 
-        // Cleanest hack ever to find roomID
+        String description = inpDesc.getText();
+
+        logger.trace("Cool data: " +
+                "Title: " + title + "| " +
+                "Date: " +date + "| " + "" +
+                "Start: " + startTime + " | End: " + endTime + " | "
+        );
+
+        Appointment appointment;
+
+        // If roomID, use roomID. If not, use location.
         if (radioWork.isSelected()) {
+            // Cleanest hack ever to find roomID
             location = "";
             String roomValue = btnRoom.getValue().toString();
             Pattern pattern = Pattern.compile("(\\d+)");
@@ -172,20 +184,14 @@ public class NewAppointmentController {
             } else {
                 throw new IllegalArgumentException("FUCK YOU DIDNT FIND THE ROOM SHIT");
             }
-        } else{
-            roomID = -1;
+            maxAttending = Integer.parseInt(inpMaxAttend.getText());
+            appointment = new Appointment(title, date, startTime, endTime, owner, description, roomID, maxAttending);
+        } else {
             location = inpLocation.getText();
+            appointment = new Appointment(title, date, startTime, endTime, owner, description, location);
         }
 
-        owner = mainApp.getUser().getUserID();
 
-        String description = inpDesc.getText();
-
-        /*
-        for (User u : invited) {}
-         */
-
-        Appointment appointment = new Appointment(title, date, startTime, endTime, owner, description, location, roomID, maxAttending);
 
         if (!inpReminder.getText().equals("")) {
             logger.info("inpReminder.getTest(): " + inpReminder.getText());
@@ -234,24 +240,26 @@ public class NewAppointmentController {
         validDate();
         validTime();
         validMaxAttend();
-        if (validTitle() && validDate() && validTime() && validMaxAttend()) {
+        if (validTitle() && validDate() && validTime()) {
             logger.trace("Valid inputs");
-            Appointment app = addAppointment();
+            Appointment new_appointment = addAppointment();
             logger.debug("Created appointment instance");
             try {
-                insertOrUpdateAppointment(app, mainApp.getUser());
-                mainApp.showAppointmentView(app);
+                insertOrUpdateAppointment(new_appointment, mainApp.getUser());
+                mainApp.showAppointmentView(new_appointment);
                 mainApp.showUpcomingEvents();
                 // for (String line : outInvited.getText().split("\\n")) InsertData.inviteUser(, app);
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
+        } else {
+            logger.error("Validation failed. Please check the fields again.");
         }
     }
 
     public Appointment insertOrUpdateAppointment(Appointment appointment, User user) {
         logger.trace("Insert or update appointment");
-        if (appointment.getAppointmentID() == -1) {
+        if (this.appointment == null || this.appointment.getAppointmentID() == -1) {
             logger.debug("Creating new appointment");
             Appointment new_appointment = InsertData.createAppointment(appointment);
             EditData.removeAlarms(mainApp.getUser().getUserID(), new_appointment.getAppointmentID());
@@ -259,17 +267,22 @@ public class NewAppointmentController {
             InsertData.inviteUser(user, appointment);
             EditData.acceptInvitation(user, appointment);
             for (User usr : invitedUsers) {
+                logger.trace("Inviting " + usr + " to " + appointment);
                 InsertData.inviteUser(usr, appointment);
             }
             return new_appointment;
         } else {
             logger.debug("Updating existing appointment");
+            appointment.setAppointmentID(this.appointment.getAppointmentID());
             Appointment edited_appointment = EditData.editAppointment(appointment);
             EditData.removeAlarms(mainApp.getUser().getUserID(), edited_appointment.getAppointmentID());
             InsertData.setAlarms(mainApp.getAlarms(mainApp.getUser().getUserID(), edited_appointment.getAppointmentID()));
             Notification notification = new Notification(edited_appointment, "Something changed");
             notification = notification.create();
+            logger.debug("Notifying users about change to " + edited_appointment);
+            logger.trace("invitedUsers-list: " + invitedUsers);
             for (User invitedUser : invitedUsers) {
+                logger.trace("Notifying " + invitedUser + " about change to " + edited_appointment);
                 InsertData.notifyUser(notification, invitedUser);
             }
             return edited_appointment;
@@ -355,6 +368,8 @@ public class NewAppointmentController {
             else if (invited.getClass().equals(User.class)) {
                 logger.trace("Adding user \"" + invited.getName() + "\" to box");
                 addUserToInvitedBox((User) invited);
+                logger.trace("Adding user \"" + invited.getName() + "\" to invitedUsersr");
+                invitedUsers.add((User) invited);
             }
         }
         logger.debug("Invited users: (" + obsInvited.size() + ") " + obsInvited.toString());

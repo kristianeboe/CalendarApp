@@ -2,6 +2,7 @@ package no.ntnu.stud.view;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -32,7 +33,7 @@ public class ViewAppointmentController {
     TextArea inpDesc, invited;
 
     @FXML
-    Button btnSave, btnClose;
+    Button btnSave, btnClose, editBtn;
 
     @FXML
     ListView invitedList;
@@ -47,14 +48,14 @@ public class ViewAppointmentController {
 
     public void renderAppointment(Appointment appointment){
         boolean isOwner = mainApp.getUser().getUserID() == appointment.getOwner();
-
-        if (isOwner) {
+        renderViewAppointment(appointment);
+        /*if (isOwner) {
             logger.debug("User is owner");
             renderEditAppointment(appointment);
         } else {
             logger.debug("User is participant");
-            renderViewAppointment(appointment);
-        }
+
+        }*/
     }
 
     public void renderViewAppointment(Appointment appointment) {
@@ -111,6 +112,20 @@ public class ViewAppointmentController {
         // Access control
         inpDesc.setEditable(false);
         btnSave.setVisible(false);
+
+        //Edit Button
+        final EventHandler<ActionEvent> editClickHandler = new EventHandler<ActionEvent>() {
+
+            public void handle(ActionEvent event) {
+                renderEditAppointment(appointment);
+            }
+        };
+
+        editBtn.setOnAction(editClickHandler);
+
+        if(mainApp.getUser().getUserID()!= appointment.getOwner()){
+            editBtn.setVisible(false);
+        }
     }
 
     public void renderEditAppointment(Appointment appointment) {

@@ -55,9 +55,9 @@ public class MainApp extends Application {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Ultimate Saga Calendar Pro 365 Cloud Edition");
         this.primaryStage.getIcons().add(new Image("file:/images/favicon.png"));
-
+        logger.trace("initRootLayout");
         initRootLayout();
-
+        logger.trace("showSignInView");
         showSignInView();
     }
 
@@ -98,6 +98,8 @@ public class MainApp extends Application {
     }
 
     public void signedIn(){
+        logger.debug("Signed in successfully");
+        logger.info("Logged in as " + user.getFullName());
         showCalendarView();
 
         showUpcomingEvents();

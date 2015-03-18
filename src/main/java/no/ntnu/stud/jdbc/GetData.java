@@ -2,6 +2,7 @@ package no.ntnu.stud.jdbc;
 
 import no.ntnu.stud.model.*;
 import no.ntnu.stud.util.ResultResolver;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
@@ -178,7 +179,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No Connection");
+            logger.fatal("No Connection");
         }
         return appointment;
     }
@@ -204,7 +205,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No Connection");
+            logger.fatal("No Connection");
         }
         return appointment;
     }
@@ -230,7 +231,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No Connection");
+            logger.fatal("No Connection");
         }
         return appointments;
     }
@@ -252,7 +253,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No Connection");
+            logger.fatal("No Connection");
         }
         return appointments;
     }
@@ -293,7 +294,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No Connection");
+            logger.fatal("No Connection");
         }
         return counter == 0;
     }
@@ -343,7 +344,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No Connection");
+            logger.fatal("No Connection");
         }
         return room;
     }
@@ -364,7 +365,7 @@ public class GetData {
             }
 
         }else{
-            System.err.print("No Connection");
+            logger.fatal("No Connection");
         }
         return room;
     }
@@ -489,7 +490,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No Connection");
+            logger.fatal("No Connection");
         }
         return rooms;
     }
@@ -517,7 +518,7 @@ public class GetData {
             }
 
         }else {
-            System.err.print("No Connection");
+            logger.fatal("No Connection");
         }
         return notifications;
     }
@@ -536,7 +537,7 @@ public class GetData {
                 String query = "SELECT * FROM appointment " +
                         "WHERE ownerID = " + userID +
                         " ORDER BY appointmentDate;";
-                logger.debug("Peforming SQL Query [" + query + "]");
+                logger.trace("Peforming SQL Query [" + query + "]");
                 ResultSet rs = stmt.executeQuery(query);
                 appointments = ResultResolver.appointmentResolver(rs);
                 con.close();
@@ -544,7 +545,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No connection");
+            logger.fatal("No connection");
         }
         return appointments;
     }
@@ -562,7 +563,7 @@ public class GetData {
                 Statement stmt = con.createStatement();
                 String query = "SELECT * FROM appointment " +
                         "WHERE ownerID = " + userID + " AND appointmentID = " + appointmentID + ";";
-                logger.debug("Peforming SQL Query [" + query + "]");
+                logger.trace("Peforming SQL Query [" + query + "]");
                 ResultSet rs = stmt.executeQuery(query);
                 if (rs.getFetchSize() != 0) {
                     return true;
@@ -572,7 +573,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No connection");
+            logger.fatal("No connection");
         }
         return false;
     }
@@ -591,7 +592,7 @@ public class GetData {
                 Statement stmt = con.createStatement();
                 String query = "SELECT * FROM groupInvited " +
                         "WHERE appointmentID = '" + appointmentID + "';";
-                logger.debug(("Performing SQL Query [" + query + "]"));
+                logger.trace(("Performing SQL Query [" + query + "]"));
                 ResultSet rset = stmt.executeQuery(query);
                 while (rset.next()) {
                     groupIDs.add(rset.getInt("groupID"));
@@ -601,7 +602,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No Connection");
+            logger.fatal("No Connection");
         }
         for (int groupID : groupIDs) {
             groups.add(getGroup(groupID));
@@ -639,7 +640,7 @@ public class GetData {
             try{
                 Statement stmt = con.createStatement();
                 String sql = "SELECT * FROM user WHERE CONCAT(givenName,' ',middleName,' ',lastName) LIKE '"+partOfName+"%';";
-                System.out.println("Peforming SQL Query [" + sql + "]");
+                logger.trace("[Search User] Peforming SQL Query [" + sql + "]");
                 ResultSet rs = stmt.executeQuery(sql);
                 while(rs.next()){
                     String lastName = rs.getString("lastName");
@@ -653,7 +654,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No connection");
+            logger.fatal("No connection");
         }
         return users;
     }
@@ -665,7 +666,7 @@ public class GetData {
             try{
                 Statement stmt = con.createStatement();
                 String sql = "SELECT * FROM userGroup WHERE name LIKE '"+partOfName+"%';";
-                System.out.println("Peforming SQL Query [" + sql + "]");
+                logger.trace("[Search Group] Peforming SQL Query [" + sql + "]");
                 ResultSet rs = stmt.executeQuery(sql);
                 while(rs.next()){
                     String name = rs.getString("name");
@@ -676,7 +677,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No connection");
+            logger.fatal("No connection");
         }
         return groups;
     }
@@ -692,7 +693,7 @@ public class GetData {
                 if(isOwner){
                     strSelect = "SELECT * FROM user NATURAL JOIN userInGroup NATURAL JOIN userGroup WHERE userID = "+user.getUserID()+" AND userInGroup.isOwner = 1 ORDER BY userGroup.name ASC;";
                 }else{
-                    strSelect = "SELECT * FROM user NATURAL JOIN userInGroup NATURAL JOIN userGroup WHERE userID = "+user.getUserID()+" AND (userInGroup.isOwner = NULL OR userInGroup.isOwner = 0) ORDER BY userGroup.name ASC;";
+                    strSelect = "SELECT * FROM user NATURAL JOIN userInGroup NATURAL JOIN userGroup WHERE userID = "+user.getUserID()+" AND (userInGroup.isOwner IS NULL OR userInGroup.isOwner = 0) ORDER BY userGroup.name ASC;";
                 }
                 logger.trace("Performing SQL Query [" + strSelect + "]");
                 ResultSet rset = stmt.executeQuery(strSelect);
@@ -723,7 +724,7 @@ public class GetData {
             try {
                 Statement stmt = con.createStatement();
                 String query = "SELECT * FROM alarm WHERE userID = '" + user.getUserID() + "'";
-                logger.info("Performing SQL Query [" + query + "]");
+                logger.trace("[Get Alarms] Performing SQL Query [" + query + "]");
                 ResultSet rset = stmt.executeQuery(query);
 
                 while (rset.next()) {
@@ -752,7 +753,7 @@ public class GetData {
             try {
                 Statement stmt = con.createStatement();
                 String query = "SELECT * FROM alarm WHERE appointmentID = '" + appointment.getAppointmentID() + "'";
-                logger.info("Performing SQL Query [" + query + "]");
+                logger.trace("[Get Alarms] Performing SQL Query [" + query + "]");
                 ResultSet rset = stmt.executeQuery(query);
 
                 while (rset.next()) {
@@ -781,7 +782,7 @@ public class GetData {
             try {
                 Statement stmt = con.createStatement();
                 String query = "SELECT * FROM alarm;";
-                logger.info("Performing SQL Query [" + query + "]");
+                logger.trace("[Get Alarms] Performing SQL Query [" + query + "]");
                 ResultSet rset = stmt.executeQuery(query);
 
                 while (rset.next()) {
@@ -810,7 +811,7 @@ public class GetData {
             try{
                 Statement stmt = con.createStatement();
                 String sql = "SELECT * FROM user NATURAL JOIN userInvited JOIN appointment ON(userInvited.appointmentID = appointment.appointmentID) WHERE user.userID="+user.getUserID()+";";
-                logger.debug("Peforming SQL Query [" + sql + "]");
+                logger.trace("Peforming SQL Query [" + sql + "]");
                 ResultSet rs = stmt.executeQuery(sql);
 
                 while(rs.next()){
@@ -828,7 +829,7 @@ public class GetData {
                             "OR ('"+from_time+"' < startTime "+
                             "AND '"+to_time+"' >  endTime ))" +
                             "AND '"+dt+"' = appointmentDate;";
-                    logger.debug("Peforming SQL Query [" + sql2 + "]");
+                    logger.trace("Peforming SQL Query [" + sql2 + "]");
                     ResultSet rs2 = stmt2.executeQuery(sql2);
                     if(rs2.next()){
                         int attending = Integer.parseInt(rs2.getString("attending"));
@@ -843,7 +844,7 @@ public class GetData {
                 e.printStackTrace();
             }
         } else {
-            System.err.print("No connection");
+            logger.fatal("No connection");
         }
         return status;
     }
@@ -856,7 +857,7 @@ public class GetData {
             try {
                 Statement stmt = con.createStatement();
                 String query = "SELECT * FROM room WHERE roomID = '" + roomId + "'";
-                logger.info("[GetRoomById] Performing SQL Query [" + query + "]");
+                logger.trace("[GetRoomById] Performing SQL Query [" + query + "]");
                 ResultSet rset = stmt.executeQuery(query);
 
                 while (rset.next()) {
