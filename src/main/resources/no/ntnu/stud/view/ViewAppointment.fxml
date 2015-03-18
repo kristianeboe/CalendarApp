@@ -63,8 +63,8 @@
       <Label GridPane.rowIndex="2" />
       <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
          <children>
-            <Label alignment="CENTER_RIGHT" prefHeight="58.0" prefWidth="390.0" text="Date" />
-            <Label fx:id="date" alignment="CENTER" contentDisplay="CENTER" prefHeight="81.0" prefWidth="238.0" text="Date" />
+            <Label alignment="CENTER_RIGHT" prefHeight="58.0" prefWidth="300.0" text="Date" />
+            <Label fx:id="date" alignment="CENTER" contentDisplay="CENTER" prefHeight="60.0" prefWidth="142.0" text="Date" />
          </children>
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3">
@@ -101,6 +101,6 @@
             <ListView fx:id="invitedList" prefHeight="150.0" prefWidth="300.0" />
          </content>
       </ScrollPane>
-      <Button fx:id="editBtn" styleClass="menuButton" mnemonicParsing="false" text="Edit" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
+      <Button fx:id="editBtn" mnemonicParsing="false" styleClass="menuButton" text="Edit" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
     </children>
 </GridPane>
