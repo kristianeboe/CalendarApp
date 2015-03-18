@@ -54,7 +54,8 @@ public class WeekViewController {
         lblCurrentWeek.setText("Week: "+calendar.get(Calendar.WEEK_OF_YEAR));
         GetData gd = new GetData();
         ArrayList<Label> week = new ArrayList<>(Arrays.asList(lblDateMon, lblDateTue, lblDateWed, lblDateThu, lblDateFri, lblDateSat, lblDateSun));
-
+        lblDateMon.setText(calendar.get(Calendar.MONDAY)+"");
+        lblDateTue.setText(calendar.get(Calendar.DAY_OF_WEEK)+"");
 
         renderAgenda(calendar.getTime());
     }
