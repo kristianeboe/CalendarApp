@@ -82,7 +82,7 @@
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="5">
          <children>
-            <Label alignment="CENTER_RIGHT" prefHeight="58.0" prefWidth="300.0" text="Max attendees" />
+            <Label fx:id="attLbl" alignment="CENTER_RIGHT" prefHeight="58.0" prefWidth="300.0" text="Max attendees" />
             <Label fx:id="maxAtt" alignment="CENTER" minHeight="58.0" prefWidth="141.0" text="Max attendees" />
          </children>
       </HBox>

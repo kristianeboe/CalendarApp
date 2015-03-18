@@ -27,7 +27,7 @@ public class ViewAppointmentController {
     Logger logger = Logger.getLogger("ViewAppointmentCtrl");
 
     @FXML
-    Label from, to , date, type, maxAtt, loc, locationLabel, fromTo, lblTitle;
+    Label from, to , date, type, maxAtt, loc, locationLabel, fromTo, lblTitle, attLbl;
 
     @FXML
     TextArea inpDesc, invited;
@@ -65,10 +65,12 @@ public class ViewAppointmentController {
         fromTo.setText(appointment.getStart().toString()+"-"+appointment.getEnd().toString());
         date.setText(appointment.getDate().toString());
         maxAtt.setText(""+appointment.getAttending());
-        if(appointment.getLocation() == null && appointment.getRoomID() >-1){
+        if(appointment.getLocation() == null && appointment.getRoomID() >0){
             locationLabel.setText("Room");
             loc.setText(gd.getRoom(appointment.getRoomID()).getName());
         }else{
+            maxAtt.setVisible(false);
+            attLbl.setVisible(false);
             loc.setText(appointment.getLocation());
         }
         inpDesc.setText(appointment.getDescription());
