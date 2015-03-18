@@ -7,7 +7,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import no.ntnu.stud.MainApp;
 import no.ntnu.stud.jdbc.EditData;
@@ -16,7 +15,6 @@ import no.ntnu.stud.jdbc.InsertData;
 import no.ntnu.stud.model.*;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.h2.command.dml.Insert;
 
 import javax.swing.text.DateFormatter;
 import java.text.SimpleDateFormat;
@@ -25,6 +23,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -65,6 +64,30 @@ public class NewAppointmentController {
     private ToggleGroup radioGroup;
     @FXML
     ListView invitedUsersList;
+    @FXML
+    private Button btnAddReminder;
+    @FXML
+    private Button btnRemoveReminder;
+    @FXML
+    private TextField inpReminder;
+    @FXML
+    private ComboBox<String> inpReminderType;
+    @FXML
+    private Button btnAddReminder1;
+    @FXML
+    private Button btnRemoveReminder1;
+    @FXML
+    private TextField inpReminder1;
+    @FXML
+    private ComboBox<String> inpReminderType1;
+    @FXML
+    private Button btnAddReminder2;
+    @FXML
+    private Button btnRemoveReminder2;
+    @FXML
+    private TextField inpReminder2;
+    @FXML
+    private ComboBox<String> inpReminderType2;
 
     DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
     public NewAppointmentController() {
@@ -98,6 +121,26 @@ public class NewAppointmentController {
         inpTo.setText(toTime);
         inpMaxAttend.setText(Integer.toString(appointment.getAttending()));
         btnRoom.setValue(GetData.getRoomById(appointment.getRoomID()));
+
+        List<Alarm> alarms = mainApp.getAlarms(mainApp.getUser().getUserID(), appointment.getAppointmentID());
+        switch(alarms.size()) {
+            case 0:
+                break;
+            case 3:
+                handleAddReminder2();
+                inpReminder2.setText(String.valueOf(alarms.get(2).getNumberOfType()));
+                inpReminderType2.setValue(alarms.get(2).getType());
+            case 2:
+                handleAddReminder1();
+                inpReminder1.setText(String.valueOf(alarms.get(1).getNumberOfType()));
+                inpReminderType1.setValue(alarms.get(1).getType());
+            case 1:
+                handleAddReminder();
+                inpReminder.setText(String.valueOf(alarms.get(0).getNumberOfType()));
+                inpReminderType.setValue(alarms.get(0).getType());
+                break;
+        }
+
         logger.debug("Adding invited users to box");
         logger.trace(GetData.getInvited(appointment));
         addInvitedToBox(GetData.getInvited(appointment));
@@ -143,6 +186,26 @@ public class NewAppointmentController {
          */
 
         Appointment appointment = new Appointment(title, date, startTime, endTime, owner, description, location, roomID, maxAttending);
+
+        if (!inpReminder.getText().equals("")) {
+            logger.info("inpReminder.getTest(): " + inpReminder.getText());
+            logger.info("inpReminderType.getValue(): " + inpReminderType.getValue());
+            mainApp.addAlarm(new Alarm(mainApp.getUser(), appointment, inpReminder.getText(), inpReminderType.getValue()));
+        } else {
+            return appointment;
+        }
+
+        if (!inpReminder1.getText().equals("")) {
+            mainApp.addAlarm(new Alarm(mainApp.getUser(), appointment, inpReminder1.getText(), inpReminderType.getValue()));
+        } else {
+            return appointment;
+        }
+
+        if (!inpReminder2.getText().equals("")) {
+            mainApp.addAlarm(new Alarm(mainApp.getUser(), appointment, inpReminder2.getText(), inpReminderType2.getValue()));
+        } else {
+            return appointment;
+        }
         return appointment;
     }
 
@@ -191,6 +254,8 @@ public class NewAppointmentController {
         if (appointment.getAppointmentID() == -1) {
             logger.debug("Creating new appointment");
             Appointment new_appointment = InsertData.createAppointment(appointment);
+            EditData.removeAlarms(mainApp.getUser().getUserID(), new_appointment.getAppointmentID());
+            InsertData.setAlarms(mainApp.getAlarms(mainApp.getUser().getUserID(), new_appointment.getAppointmentID()));
             InsertData.inviteUser(user, appointment);
             EditData.acceptInvitation(user, appointment);
             for (User usr : invitedUsers) {
@@ -200,6 +265,8 @@ public class NewAppointmentController {
         } else {
             logger.debug("Updating existing appointment");
             Appointment edited_appointment = EditData.editAppointment(appointment);
+            EditData.removeAlarms(mainApp.getUser().getUserID(), edited_appointment.getAppointmentID());
+            InsertData.setAlarms(mainApp.getAlarms(mainApp.getUser().getUserID(), edited_appointment.getAppointmentID()));
             Notification notification = new Notification(edited_appointment, "Something changed");
             notification = notification.create();
             for (User invitedUser : invitedUsers) {
@@ -486,5 +553,72 @@ public class NewAppointmentController {
         insertAppointmentData(appointment);
 
         // Set access control
+    }
+
+    public void handleAddReminder() {
+        inpReminder.setVisible(true);
+        inpReminderType.setVisible(true);
+        btnAddReminder.setVisible(false);
+        btnRemoveReminder.setVisible(true);
+
+        btnAddReminder1.setVisible(true);
+    }
+
+    public void handleRemoveReminder() {
+        if (inpReminder1.visibleProperty().getValue()) {
+            inpReminder.setText(inpReminder1.getText());
+            inpReminderType.setValue(inpReminderType1.getValue());
+            handleRemoveReminder1();
+        } else {
+            inpReminder.clear();
+            btnAddReminder1.setVisible(false);
+            inpReminder.setVisible(false);
+            inpReminderType.setVisible(false);
+            btnAddReminder.setVisible(true);
+            btnRemoveReminder.setVisible(false);
+        }
+    }
+
+    public void handleAddReminder1() {
+        inpReminder1.setVisible(true);
+        inpReminderType1.setVisible(true);
+        btnAddReminder1.setVisible(false);
+        btnRemoveReminder1.setVisible(true);
+
+        btnAddReminder2.setVisible(true);
+    }
+
+    public void handleRemoveReminder1() {
+        if (inpReminder2.visibleProperty().getValue()) {
+            inpReminder1.setText(inpReminder2.getText());
+            inpReminderType1.setValue(inpReminderType2.getValue());
+            inpReminder2.clear();
+            inpReminder2.setVisible(false);
+            inpReminderType2.setVisible(false);
+            btnAddReminder2.setVisible(true);
+            btnRemoveReminder2.setVisible(false);
+        } else {
+            inpReminder1.clear();
+            btnAddReminder2.setVisible(false);
+            inpReminder1.setVisible(false);
+            inpReminderType1.setVisible(false);
+            btnAddReminder1.setVisible(true);
+            btnRemoveReminder1.setVisible(false);
+        }
+    }
+
+    public void handleAddReminder2() {
+        inpReminder2.setVisible(true);
+        inpReminderType2.setVisible(true);
+        btnAddReminder2.setVisible(false);
+        btnRemoveReminder2.setVisible(true);
+    }
+
+    public void handleRemoveReminder2() {
+        inpReminder2.setVisible(false);
+        inpReminderType2.setVisible(false);
+        inpReminder2.clear();
+        btnAddReminder2.setVisible(true);
+        btnRemoveReminder2.setVisible(false);
     }
 }

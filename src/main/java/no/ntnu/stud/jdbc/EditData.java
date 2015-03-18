@@ -231,4 +231,20 @@ public class EditData {
 
     }
 
+    public static void removeAlarms(int userID, int appointmentID) {
+        Connection con = DBConnector.getCon();
+
+        if (con != null) {
+            try {
+                Statement stmt = con.createStatement();
+                String query = "DELETE FROM alarm WHERE userID = '" + userID + "' AND appointmentID = '" + appointmentID + "';";
+                stmt.executeUpdate(query);
+                logger.debug("Performing SQL Query [" + query + "]");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            logger.error("No Connection");
+        }
+    }
 }

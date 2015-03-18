@@ -1,17 +1,12 @@
 package no.ntnu.stud.jdbc;
 
 import no.ntnu.stud.model.*;
-import no.ntnu.stud.model.*;
 import no.ntnu.stud.util.ResultResolver;
 import org.apache.log4j.Logger;
 
-import java.security.*;
 import java.sql.*;
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
@@ -176,11 +171,8 @@ public class GetData {
                 String location = appointmentResult.getString("location");
                 int roomID = appointmentResult.getInt("roomID");
                 int attending = appointmentResult.getInt("attending");
-                LocalDateTime alarmTime = LocalDateTime.parse("0001-01-01 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-                if(appointmentResult.getTimestamp("alarmTime") != null){
-                    alarmTime = appointmentResult.getTimestamp("alarmTime").toLocalDateTime();
-                }
-                appointment = new Appointment(appointmentID, title, date, startTime, endTime, ownerID, description, location, roomID, attending, alarmTime);
+                
+                appointment = new Appointment(appointmentID, title, date, startTime, endTime, ownerID, description, location, roomID, attending);
                 con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -737,7 +729,9 @@ public class GetData {
                 while (rset.next()) {
                     int appointmentID = rset.getInt("appointmentID");
                     Timestamp alarmTime = rset.getTimestamp("alarmTime");
-                    Alarm alarm = new Alarm(user, getAppointment(appointmentID), alarmTime);
+                    int numberOfType = rset.getInt("numberOfType");
+                    String beforeUnit = rset.getString("beforeUnit");
+                    Alarm alarm = new Alarm(user, getAppointment(appointmentID), alarmTime, numberOfType, beforeUnit);
                     alarms.add(alarm);
                 }
                 con.close();
@@ -764,7 +758,9 @@ public class GetData {
                 while (rset.next()) {
                     int userID = rset.getInt("userID");
                     Timestamp alarmTime = rset.getTimestamp("alarmTime");
-                    Alarm alarm = new Alarm(getUser(userID), appointment, alarmTime);
+                    int numberOfType = rset.getInt("numberOfTypes");
+                    String beforeUnit = rset.getString("beforeUnit");
+                    Alarm alarm = new Alarm(getUser(userID), appointment, alarmTime, numberOfType, beforeUnit);
                     alarms.add(alarm);
                 }
                 con.close();
@@ -773,6 +769,36 @@ public class GetData {
             }
         } else {
             logger.error("No Connection");
+        }
+        return alarms;
+    }
+
+    public static ArrayList<Alarm> getAlarms() {
+        Connection con = DBConnector.getCon();
+        ArrayList<Alarm> alarms = new ArrayList<Alarm>();
+
+        if (con != null) {
+            try {
+                Statement stmt = con.createStatement();
+                String query = "SELECT * FROM alarm;";
+                logger.info("Performing SQL Query [" + query + "]");
+                ResultSet rset = stmt.executeQuery(query);
+
+                while (rset.next()) {
+                    int userID = rset.getInt("userID");
+                    int appointmentID = rset.getInt("appointmentID");
+                    Timestamp alarmTime = rset.getTimestamp("alarmTime");
+                    int numberOfType = rset.getInt("numberOfTypes");
+                    String beforeUnit = rset.getString("beforeUnit");
+                    Alarm alarm = new Alarm(getUser(userID), getAppointment(appointmentID), alarmTime, numberOfType, beforeUnit);
+                    alarms.add(alarm);
+                }
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            logger.error("No connection");
         }
         return alarms;
     }
