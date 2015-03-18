@@ -101,5 +101,6 @@
             <ListView fx:id="invitedList" prefHeight="150.0" prefWidth="300.0" />
          </content>
       </ScrollPane>
+      <Button fx:id="editBtn" styleClass="menuButton" mnemonicParsing="false" text="Edit" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
     </children>
 </GridPane>
