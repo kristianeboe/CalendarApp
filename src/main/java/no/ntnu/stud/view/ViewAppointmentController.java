@@ -89,7 +89,7 @@ public class ViewAppointmentController {
             }
         };
         for(Inevitable usr:acceptedUsers){
-            System.out.println("ac: "+usr.getName());
+            logger.trace("Accepted: " + usr);
             Label lbl = new Label();
             lbl.setOnMouseClicked(clickHandler);
             lbl.setId("" + usr.getId());
@@ -97,7 +97,7 @@ public class ViewAppointmentController {
             obsUsers.add(lbl);
         }
         for(Inevitable usr:invitedUsers){
-            System.out.println("inv: "+usr.getName());
+            logger.trace("Invited: " + usr);
             Label lbl = new Label();
             lbl.setOnMouseClicked(clickHandler);
             lbl.setId("" + usr.getId());
