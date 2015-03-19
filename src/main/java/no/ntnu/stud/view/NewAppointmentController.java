@@ -89,6 +89,7 @@ public class NewAppointmentController {
     @FXML
     private ComboBox<String> inpReminderType2;
 
+    private boolean editMode = false;
     DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
     public NewAppointmentController() {
 
@@ -108,6 +109,7 @@ public class NewAppointmentController {
     }
 
     public void insertAppointmentData(Appointment appointment) {
+        editMode = true;
         inpTitle.setText(appointment.getTitle());
         inpDesc.setText(appointment.getDescription());
         inpDate.setValue(appointment.getDate());
@@ -143,7 +145,12 @@ public class NewAppointmentController {
 
         logger.debug("Adding invited users to box");
         logger.trace(GetData.getInvited(appointment));
-        addInvitedToBox(GetData.getInvited(appointment));
+        ArrayList<Inevitable> invitedUsers = new ArrayList<>();
+        invitedUsers.addAll(GetData.getAccepted(appointment));
+        invitedUsers.addAll(GetData.getInvited(appointment));
+        invitedUsers.addAll(GetData.getDeclined(appointment));
+        addInvitedToBox(invitedUsers);
+        editMode = false;
     }
 
     public Appointment addAppointment() {
@@ -377,18 +384,33 @@ public class NewAppointmentController {
     }
 
     private void addUserToInvitedBox(User user) {
-        int status = GetData.userIsAvailable(user,LocalTime.parse(inpFrom.getText()),LocalTime.parse(inpTo.getText()),inpDate.getValue());
-        Label lbl = new Label();
-        if(status == 2){
-            lbl.setTextFill(Color.RED);
-        }else if(status == 1){
-            lbl.setTextFill(Color.GREEN);
+        if(!editMode){
+            int status = GetData.userIsAvailable(user,LocalTime.parse(inpFrom.getText()),LocalTime.parse(inpTo.getText()),inpDate.getValue());
+            Label lbl = new Label();
+            if(status == 2){
+                lbl.setTextFill(Color.RED);
+            }else if(status == 1){
+                lbl.setTextFill(Color.GREEN);
+            }else{
+                lbl.setTextFill(Color.ORANGE);
+            }
+            lbl.setId("" + user.getUserID());
+            lbl.setText(user.getFullName());
+            obsInvited.add(lbl);
         }else{
-            lbl.setTextFill(Color.ORANGE);
+            int status = GetData.getAttendingStatus(user, appointment);
+            Label lbl = new Label();
+            if(status == 0){
+                lbl.setText("[Invited] ");
+            }else if(status == 1){
+                lbl.setText("[Going] ");
+            }else{
+                lbl.setText("[Not going] ");
+            }
+            lbl.setText(lbl.getText()+user.getFullName());
+            obsInvited.add(lbl);
         }
-        lbl.setId("" + user.getUserID());
-        lbl.setText(user.getFullName());
-        obsInvited.add(lbl);
+
     }
 
     private void addGroupToInvitedBox(Group group) {

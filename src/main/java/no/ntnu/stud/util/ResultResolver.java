@@ -28,7 +28,10 @@ public class ResultResolver {
             String location = appointmentResult.getString("location");
             int roomID = appointmentResult.getInt("roomID");
             int attending = appointmentResult.getInt("attending");
-            appointments.add(new Appointment(appointmentID, title, date, startTime, endTime, ownerID, description, location, roomID, attending));
+            if (roomID == 0)
+                appointments.add(new Appointment(appointmentID, title, date, startTime, endTime, ownerID, description, location));
+            else
+                appointments.add(new Appointment(appointmentID, title, date, startTime, endTime, ownerID, description, roomID, attending));
         }
         return appointments;
     }
@@ -55,7 +58,8 @@ public class ResultResolver {
             String middleName = userResult.getString("middleName");
             String givenName = userResult.getString("givenName");
             String email = userResult.getString("email");
-            return new User(userID, (lastName), (middleName), (givenName), (email));
+            boolean superuser = userResult.getBoolean("superuser");
+            return new User(userID, (lastName), (middleName), (givenName), (email), (superuser));
         }
         return null;
     }
