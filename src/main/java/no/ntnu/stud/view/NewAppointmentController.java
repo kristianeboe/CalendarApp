@@ -357,12 +357,12 @@ public class NewAppointmentController {
             }else if(!searchResultsGroups.isEmpty()){
                 Group grp = searchResultsGroups.get(index);
                 ArrayList<User> usersInGro = GetData.getUsersInGroup(grp.getGroupID());
-                for(User usr:usersInGro){
+                /*for(User usr:usersInGro){
                     invitedUsers.add(usr);
                     addUserToInvitedBox(usr);
-                }
-                //invitedGroups.add(grp);
-                //addGroupToInvitedBox(grp);
+                }*/
+                invitedGroups.add(grp);
+                addGroupToInvitedBox(grp);
                 inpInvite.clear();
             }
             //invitedUsersList.getItems().clear();
