@@ -145,6 +145,23 @@ public class MainApp extends Application {
         }
     }
 
+    public void showWeekView(Calendar calendar){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/WeekView.fxml"));
+            GridPane weekView = (GridPane) loader.load();
+
+            rootLayout.setCenter(weekView);
+
+            WeekViewController controller = loader.getController();
+            controller.setMainApp(this);
+            controller.renderDates(calendar);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void showUpcomingEvents(){
         try {
             FXMLLoader loader = new FXMLLoader();
