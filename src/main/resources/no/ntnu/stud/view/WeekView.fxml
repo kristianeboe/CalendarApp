@@ -235,6 +235,7 @@
       <Label fx:id="lblDateFri" layoutX="415.0" layoutY="138.0" text="&lt;date&gt;" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
       <Label fx:id="lblDateSat" layoutX="528.0" layoutY="138.0" text="&lt;date&gt;" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
       <Label fx:id="lblDateSun" layoutX="641.0" layoutY="138.0" text="&lt;date&gt;" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+      <Button fx:id="btnClose" cancelButton="true" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#handleClose" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 30; -fx-background-color: ee6666;" text="x" textFill="#f3f3f3" GridPane.columnIndex="7" GridPane.halignment="RIGHT" />
    </children>
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />

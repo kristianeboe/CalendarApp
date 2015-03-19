@@ -1,10 +1,7 @@
 package no.ntnu.stud.view;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -95,13 +92,13 @@ public class WeekViewController {
     @FXML
     private void handleNextWeek(){
         calendar.add(Calendar.WEEK_OF_YEAR, 1);
-        renderDates(calendar);
+        mainApp.showWeekView(calendar);
     }
 
     @FXML
     private void handlePrevWeek(){
         calendar.add(Calendar.WEEK_OF_YEAR, -1);
-        renderDates(calendar);
+        mainApp.showWeekView(calendar);
     }
 
     @FXML
