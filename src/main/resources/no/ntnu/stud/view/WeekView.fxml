@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="920.0" style="-fx-background-color: #f0f0f0;" styleClass="calendar, boxShadow" stylesheets="@swagStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.CalendarViewController">
+<GridPane alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="920.0" style="-fx-background-color: #f0f0f0;" styleClass="calendar, boxShadow" stylesheets="@swagStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.WeekViewController">
    <children>
-      <Label fx:id="lblCurrentMonth" styleClass="current" text="Week 11" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+      <Label fx:id="lblCurrentWeek" styleClass="current" text="Week 11" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
          <font>
             <Font size="24.0" />
          </font>
@@ -51,28 +51,28 @@
             <Font size="22.0" />
          </font>
       </Label>
-      <Label fx:id="prev_arrow" onMouseClicked="#previousMonth" styleClass="arrow_" text="&lt;" GridPane.halignment="RIGHT" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+      <Label fx:id="prev_arrow" onMouseClicked="#handlePrevWeek" styleClass="arrow_" text="&lt;" GridPane.halignment="RIGHT" GridPane.rowSpan="2" GridPane.valignment="CENTER">
          <font>
             <Font size="30.0" />
          </font>
       </Label>
-      <Label fx:id="nxt_arrow" onMouseClicked="#nextMonth" styleClass="arrow_" text="&gt;" GridPane.columnIndex="8" GridPane.halignment="LEFT" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+      <Label fx:id="nxt_arrow" onMouseClicked="#handleNextWeek" styleClass="arrow_" text="&gt;" GridPane.columnIndex="8" GridPane.halignment="LEFT" GridPane.rowSpan="2" GridPane.valignment="CENTER">
          <font>
             <Font size="30.0" />
          </font>
       </Label>
-      <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="8" GridPane.rowIndex="2" GridPane.rowSpan="7">
+      <ScrollPane fx:id="scrollWeek" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="8" GridPane.rowIndex="2" GridPane.rowSpan="7">
          <content>
-            <GridPane>
+            <GridPane fx:id="gridWeek" gridLinesVisible="true">
               <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="50.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="155.0" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="155.0" minWidth="10.0" prefWidth="115.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="115.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="110.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="115.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="115.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="115.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="110.0" />
               </columnConstraints>
               <rowConstraints>
                   <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -225,9 +225,17 @@
             </GridPane>
          </content>
          <GridPane.margin>
-            <Insets left="10.0" />
+            <Insets left="13.0" />
          </GridPane.margin>
       </ScrollPane>
+      <Label fx:id="lblDateMon" text="&lt;date&gt;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+      <Label fx:id="lblDateTue" layoutX="74.0" layoutY="138.0" text="&lt;date&gt;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+      <Label fx:id="lblDateWed" layoutX="188.0" layoutY="138.0" text="&lt;date&gt;" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+      <Label fx:id="lblDateThu" text="&lt;date&gt;" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+      <Label fx:id="lblDateFri" layoutX="415.0" layoutY="138.0" text="&lt;date&gt;" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+      <Label fx:id="lblDateSat" layoutX="528.0" layoutY="138.0" text="&lt;date&gt;" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+      <Label fx:id="lblDateSun" layoutX="641.0" layoutY="138.0" text="&lt;date&gt;" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+      <Button fx:id="btnClose" cancelButton="true" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#handleClose" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 30; -fx-background-color: ee6666;" text="x" textFill="#f3f3f3" GridPane.columnIndex="7" GridPane.halignment="RIGHT" />
    </children>
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />

@@ -43,6 +43,14 @@ public class CalendarViewController {
 
     }
 
+    @FXML
+    private void handleWeekView(){
+        int day  = LocalDate.now().getDayOfMonth();
+        Calendar cal = calendar;
+        cal.set(Calendar.DAY_OF_MONTH,day);
+        mainApp.showWeekView(cal);
+    }
+
     public void renderCalendar(){
         if(mainCalendar){
             lblNextYear.setText("" + (calendar.get(Calendar.YEAR) + 1));

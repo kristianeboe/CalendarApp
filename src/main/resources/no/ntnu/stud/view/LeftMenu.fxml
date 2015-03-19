@@ -17,11 +17,6 @@
   </rowConstraints>
    <children>
       <Label fx:id="lblGroups" onMouseClicked="#goToMyGroups" text="My groups" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
-      <Label fx:id="lblNotifications" text="Notifications" GridPane.rowIndex="2" GridPane.valignment="TOP">
-         <GridPane.margin>
-            <Insets top="5.0" />
-         </GridPane.margin>
-      </Label>
    </children>
    <padding>
       <Insets left="15.0" />
