@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane maxWidth="200.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="200" styleClass="upcomingEvents" stylesheets="@swagStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.UpcomingEventsController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="97.0" minHeight="10.0" prefHeight="97.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="306.0" minHeight="10.0" prefHeight="306.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="297.0" minHeight="10.0" prefHeight="67.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="21.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label styleClass="appointments" text="Appointments" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Separator maxWidth="40.0" prefWidth="30.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+         <GridPane.margin>
+            <Insets top="15.0" />
+         </GridPane.margin>
+      </Separator>
+      <Button fx:id="btnNewAppointment" mnemonicParsing="false" onAction="#handleAddEvent" prefHeight="36.0" prefWidth="86.0" styleClass="menuButton" text="+" textFill="#3e94ec" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <ScrollPane fx:id="scrollPane" maxWidth="198.0" prefHeight="200.0" prefWidth="198.0" styleClass="upcomingEvents" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+        <content>
+          <AnchorPane fx:id="ap" maxWidth="199.0" minHeight="350.0" minWidth="0.0" prefWidth="199.0" styleClass="upcomingEvents">
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+</GridPane>

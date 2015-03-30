@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane fx:id="newAppointment" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="920.0" stylesheets="@swagStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.stud.view.GroupViewController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="439.0" minWidth="10.0" prefWidth="288.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="733.0" minWidth="10.0" prefWidth="602.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="90.0" minHeight="10.0" prefHeight="90.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="341.0" minHeight="10.0" prefHeight="341.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="275.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+        <Button fx:id="btnClose" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#handleClose" prefHeight="25.0" prefWidth="25.0" style="-fx-background-radius: 30; -fx-background-color: ee6666;" text="x" textFill="#f3f3f3" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+            <GridPane.margin>
+                <Insets left="320.0" />
+            </GridPane.margin>
+        </Button>
+        <Label fx:id="lblName" alignment="CENTER" prefHeight="73.0" prefWidth="264.0" text="Group Name" textFill="#6a7783" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+      <TextField fx:id="inpLocation" maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefHeight="45.0" prefWidth="10.0" promptText="Location" style="-fx-background-radius: 0px;" visible="false" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="TOP">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <GridPane.margin>
+            <Insets right="15.0" top="10.0" />
+         </GridPane.margin>
+      </TextField>
+      <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1" />
+      <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2" />
+      <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3" />
+      <Label alignment="CENTER" prefHeight="62.0" prefWidth="315.0" text="Members" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <ScrollPane maxHeight="405.0" maxWidth="300.0" minHeight="150.0" minWidth="300.0" prefHeight="405.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.rowSpan="3">
+         <GridPane.margin>
+            <Insets bottom="5.0" left="15.0" top="10.0" />
+         </GridPane.margin>
+         <content>
+            <ListView fx:id="memberList" prefHeight="421.0" prefWidth="300.0" />
+         </content>
+      </ScrollPane>
+    </children>
+</GridPane>
